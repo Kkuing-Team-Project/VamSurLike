@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
     protected Stat stat;
     public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
+
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         InitEntity();
     }
@@ -54,4 +55,18 @@ public class Entity : MonoBehaviour
 
         statusEffects.RemoveAll(eff => delEffect.Contains(eff));
     }
+
+    public void TakeDamage(float dmg)
+    {
+        hp -= dmg;
+        if (hp <= 0)
+            OnEntityDied();
+    }
+
+    public void Heal(float amount)
+    {
+        hp = Mathf.Clamp(hp + amount, 0, stat.Get(StatType.MAX_HP));
+    }
+
+    protected abstract void OnEntityDied();
 }
