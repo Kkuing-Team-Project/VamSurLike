@@ -27,16 +27,14 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        inputVector.x = Input.GetAxis("Horizontal");
-        inputVector.z = Input.GetAxis("Vertical");        
+        inputVector.x = Input.GetAxisRaw("Horizontal");
+        inputVector.z = Input.GetAxisRaw("Vertical");        
     }
 
     private void FixedUpdate()
     {
-        Vector3 nextPosition = inputVector.normalized * speed * Time.deltaTime;
+        Vector3 velocity = inputVector.normalized * speed;
 
-        rigid.MovePosition(rigid.position + nextPosition);
-
-        rigid.velocity = Vector3.zero;
+        rigid.velocity = velocity;
     }
 }
