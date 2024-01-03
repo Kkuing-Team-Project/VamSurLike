@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public abstract class EnemyCtrl : Entity
 {
-
     protected NavMeshAgent nav;
     protected PlayableCtrl playable;
     protected Transform enemyPool;
@@ -27,8 +26,10 @@ public abstract class EnemyCtrl : Entity
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
-        var origin = (Vector2)transform.position;
-        var target = (Vector2)playable.transform.position;
+        var origin = transform.position;
+        origin.y = 0;
+        var target = playable.transform.position;
+        target.y = 0;
         if (Vector3.Distance(origin, target) > stat.Get(StatType.ATTACK_DISTANCE))
             EnemyMove();
         else
