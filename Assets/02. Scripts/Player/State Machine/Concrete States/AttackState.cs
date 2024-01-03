@@ -52,8 +52,10 @@ public class AttackState : PlayerAttackState
 
                 Vector3 direction = player.GetNearestTarget().position - player.transform.position;
 
-                GameObject.Instantiate<Rigidbody>(player.BulletPrefab, player.transform.position, Quaternion.identity).velocity = direction * 10f;
-
+                TempBullet bullet = player.BulletObjectPool.Pop().GetComponent<TempBullet>();
+                bullet.transform.position = player.transform.position;
+                bullet.RB.velocity = direction * 10f;
+                bullet.StartReturn(3f);
                 player.OverHitGauge += 5f;
                 Debug.Log($"<color=red>Over Hit Gauge</color> : {player.OverHitGauge}");
             }

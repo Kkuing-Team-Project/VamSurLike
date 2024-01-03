@@ -23,8 +23,7 @@ public class PlayerAttack : MonoBehaviour
     // 공격 딜레이
     public float attackDelay = 0.2f;
 
-    // 총알 프리펩
-    public Rigidbody BulletPrefab;
+    public ObjectPool BulletObjectPool;
 
     // 오버히트 게이지
     public float OverHitGauge { get; set; } = 0;
