@@ -11,7 +11,6 @@ public enum StatType
     ATTACK_DISTANCE,
     SKILL_COOL_DOWN_MAG,   
     SKILL_FORCE_MAG,
-    MAX_BULLET_NUM
 }
 
 public class Stat
@@ -26,7 +25,6 @@ public class Stat
             [StatType.ATTACK_DISTANCE] = 5,
             [StatType.SKILL_COOL_DOWN_MAG] = 1f,
             [StatType.SKILL_FORCE_MAG] = 1f,
-            [StatType.MAX_BULLET_NUM] = 20f,
         },
     addValue = new Dictionary<StatType, float>()
     {
@@ -37,7 +35,6 @@ public class Stat
         [StatType.ATTACK_DISTANCE] = 0,
         [StatType.SKILL_COOL_DOWN_MAG] = 0f,
         [StatType.SKILL_FORCE_MAG] = 0f,
-        [StatType.MAX_BULLET_NUM] = 0f,
     },
     multipleValue = new Dictionary<StatType, float>()
     {
@@ -48,7 +45,6 @@ public class Stat
         [StatType.ATTACK_DISTANCE] = 1f,
         [StatType.SKILL_COOL_DOWN_MAG] = 1f,
         [StatType.SKILL_FORCE_MAG] = 1f,
-        [StatType.MAX_BULLET_NUM] = 1f,
     },
     currentValue = new Dictionary<StatType, float>()
     {
@@ -59,7 +55,6 @@ public class Stat
         [StatType.ATTACK_DISTANCE] = 5,
         [StatType.SKILL_COOL_DOWN_MAG] = 1f,
         [StatType.SKILL_FORCE_MAG] = 1f,
-        [StatType.MAX_BULLET_NUM] = 20f,
     };
 
     public Stat()

@@ -12,4 +12,9 @@ public class TempPlayable : PlayableCtrl
     protected override void PlayerAttack()
     {
     }
+
+    protected override void PlayerSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }
