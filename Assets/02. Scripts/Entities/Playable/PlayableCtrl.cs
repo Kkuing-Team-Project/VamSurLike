@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PlayableCtrl : Entity
 {
@@ -17,12 +18,12 @@ public abstract class PlayableCtrl : Entity
     [Range(1f, 3f)]
     public float rotSpeed;
 
-    [Range(1, 10)]
+    [Tooltip("대쉬 거리"), Range(1, 10)]
     public float dashDist;
     [Range(0.01f, 1)]
     public float dashTime;
 
-    private Vector3 dir;
+    private Vector3 inputVector;
     private Coroutine attackCor;
     private Coroutine dashCor;
     private List<Augmentation> augmentationList = new List<Augmentation>();
@@ -33,16 +34,26 @@ public abstract class PlayableCtrl : Entity
         stat.SetDefault(StatType.MOVE_SPEED, 3);
     }
 
+    #region Input System Functions
+
+    void OnMove(InputValue value)
+    {
+        inputVector = value.Get<Vector3>();
+    }
+
+    #endregion
+
+    void FixedUpdate()
+    {
+        rigid.velocity = inputVector * stat.Get(StatType.MOVE_SPEED);
+    }
+
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
         OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
 
-        //Player Move
-        dir.x = Input.GetAxis("Horizontal");
-        dir.z = Input.GetAxis("Vertical");
-        transform.Translate(dir * stat.Get(StatType.MOVE_SPEED) * Time.deltaTime, Space.World);
-        //
+        transform.Translate(inputVector * stat.Get(StatType.MOVE_SPEED) * Time.deltaTime, Space.World);
 
         //Player Attack
         if(GetNearestEnemy() != null)
