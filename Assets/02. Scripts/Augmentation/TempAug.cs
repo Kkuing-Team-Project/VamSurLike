@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TempAug : Augmentation
 {
-    public TempAug(PlayableCtrl player) : base(player)
+    public TempAug(PlayableCtrl player, AugmentationEventType eventType) : base(player, eventType)
     {
     }
 

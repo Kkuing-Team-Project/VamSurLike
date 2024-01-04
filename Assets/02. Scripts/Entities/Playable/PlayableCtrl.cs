@@ -7,14 +7,24 @@ using UnityEngine;
 
 public abstract class PlayableCtrl : Entity
 {
+    public int level { get; private set; }
+    public float exp { get; private set; }
+    public float requireExp { get; private set; } = 10;
+
     public event AugmentationDelegate OnUpdateAugmentation;
     public event AugmentationDelegate OnAttackPlayer;
 
     [Range(1f, 3f)]
     public float rotSpeed;
 
+    [Range(1, 10)]
+    public float dashDist;
+    [Range(0.01f, 1)]
+    public float dashTime;
+
     private Vector3 dir;
     private Coroutine attackCor;
+    private Coroutine dashCor;
     private List<Augmentation> augmentationList = new List<Augmentation>();
 
     protected override void InitEntity()
@@ -52,6 +62,17 @@ public abstract class PlayableCtrl : Entity
                 attackCor = null;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayerSkill();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && dashCor == null)
+        {
+            dashCor = StartCoroutine(DashCor());
+        }
+
         //
     }
 
@@ -71,6 +92,43 @@ public abstract class PlayableCtrl : Entity
         else return null;
     }
 
+    protected IEnumerator DashCor()
+    {
+        Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), transform.position.y, Input.GetAxisRaw("Vertical")).normalized;
+
+        float radius = gameObject.GetComponent<CapsuleCollider>().radius;
+
+        float eT = 0;
+        Vector3 origin = transform.position;
+        Vector3 moveTo = Vector3.zero;
+        if (Physics.SphereCast(transform.position, radius, dir, out RaycastHit hit, dashDist, 1 << LayerMask.NameToLayer("ENEMY")))
+        {
+            moveTo = hit.point + (-dir * radius);
+            while(eT < dashTime)
+            {
+                yield return null;
+                eT += Time.deltaTime;
+                transform.position = Vector3.Lerp(origin, moveTo, eT / dashTime);
+            }
+        }
+        else
+        {
+            moveTo = dir * dashDist;
+            while (eT < dashTime)
+            {
+                yield return null;
+                eT += Time.deltaTime;
+                transform.position = Vector3.Lerp(origin, moveTo, eT / dashTime);
+            }
+        }
+        dashCor = null;
+    }
+
+    protected abstract void PlayerSkill();
+
+
+    protected abstract void PlayerAttack();
+
     private IEnumerator AttackCoroutine()
     {
         WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
@@ -82,12 +140,10 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-    protected abstract void PlayerAttack();
-
-    //
-    public void AddAugmentation(Augmentation aug, AugmentationEventType type)
+    //증강 추가 메소드
+    public void AddAugmentation(Augmentation aug)
     {
-        switch (type)
+        switch (aug.eventType)
         {
             case AugmentationEventType.ON_START:
                 aug.AugmentationEffect(this, EventArgs.Empty);
@@ -104,12 +160,41 @@ public abstract class PlayableCtrl : Entity
         augmentationList.Add(aug);
     }
 
-    public void DeleteEvent(Augmentation aug, AugmentationEventType type)
+    //증강 삭제(클래스에 따라)
+    public void DeleteAugmentation(Augmentation aug)
+    {
+        if (aug.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
+            return;
+
+        Augmentation del = augmentationList.Find((a) => a.GetType() == aug.GetType());
+
+        if (del == null)
+            return;
+
+        switch (aug.eventType)
+        {
+            case AugmentationEventType.ON_UPDATE:
+                OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_ATTACK:
+                OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            default:
+                break;
+        }
+        augmentationList.Remove(del);
+    }
+
+    //증강 삭제(이름과 호출 타입 필요)
+    public void DeleteAugmentation(string augName, AugmentationEventType type)
     {
         if (type == AugmentationEventType.ON_START || augmentationList.Count <= 0)
             return;
 
-        Augmentation del = augmentationList.Find((a) => a.GetType() == aug.GetType());
+        Augmentation del = augmentationList.Find((a) => string.Equals(a.GetType().Name, augName));
+
+        if (del == null)
+            return;
 
         switch (type)
         {
@@ -123,5 +208,15 @@ public abstract class PlayableCtrl : Entity
                 break;
         }
         augmentationList.Remove(del);
+    }
+
+    public void SetExperienceValue(float val)
+    {
+        exp += val;
+        if(exp >= requireExp)
+        {
+            exp = exp - requireExp;
+            level++;
+        }
     }
 }
