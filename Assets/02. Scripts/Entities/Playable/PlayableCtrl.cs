@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PlayableCtrl : Entity
 {
@@ -17,12 +18,11 @@ public abstract class PlayableCtrl : Entity
     [Range(1f, 3f)]
     public float rotSpeed;
 
-    [Range(1, 10)]
+    [Tooltip("ÎåÄÏâ¨ Í±∞Î¶¨"), Range(1, 10)]
     public float dashDist;
     [Range(0.01f, 1)]
     public float dashTime;
-
-    private Vector3 dir;
+    private Vector3 inputVector;
     private Coroutine attackCor;
     private Coroutine dashCor;
     private List<Augmentation> augmentationList = new List<Augmentation>();
@@ -33,21 +33,31 @@ public abstract class PlayableCtrl : Entity
         stat.SetDefault(StatType.MOVE_SPEED, 3);
     }
 
+    #region Input System Functions
+
+    void OnMove(InputValue value)
+    {
+        inputVector = value.Get<Vector3>();
+    }
+
+    #endregion
+
+    void FixedUpdate()
+    {
+        rigid.velocity = inputVector * stat.Get(StatType.MOVE_SPEED);
+    }
+
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
         OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
 
-        //Player Move
-        dir.x = Input.GetAxis("Horizontal");
-        dir.z = Input.GetAxis("Vertical");
-        transform.Translate(dir * stat.Get(StatType.MOVE_SPEED) * Time.deltaTime, Space.World);
-        //
+        transform.Translate(inputVector * stat.Get(StatType.MOVE_SPEED) * Time.deltaTime, Space.World);
 
         //Player Attack
         if(GetNearestEnemy() != null)
         {
-            //»∏¿¸
+            //ÌöåÏ†Ñ
             Vector3 targetDir = (GetNearestEnemy().transform.position - transform.position).normalized;
             Vector3 lookAtDir = Vector3.RotateTowards(transform.forward, targetDir, rotSpeed * Time.deltaTime, 0f);
             transform.rotation = Quaternion.LookRotation(lookAtDir);
@@ -140,7 +150,7 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-    //¡ı∞≠ √ﬂ∞° ∏ﬁº“µÂ
+    //Ï¶ùÍ∞ï Ï∂îÍ∞Ä Î©îÏÜåÎìú
     public void AddAugmentation(Augmentation aug)
     {
         switch (aug.eventType)
@@ -160,7 +170,7 @@ public abstract class PlayableCtrl : Entity
         augmentationList.Add(aug);
     }
 
-    //¡ı∞≠ ªË¡¶(≈¨∑°Ω∫ø° µ˚∂Û)
+    //Ï¶ùÍ∞ï ÏÇ≠Ï†ú(ÌÅ¥ÎûòÏä§Ïóê Îî∞Îùº)
     public void DeleteAugmentation(Augmentation aug)
     {
         if (aug.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
@@ -185,7 +195,7 @@ public abstract class PlayableCtrl : Entity
         augmentationList.Remove(del);
     }
 
-    //¡ı∞≠ ªË¡¶(¿Ã∏ß∞˙ »£√‚ ≈∏¿‘ « ø‰)
+    //Ï¶ùÍ∞ï ÏÇ≠Ï†ú(Ïù¥Î¶ÑÍ≥º Ìò∏Ï∂ú ÌÉÄÏûÖ ÌïÑÏöî)
     public void DeleteAugmentation(string augName, AugmentationEventType type)
     {
         if (type == AugmentationEventType.ON_START || augmentationList.Count <= 0)
