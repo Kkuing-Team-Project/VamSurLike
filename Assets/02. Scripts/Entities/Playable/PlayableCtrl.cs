@@ -18,11 +18,10 @@ public abstract class PlayableCtrl : Entity
     [Range(1f, 3f)]
     public float rotSpeed;
 
-    [Tooltip("´ë½¬ °Å¸®"), Range(1, 10)]
+    [Tooltip("ëŒ€ì‰¬ ê±°ë¦¬"), Range(1, 10)]
     public float dashDist;
     [Range(0.01f, 1)]
     public float dashTime;
-
     private Vector3 inputVector;
     private Coroutine attackCor;
     private Coroutine dashCor;
@@ -59,7 +58,7 @@ public abstract class PlayableCtrl : Entity
         //Player Attack
         if(GetNearestEnemy() != null)
         {
-            //È¸Àü
+            //íšŒì „
             Vector3 targetDir = (GetNearestEnemy().transform.position - transform.position).normalized;
             Vector3 lookAtDir = Vector3.RotateTowards(transform.forward, targetDir, rotSpeed * Time.deltaTime, 0f);
             transform.rotation = Quaternion.LookRotation(lookAtDir);
@@ -152,7 +151,7 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-    //Áõ°­ Ãß°¡ ¸Ş¼Òµå
+    //ì¦ê°• ì¶”ê°€ ë©”ì†Œë“œ
     public void AddAugmentation(Augmentation aug)
     {
         switch (aug.eventType)
@@ -172,7 +171,7 @@ public abstract class PlayableCtrl : Entity
         augmentationList.Add(aug);
     }
 
-    //Áõ°­ »èÁ¦(Å¬·¡½º¿¡ µû¶ó)
+    //ì¦ê°• ì‚­ì œ(í´ë˜ìŠ¤ì— ë”°ë¼)
     public void DeleteAugmentation(Augmentation aug)
     {
         if (aug.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
@@ -197,7 +196,7 @@ public abstract class PlayableCtrl : Entity
         augmentationList.Remove(del);
     }
 
-    //Áõ°­ »èÁ¦(ÀÌ¸§°ú È£Ãâ Å¸ÀÔ ÇÊ¿ä)
+    //ì¦ê°• ì‚­ì œ(ì´ë¦„ê³¼ í˜¸ì¶œ íƒ€ì… í•„ìš”)
     public void DeleteAugmentation(string augName, AugmentationEventType type)
     {
         if (type == AugmentationEventType.ON_START || augmentationList.Count <= 0)
