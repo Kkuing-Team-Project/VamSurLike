@@ -6,13 +6,13 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     protected Stat stat;
-    public float Hp { get; protected set; }
+    public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
     protected Rigidbody rigid;
 
     void OnEnable()
     {
-        InitEntity();
+        InitEntity(); 
     }
 
     void Update()
@@ -28,7 +28,7 @@ public abstract class Entity : MonoBehaviour
     protected virtual void InitEntity()
     {
         stat = new Stat();
-        Hp = stat.Get(StatType.MAX_HP);
+        hp = stat.Get(StatType.MAX_HP);
 
         rigid = GetComponent<Rigidbody>();
     }
@@ -60,14 +60,14 @@ public abstract class Entity : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
-        Hp -= dmg;
-        if (Hp <= 0)
+        hp -= dmg;
+        if (hp <= 0)
             OnEntityDied();
     }
 
     public void Heal(float amount)
     {
-        Hp = Mathf.Clamp(Hp + amount, 0, stat.Get(StatType.MAX_HP));
+        hp = Mathf.Clamp(hp + amount, 0, stat.Get(StatType.MAX_HP));
     }
 
     protected abstract void OnEntityDied();

@@ -54,8 +54,7 @@ public class AttackState : PlayerAttackState
 
                 TempBullet bullet = player.BulletObjectPool.Pop().GetComponent<TempBullet>();
                 bullet.transform.position = player.transform.position;
-                bullet.RB.velocity = direction * 10f;
-                bullet.StartReturn(3f);
+                bullet.rigid.velocity = direction * 10f;
                 player.OverHitGauge += 5f;
                 Debug.Log($"<color=red>Over Hit Gauge</color> : {player.OverHitGauge}");
             }
