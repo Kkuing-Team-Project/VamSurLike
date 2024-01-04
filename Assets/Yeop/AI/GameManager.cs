@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   void SpawnAI()
+   // GameManager script
+    void SpawnAI()
     {
         // 플레이어 주변에 AI를 생성하기 위한 랜덤한 위치 생성
         Vector3 spawnPosition = player.position + Random.insideUnitSphere * 5f;
@@ -37,8 +38,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("AI script not found on the instantiated object!");
         }
+
     }
-
-
-    
 }
