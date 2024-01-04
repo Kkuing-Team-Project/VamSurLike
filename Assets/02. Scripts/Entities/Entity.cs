@@ -6,35 +6,36 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     protected Stat stat;
-    public float hp { get; protected set; }
+    public float Hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
+    protected Rigidbody rigid;
 
-    // Start is called before the first frame update
     void OnEnable()
     {
         InitEntity();
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateEntity();
     }
 
+    private void LateUpdate()
+    {
+        stat.Update();
+    }
+
     protected virtual void InitEntity()
     {
         stat = new Stat();
-        hp = stat.Get(StatType.MAX_HP);
+        Hp = stat.Get(StatType.MAX_HP);
+
+        rigid = GetComponent<Rigidbody>();
     }
 
     protected virtual void UpdateEntity()
     {
         UpdateEffect();
-    }
-
-    private void LateUpdate()
-    {
-        stat.Update();
     }
 
     protected virtual void UpdateEffect()
@@ -59,14 +60,14 @@ public abstract class Entity : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
-        hp -= dmg;
-        if (hp <= 0)
+        Hp -= dmg;
+        if (Hp <= 0)
             OnEntityDied();
     }
 
     public void Heal(float amount)
     {
-        hp = Mathf.Clamp(hp + amount, 0, stat.Get(StatType.MAX_HP));
+        Hp = Mathf.Clamp(Hp + amount, 0, stat.Get(StatType.MAX_HP));
     }
 
     protected abstract void OnEntityDied();
