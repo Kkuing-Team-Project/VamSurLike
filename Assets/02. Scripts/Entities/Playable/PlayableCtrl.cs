@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,11 +16,11 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnUpdateAugmentation;
     public event AugmentationDelegate OnAttackPlayer;
 
-    [Range(1f, 3f)]
-    public float rotSpeed;
+    [Tooltip("초당 회전 각도 값")]
+    public float rotationAnglePerSecond;
 
     [Tooltip("대쉬 거리"), Range(1, 10)]
-    public float dashDist;
+    public float dashDist = 60;
     [Range(0.01f, 1)]
     public float dashTime;
     private Vector3 inputVector;
@@ -53,15 +54,18 @@ public abstract class PlayableCtrl : Entity
         base.UpdateEntity();
         OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
 
-        transform.Translate(inputVector * stat.Get(StatType.MOVE_SPEED) * Time.deltaTime, Space.World);
-
-        //Player Attack
+        // 공격 범위 내에 적이 있다면.
         if(GetNearestEnemy() != null)
         {
-            //회전
-            Vector3 targetDir = (GetNearestEnemy().transform.position - transform.position).normalized;
-            Vector3 lookAtDir = Vector3.RotateTowards(transform.forward, targetDir, rotSpeed * Time.deltaTime, 0f);
-            transform.rotation = Quaternion.LookRotation(lookAtDir);
+            #region Look Enemy
+
+            Vector3 targetDirection = (GetNearestEnemy().transform.position - transform.position).normalized;   // 적을 향한 벡터
+            Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
+
+            transform.rotation = nextRotation;
+
+            #endregion
+
             if (attackCor == null)
                 attackCor = StartCoroutine(AttackCoroutine());
         }
@@ -87,6 +91,10 @@ public abstract class PlayableCtrl : Entity
         //
     }
 
+    /// <summary>
+    /// 가장 근접한 적을 반환하는 메서드
+    /// </summary>
+    /// <returns></returns>
     protected EnemyCtrl GetNearestEnemy()
     {
         var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
@@ -96,7 +104,9 @@ public abstract class PlayableCtrl : Entity
             foreach (var enemy in enemies)
             {
                 if (Vector3.Distance(transform.position, result.transform.position) > Vector3.Distance(transform.position, enemy.transform.position))
+                {
                     result = enemy.GetComponent<EnemyCtrl>();
+                }
             }
             return result;
         }
