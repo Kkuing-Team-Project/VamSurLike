@@ -24,8 +24,13 @@ public class AI : MonoBehaviour
         }
     }
 
+ 
+// AI script
     void Update()
     {
+        // Add debug logs for testing
+        // Debug.Log("Distance to target: " + Vector3.Distance(transform.position, target.position));
+
         // 만약 목표 지점이 이동 중에 변경되었다면 다시 설정
         if (target.hasChanged)
         {
