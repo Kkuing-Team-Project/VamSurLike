@@ -38,6 +38,7 @@ public abstract class PlayableCtrl : Entity
     void OnMove(InputValue value)
     {
         inputVector = value.Get<Vector3>();
+        Debug.Log(inputVector);
     }
 
     #endregion
