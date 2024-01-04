@@ -39,7 +39,6 @@ public abstract class PlayableCtrl : Entity
     void OnMove(InputValue value)
     {
         inputVector = value.Get<Vector3>();
-        Debug.Log(inputVector);
     }
 
     #endregion
@@ -57,7 +56,7 @@ public abstract class PlayableCtrl : Entity
         // 공격 범위 내에 적이 있다면.
         if(GetNearestEnemy() != null)
         {
-            #region Look Enemy
+            #region Look Nearst Enemy
 
             Vector3 targetDirection = (GetNearestEnemy().transform.position - transform.position).normalized;   // 적을 향한 벡터
             Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
@@ -67,8 +66,13 @@ public abstract class PlayableCtrl : Entity
             #endregion
 
             if (attackCor == null)
+            {
                 attackCor = StartCoroutine(AttackCoroutine());
+            }
         }
+
+
+        // 공격 범위 내에 적이 없다면
         else
         {
             if(attackCor != null)
@@ -87,10 +91,8 @@ public abstract class PlayableCtrl : Entity
         {
             dashCor = StartCoroutine(DashCor());
         }
-
-        //
     }
-
+    
     /// <summary>
     /// 가장 근접한 적을 반환하는 메서드
     /// </summary>

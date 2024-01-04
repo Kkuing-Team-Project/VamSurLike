@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempBullet : Poolable
 {
-    public Rigidbody RB { get; set; }
+    public Rigidbody rigid { get; set; }
 
     public override void Create(ObjectPool pool)
     {
         base.Create(pool);
-        RB = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody>();
     }
 
-    public void StartReturn(float time)
+    private void OnEnable()
     {
-        StartCoroutine(ReturnBullet(time));
+        StartCoroutine(ReturnBullet(3f));
     }
 
     IEnumerator ReturnBullet(float time)
