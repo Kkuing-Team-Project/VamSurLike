@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Fire
+  - PLAYER
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PLAYER
   - Water
   - UI
   - ENEMY
-  - Boss
+  - BOSS
   - 
   - 
   - 
