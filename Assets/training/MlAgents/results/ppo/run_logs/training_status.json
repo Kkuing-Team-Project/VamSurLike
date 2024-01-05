@@ -1,0 +1,30 @@
+{
+    "BossBattle": {
+        "elo": 1199.5,
+        "checkpoints": [
+            {
+                "steps": 500051,
+                "file_path": "results\\ppo\\BossBattle\\BossBattle-500051.onnx",
+                "reward": 0.0,
+                "creation_time": 1682147613.705903,
+                "auxillary_file_paths": [
+                    "results\\ppo\\BossBattle\\BossBattle-500051.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500051,
+            "file_path": "results\\ppo\\BossBattle.onnx",
+            "reward": 0.0,
+            "creation_time": 1682147613.705903,
+            "auxillary_file_paths": [
+                "results\\ppo\\BossBattle\\BossBattle-500051.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.0.0+cu118"
+    }
+}
