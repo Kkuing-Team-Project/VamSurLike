@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public abstract class PlayableCtrl : Entity
 {
@@ -34,24 +33,18 @@ public abstract class PlayableCtrl : Entity
         stat.SetDefault(StatType.MOVE_SPEED, 3);
     }
 
-    #region Input System Functions
-
-    void OnMove(InputValue value)
-    {
-        inputVector = value.Get<Vector3>();
-    }
-
-    #endregion
-
     void FixedUpdate()
     {
-        rigid.velocity = inputVector * stat.Get(StatType.MOVE_SPEED);
+        rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
     }
 
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
         OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
+
+        inputVector.x = Input.GetAxis("Horizontal");
+        inputVector.z = Input.GetAxis("Vertical");
 
         // 공격 범위 내에 적이 있다면.
         if(GetNearestEnemy() != null)
