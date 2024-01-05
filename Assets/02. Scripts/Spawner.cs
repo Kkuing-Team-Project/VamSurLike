@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Enmey
-{
-    public class Spawner : MonoBehaviour
+ public class Spawner : MonoBehaviour
     {
         private bool gameOver = false;
         private Vector3 center;
@@ -150,4 +148,3 @@ namespace Enmey
             Gizmos.DrawWireCube(center, boxSize / mul);
         }
     }
-}
