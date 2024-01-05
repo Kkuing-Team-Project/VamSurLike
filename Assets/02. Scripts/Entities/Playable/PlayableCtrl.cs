@@ -45,13 +45,14 @@ public abstract class PlayableCtrl : Entity
 
     void FixedUpdate()
     {
-        rigid.velocity = inputVector * stat.Get(StatType.MOVE_SPEED);
+        rigid.velocity = Input.GetAxis("Horizontal") * Vector3.right * stat.Get(StatType.MOVE_SPEED);
     }
 
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
         OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
+
 
         // 공격 범위 내에 적이 있다면.
         if(GetNearestEnemy() != null)
