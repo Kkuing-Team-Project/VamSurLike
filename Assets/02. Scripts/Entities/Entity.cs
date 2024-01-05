@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Entity : MonoBehaviour
 {
-    protected Stat stat;
+    public Stat stat;
     public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
     protected Rigidbody rigid;
