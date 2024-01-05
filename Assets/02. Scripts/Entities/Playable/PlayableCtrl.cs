@@ -110,16 +110,16 @@ public abstract class PlayableCtrl : Entity
 
     protected IEnumerator DashCor()
     {
-        Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), transform.position.y, Input.GetAxisRaw("Vertical")).normalized;
+        Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         float radius = gameObject.GetComponent<CapsuleCollider>().radius;
 
         float eT = 0;
         Vector3 origin = transform.position;
         Vector3 moveTo = Vector3.zero;
-        if (Physics.SphereCast(transform.position, radius, dir, out RaycastHit hit, dashDist, 1 << LayerMask.NameToLayer("ENEMY")))
+        if (Physics.SphereCast(transform.position, radius, dir, out RaycastHit hit, dashDist,1 << LayerMask.NameToLayer("ENEMY")))
         {
-            moveTo = hit.point + (-dir * radius);
+            moveTo = hit.point - (dir * radius);
             while(eT < dashTime)
             {
                 yield return null;
@@ -129,7 +129,8 @@ public abstract class PlayableCtrl : Entity
         }
         else
         {
-            moveTo = dir * dashDist;
+            moveTo = transform.position + dir * dashDist;
+            moveTo.y = transform.position.y;
             while (eT < dashTime)
             {
                 yield return null;

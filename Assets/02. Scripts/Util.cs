@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Util
 {
-
-
     public static bool IsTargetInSight(Transform target, Transform origin, float degree)
     {
         Vector3 dir = (target.position - origin.position).normalized;
