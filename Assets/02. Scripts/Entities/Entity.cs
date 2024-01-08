@@ -73,6 +73,9 @@ public abstract class Entity : MonoBehaviour
 
     protected abstract void OnEntityDied();
 
+    //현재 해당 애니메이션 호출 중인지
+    //name: 애니메이터 내 클립의 이름
+    //layerIdx: 호출할 애니메이션의 레이어 (기본 0)
     protected bool IsAnimationClipPlaying(string name, int layerIdx)
     {
         return animator.GetCurrentAnimatorStateInfo(layerIdx).IsName(name) && animator.GetCurrentAnimatorStateInfo(layerIdx).normalizedTime < 1f;
