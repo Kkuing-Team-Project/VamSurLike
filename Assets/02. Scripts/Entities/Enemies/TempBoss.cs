@@ -29,4 +29,9 @@ public class TempBoss : BossCtrl
     {
         Debug.Log("º¸½º »ç¸Á");
     }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
+    }
 }

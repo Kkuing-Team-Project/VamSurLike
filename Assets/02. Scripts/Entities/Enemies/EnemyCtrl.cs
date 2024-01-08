@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public abstract class EnemyCtrl : Entity
 {
     protected NavMeshAgent nav;

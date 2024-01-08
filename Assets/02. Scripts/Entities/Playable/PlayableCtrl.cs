@@ -22,9 +22,15 @@ public abstract class PlayableCtrl : Entity
     public float dashDist = 60;
     [Range(0.01f, 1)]
     public float dashTime;
+
+    // 이동 입력값
     private Vector3 inputVector;
+
+    // 코루틴
     private Coroutine attackCor;
     private Coroutine dashCor;
+
+    // 증강 리스트
     private List<Augmentation> augmentationList = new List<Augmentation>();
 
     protected override void InitEntity()
@@ -35,7 +41,10 @@ public abstract class PlayableCtrl : Entity
 
     void FixedUpdate()
     {
-        rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
+        if (dashCor == null)
+        {
+            rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
+        }
     }
 
     [ContextMenu("증강 추가")]
@@ -59,15 +68,16 @@ public abstract class PlayableCtrl : Entity
         base.UpdateEntity();
         OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
 
-        inputVector.x = Input.GetAxis("Horizontal");
-        inputVector.z = Input.GetAxis("Vertical");
+        inputVector.x = Input.GetAxisRaw("Horizontal");
+        inputVector.z = Input.GetAxisRaw("Vertical");
 
         // 공격 범위 내에 적이 있다면.
         if(GetNearestEnemy() != null)
         {
             #region Look Nearst Enemy
-
-            Vector3 targetDirection = (GetNearestEnemy().transform.position - transform.position).normalized;   // 적을 향한 벡터
+            Vector3 targetPosition = GetNearestEnemy().transform.position;
+            targetPosition.y = transform.position.y;
+            Vector3 targetDirection = (targetPosition - transform.position).normalized;   // 적을 향한 벡터
             Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
 
             transform.rotation = nextRotation;
@@ -100,7 +110,7 @@ public abstract class PlayableCtrl : Entity
         {
             dashCor = StartCoroutine(DashCor());
         }
-        Debug.Log(stat.Get(StatType.DAMAGE));
+        //Debug.Log(stat.Get(StatType.DAMAGE));
     }
 
     /// <summary>
@@ -127,34 +137,29 @@ public abstract class PlayableCtrl : Entity
 
     protected IEnumerator DashCor()
     {
-        Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        rigid.velocity = Vector3.zero;
+        Vector3 direction = inputVector.normalized;
 
-        float radius = gameObject.GetComponent<CapsuleCollider>().radius;
+        if (direction == Vector3.zero)
+        {
+            Vector3 mousePosition = Vector3.zero;
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                mousePosition = hit.point;
+            }
+            mousePosition.y = transform.position.y;
 
-        float eT = 0;
-        Vector3 origin = transform.position;
-        Vector3 moveTo = Vector3.zero;
-        if (Physics.SphereCast(transform.position, radius, dir, out RaycastHit hit, dashDist,1 << LayerMask.NameToLayer("ENEMY")))
-        {
-            moveTo = hit.point - (dir * radius);
-            while(eT < dashTime)
-            {
-                yield return null;
-                eT += Time.deltaTime;
-                transform.position = Vector3.Lerp(origin, moveTo, eT / dashTime);
-            }
+            direction = mousePosition - transform.position;
+            direction.Normalize();
         }
-        else
-        {
-            moveTo = transform.position + dir * dashDist;
-            moveTo.y = transform.position.y;
-            while (eT < dashTime)
-            {
-                yield return null;
-                eT += Time.deltaTime;
-                transform.position = Vector3.Lerp(origin, moveTo, eT / dashTime);
-            }
-        }
+
+        rigid.velocity = direction * 15f;
+
+        yield return new WaitForSeconds(dashTime);
+
+        rigid.velocity = Vector3.zero;
+
         dashCor = null;
     }
 
@@ -196,17 +201,18 @@ public abstract class PlayableCtrl : Entity
     }
 
     //증강 삭제(클래스에 따라)
-    public void DeleteAugmentation(Augmentation aug)
+    public void DeleteAugmentation<T>() where T : Augmentation
     {
-        if (aug.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
+        Augmentation del = augmentationList.Find((a) => a is T);
+        
+        if (del.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
             return;
 
-        Augmentation del = augmentationList.Find((a) => a.GetType() == aug.GetType());
 
         if (del == null)
             return;
 
-        switch (aug.eventType)
+        switch (del.eventType)
         {
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
