@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public abstract class BossCtrl : Entity
 {
     #region
-    //ÆÐÅÏ ÈÄ ±â´Ù¸®´Â ½Ã°£
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
     public float waitTime;
 
     #endregion
@@ -40,7 +40,7 @@ public abstract class BossCtrl : Entity
         nowPatternIdx = Random.Range(0, patternList.Count);
     }
 
-    //ÆÐÅÏ µî·Ï ÄÚµå, °¡º¯ ÀÎÀÚ·Î ÀÔ·Â ¹ÞÀ¸¸ç µî·ÏÇÑ ÄÚµå¸¸ ½ÇÇàµÊ.
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Úµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½.
     protected void RegisterPatterns(params PatternDelegate[] pattern)
     {
         foreach (PatternDelegate patternDelegate in pattern)
@@ -83,10 +83,10 @@ public abstract class BossCtrl : Entity
 
     protected IEnumerator BossPatternCor()
     {
-        //¾Ö´Ï¸ÞÀÌ¼Ç ·¹ÀÌ¾î ÀüÈ¯(°ø°Ý ÆÐÅÏÀ¸·Î ÀüÈ¯)
+        //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È¯(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯)
         yield return ChangeAnimLayer(nowPatternIdx + 1, 0.1f, true);
         yield return StartCoroutine(patternList[nowPatternIdx].Invoke());
-        //¾Ö´Ï¸ÞÀÌ¼Ç ·¹ÀÌ¾î ÀüÈ¯(Idle ¸ð¼ÇÀ¸·Î)
+        //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È¯(Idle ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
         yield return ChangeAnimLayer(nowPatternIdx + 1, waitTime, false);
         nowPatternIdx = Random.Range(0, patternList.Count);
         attackPatternCor = null;
