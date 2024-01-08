@@ -18,9 +18,24 @@ public class TempBullet : Poolable
         StartCoroutine(ReturnBullet(3f));
     }
 
+    /// <summary>
+    /// 현재 오브젝트를 time 초 후에 오브젝트 풀로 반환합니다.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
     IEnumerator ReturnBullet(float time)
     {
         yield return new WaitForSeconds(time);
         Push();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ENEMY"))
+        {
+            Debug.Log("hit");
+            StopAllCoroutines();
+            Push();
+        }
     }
 }
