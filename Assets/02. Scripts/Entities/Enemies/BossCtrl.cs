@@ -13,9 +13,16 @@ public abstract class BossCtrl : Entity
 
     #endregion
 
-    protected int nowPatternIdx;
-
+    //패턴 대리자(해당 대리자로 패턴 전달)
     protected delegate IEnumerator PatternDelegate();
+
+    //현재 패턴
+    protected int patternIdx;
+
+    //플레이어까지의 거리
+    protected float distToPlayer;
+
+    //
 
     protected List<PatternDelegate> patternList = new List<PatternDelegate>();
 
@@ -37,7 +44,7 @@ public abstract class BossCtrl : Entity
             enemyPool = GameObject.Find("EnemyPool").transform;
             transform.SetParent(enemyPool);
         }
-        nowPatternIdx = Random.Range(0, patternList.Count);
+        patternIdx = 0;
     }
 
     //패턴 등록 코드, 가변 인자로 입력 받으며 등록한 코드만 실행됨.
@@ -56,12 +63,14 @@ public abstract class BossCtrl : Entity
         origin.y = 0;
         var target = playable.transform.position;
         target.y = 0;
-        if (Vector3.Distance(origin, target) > stat.Get(StatType.ATTACK_DISTANCE) && attackPatternCor == null)
+
+        distToPlayer = Vector3.Distance(origin, target);
+        if (distToPlayer > stat.Get(StatType.ATTACK_DISTANCE) && attackPatternCor == null)
             BossMove();
         else
         {
             if (attackPatternCor == null)
-                attackPatternCor = StartCoroutine(BossPatternCor());
+                attackPatternCor = StartCoroutine(BossPatternCor(patternIdx));
         }
         BossAnimation();
     }
@@ -81,14 +90,14 @@ public abstract class BossCtrl : Entity
         nav.SetDestination(playable.transform.position);
     }
 
-    protected IEnumerator BossPatternCor()
+    protected virtual IEnumerator BossPatternCor(int patternIdx)
     {
         //애니메이션 레이어 전환(공격 패턴으로 전환)
-        yield return ChangeAnimLayer(nowPatternIdx + 1, 0.1f, true);
-        yield return StartCoroutine(patternList[nowPatternIdx].Invoke());
+        yield return ChangeAnimLayer(patternIdx + 1, 0.1f, true);
+        yield return StartCoroutine(patternList[patternIdx].Invoke());
         //애니메이션 레이어 전환(Idle 모션으로)
-        yield return ChangeAnimLayer(nowPatternIdx + 1, waitTime, false);
-        nowPatternIdx = Random.Range(0, patternList.Count);
+        yield return ChangeAnimLayer(patternIdx + 1, waitTime, false);
+        OnFinishPattern(this.patternIdx);
         attackPatternCor = null;
     }
 
@@ -108,4 +117,6 @@ public abstract class BossCtrl : Entity
         }
 
     }
+
+    protected abstract void OnFinishPattern(int nowPatternIdx);
 }
