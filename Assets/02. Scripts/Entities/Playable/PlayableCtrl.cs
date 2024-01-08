@@ -50,8 +50,15 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
-        Debug.Log(GetAugmentationCount(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE)));
+        if (HasAugmentation<DamageUp>())
+        {
+            Debug.Log("!");
+            GetAugmentation<DamageUp>().SetAugmentationLevel(GetAugmentationLevel<DamageUp>() + 1);
+        }
+        else
+        {
+            AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
+        }
     }
 
 
@@ -156,6 +163,7 @@ public abstract class PlayableCtrl : Entity
         dashCor = null;
     }
 
+
     protected abstract void PlayerSkill();
 
 
@@ -193,17 +201,18 @@ public abstract class PlayableCtrl : Entity
     }
 
     //증강 삭제(클래스에 따라)
-    public void DeleteAugmentation(Augmentation aug)
+    public void DeleteAugmentation<T>() where T : Augmentation
     {
-        if (aug.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
+        Augmentation del = augmentationList.Find((a) => a is T);
+        
+        if (del.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
             return;
 
-        Augmentation del = augmentationList.Find((a) => a.GetType() == aug.GetType());
 
         if (del == null)
             return;
 
-        switch (aug.eventType)
+        switch (del.eventType)
         {
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
@@ -252,8 +261,23 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-    public int GetAugmentationCount(Augmentation aug)
+    public Augmentation GetAugmentation<T>() where T : Augmentation
     {
-        return augmentationList.FindAll((a) => a.GetType() == aug.GetType()).Count;
+        return augmentationList.Find((a) => a is T);
+    }
+
+    public bool HasAugmentation<T>() where T : Augmentation
+    {
+        return augmentationList.Find((a) => a is T) is not null;
+    }
+
+    public int GetAugmentationLevel<T>() where T : Augmentation
+    {
+        return augmentationList.Find((a) => a is T).level;
+    }
+
+    public int GetAugmentationLevel(string augName)
+    {
+        return augmentationList.Find((a) => string.Equals(a.GetType().Name, augName)).level;
     }
 }
