@@ -22,7 +22,7 @@ public class TempBullet : MonoBehaviour, IPoolable
     }
 
     /// <summary>
-    /// ÇöÀç ¿ÀºêÁ§Æ®¸¦ time ÃÊ ÈÄ¿¡ ¿ÀºêÁ§Æ® Ç®·Î ¹ÝÈ¯ÇÕ´Ï´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ time ï¿½ï¿½ ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç®ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
@@ -36,7 +36,7 @@ public class TempBullet : MonoBehaviour, IPoolable
     {
         if (other.CompareTag("ENEMY"))
         {
-            TempEnemy enemy = other.GetComponent<TempEnemy>();
+            Entity enemy = other.GetComponent<Entity>();
             enemy.TakeDamage(player, 10f);
             StopAllCoroutines();
             Push();

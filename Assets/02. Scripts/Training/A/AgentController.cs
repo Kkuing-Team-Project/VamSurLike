@@ -25,8 +25,8 @@ public class AgentController : Agent
 
     public override void OnEpisodeBegin()
     {
-        bc.ResetBoss();
-        // 에피소드 시작 시 추가 초기화 작업 수행
+        // bc.ResetBoss();
+        // // 에피소드 시작 시 추가 초기화 작업 수행
         episodeFinished = false;
     }
 
@@ -40,7 +40,7 @@ public class AgentController : Agent
     {
         // 나는 boss가 y축 빼고 움직였으면 좋겠어
         float moveAction = actionBuffers.ContinuousActions[0];
-        bc.MoveBoss(moveAction);
+        // bc.MoveBoss(moveAction);
     }
 
     public void EndEpisode(float reward)

@@ -59,6 +59,11 @@ public abstract class Entity : MonoBehaviour
         statusEffects.RemoveAll(eff => delEffect.Contains(eff));
     }
 
+    /// <summary>
+    /// 엔티티에게 대미지 주는
+    /// </summary>
+    /// <param name="caster"></param>
+    /// <param name="dmg"></param>
     public void TakeDamage(Entity caster, float dmg)
     {
         hp -= dmg;
