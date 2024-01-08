@@ -59,9 +59,17 @@ public abstract class Entity : MonoBehaviour
         statusEffects.RemoveAll(eff => delEffect.Contains(eff));
     }
 
-    public void TakeDamage(float dmg)
+    /// <summary>
+    /// 엔티티에게 대미지 주는
+    /// </summary>
+    /// <param name="caster"></param>
+    /// <param name="dmg"></param>
+    public void TakeDamage(Entity caster, float dmg)
     {
         hp -= dmg;
+
+        OnTakeDamage(caster, dmg);
+
         if (hp <= 0)
             OnEntityDied();
     }
@@ -70,6 +78,8 @@ public abstract class Entity : MonoBehaviour
     {
         hp = Mathf.Clamp(hp + amount, 0, stat.Get(StatType.MAX_HP));
     }
+
+    protected abstract void OnTakeDamage(Entity caster, float dmg);
 
     protected abstract void OnEntityDied();
 
