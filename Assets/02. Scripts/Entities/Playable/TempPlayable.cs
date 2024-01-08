@@ -6,6 +6,8 @@ public class TempPlayable : PlayableCtrl
 {
     [SerializeField]
     ObjectPool bulletObjectPool;
+        
+    public float tempBulletSpeed = 50f; // 무기 클래스에서 받아오도록 변경할것.
 
     protected override void OnEntityDied()
     {
@@ -15,7 +17,9 @@ public class TempPlayable : PlayableCtrl
     protected override void PlayerAttack()
     {
         TempBullet bullet = bulletObjectPool.Pop().GetComponent<TempBullet>();
-        bullet.rigid.velocity = 10f * transform.forward;
+        bullet.transform.rotation = Quaternion.LookRotation(transform.forward);
+
+        bullet.rigid.velocity = tempBulletSpeed * transform.forward;
         bullet.transform.position = transform.position;
     }
 
