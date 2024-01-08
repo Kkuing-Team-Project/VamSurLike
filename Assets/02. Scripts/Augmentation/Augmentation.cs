@@ -10,13 +10,14 @@ public enum AugmentationEventType
     ON_ATTACK,
 }
 
+
 public delegate void AugmentationDelegate(Entity sender, EventArgs e);
 
 public class Augmentation
 {
     protected PlayableCtrl player { get; private set; }
     public AugmentationEventType eventType { get; private set; }
-    public int level;
+    public int level { get; private set; }
 
     public Augmentation(PlayableCtrl player, int level, AugmentationEventType eventType)
     {
@@ -29,5 +30,7 @@ public class Augmentation
     {
 
     }
+
+    public void SetAugmentationLevel(int level) => this.level = level;
 }
 
