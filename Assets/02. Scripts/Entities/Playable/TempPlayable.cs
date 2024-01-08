@@ -25,7 +25,6 @@ public class TempPlayable : PlayableCtrl
 
     protected override void PlayerSkill()
     {
-        throw new System.NotImplementedException();
     }
 
 
@@ -37,5 +36,9 @@ public class TempPlayable : PlayableCtrl
 
             Gizmos.DrawWireSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE));
         }        
+    }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
     }
 }

@@ -14,4 +14,9 @@ public class TempEnemy : EnemyCtrl
     {
         Debug.Log("EnemyAttack");
     }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
+    }
 }
