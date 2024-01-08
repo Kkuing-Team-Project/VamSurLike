@@ -196,17 +196,18 @@ public abstract class PlayableCtrl : Entity
     }
 
     //증강 삭제(클래스에 따라)
-    public void DeleteAugmentation(Augmentation aug)
+    public void DeleteAugmentation<T>() where T : Augmentation
     {
-        if (aug.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
+        Augmentation del = augmentationList.Find((a) => a is T);
+        
+        if (del.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
             return;
 
-        Augmentation del = augmentationList.Find((a) => a.GetType() == aug.GetType());
 
         if (del == null)
             return;
 
-        switch (aug.eventType)
+        switch (del.eventType)
         {
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
