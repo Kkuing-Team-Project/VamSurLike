@@ -33,7 +33,8 @@ public class TempBullet : Poolable
     {
         if (other.CompareTag("ENEMY"))
         {
-            Debug.Log("hit");
+            TempEnemy enemy = other.GetComponent<TempEnemy>();
+            enemy.TakeDamage(10f);
             StopAllCoroutines();
             Push();
         }
