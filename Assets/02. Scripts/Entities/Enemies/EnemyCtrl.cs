@@ -19,8 +19,8 @@ public abstract class EnemyCtrl : Entity
             nav = gameObject.GetComponent<NavMeshAgent>();
         if (enemyPool == null)
         {
-            enemyPool = GameObject.Find("EnemyPool").transform;
-            transform.SetParent(enemyPool);
+           enemyPool = GameObject.Find("EnemyPool").transform;
+           transform.SetParent(enemyPool);
         }
     }
 

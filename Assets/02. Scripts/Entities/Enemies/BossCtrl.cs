@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public abstract class BossCtrl : Entity
 {
     #region
-    //ÆÐÅÏ ÈÄ ±â´Ù¸®´Â ½Ã°£
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿?ï¿½Ã°ï¿½
     public float waitTime;
 
     #endregion
@@ -47,7 +47,7 @@ public abstract class BossCtrl : Entity
         patternIdx = 0;
     }
 
-    //ÆÐÅÏ µî·Ï ÄÚµå, °¡º¯ ÀÎÀÚ·Î ÀÔ·Â ¹ÞÀ¸¸ç µî·ÏÇÑ ÄÚµå¸¸ ½ÇÇàµÊ.
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?ï¿½Úµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?ï¿½Úµå¸¸ ï¿½ï¿½ï¿½ï¿½ï¿?
     protected void RegisterPatterns(params PatternDelegate[] pattern)
     {
         foreach (PatternDelegate patternDelegate in pattern)

@@ -7,7 +7,7 @@ public class TempPlayable : PlayableCtrl
     [SerializeField]
     ObjectPool bulletObjectPool;
         
-    public float tempBulletSpeed = 50f; // ¹«±â Å¬·¡½º¿¡¼­ ¹Þ¾Æ¿Àµµ·Ï º¯°æÇÒ°Í.
+    public float tempBulletSpeed = 50f; // ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½.
 
     protected override void OnEntityDied()
     {
@@ -16,7 +16,7 @@ public class TempPlayable : PlayableCtrl
 
     protected override void PlayerAttack()
     {
-        TempBullet bullet = bulletObjectPool.Pop().GetComponent<TempBullet>();
+        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet).GetComponent<TempBullet>();
         bullet.transform.rotation = Quaternion.LookRotation(transform.forward);
 
         bullet.rigid.velocity = tempBulletSpeed * transform.forward;

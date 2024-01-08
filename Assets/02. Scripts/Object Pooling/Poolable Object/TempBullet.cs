@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TempBullet : Poolable
+public class TempBullet : MonoBehaviour, IPoolable
 {
     public Rigidbody rigid { get; set; }
+    public Stack<GameObject> pool { get; set; }
 
-    public override void Create(ObjectPool pool)
+    TempPlayable player;
+
+    public void Create(Stack<GameObject> pool)
     {
-        base.Create(pool);
+        this.pool = pool;
         rigid = GetComponent<Rigidbody>();
     }
 
@@ -19,7 +22,7 @@ public class TempBullet : Poolable
     }
 
     /// <summary>
-    /// ÇöÀç ¿ÀºêÁ§Æ®¸¦ time ÃÊ ÈÄ¿¡ ¿ÀºêÁ§Æ® Ç®·Î ¹ÝÈ¯ÇÕ´Ï´Ù.
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ time ï¿½ï¿½ ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç®ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
@@ -33,9 +36,16 @@ public class TempBullet : Poolable
     {
         if (other.CompareTag("ENEMY"))
         {
-            Debug.Log("hit");
+            Entity enemy = other.GetComponent<Entity>();
+            enemy.TakeDamage(player, 10f);
             StopAllCoroutines();
             Push();
         }
+    }
+
+    public void Push()
+    {
+        gameObject.SetActive(false);
+        pool.Push(gameObject);
     }
 }
