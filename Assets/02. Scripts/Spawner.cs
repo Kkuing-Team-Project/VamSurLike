@@ -26,8 +26,10 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     private GameObject testPrefab;
     
-    private bool isMax;
+    [HideInInspector]
+    public bool isMax;
     private float maxRangeRadius = 50.0f;
+    private float entityRadius = 0.5f;
     
     #if UNITY_EDITOR
     [CustomEditor(typeof(Spawner))]
@@ -42,6 +44,7 @@ public class Spawner : MonoBehaviour
             if (myToggle.isMax)
             {
                 myToggle.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myToggle.maxRangeRadius);
+                myToggle.entityRadius = EditorGUILayout.FloatField("Entity Radius", myToggle.entityRadius);
             }
         }
     }
@@ -121,6 +124,18 @@ public class Spawner : MonoBehaviour
                 point = new Vector3(minX, 1.0f, minZ);
             }
 
+            if (isMax)
+            {
+                Vector3 pos = transform.position;
+                float spawnRadius = maxRangeRadius - entityRadius;
+                if (point.x <= pos.x + spawnRadius &&
+                    point.z <= pos.z + spawnRadius)
+                {
+                    point.x -= pos.x + spawnRadius;
+                    point.z -= pos.z + spawnRadius;
+                }
+            }
+
             // change obj pool
             Instantiate(testPrefab, point, Quaternion.identity);
         }
@@ -182,8 +197,12 @@ public class Spawner : MonoBehaviour
         Gizmos.DrawLine(playerCamera.transform.position, center);
         Gizmos.DrawWireCube(center, boxSize / mul);
         
-        Gizmos.color = Color.blue;
         if (isMax)
+        {
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, maxRangeRadius);
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireSphere(transform.position, maxRangeRadius - entityRadius);
+        }
     }
 }
