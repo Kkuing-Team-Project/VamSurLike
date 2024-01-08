@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TempBullet : Poolable
+public class TempBullet : MonoBehaviour, IPoolable
 {
     public Rigidbody rigid { get; set; }
+    public Stack<GameObject> pool { get; set; }
 
-    public override void Create(ObjectPool pool)
+    TempPlayable player;
+
+    public void Create(Stack<GameObject> pool)
     {
-        base.Create(pool);
+        this.pool = pool;
         rigid = GetComponent<Rigidbody>();
     }
 
@@ -34,9 +37,15 @@ public class TempBullet : Poolable
         if (other.CompareTag("ENEMY"))
         {
             TempEnemy enemy = other.GetComponent<TempEnemy>();
-            enemy.TakeDamage(10f);
+            enemy.TakeDamage(player, 10f);
             StopAllCoroutines();
             Push();
         }
+    }
+
+    public void Push()
+    {
+        gameObject.SetActive(false);
+        pool.Push(gameObject);
     }
 }
