@@ -110,7 +110,7 @@ public abstract class PlayableCtrl : Entity
         {
             dashCor = StartCoroutine(DashCor());
         }
-        Debug.Log(stat.Get(StatType.DAMAGE));
+        //Debug.Log(stat.Get(StatType.DAMAGE));
     }
 
     /// <summary>
