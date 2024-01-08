@@ -53,7 +53,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6455097426093169748, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_Name
-      value: StoneHead
+      value: StoneHead Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6455097426093169748, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6455097426093169748, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
+      propertyPath: m_TagString
+      value: ENEMY
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
