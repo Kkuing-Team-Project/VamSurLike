@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
     public Vector3 mapSize { get; private set; }
     public float height { get; private set; }
     public float width { get; private set; }
-
+    public ObjectPool Pool;
     [SerializeField]
     private Camera playerCamera;
     [SerializeField]
@@ -137,7 +137,8 @@ public class Spawner : MonoBehaviour
             }
 
             // change obj pool
-            Instantiate(testPrefab, point, Quaternion.identity);
+            Pool.Pop(ObjectPool.ObjectType.Enemy).transform.position=point;
+            // Instantiate(testPrefab, point, Quaternion.identity);
         }
     }
 
