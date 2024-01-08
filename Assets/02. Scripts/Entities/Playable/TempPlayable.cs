@@ -40,5 +40,6 @@ public class TempPlayable : PlayableCtrl
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
+
     }
 }
