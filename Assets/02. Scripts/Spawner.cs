@@ -60,10 +60,10 @@ using UnityEngine;
             float minX = Mathf.Min(leftDownPoint.x,
                 Mathf.Min(leftTopPoint.x, Mathf.Min(rightDownPoint.x, rightTopPoint.x)));
 
-            height = (maxZ - minZ) * mul;
-            width = (maxX - minX) * mul;
-            center = new Vector3((maxX - minX) * 0.5f + minX, 0, (maxZ - minZ) * 0.5f + minZ);
-            mapSize = new Vector3(width + range, 0, height + range);
+            height = maxZ - minZ;
+            width = maxX - minX;
+            center = new Vector3(width * 0.5f + minX, 0, height * 0.5f + minZ);
+            mapSize = new Vector3(width * mul + range, 0, height * mul + range);
         }
 
         private IEnumerator Spawn()
@@ -136,11 +136,11 @@ using UnityEngine;
             float minX = Mathf.Min(leftDownPoint.x,
                 Mathf.Min(leftTopPoint.x, Mathf.Min(rightDownPoint.x, rightTopPoint.x)));
 
-            height = (maxZ - minZ) * mul;
-            width = (maxX - minX) * mul;
-            center = new Vector3((maxX - minX) * 0.5f + minX, 0, (maxZ - minZ) * 0.5f + minZ);
-            mapSize = new Vector3(width + range, 0, height + range);
-            Vector3 boxSize = new Vector3(width, 0, height);
+            height = maxZ - minZ;
+            width = maxX - minX;
+            center = new Vector3(width * 0.5f + minX, 0, height * 0.5f + minZ);
+            mapSize = new Vector3(width * mul + range, 0, height * mul + range);
+            Vector3 boxSize = new Vector3(width * mul, 0, height * mul);
 
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(center, mapSize);
