@@ -178,7 +178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &285056508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,10 +635,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 1686009783}
-  delay: 10000000
+  delay: 1
   range: 20
   mul: 1.5
   testPrefab: {fileID: 1545624767}
+  isMax: 1
+  maxRangeRadius: 50
 --- !u!4 &788882069
 Transform:
   m_ObjectHideFlags: 0
@@ -1020,8 +1022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92ba0a866ad59642aa82f33a6b2be4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 551876039}
-  indicator: {fileID: 487666}
 --- !u!136 &1636339602
 CapsuleCollider:
   m_ObjectHideFlags: 0
