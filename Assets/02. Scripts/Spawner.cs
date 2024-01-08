@@ -1,5 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class Spawner : MonoBehaviour
 {
@@ -15,12 +20,32 @@ public class Spawner : MonoBehaviour
     private float delay = 1.0f;
     [SerializeField]
     private float range = 20.0f;
-    [SerializeField, Range(1, 2)] 
+    [SerializeField, Range(1, 2)]
     private float mul = 1.5f;
 
     [SerializeField]
     private GameObject testPrefab;
     
+    private bool isMax;
+    private float maxRangeRadius = 50.0f;
+    
+    #if UNITY_EDITOR
+    [CustomEditor(typeof(Spawner))]
+    public class SpawnerEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            Spawner myToggle = (Spawner)target;
+            myToggle.isMax = EditorGUILayout.Toggle("Is Max", myToggle.isMax);
+
+            if (myToggle.isMax)
+            {
+                myToggle.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myToggle.maxRangeRadius);
+            }
+        }
+    }
+    #endif
     private void Start()
     {
         StartCoroutine(nameof(Spawn));
@@ -156,6 +181,9 @@ public class Spawner : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(playerCamera.transform.position, center);
         Gizmos.DrawWireCube(center, boxSize / mul);
-        // Debug.Log(boxSize);
+        
+        Gizmos.color = Color.blue;
+        if (isMax)
+            Gizmos.DrawWireSphere(transform.position, maxRangeRadius);
     }
 }
