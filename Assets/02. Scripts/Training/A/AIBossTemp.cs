@@ -27,7 +27,7 @@ public class AIBossTemp : BossController
 
     protected override void OnEntityDied()
     {
-        Debug.Log("보스 죽음");
+        Debug.Log("보스A 죽음");
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
