@@ -74,10 +74,9 @@ using UnityEngine;
 
                 float x = UnityEngine.Random.Range(-(mapSize.x * 0.5f) + center.x, (mapSize.x * 0.5f) + center.x);
                 float z = UnityEngine.Random.Range(-(mapSize.z * 0.5f) + center.z, (mapSize.z * 0.5f) + center.z);
-
-                float selectX = width * 0.5f;
-                float selectZ = height * 0.5f;
-
+                float selectX = width * mul * 0.5f;
+                float selectZ = height * mul * 0.5f;
+                
                 Vector3 point = new Vector3(x, 1.0f, z);
                 if (-selectX + center.x <= x && x <= selectX + center.x &&
                     -selectZ + center.z <= z && z <= selectZ + center.z)
