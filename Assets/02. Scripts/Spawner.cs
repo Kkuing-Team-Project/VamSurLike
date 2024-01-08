@@ -4,18 +4,23 @@ using UnityEngine;
  public class Spawner : MonoBehaviour
     {
         private bool gameOver = false;
-        private Vector3 center;
-        private Vector3 mapSize;
-        private float height;
-        private float width;
-
-        public Camera playerCamera;
-        public float delay = 1.0f;
-        public float range = 20.0f;
-        [Range(1, 2)] public float mul = 1.5f;
-
-        public GameObject testPrefab;
-
+        public Vector3 center { get; private set; }
+        public Vector3 mapSize { get; private set; }
+        public float height { get; private set; }
+        public float width { get; private set; }
+    
+        [SerializeField]
+        private Camera playerCamera;
+        [SerializeField]
+        private float delay = 1.0f;
+        [SerializeField]
+        private float range = 20.0f;
+        [SerializeField, Range(1, 2)] 
+        private float mul = 1.5f;
+    
+        [SerializeField]
+        private GameObject testPrefab;
+        
         private void Start()
         {
             StartCoroutine(nameof(Spawn));
