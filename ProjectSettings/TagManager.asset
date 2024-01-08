@@ -6,16 +6,17 @@ TagManager:
   tags:
   - Fire
   - ENEMY
+  - PLAYER
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PLAYER
   - Water
   - UI
   - ENEMY
-  - Boss
-  - 
+  - BOSS
+  - FLOOR
   - 
   - 
   - 

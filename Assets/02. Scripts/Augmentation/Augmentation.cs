@@ -16,12 +16,13 @@ public class Augmentation
 {
     protected PlayableCtrl player { get; private set; }
     public AugmentationEventType eventType { get; private set; }
+    public int level;
 
-
-    public Augmentation(PlayableCtrl player, AugmentationEventType eventType)
+    public Augmentation(PlayableCtrl player, int level, AugmentationEventType eventType)
     {
         this.player = player;
         this.eventType = eventType;
+        this.level = level;
     }
 
     public virtual void AugmentationEffect(Entity sender, EventArgs e)

@@ -38,6 +38,15 @@ public abstract class PlayableCtrl : Entity
         rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
     }
 
+    [ContextMenu("증강 추가")]
+    public void AddAugmentationTest()
+    {
+        AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
+        Debug.Log(GetAugmentationCount(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE)));
+    }
+
+
+
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
@@ -84,23 +93,24 @@ public abstract class PlayableCtrl : Entity
         {
             dashCor = StartCoroutine(DashCor());
         }
+        Debug.Log(stat.Get(StatType.DAMAGE));
     }
-    
+
     /// <summary>
     /// 가장 근접한 적을 반환하는 메서드
     /// </summary>
     /// <returns></returns>
-    protected EnemyCtrl GetNearestEnemy()
+    protected Entity GetNearestEnemy()
     {
         var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
         if (enemies.Length > 0)
         {
-            EnemyCtrl result = enemies[0].GetComponent<EnemyCtrl>();
+            Entity result = enemies[0].GetComponent<Entity>();
             foreach (var enemy in enemies)
             {
                 if (Vector3.Distance(transform.position, result.transform.position) > Vector3.Distance(transform.position, enemy.transform.position))
                 {
-                    result = enemy.GetComponent<EnemyCtrl>();
+                    result = enemy.GetComponent<Entity>();
                 }
             }
             return result;
@@ -110,16 +120,16 @@ public abstract class PlayableCtrl : Entity
 
     protected IEnumerator DashCor()
     {
-        Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), transform.position.y, Input.GetAxisRaw("Vertical")).normalized;
+        Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         float radius = gameObject.GetComponent<CapsuleCollider>().radius;
 
         float eT = 0;
         Vector3 origin = transform.position;
         Vector3 moveTo = Vector3.zero;
-        if (Physics.SphereCast(transform.position, radius, dir, out RaycastHit hit, dashDist, 1 << LayerMask.NameToLayer("ENEMY")))
+        if (Physics.SphereCast(transform.position, radius, dir, out RaycastHit hit, dashDist,1 << LayerMask.NameToLayer("ENEMY")))
         {
-            moveTo = hit.point + (-dir * radius);
+            moveTo = hit.point - (dir * radius);
             while(eT < dashTime)
             {
                 yield return null;
@@ -129,7 +139,8 @@ public abstract class PlayableCtrl : Entity
         }
         else
         {
-            moveTo = dir * dashDist;
+            moveTo = transform.position + dir * dashDist;
+            moveTo.y = transform.position.y;
             while (eT < dashTime)
             {
                 yield return null;
@@ -234,5 +245,10 @@ public abstract class PlayableCtrl : Entity
             exp = exp - requireExp;
             level++;
         }
+    }
+
+    public int GetAugmentationCount(Augmentation aug)
+    {
+        return augmentationList.FindAll((a) => a.GetType() == aug.GetType()).Count;
     }
 }
