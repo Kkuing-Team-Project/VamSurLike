@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempEnemy : EnemyCtrl
+public class TempEnemy : EnemyCtrl, IPoolable
 {
     protected override void InitEntity()
     {
