@@ -18,10 +18,11 @@ public abstract class PlayableCtrl : Entity
     [Tooltip("초당 회전 각도 값")]
     public float rotationAnglePerSecond;
 
-    [Tooltip("대쉬 거리"), Range(1, 10)]
-    public float dashDist = 60;
-    [Range(0.01f, 1)]
-    public float dashTime;
+    [Header("점멸 속도"), SerializeField]
+    float dashSpeed = 40f;
+
+    [Header("점멸 이동 시간"), SerializeField]
+    float dashTime;
 
     // 이동 입력값
     private Vector3 inputVector;
@@ -153,7 +154,7 @@ public abstract class PlayableCtrl : Entity
             direction.Normalize();
         }
 
-        rigid.velocity = direction * 15f;
+        rigid.velocity = direction * dashSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
@@ -170,7 +171,7 @@ public abstract class PlayableCtrl : Entity
 
     private IEnumerator AttackCoroutine()
     {
-        WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
+        WaitForSeconds attackDelay = new WaitForSeconds(1 / /*stat.Get(StatType.ATTACK_SPEED)*/5f);
         while (true)
         {
             OnAttackPlayer?.Invoke(this, EventArgs.Empty);
