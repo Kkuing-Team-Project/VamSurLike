@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoneHead : EnemyCtrl, IPoolable
+public class Servant : EnemyCtrl, IPoolable
 {
     public float HP = 10f;
-    public float speed = 1f;  // Speed value
+    public float speed = 3f;  // Speed value
     public float attackPower = 1f;  // Attack power value
     public float test = 1f;
     public Stack<GameObject> pool { get; set; }

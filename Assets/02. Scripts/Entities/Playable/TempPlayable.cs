@@ -5,26 +5,12 @@ using UnityEngine;
 
 public class TempPlayable : PlayableCtrl
 {
-    [SerializeField]
-    ObjectPool bulletObjectPool;
         
     public float tempBulletSpeed = 50f; // Temporary bullet speed, can be adjusted in the inspector.
 
     protected override void OnEntityDied()
     {
 
-    }
-
-    protected override void PlayerAttack()
-    {
-        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position).GetComponent<TempBullet>();
-        if (bullet == null)
-        {
-            return;
-        }
-        bullet.transform.rotation = Quaternion.LookRotation(transform.forward);
-
-        bullet.rigid.velocity = tempBulletSpeed * transform.forward;
     }
 
     protected override void PlayerSkill()

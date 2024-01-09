@@ -5,9 +5,10 @@ using UnityEngine;
 
 public enum AugmentationEventType
 {
-    ON_START,
-    ON_UPDATE,
-    ON_ATTACK,
+    ON_START,       //증강 획득 시
+    ON_UPDATE,      //업데이트마다
+    ON_ATTACK,      //공격 시
+    ON_HIT,         //적에게 닿았을 때
 }
 
 

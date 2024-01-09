@@ -33,16 +33,22 @@ public class ObjectPool : MonoBehaviour
         foreach (var pool in pools)
         {
             Stack<GameObject> objectPool = new Stack<GameObject>();
+            new GameObject(pool.type.ToString()).transform.SetParent(transform);
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
+
                 objectPool.Push(obj);
+
                 obj.GetComponent<IPoolable>().Create(objectPool);
+
+                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
             }
             poolDictionary.Add(pool.type, objectPool);
         }
     }
+
 
     /// <summary>
     /// Allocate additional objects
@@ -61,8 +67,12 @@ public class ObjectPool : MonoBehaviour
             {
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
+
                 poolDictionary[pool.type].Push(obj);
+
                 obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
+
+                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
 
             }
         }
@@ -106,7 +116,7 @@ public class ObjectPool : MonoBehaviour
             }
         }
     }
-
+    
     // Method to return an object back to the pool
     public void Push(GameObject obj, ObjectType type)
     {

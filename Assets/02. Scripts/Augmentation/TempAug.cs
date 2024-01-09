@@ -11,6 +11,6 @@ public class TempAug : Augmentation
 
     public override void AugmentationEffect(Entity sender, EventArgs e)
     {
-        Debug.Log("임시 증강");
+        Debug.Log((e as OnHitArgs).hitPoint);
     }
 }
