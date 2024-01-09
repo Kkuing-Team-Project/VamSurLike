@@ -70,11 +70,12 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new TempAug(1, AugmentationEventType.ON_HIT));
+        AddAugmentation(new DamageUp(1, AugmentationEventType.ON_START));
     }
 
     protected override void UpdateEntity()
     {
+        Debug.Log(hp);
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
 
         inputVector.x = Input.GetAxisRaw("Horizontal");
