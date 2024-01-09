@@ -17,6 +17,8 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnAttackPlayer;
     public event AugmentationDelegate OnBulletHit;
 
+    private AugEventArgs defaultArgs;
+
     [Header("총알 갯수")]
     public int bulletNum;
 
@@ -50,6 +52,7 @@ public abstract class PlayableCtrl : Entity
     {
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, 3);
+        defaultArgs = new AugEventArgs(transform, this);
     }
 
     void FixedUpdate()
@@ -69,14 +72,14 @@ public abstract class PlayableCtrl : Entity
         }
         else
         {
-            AddAugmentation(new TempAug(this, 1, AugmentationEventType.ON_ATTACK));
+            AddAugmentation(new TempAug(1, AugmentationEventType.ON_HIT));
         }
     }
 
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
-        OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
+        OnUpdateAugmentation?.Invoke(this, defaultArgs);
 
         inputVector.x = Input.GetAxisRaw("Horizontal");
         inputVector.z = Input.GetAxisRaw("Vertical");
@@ -197,7 +200,7 @@ public abstract class PlayableCtrl : Entity
         WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
         while (true)
         {
-            OnAttackPlayer?.Invoke(this, EventArgs.Empty);
+            OnAttackPlayer?.Invoke(this, defaultArgs);
             PlayerAttack(bulletNum, bulletInterval);
             yield return attackDelay;
         }
@@ -209,7 +212,7 @@ public abstract class PlayableCtrl : Entity
         switch (aug.eventType)
         {
             case AugmentationEventType.ON_START:
-                aug.AugmentationEffect(this, EventArgs.Empty);
+                aug.AugmentationEffect(this, defaultArgs);
                 OnStartAugmentation += aug.AugmentationEffect;
                 break;
             case AugmentationEventType.ON_UPDATE:
@@ -330,21 +333,21 @@ public abstract class PlayableCtrl : Entity
         return augmentationList.Find((a) => string.Equals(a.GetType().Name, augName)).level;
     }
 
-    public void InvokeEvent(AugmentationEventType type, Entity sender, EventArgs e)
+    public void InvokeEvent(AugmentationEventType type, Entity sender, AugEventArgs e)
     {
         switch (type)
         {
             case AugmentationEventType.ON_START:
-                OnStartAugmentation(sender, e);
+                OnStartAugmentation?.Invoke(sender, e);
                 break;
             case AugmentationEventType.ON_UPDATE:
-                OnUpdateAugmentation(sender, e);
+                OnUpdateAugmentation?.Invoke(sender, e);
                 break;
             case AugmentationEventType.ON_ATTACK:
-                OnAttackPlayer(sender, e);
+                OnAttackPlayer?.Invoke(sender, e);
                 break;
             case AugmentationEventType.ON_HIT:
-                OnBulletHit(sender, e);
+                OnBulletHit?.Invoke(sender, e);
                 break;
             default:
                 break;

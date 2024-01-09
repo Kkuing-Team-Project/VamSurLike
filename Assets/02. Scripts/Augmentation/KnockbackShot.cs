@@ -5,29 +5,29 @@ using UnityEngine;
 
 public class KnockbackShot : Augmentation
 {
-    public float knockbackForce = 0.2f; // ³Ë¹é Èû
+    public float knockbackForce = 0.2f; // ë„‰ë°± í˜
     public int lvl = 0;
 
-    public KnockbackShot(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+  public KnockbackShot(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
 
 	}
-	public override void AugmentationEffect(Entity sender, EventArgs e)
+	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
 
 	}
 
 
-    public void Knockback(Vector3 direction)
+    public void Knockback(Entity target, Vector3 direction)
     {
-        Rigidbody enemyRigidbody = player.GetComponent<Rigidbody>();
+        Rigidbody enemyRigidbody = target.GetComponent<Rigidbody>();
 
         if (enemyRigidbody != null)
         {
-            // ¹æÇâÀ¸·Î ÈûÀ» °¡ÇØ ³Ë¹éÀ» ¹ß»ı½ÃÅ´
+            // ë°©í–¥ìœ¼ë¡œ í˜ì„ ê°€í•´ ë„‰ë°±ì„ ë°œìƒì‹œí‚´
             enemyRigidbody.AddForce(direction * knockbackForce, ForceMode.Impulse);
-            // °ø°İÀ» °¡ÇÒ ¶§ ¹æÇâ °è»ê (¿¹¸¦ µé¾î, ÇÃ·¹ÀÌ¾î°¡ ¹Ù¶óº¸´Â ¹æÇâ µî)
-            Vector3 attackDirection = player.transform.forward;
+            // ê³µê²©ì„ ê°€í•  ë•Œ ë°©í–¥ ê³„ì‚° (ì˜ˆë¥¼ ë“¤ì–´, í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ ë“±)
+            Vector3 attackDirection = target.transform.forward;
         }
 
         switch (lvl)

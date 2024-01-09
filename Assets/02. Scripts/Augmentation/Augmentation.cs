@@ -12,22 +12,39 @@ public enum AugmentationEventType
 }
 
 
-public delegate void AugmentationDelegate(Entity sender, EventArgs e);
+/// <summary>
+/// Delegate for Augmentation
+/// </summary>
+/// <param name="sender">
+/// sender: event invoker(default: player)
+/// </param>
+/// 
+/// <param name="e">
+/// 
+/// e: Classes that inherit EventArgs
+/// e.target: target that invoke event
+/// eventType == ON_START (e.target: player, e.eventTr: player.transform)
+/// eventType == ON_UPDATE: (e.target: player, e.eventTr: player.transform)
+/// eventType == ON_ATTACK: (e.target: player, e.eventTr: player.transform)
+/// eventType == ON_HIT: (e.target: damaged Enemy, e.eventTr: enemy.transform)
+/// 
+/// 
+/// </param> 
+/// 
+public delegate void AugmentationDelegate(Entity sender, AugEventArgs e);
 
 public class Augmentation
 {
-    protected PlayableCtrl player { get; private set; }
     public AugmentationEventType eventType { get; private set; }
     public int level { get; private set; }
 
-    public Augmentation(PlayableCtrl player, int level, AugmentationEventType eventType)
+    public Augmentation(int level, AugmentationEventType eventType)
     {
-        this.player = player;
         this.eventType = eventType;
         this.level = level;
     }
 
-    public virtual void AugmentationEffect(Entity sender, EventArgs e)
+    public virtual void AugmentationEffect(Entity sender, AugEventArgs e)
     {
 
     }

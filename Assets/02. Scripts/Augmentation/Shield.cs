@@ -9,12 +9,12 @@ public class Shield : Augmentation
 	public int maxShield = 1;
 	public int curShield = 0;
 
-	public Shield(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+	public Shield(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
 		
 	}
 
-	public override void AugmentationEffect(Entity sender, EventArgs e)
+	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
 		
 	}

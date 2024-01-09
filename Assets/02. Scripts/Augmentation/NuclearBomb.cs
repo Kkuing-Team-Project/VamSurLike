@@ -8,18 +8,18 @@ public class NuclearBomb : Augmentation
 	public float skillTime = 240f;
 	public int lvl = 0;
 
-	public NuclearBomb(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+	public NuclearBomb(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
-		CoroutineHandler.StartCoroutine(Bomb());
+
 		
 	}
 
-	public override void AugmentationEffect(Entity sender, EventArgs e)
+	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-			
-	}
+        CoroutineHandler.StartCoroutine(Bomb(e.target));
+    }
 
-	public IEnumerator Bomb()
+	public IEnumerator Bomb(Entity player)
 	{
 		while (true)
 		{
