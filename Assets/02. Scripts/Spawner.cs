@@ -133,9 +133,9 @@ public class Spawner : MonoBehaviour
                 float spawnRadius = maxRangeRadius - entityRadius;
                 if (Vector3.Distance(staticPos, point) > spawnRadius)
                 {
-                    testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
-                    Debug.Log(Vector3.Distance(staticPos, point));
-                    Debug.Log(spawnRadius);
+                    //testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
+                    //Debug.Log(Vector3.Distance(staticPos, point));
+                    //Debug.Log(spawnRadius);
                     // point.x -= pos.x + spawnRadius;
                     // point.z -= pos.z + spawnRadius;
                 }
