@@ -47,7 +47,10 @@ public abstract class BossCtrl : Entity
         patternIdx = 0;
     }
 
-    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?ï¿½Úµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?ï¿½Úµå¸¸ ï¿½ï¿½ï¿½ï¿½ï¿?
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pattern">pattern parameter to register (variadic arguments)</param>
     protected void RegisterPatterns(params PatternDelegate[] pattern)
     {
         foreach (PatternDelegate patternDelegate in pattern)

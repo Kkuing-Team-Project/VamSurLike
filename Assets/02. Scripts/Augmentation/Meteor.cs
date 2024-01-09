@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class Meteor : Augmentation
 {
-    public float meteorDmg = 10f;
+    public float meteorDmg = 10f; // 메테오 데미지
     public float splashDamageRadius = 5f; // 스플래쉬 피해 반경
+    public float skillTime = 0f;
+    public int lvl = 0;
 	public GameObject meteorPrefab; // 메테오 프리팹
     private Collider[] enemies; // 모든 적을 저장할 배열
+    
 
     public Meteor(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
 	{
@@ -25,7 +28,7 @@ public class Meteor : Augmentation
 
         while (true)
         {
-            yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(skillTime);
 
 
             Collider[] enemies = Physics.OverlapSphere(targetPosition, splashDamageRadius, 1 << LayerMask.NameToLayer("ENEMY"));
@@ -73,5 +76,25 @@ public class Meteor : Augmentation
                 enemy.GetComponent<Entity>().TakeDamage(player, meteorDmg);
 		    }
 		}
+
+        switch (lvl)
+        {
+            case 1:
+                skillTime = 12f;
+                break;
+            case 2:
+                skillTime = 10f;
+                break;
+            case 3:
+                skillTime = 8f;
+                break;
+            case 4:
+                skillTime = 6f;
+                break;
+            case 5:
+                skillTime = 2f;
+                break;
+        }
+
     }
 }

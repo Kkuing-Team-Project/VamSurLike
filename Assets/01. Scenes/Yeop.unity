@@ -1130,6 +1130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2458bf35155734f933e2df632c65ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletNum: 1
+  bulletInterval: 15
   rotationAnglePerSecond: 270
   dashSpeed: 40
   dashTime: 0.354

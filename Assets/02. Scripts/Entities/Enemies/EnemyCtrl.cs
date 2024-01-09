@@ -43,6 +43,6 @@ public abstract class EnemyCtrl : Entity
 
     protected override void OnEntityDied()
     {
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
     }
 }
