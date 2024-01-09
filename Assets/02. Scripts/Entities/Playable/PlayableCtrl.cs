@@ -73,8 +73,6 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-
-
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
@@ -84,7 +82,7 @@ public abstract class PlayableCtrl : Entity
         inputVector.z = Input.GetAxisRaw("Vertical");
 
         // 공격 범위 내에 적이 있다면.
-        if(GetNearestEnemy() != null)
+        if(GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
         {
             #region Look Nearst Enemy
             Vector3 targetPosition = GetNearestEnemy().transform.position;
@@ -104,7 +102,7 @@ public abstract class PlayableCtrl : Entity
 
 
         // 공격 범위 내에 적이 없다면
-        else
+        else if (GetNearestEnemy() == null)
         {
             if(attackCor != null)
             {
@@ -130,7 +128,8 @@ public abstract class PlayableCtrl : Entity
     /// <returns></returns>
     protected Entity GetNearestEnemy()
     {
-        var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
+        var radius = stat.Get(StatType.ATTACK_DISTANCE);
+        var enemies = Physics.OverlapSphere(transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
         if (enemies.Length > 0)
         {
             Entity result = enemies[0].GetComponent<Entity>();
@@ -143,7 +142,10 @@ public abstract class PlayableCtrl : Entity
             }
             return result;
         }
-        else return null;
+        else
+        {
+            return null;
+        }
     }
 
     protected IEnumerator DashCor()
@@ -174,6 +176,10 @@ public abstract class PlayableCtrl : Entity
         dashCor = null;
     }
 
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
+    }
 
     protected abstract void PlayerSkill();
 
