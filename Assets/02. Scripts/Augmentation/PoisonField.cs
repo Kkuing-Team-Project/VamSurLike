@@ -19,15 +19,12 @@ public class PoisonField : Augmentation
     {
         CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
-
-    
-
     private IEnumerator FieldAttack(Entity player)
     {
         
 
 
-        WaitForSeconds waitTime = new WaitForSeconds(1);
+        WaitForSeconds waitTime = new WaitForSeconds(10);
         while (true)
         {
             float radius = 0;
@@ -52,7 +49,7 @@ public class PoisonField : Augmentation
                     break;
             }
             
-            yield return new WaitForSeconds(10f);
+            yield return waitTime;
             Debug.Log("10초후 스킬 발동");
 
            

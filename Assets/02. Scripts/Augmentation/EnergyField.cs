@@ -47,6 +47,8 @@ public class EnergyField : Augmentation
             }
 
             yield return waitTime;
+            Debug.Log("½ÇÇàµÊ");
+
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
             if (enemies.Length > 0)
             {
@@ -55,9 +57,6 @@ public class EnergyField : Augmentation
                     enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE));
                 }
             }
-
-
         }
     }
-
 }
