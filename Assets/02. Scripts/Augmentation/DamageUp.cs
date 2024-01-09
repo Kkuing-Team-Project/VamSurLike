@@ -8,12 +8,12 @@ public class DamageUp : Augmentation
     public float radius;
     public float maintainTime;
     
-    public DamageUp(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+    public DamageUp(int level, AugmentationEventType eventType) : base(level, eventType)
     {
     }
 
-    public override void AugmentationEffect(Entity sender, EventArgs e)
+    public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        player.stat.Add(StatType.DAMAGE, player.stat.Get(StatType.DAMAGE) * 0.1f * level);
+        e.target.stat.Add(StatType.DAMAGE, e.target.stat.Get(StatType.DAMAGE) * 0.1f * level);
     }
 }
