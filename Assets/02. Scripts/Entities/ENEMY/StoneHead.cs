@@ -27,7 +27,6 @@ public class StoneHead : EnemyCtrl, IPoolable
     {
 
         HP -= dmg; // Reduce HP by the damage amount
-        print(HP);
         if (HP <= 0)
         {
             OnEntityDied(); // Call the Die method if HP is 0 or less
@@ -48,6 +47,7 @@ public class StoneHead : EnemyCtrl, IPoolable
     public void Push()
     {
         gameObject.SetActive(false);
-        pool.Push(gameObject);
+        
+        pool?.Push(gameObject);
     }
 }
