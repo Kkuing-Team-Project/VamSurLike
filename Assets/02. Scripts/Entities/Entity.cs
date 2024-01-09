@@ -18,7 +18,9 @@ public abstract class Entity : MonoBehaviour
 
     void Update()
     {
-        UpdateEntity();
+        UpdateEffect();
+        if (!HasEffect<Stun>())
+            UpdateEntity();
     }
 
     private void LateUpdate()
@@ -34,10 +36,7 @@ public abstract class Entity : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
     }
 
-    protected virtual void UpdateEntity()
-    {
-        UpdateEffect();
-    }
+    protected abstract void UpdateEntity();
 
     protected virtual void UpdateEffect()
     {
@@ -57,6 +56,17 @@ public abstract class Entity : MonoBehaviour
         }
 
         statusEffects.RemoveAll(eff => delEffect.Contains(eff));
+    }
+
+    public void AddEffect(StatusEffect effect)
+    {
+        statusEffects.Add(effect);
+        effect.OnStart(this);
+    }
+
+    public bool HasEffect<T>() where T : StatusEffect
+    {
+        return !(statusEffects.Find(n => n is T) is null);
     }
 
     /// <summary>

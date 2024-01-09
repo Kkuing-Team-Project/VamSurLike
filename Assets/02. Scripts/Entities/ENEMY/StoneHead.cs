@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class StoneHead : EnemyCtrl, IPoolable
 {
-    public float HP = 10f;
     public float speed = 1f;  // Speed value
-    public float attackPower = 1f;  // Attack power value
+    public float attackPower = 2;  // Attack power value
     public float test = 1f;
     public Stack<GameObject> pool { get; set; }
 
@@ -21,16 +20,7 @@ public class StoneHead : EnemyCtrl, IPoolable
     protected override void EnemyAttack()
     {
         playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
-    }
-
-    protected override void OnTakeDamage(Entity caster, float dmg)
-    {
-
-        HP -= dmg; // Reduce HP by the damage amount
-        if (HP <= 0)
-        {
-            OnEntityDied(); // Call the Die method if HP is 0 or less
-        }
+        Push();
     }
 
     protected override void OnEntityDied()
@@ -48,5 +38,10 @@ public class StoneHead : EnemyCtrl, IPoolable
     {
         gameObject.SetActive(false);
         pool.Push(gameObject);
+    }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
     }
 }
