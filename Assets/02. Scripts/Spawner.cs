@@ -38,13 +38,15 @@ public class Spawner : MonoBehaviour
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            Spawner myToggle = (Spawner)target;
-            myToggle.isMax = EditorGUILayout.Toggle("Is Max", myToggle.isMax);
+            Spawner myTarget = (Spawner)target;
+            myTarget.isMax = EditorGUILayout.Toggle("Is Max", myTarget.isMax);
 
-            if (myToggle.isMax)
+            if (myTarget.isMax)
             {
-                myToggle.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myToggle.maxRangeRadius);
-                myToggle.entityRadius = EditorGUILayout.FloatField("Entity Radius", myToggle.entityRadius);
+                myTarget.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myTarget.maxRangeRadius);
+                myTarget.entityRadius = EditorGUILayout.FloatField("Entity Radius", myTarget.entityRadius);
+                
+                if (GUI.changed) EditorUtility.SetDirty(target);
             }
         }
     }
