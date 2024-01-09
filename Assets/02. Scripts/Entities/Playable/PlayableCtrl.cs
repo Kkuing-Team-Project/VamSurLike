@@ -63,13 +63,13 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        if (HasAugmentation<DamageUp>())
+        if (HasAugmentation<TempAug>())
         {
-            GetAugmentation<DamageUp>().SetAugmentationLevel(GetAugmentationLevel<DamageUp>() + 1);
+            GetAugmentation<TempAug>().SetAugmentationLevel(GetAugmentationLevel<TempAug>() + 1);
         }
         else
         {
-            AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
+            AddAugmentation(new TempAug(this, 1, AugmentationEventType.ON_ATTACK));
         }
     }
 
@@ -128,8 +128,7 @@ public abstract class PlayableCtrl : Entity
     /// <returns></returns>
     protected Entity GetNearestEnemy()
     {
-        var radius = stat.Get(StatType.ATTACK_DISTANCE);
-        var enemies = Physics.OverlapSphere(transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
+        var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
         if (enemies.Length > 0)
         {
             Entity result = enemies[0].GetComponent<Entity>();
@@ -303,10 +302,9 @@ public abstract class PlayableCtrl : Entity
 
     public TempBullet CreateBullet(float speed, float rot)
     {
-        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet).GetComponent<TempBullet>();
+        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position).GetComponent<TempBullet>();
 
         bullet.player = this;
-        bullet.transform.position = transform.position;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);
         bullet.rigid.velocity = speed * bullet.transform.forward;
         return bullet;
