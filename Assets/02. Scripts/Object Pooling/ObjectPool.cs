@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
+    // Enum to define different object types
     public enum ObjectType
     {
         Enemy,
@@ -15,23 +16,24 @@ public class ObjectPool : MonoBehaviour
     [System.Serializable]
     public struct Pool 
     {
-        public ObjectType type;     // 오브젝트 타입
-        public GameObject prefab;   // 오브젝트 프리펩
-        public int size;
+        public ObjectType type;     // Type of object
+        public GameObject prefab;   // Prefab for the object
+        public int size;            // Size of the pool
     }
 
-    // 풀 리스트
+    // List to hold different pools
     public List<Pool> pools;
 
+    // Dictionary to map each ObjectType to a stack of GameObjects
     public Dictionary<ObjectType, Stack<GameObject>> poolDictionary = new Dictionary<ObjectType, Stack<GameObject>>();
 
-
-    // 초기에 할당할 오브젝트 수
+    // Number of objects to preallocate
     [SerializeField]
     private int allocateCount;
 
     private void Awake()
     {
+        // Initialize each pool
         foreach (var pool in pools)
         {
             Stack<GameObject> objectPool = new Stack<GameObject>();
@@ -47,11 +49,12 @@ public class ObjectPool : MonoBehaviour
     }
 
     /// <summary>
-    /// 할당
+    /// Allocate additional objects
     /// </summary>
-    /// <param name="allocateCount">할당 개수</param>
+    /// <param name="count">Number of objects to allocate</param>
     public void Allocate(int count, ObjectType objectType)
     {
+        // Allocate objects of a specific type
         foreach(var pool in pools)
         {
             if (pool.type != objectType)
@@ -67,15 +70,17 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
+    // Method to get an object from the pool
     public GameObject Pop(ObjectType objectType)
     {
+        // If the pool does not exist, return null
         if (!poolDictionary.ContainsKey(objectType))
         {
-            // 없다면 새로운 풀 만들기 추가할 것.
             return null;
         }
 
         GameObject obj;
+        // Try to pop an object from the stack
         if (poolDictionary[objectType].TryPop(out obj))
         {
             obj.SetActive(true);
@@ -83,12 +88,13 @@ public class ObjectPool : MonoBehaviour
         }
         else
         {
+            // If the stack is empty, allocate more objects and return one
             Allocate(5, objectType);
             return poolDictionary[objectType].Pop();
         }
     }
 
-
+    // Method to return an object back to the pool
     public void Push(GameObject obj, ObjectType type)
     {
         obj.SetActive(false);

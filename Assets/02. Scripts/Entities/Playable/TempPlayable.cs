@@ -7,7 +7,7 @@ public class TempPlayable : PlayableCtrl
     [SerializeField]
     ObjectPool bulletObjectPool;
         
-    public float tempBulletSpeed = 50f; // ���� Ŭ�������� �޾ƿ����� �����Ұ�.
+    public float tempBulletSpeed = 50f; // Temporary bullet speed, can be adjusted in the inspector.
 
     protected override void OnEntityDied()
     {
@@ -34,6 +34,7 @@ public class TempPlayable : PlayableCtrl
         {
             Gizmos.color = Color.green;
 
+            // Draws a green wireframe sphere to visualize attack distance
             Gizmos.DrawWireSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE));
         }        
     }
