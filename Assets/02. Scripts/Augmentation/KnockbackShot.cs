@@ -10,11 +10,11 @@ public class KnockbackShot : Augmentation
 
   public KnockbackShot(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
-
+        
 	}
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-
+        e.target.GetComponent<Rigidbody>();
 	}
 
 

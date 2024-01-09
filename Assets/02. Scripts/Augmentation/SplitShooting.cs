@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class SplitShooting : Augmentation
 {
-	public int lvl;
-
 	public SplitShooting(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
 
@@ -14,35 +12,24 @@ public class SplitShooting : Augmentation
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-		
-	}
-
-	public void Update()
-	{
-
-	}	
-
-	private void Attack()
-	{
-		switch (lvl)
+		switch (level)
 		{
 			case 1:
-				//GameObject bulletL = UnityEngine.Object.Instantiate()
-
+				(e.target as PlayableCtrl).bulletInterval = 10;
+				(e.target as PlayableCtrl).bulletInterval = 2;
 				break;
 			case 2:
-
+				(e.target as PlayableCtrl).bulletInterval = 20;
+				(e.target as PlayableCtrl).bulletInterval = 3;
 				break;
 			case 3:
-
+				(e.target as PlayableCtrl).bulletInterval = 20;
+				(e.target as PlayableCtrl).bulletInterval = 4;
 				break;
 			case 4:
-
-				break;
-			case 5:
-
+				(e.target as PlayableCtrl).bulletInterval = 30;
+				(e.target as PlayableCtrl).bulletInterval = 5;
 				break;
 		}
 	}
-
 }

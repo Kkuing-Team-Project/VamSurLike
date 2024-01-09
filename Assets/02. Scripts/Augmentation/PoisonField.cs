@@ -18,7 +18,7 @@ public class PoisonField : Augmentation
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
         CoroutineHandler.StartCoroutine(FieldAttack(e.target));
-    }    
+    }
     private IEnumerator FieldAttack(Entity player)
     {
         

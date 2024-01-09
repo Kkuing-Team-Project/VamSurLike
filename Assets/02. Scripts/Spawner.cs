@@ -47,13 +47,8 @@ public class Spawner : MonoBehaviour
     [SerializeField, Range(1, 2)]
     private float mul = 1.5f;
 
-    [SerializeField] 
-    private ObjectPool.ObjectType objectType;
     [SerializeField]
-    private SpawnObject[] spawnObjects;
-
-    [SerializeField]
-    private float maxPercent;
+    private GameObject[] testPrefabs = new GameObject[4];
     
     [HideInInspector]
     public bool isMax;
@@ -76,20 +71,8 @@ public class Spawner : MonoBehaviour
             {
                 myTarget.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myTarget.maxRangeRadius);
                 myTarget.entityRadius = EditorGUILayout.FloatField("Entity Radius", myTarget.entityRadius);
-            }
-
-            if (GUI.changed)
-            {
-                myTarget.maxPercent = 0;
-                foreach (SpawnObject spawnObject in myTarget.spawnObjects)
-                {
-                    float max = myTarget.maxPercent + spawnObject.percent;
-                    spawnObject.SetRealPercent(myTarget.maxPercent, max);
-
-                    myTarget.maxPercent = max;
-                }
                 
-                EditorUtility.SetDirty(myTarget);
+                if (GUI.changed) EditorUtility.SetDirty(target);
             }
         }
     }
@@ -97,8 +80,6 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         StartCoroutine(nameof(Spawn));
-        
-        
     }
 
     private void Update()
@@ -211,24 +192,10 @@ public class Spawner : MonoBehaviour
                     
                 }
             }
-
-            float spawnObjectPercent = UnityEngine.Random.Range(0, maxPercent);
-            GameObject selectedObj = null;
-            // Debug.Log(spawnObjectPercent);
-
-            foreach (SpawnObject spawnObject in spawnObjects)
-            {
-                if (spawnObject.IsSelected(spawnObjectPercent))
-                {
-                    selectedObj = spawnObject.objectPrefab;
-                    Debug.Log(selectedObj.name);
-                    break;
-                }
-            }
             
             // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
             // change obj pool
-            GameObject enemy = Pool.Pop(objectType, point);
+            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy, point);            
             if (enemy.GetComponent<SpriteRenderer>())
                 enemy.GetComponent<SpriteRenderer>().material.color = color;
             // Instantiate(testPrefab, point, Quaternion.identity);
