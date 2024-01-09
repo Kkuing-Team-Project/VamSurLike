@@ -15,7 +15,7 @@ public struct Spawnable
 }
 
 [System.Serializable]
-public struct Wave
+public struct Wave2
 {
     public float duration; // 웨이브의 지속 시간
     public Spawnable[] spawnables; // 해당 웨이브에서 사용될 Spawnable 배열
@@ -40,9 +40,9 @@ public class Spawner2 : MonoBehaviour
     private float mul = 1.5f;
 
     [SerializeField]
-    private Wave[] waves; // 웨이브 배열
-    private int currentWaveIndex = 0; // 현재 웨이브 인덱스
-    private float waveTimer; // 웨이브 타이머
+    private Wave2[] Wave2s; // 웨이브 배열
+    private int currentWave2Index = 0; // 현재 웨이브 인덱스
+    private float Wave2Timer; // 웨이브 타이머
     private int cnt = 0;
 
     private Vector3 point;
@@ -77,7 +77,7 @@ public class Spawner2 : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(StartWaves());
+        StartCoroutine(StartWave2s());
     }
 
     private void Update()
@@ -85,25 +85,25 @@ public class Spawner2 : MonoBehaviour
         UpdateSpawnArea();
     }
 
-    private IEnumerator StartWaves()
+    private IEnumerator StartWave2s()
     {
-        foreach (Wave wave in waves)
+        foreach (Wave2 Wave2 in Wave2s)
         {
-            StartCoroutine(Spawn(wave));
-            StartWave(wave);
+            StartCoroutine(Spawn(Wave2));
+            StartWave2(Wave2);
             // 웨이브의 지속 시간만큼 기다림
-            yield return new WaitForSeconds(wave.duration);
+            yield return new WaitForSeconds(Wave2.duration);
         }
     }
 
-    private void StartWave(Wave wave)
+    private void StartWave2(Wave2 Wave2)
     {
         // 웨이브 시작 관련 로직
         // 예: 적 생성, 타이머 시작 등
     }
 
 
-    private IEnumerator Spawn(Wave wave)
+    private IEnumerator Spawn(Wave2 Wave2)
     {
         Vector3 staticPos = transform.position;
         while (!gameOver)
@@ -163,7 +163,7 @@ public class Spawner2 : MonoBehaviour
                     
                         point = new Vector3(newX, staticPos.y, newZ);
                         // print(point);
-                        SpawnEnemy(wave, point);
+                        SpawnEnemy(Wave2, point);
                     }
                 }
             }
@@ -174,12 +174,12 @@ public class Spawner2 : MonoBehaviour
                     
             }
         }
-        Debug.Log("Wave 종료"); // 웨이브 종료 로그
+        Debug.Log("Wave2 종료"); // 웨이브 종료 로그
 
-        if (currentWaveIndex < waves.Length - 1)
+        if (currentWave2Index < Wave2s.Length - 1)
         {
-            currentWaveIndex++;
-            StartWave(wave); // 다음 웨이브 시작
+            currentWave2Index++;
+            StartWave2(Wave2); // 다음 웨이브 시작
         }
         else
         {
@@ -187,9 +187,9 @@ public class Spawner2 : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy(Wave wave, Vector3 point)
+    private void SpawnEnemy(Wave2 Wave2, Vector3 point)
     {
-        Spawnable selectedSpawnable = SelectPrefabBasedOnProbability(wave.spawnables);
+        Spawnable selectedSpawnable = SelectPrefabBasedOnProbability(Wave2.spawnables);
         GameObject enemyPrefab = selectedSpawnable.prefab;
         if (enemyPrefab != null)
         {

@@ -54,19 +54,7 @@ public class SpawnerEditor : Editor
         }
 
         serializedObject.ApplyModifiedProperties();
-        if (GUI.changed)
-        {
-            myTarget.maxPercent = 0;
-            foreach (SpawnObject spawnObject in myTarget.spawnObjects)
-            {
-                float max = myTarget.maxPercent + spawnObject.percent;
-                spawnObject.SetRealPercent(myTarget.maxPercent, max);
-
-                myTarget.maxPercent = max;
-            }
-
-            EditorUtility.SetDirty(myTarget);
-        }
+        if (GUI.changed) EditorUtility.SetDirty(myTarget);
     }
 }
 
@@ -81,7 +69,7 @@ public class SpawnObjectDrawer : PropertyDrawer
         {
             EditorGUI.indentLevel = startIndentLevel + 1;
             EditorGUILayout.BeginVertical();
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("prefab"), new GUIContent("Prefab"));
+            // EditorGUILayout.PropertyField(property.FindPropertyRelative("prefab"), new GUIContent("Prefab"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("type"), new GUIContent("Type"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("percent"), new GUIContent("Percent"));
             EditorGUI.indentLevel = startIndentLevel;

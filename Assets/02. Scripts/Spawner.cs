@@ -1,10 +1,10 @@
 using System.Collections;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 [System.Serializable]
 public class SpawnObject
 {
-    public GameObject prefab;
     public ObjectPool.ObjectType type;
     public float percent;
     private float realPercentMin;
@@ -48,16 +48,13 @@ public class Spawner : MonoBehaviour
     
     [HideInInspector]
     public bool isWave;
-    
     [HideInInspector]
     public SpawnObject[] spawnObjects;
-
     [HideInInspector]
     public Wave[] waves;
-    
-    [HideInInspector]
     public float maxPercent;
-    
+    public int currentWaveIndex;
+
     [HideInInspector]
     public bool isMax;
     [HideInInspector]
@@ -67,11 +64,31 @@ public class Spawner : MonoBehaviour
     
     private void Start()
     {
-        SetPercent();
+        currentWaveIndex = 0;
+        if (isWave)
+            StartCoroutine(nameof(ChangeWave));
+        
         StartCoroutine(nameof(Spawn));
     }
 
     private void Update()
+    {
+        UpdateSpawnArea();
+    }
+    
+    private void SetPercent(SpawnObject[] objects)
+    {
+        maxPercent = 0;
+        foreach (SpawnObject spawnObject in objects)
+        {
+            float max = maxPercent + spawnObject.percent;
+            spawnObject.SetRealPercent(maxPercent, max);
+
+            maxPercent = max;
+        }
+    }
+
+    private void UpdateSpawnArea()
     {
         Ray rightTopRay = playerCamera.ViewportPointToRay(Vector2.one);
         Ray leftTopRay = playerCamera.ViewportPointToRay(new Vector2(1, 0));
@@ -111,15 +128,16 @@ public class Spawner : MonoBehaviour
         mapSize = new Vector3(width * mul + range, 0, height * mul + range);
     }
 
-    private void SetPercent()
+    private IEnumerator ChangeWave()
     {
-        maxPercent = 0;
-        foreach (SpawnObject spawnObject in spawnObjects)
-        {
-            float max = maxPercent + spawnObject.percent;
-            spawnObject.SetRealPercent(maxPercent, max);
+        yield return new WaitForSeconds(waves[currentWaveIndex].duration);
 
-            maxPercent = max;
+        if (currentWaveIndex < waves.Length - 1)
+        {
+            Debug.Log("wave change");
+            currentWaveIndex++;
+            SetPercent(waves[currentWaveIndex].spawnObjects);
+            StartCoroutine(nameof(ChangeWave));
         }
     }
     
@@ -130,7 +148,6 @@ public class Spawner : MonoBehaviour
         while (!gameOver)
         {
             yield return new WaitForSeconds(delay);
-            Color color = Color.white;
             
             float minRandomRangeX = -(mapSize.x * 0.5f) + center.x;
             float maxRandomRangeX = (mapSize.x * 0.5f) + center.x;
@@ -173,92 +190,49 @@ public class Spawner : MonoBehaviour
                 {
                     float newX = x;
                     float newZ = z;
-                    color = Color.blue;
                     if (Mathf.Abs(minSideX - x) < Mathf.Abs(minSideZ - z))
                         newX = UnityEngine.Random.Range(minRandomRangeX, maxRandomRangeX);
                     else
                         newZ = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
                 
                     point = new Vector3(newX, staticPos.y, newZ);
-                    //testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
-                    //Debug.Log(Vector3.Distance(staticPos, point));
-                    //Debug.Log(spawnRadius);
-                    // point.x -= pos.x + spawnRadius;
-                    // point.z -= pos.z + spawnRadius;
                 }
                 
                 if (isMax && isOutOfMaxCircle)
                 {
-                    color = color == Color.blue ? Color.yellow : Color.red;
-                }
-            }
-
-            float percent = UnityEngine.Random.Range(0, maxPercent);
-            ObjectPool.ObjectType type;
-            foreach (SpawnObject spawnObject in spawnObjects)
-            {
-                if (spawnObject.IsSelected(percent))
-                {
-                    type = spawnObject.type;
-                    Debug.Log(spawnObject.prefab.name);
-                    break;
+                    Debug.LogError("out of max circle");
                 }
             }
             
-            // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
-            // change obj pool
-            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.StoneHead, point);            
-            if (enemy.GetComponent<SpriteRenderer>())
-                enemy.GetComponent<SpriteRenderer>().material.color = color;
-            // Instantiate(testPrefab, point, Quaternion.identity);
+            ObjectPool.ObjectType type = isWave ? GetRandomSpawnObjectType(waves[currentWaveIndex].spawnObjects) : GetRandomSpawnObjectType(spawnObjects);
+            GameObject enemy = Pool.Pop(type, point);     
         }
+    }
+
+    private ObjectPool.ObjectType GetRandomSpawnObjectType(SpawnObject[] objects)
+    {
+        float percent = UnityEngine.Random.Range(0, maxPercent);
+        foreach (SpawnObject spawnObject in objects)
+        {
+            if (spawnObject.IsSelected(percent))
+            {
+                return spawnObject.type;
+            }
+        }
+
+        return ObjectPool.ObjectType.Bullet;
     }
 
     public void OnDrawGizmosSelected()
     {
-        Ray rightTopRay = playerCamera.ViewportPointToRay(Vector2.one);
-        Ray leftTopRay = playerCamera.ViewportPointToRay(new Vector2(1, 0));
-        Ray rightDownRay = playerCamera.ViewportPointToRay(new Vector2(0, 1));
-        Ray leftDownRay = playerCamera.ViewportPointToRay(Vector2.zero);
-        RaycastHit hit;
-
-        Vector3 rightTopPoint =
-            Physics.Raycast(rightTopRay, out hit, playerCamera.farClipPlane, LayerMask.GetMask("FLOOR"))
-                ? hit.point
-                : Vector3.zero;
-        Vector3 leftTopPoint =
-            Physics.Raycast(leftTopRay, out hit, playerCamera.farClipPlane, LayerMask.GetMask("FLOOR"))
-                ? hit.point
-                : Vector3.zero;
-        Vector3 rightDownPoint =
-            Physics.Raycast(rightDownRay, out hit, playerCamera.farClipPlane, LayerMask.GetMask("FLOOR"))
-                ? hit.point
-                : Vector3.zero;
-        Vector3 leftDownPoint =
-            Physics.Raycast(leftDownRay, out hit, playerCamera.farClipPlane, LayerMask.GetMask("FLOOR"))
-                ? hit.point
-                : Vector3.zero;
-
-        float maxZ = Mathf.Max(leftDownPoint.z,
-            Mathf.Max(leftTopPoint.z, Mathf.Max(rightDownPoint.z, rightTopPoint.z)));
-        float minZ = Mathf.Min(leftDownPoint.z,
-            Mathf.Min(leftTopPoint.z, Mathf.Min(rightDownPoint.z, rightTopPoint.z)));
-        float maxX = Mathf.Max(leftDownPoint.x,
-            Mathf.Max(leftTopPoint.x, Mathf.Max(rightDownPoint.x, rightTopPoint.x)));
-        float minX = Mathf.Min(leftDownPoint.x,
-            Mathf.Min(leftTopPoint.x, Mathf.Min(rightDownPoint.x, rightTopPoint.x)));
-
-        height = maxZ - minZ;
-        width = maxX - minX;
-        center = new Vector3(width * 0.5f + minX, 0, height * 0.5f + minZ);
-        mapSize = new Vector3(width * mul + range, 0, height * mul + range);
-        Vector3 boxSize = new Vector3(width * mul, 0, height * mul);
+        if (isWave)
+            SetPercent(waves[currentWaveIndex].spawnObjects);
+        else
+            SetPercent(spawnObjects);
         
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(leftDownPoint, rightDownPoint);
-        Gizmos.DrawLine(leftDownPoint,leftTopPoint);
-        Gizmos.DrawLine(rightDownPoint, rightTopPoint);
-        Gizmos.DrawLine(leftTopPoint, rightTopPoint);
+        UpdateSpawnArea();
+
+        Vector3 boxSize = new Vector3(width * mul, 0, height * mul);
         
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(center, mapSize);
@@ -277,7 +251,5 @@ public class Spawner : MonoBehaviour
             Gizmos.color = Color.black;
             Gizmos.DrawWireSphere(transform.position, maxRangeRadius - entityRadius);
         }
-
-        SetPercent();
     }
 }
