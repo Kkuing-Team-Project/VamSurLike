@@ -5,35 +5,20 @@ using UnityEngine;
 
 public class KnockbackShot : Augmentation
 {
-    public float knockbackForce = 0.2f; // 넉백 힘
-    public int lvl = 0;
 
   public KnockbackShot(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
         
 	}
+
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-        e.target.GetComponent<Rigidbody>();
-	}
+        float knockbackForce = 0; // 넉백 힘
 
-
-    public void Knockback(Entity target, Vector3 direction)
-    {
-        Rigidbody enemyRigidbody = target.GetComponent<Rigidbody>();
-
-        if (enemyRigidbody != null)
+        switch (level)
         {
-            // 방향으로 힘을 가해 넉백을 발생시킴
-            enemyRigidbody.AddForce(direction * knockbackForce, ForceMode.Impulse);
-            // 공격을 가할 때 방향 계산 (예를 들어, 플레이어가 바라보는 방향 등)
-            Vector3 attackDirection = target.transform.forward;
-        }
-
-        switch (lvl)
-		{
             case 1:
-                knockbackForce = 0.2f; 
+                knockbackForce = 0.2f;
                 break;
             case 2:
                 knockbackForce = 0.4f;
@@ -48,6 +33,12 @@ public class KnockbackShot : Augmentation
                 knockbackForce = 1f;
                 break;
         }
-    }
 
+        if (e.target.TryGetComponent(out Rigidbody rigid))
+        {
+            Vector3 knockbackDirection = e.eventTr.forward * -1f;
+            e.target.AddEffect(new Stun(1, 0.2f, e.target));
+            rigid.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+        }
+    }
 }
