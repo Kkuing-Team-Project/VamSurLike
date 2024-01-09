@@ -120,7 +120,7 @@ public class Spawner : MonoBehaviour
 
                 point = new Vector3(minX, 1.0f, minZ);
             }
-
+            // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
             // change obj pool
             GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy);
             enemy.transform.position = point;

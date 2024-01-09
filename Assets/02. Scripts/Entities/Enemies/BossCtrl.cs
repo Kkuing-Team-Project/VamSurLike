@@ -8,14 +8,21 @@ using UnityEngine.AI;
 public abstract class BossCtrl : Entity
 {
     #region
-    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿?ï¿½Ã°ï¿½
     public float waitTime;
 
     #endregion
 
-    protected int nowPatternIdx;
-
+    //ÆÐÅÏ ´ë¸®ÀÚ(ÇØ´ç ´ë¸®ÀÚ·Î ÆÐÅÏ Àü´Þ)
     protected delegate IEnumerator PatternDelegate();
+
+    //ÇöÀç ÆÐÅÏ
+    protected int patternIdx;
+
+    //ÇÃ·¹ÀÌ¾î±îÁöÀÇ °Å¸®
+    protected float distToPlayer;
+
+    //
 
     protected List<PatternDelegate> patternList = new List<PatternDelegate>();
 
@@ -37,10 +44,10 @@ public abstract class BossCtrl : Entity
             enemyPool = GameObject.Find("EnemyPool").transform;
             transform.SetParent(enemyPool);
         }
-        nowPatternIdx = Random.Range(0, patternList.Count);
+        patternIdx = 0;
     }
 
-    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Úµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½.
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿?ï¿½Úµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?ï¿½Úµå¸¸ ï¿½ï¿½ï¿½ï¿½ï¿?
     protected void RegisterPatterns(params PatternDelegate[] pattern)
     {
         foreach (PatternDelegate patternDelegate in pattern)
@@ -56,12 +63,14 @@ public abstract class BossCtrl : Entity
         origin.y = 0;
         var target = playable.transform.position;
         target.y = 0;
-        if (Vector3.Distance(origin, target) > stat.Get(StatType.ATTACK_DISTANCE) && attackPatternCor == null)
+
+        distToPlayer = Vector3.Distance(origin, target);
+        if (distToPlayer > stat.Get(StatType.ATTACK_DISTANCE) && attackPatternCor == null)
             BossMove();
         else
         {
             if (attackPatternCor == null)
-                attackPatternCor = StartCoroutine(BossPatternCor());
+                attackPatternCor = StartCoroutine(BossPatternCor(patternIdx));
         }
         BossAnimation();
     }
@@ -81,14 +90,14 @@ public abstract class BossCtrl : Entity
         nav.SetDestination(playable.transform.position);
     }
 
-    protected IEnumerator BossPatternCor()
+    protected virtual IEnumerator BossPatternCor(int patternIdx)
     {
-        //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È¯(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯)
-        yield return ChangeAnimLayer(nowPatternIdx + 1, 0.1f, true);
-        yield return StartCoroutine(patternList[nowPatternIdx].Invoke());
-        //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È¯(Idle ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
-        yield return ChangeAnimLayer(nowPatternIdx + 1, waitTime, false);
-        nowPatternIdx = Random.Range(0, patternList.Count);
+        //¾Ö´Ï¸ÞÀÌ¼Ç ·¹ÀÌ¾î ÀüÈ¯(°ø°Ý ÆÐÅÏÀ¸·Î ÀüÈ¯)
+        yield return ChangeAnimLayer(patternIdx + 1, 0.1f, true);
+        yield return StartCoroutine(patternList[patternIdx].Invoke());
+        //¾Ö´Ï¸ÞÀÌ¼Ç ·¹ÀÌ¾î ÀüÈ¯(Idle ¸ð¼ÇÀ¸·Î)
+        yield return ChangeAnimLayer(patternIdx + 1, waitTime, false);
+        OnFinishPattern(this.patternIdx);
         attackPatternCor = null;
     }
 
@@ -108,4 +117,6 @@ public abstract class BossCtrl : Entity
         }
 
     }
+
+    protected abstract void OnFinishPattern(int nowPatternIdx);
 }
