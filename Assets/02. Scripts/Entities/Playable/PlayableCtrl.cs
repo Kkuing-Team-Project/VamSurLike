@@ -12,17 +12,29 @@ public abstract class PlayableCtrl : Entity
     public float exp { get; private set; }
     public float requireExp { get; private set; } = 10;
 
+    public event AugmentationDelegate OnStartAugmentation;
     public event AugmentationDelegate OnUpdateAugmentation;
     public event AugmentationDelegate OnAttackPlayer;
+    public event AugmentationDelegate OnBulletHit;
+
+    [Header("총알 갯수")]
+    public int bulletNum;
+
+    [Header("총알 간 각도")]
+    public float bulletInterval;
 
     [Tooltip("초당 회전 각도 값")]
     public float rotationAnglePerSecond;
 
+
+    [SerializeField]
+    private ObjectPool bulletObjectPool;
+
     [Header("점멸 속도"), SerializeField]
-    float dashSpeed = 40f;
+    private float dashSpeed = 40f;
 
     [Header("점멸 이동 시간"), SerializeField]
-    float dashTime;
+    private float dashTime;
 
     // 이동 입력값
     private Vector3 inputVector;
@@ -48,7 +60,7 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-    [ContextMenu("증강 추가")]
+    [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
         if (HasAugmentation<DamageUp>())
@@ -172,15 +184,22 @@ public abstract class PlayableCtrl : Entity
     protected abstract void PlayerSkill();
 
 
-    protected abstract void PlayerAttack();
+    protected virtual void PlayerAttack(int bulletNum, float interval)
+    {
+        
+        for (int i = 0; i < bulletNum; i++)
+        {
+            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
+        }
+    }
 
     private IEnumerator AttackCoroutine()
     {
-        WaitForSeconds attackDelay = new WaitForSeconds(1 / /*stat.Get(StatType.ATTACK_SPEED)*/5f);
+        WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
         while (true)
         {
             OnAttackPlayer?.Invoke(this, EventArgs.Empty);
-            PlayerAttack();
+            PlayerAttack(bulletNum, bulletInterval);
             yield return attackDelay;
         }
     }
@@ -192,12 +211,16 @@ public abstract class PlayableCtrl : Entity
         {
             case AugmentationEventType.ON_START:
                 aug.AugmentationEffect(this, EventArgs.Empty);
+                OnStartAugmentation += aug.AugmentationEffect;
                 break;
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation += aug.AugmentationEffect;
                 break;
             case AugmentationEventType.ON_ATTACK:
                 OnAttackPlayer += aug.AugmentationEffect;
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit += aug.AugmentationEffect;
                 break;
             default:
                 break;
@@ -219,11 +242,17 @@ public abstract class PlayableCtrl : Entity
 
         switch (del.eventType)
         {
+            case AugmentationEventType.ON_START:
+                OnStartAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             case AugmentationEventType.ON_ATTACK:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             default:
                 break;
@@ -234,7 +263,7 @@ public abstract class PlayableCtrl : Entity
     //증강 삭제(이름과 호출 타입 필요)
     public void DeleteAugmentation(string augName, AugmentationEventType type)
     {
-        if (type == AugmentationEventType.ON_START || augmentationList.Count <= 0)
+        if (augmentationList.Count <= 0)
             return;
 
         Augmentation del = augmentationList.Find((a) => string.Equals(a.GetType().Name, augName));
@@ -244,11 +273,17 @@ public abstract class PlayableCtrl : Entity
 
         switch (type)
         {
+            case AugmentationEventType.ON_START:
+                OnStartAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             case AugmentationEventType.ON_ATTACK:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             default:
                 break;
@@ -264,6 +299,17 @@ public abstract class PlayableCtrl : Entity
             exp = exp - requireExp;
             level++;
         }
+    }
+
+    public TempBullet CreateBullet(float speed, float rot)
+    {
+        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet).GetComponent<TempBullet>();
+
+        bullet.player = this;
+        bullet.transform.position = transform.position;
+        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
+        bullet.rigid.velocity = speed * bullet.transform.forward;
+        return bullet;
     }
 
     public Augmentation GetAugmentation<T>() where T : Augmentation
@@ -284,5 +330,26 @@ public abstract class PlayableCtrl : Entity
     public int GetAugmentationLevel(string augName)
     {
         return augmentationList.Find((a) => string.Equals(a.GetType().Name, augName)).level;
+    }
+
+    public void InvokeEvent(AugmentationEventType type, Entity sender, EventArgs e)
+    {
+        switch (type)
+        {
+            case AugmentationEventType.ON_START:
+                OnStartAugmentation(sender, e);
+                break;
+            case AugmentationEventType.ON_UPDATE:
+                OnUpdateAugmentation(sender, e);
+                break;
+            case AugmentationEventType.ON_ATTACK:
+                OnAttackPlayer(sender, e);
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit(sender, e);
+                break;
+            default:
+                break;
+        }
     }
 }
