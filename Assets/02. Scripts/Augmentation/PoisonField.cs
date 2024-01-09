@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class PoisonField : Augmentation
 {
-    public float DAMAGE = 0.5f;
-    
+    public float DAMAGE = 50f;
+
+    int stop;
+
+
 
     public PoisonField(int level, AugmentationEventType eventType) : base(level, eventType)
     {
@@ -24,13 +27,10 @@ public class PoisonField : Augmentation
 
     private IEnumerator FieldAttack(Entity player)
     {
-        
-
-
-        WaitForSeconds waitTime = new WaitForSeconds(10);
+        WaitForSeconds waitTime = new WaitForSeconds(2);
         while (true)
         {
-            float radius = 0;
+            float radius = 10;
             switch (level)
             {
                 case 1:
@@ -51,27 +51,46 @@ public class PoisonField : Augmentation
                 default:
                     break;
             }
-            
+
             yield return waitTime;
-            Debug.Log("10ÃÊÈÄ ½ºÅ³ ¹ßµ¿");
 
-           
+            // ��ų�� ���ӽð��� üũ�� Ÿ�̸�
+            float durationTimer = 0;
 
-
-            Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
-            if (enemies.Length > 0 )
+            // ��ų�� ����� �����̸� üũ�� Ÿ�̸�
+            float delayTimer = 0;
+            
+            while (true)
             {
-                foreach (var enemy in enemies)
+                durationTimer += Time.deltaTime;
+                delayTimer += Time.deltaTime;
+                
+                if (durationTimer < 5f)
                 {
-                    enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE));
+                    if (delayTimer > 1f)
+                    {
+                        Collider[] enemies = Physics.OverlapSphere(player.transform.position, 5, 1 << LayerMask.NameToLayer("ENEMY"));
+                        if (enemies.Length > 0)
+                        {
+                            foreach (var enemy in enemies)
+                            {
+                                enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE));
+                            }
+                        }
+                        delayTimer = 0f;
+                    }
+                } 
+                else
+                {
+                    break;
                 }
+
+                Debug.Log($"��ų ��� ��... ��ų ��� �ð� : {durationTimer}");
+                yield return null;
             }
+
+            Debug.Log("��ų ����");
         }
-        
-
-
-
-
     }
 
 }
