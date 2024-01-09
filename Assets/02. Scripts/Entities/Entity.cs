@@ -8,7 +8,8 @@ public abstract class Entity : MonoBehaviour
     public Stat stat;
     public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
-    protected Rigidbody rigid;
+    [HideInInspector]
+    public Rigidbody rigid;
     protected Animator animator;
 
     void OnEnable()
