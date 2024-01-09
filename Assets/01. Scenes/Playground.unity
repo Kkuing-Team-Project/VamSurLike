@@ -500,7 +500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pool: {fileID: 1583247436}
   playerCamera: {fileID: 436933017}
-  delay: 0.1
+  delay: 1
   range: 20
   mul: 1
   testPrefabs:
@@ -849,7 +849,7 @@ Transform:
   m_GameObject: {fileID: 1424165963}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 0.2, z: 6}
+  m_LocalScale: {x: 10, y: 0.2, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2122775718}
@@ -938,7 +938,7 @@ MonoBehaviour:
   - type: 0
     prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
     size: 30
-  - type: 1
+  - type: 4
     prefab: {fileID: 2912871820685555210, guid: 2b22152288296144eb2456f85cc28e8c, type: 3}
     size: 10
 --- !u!4 &1583247437
@@ -1159,7 +1159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigid: {fileID: 0}
   bulletObjectPool: {fileID: 1583247436}
-  bulletNum: 0
+  bulletNum: 1
   bulletInterval: 0
   rotationAnglePerSecond: 180
   dashSpeed: 40
