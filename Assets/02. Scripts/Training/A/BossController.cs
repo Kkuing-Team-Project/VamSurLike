@@ -38,7 +38,7 @@ public class BossController : Entity
     protected NavMeshAgent nav; // 네비게이션 에이전트
     //protected BossController2 playable;  // 플레이어블 컨트롤러
     public GameObject playable;
-    public string name;
+    public string bossName;
     protected Transform enemyPool; // 적들을 관리하는 풀
 
     protected Coroutine attackPatternCor; // 공격 패턴
@@ -81,7 +81,7 @@ public class BossController : Entity
         // 이는 일반적으로 플레이어 캐릭터를 제어하는 컴포넌트를 찾는데 사용됩니다.
         if (playable == null)
             // playable = FindObjectOfType<PlayableCtrl>();
-            playable =  GameObject.Find(name);
+            playable =  GameObject.Find(bossName);
 
         // nav 변수가 설정되지 않았다면, 이 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 찾아서 할당합니다.
         // NavMeshAgent는 보스의 경로 계획 및 이동에 사용됩니다.

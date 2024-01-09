@@ -12,16 +12,29 @@ public abstract class PlayableCtrl : Entity
     public float exp { get; private set; }
     public float requireExp { get; private set; } = 10;
 
+    public event AugmentationDelegate OnStartAugmentation;
     public event AugmentationDelegate OnUpdateAugmentation;
     public event AugmentationDelegate OnAttackPlayer;
+    public event AugmentationDelegate OnBulletHit;
+
+    [Header("총알 갯수")]
+    public int bulletNum;
+
+    [Header("총알 간 각도")]
+    public float bulletInterval;
 
     [Tooltip("초당 회전 각도 값")]
     public float rotationAnglePerSecond;
 
-    [Tooltip("대쉬 거리"), Range(1, 10)]
-    public float dashDist = 60;
-    [Range(0.01f, 1)]
-    public float dashTime;
+
+    [SerializeField]
+    private ObjectPool bulletObjectPool;
+
+    [Header("점멸 속도"), SerializeField]
+    private float dashSpeed = 40f;
+
+    [Header("점멸 이동 시간"), SerializeField]
+    private float dashTime;
 
     // 이동 입력값
     private Vector3 inputVector;
@@ -47,12 +60,11 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-    [ContextMenu("증강 추가")]
+    [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
         if (HasAugmentation<DamageUp>())
         {
-            Debug.Log("!");
             GetAugmentation<DamageUp>().SetAugmentationLevel(GetAugmentationLevel<DamageUp>() + 1);
         }
         else
@@ -60,8 +72,6 @@ public abstract class PlayableCtrl : Entity
             AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
         }
     }
-
-
 
     protected override void UpdateEntity()
     {
@@ -72,7 +82,7 @@ public abstract class PlayableCtrl : Entity
         inputVector.z = Input.GetAxisRaw("Vertical");
 
         // 공격 범위 내에 적이 있다면.
-        if(GetNearestEnemy() != null)
+        if(GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
         {
             #region Look Nearst Enemy
             Vector3 targetPosition = GetNearestEnemy().transform.position;
@@ -92,7 +102,7 @@ public abstract class PlayableCtrl : Entity
 
 
         // 공격 범위 내에 적이 없다면
-        else
+        else if (GetNearestEnemy() == null)
         {
             if(attackCor != null)
             {
@@ -118,7 +128,8 @@ public abstract class PlayableCtrl : Entity
     /// <returns></returns>
     protected Entity GetNearestEnemy()
     {
-        var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
+        var radius = stat.Get(StatType.ATTACK_DISTANCE);
+        var enemies = Physics.OverlapSphere(transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
         if (enemies.Length > 0)
         {
             Entity result = enemies[0].GetComponent<Entity>();
@@ -131,7 +142,10 @@ public abstract class PlayableCtrl : Entity
             }
             return result;
         }
-        else return null;
+        else
+        {
+            return null;
+        }
     }
 
     protected IEnumerator DashCor()
@@ -153,7 +167,7 @@ public abstract class PlayableCtrl : Entity
             direction.Normalize();
         }
 
-        rigid.velocity = direction * 15f;
+        rigid.velocity = direction * dashSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
@@ -162,11 +176,22 @@ public abstract class PlayableCtrl : Entity
         dashCor = null;
     }
 
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
+    }
 
     protected abstract void PlayerSkill();
 
 
-    protected abstract void PlayerAttack();
+    protected virtual void PlayerAttack(int bulletNum, float interval)
+    {
+        
+        for (int i = 0; i < bulletNum; i++)
+        {
+            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
+        }
+    }
 
     private IEnumerator AttackCoroutine()
     {
@@ -174,7 +199,7 @@ public abstract class PlayableCtrl : Entity
         while (true)
         {
             OnAttackPlayer?.Invoke(this, EventArgs.Empty);
-            PlayerAttack();
+            PlayerAttack(bulletNum, bulletInterval);
             yield return attackDelay;
         }
     }
@@ -186,12 +211,16 @@ public abstract class PlayableCtrl : Entity
         {
             case AugmentationEventType.ON_START:
                 aug.AugmentationEffect(this, EventArgs.Empty);
+                OnStartAugmentation += aug.AugmentationEffect;
                 break;
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation += aug.AugmentationEffect;
                 break;
             case AugmentationEventType.ON_ATTACK:
                 OnAttackPlayer += aug.AugmentationEffect;
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit += aug.AugmentationEffect;
                 break;
             default:
                 break;
@@ -213,11 +242,17 @@ public abstract class PlayableCtrl : Entity
 
         switch (del.eventType)
         {
+            case AugmentationEventType.ON_START:
+                OnStartAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             case AugmentationEventType.ON_ATTACK:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             default:
                 break;
@@ -228,7 +263,7 @@ public abstract class PlayableCtrl : Entity
     //증강 삭제(이름과 호출 타입 필요)
     public void DeleteAugmentation(string augName, AugmentationEventType type)
     {
-        if (type == AugmentationEventType.ON_START || augmentationList.Count <= 0)
+        if (augmentationList.Count <= 0)
             return;
 
         Augmentation del = augmentationList.Find((a) => string.Equals(a.GetType().Name, augName));
@@ -238,11 +273,17 @@ public abstract class PlayableCtrl : Entity
 
         switch (type)
         {
+            case AugmentationEventType.ON_START:
+                OnStartAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
             case AugmentationEventType.ON_UPDATE:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             case AugmentationEventType.ON_ATTACK:
                 OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             default:
                 break;
@@ -258,6 +299,17 @@ public abstract class PlayableCtrl : Entity
             exp = exp - requireExp;
             level++;
         }
+    }
+
+    public TempBullet CreateBullet(float speed, float rot)
+    {
+        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet).GetComponent<TempBullet>();
+
+        bullet.player = this;
+        bullet.transform.position = transform.position;
+        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
+        bullet.rigid.velocity = speed * bullet.transform.forward;
+        return bullet;
     }
 
     public Augmentation GetAugmentation<T>() where T : Augmentation
@@ -278,5 +330,26 @@ public abstract class PlayableCtrl : Entity
     public int GetAugmentationLevel(string augName)
     {
         return augmentationList.Find((a) => string.Equals(a.GetType().Name, augName)).level;
+    }
+
+    public void InvokeEvent(AugmentationEventType type, Entity sender, EventArgs e)
+    {
+        switch (type)
+        {
+            case AugmentationEventType.ON_START:
+                OnStartAugmentation(sender, e);
+                break;
+            case AugmentationEventType.ON_UPDATE:
+                OnUpdateAugmentation(sender, e);
+                break;
+            case AugmentationEventType.ON_ATTACK:
+                OnAttackPlayer(sender, e);
+                break;
+            case AugmentationEventType.ON_HIT:
+                OnBulletHit(sender, e);
+                break;
+            default:
+                break;
+        }
     }
 }

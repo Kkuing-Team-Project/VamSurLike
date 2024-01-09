@@ -8,41 +8,48 @@ public class TempBullet : MonoBehaviour, IPoolable
     public Rigidbody rigid { get; set; }
     public Stack<GameObject> pool { get; set; }
 
-    TempPlayable player;
+    [HideInInspector]
+    public PlayableCtrl player;
 
+    // Called when the bullet is created. Initializes the Rigidbody and sets the pool.
     public void Create(Stack<GameObject> pool)
     {
         this.pool = pool;
         rigid = GetComponent<Rigidbody>();
     }
 
+    // Called when the bullet is enabled. Starts a coroutine to return the bullet to the pool after a set time.
     private void OnEnable()
     {
         StartCoroutine(ReturnBullet(3f));
     }
 
     /// <summary>
-    /// ���� ������Ʈ�� time �� �Ŀ� ������Ʈ Ǯ�� ��ȯ�մϴ�.
+    /// Coroutine to return the bullet to the pool after the specified time.
     /// </summary>
-    /// <param name="time"></param>
+    /// <param name="time">Time in seconds before returning the bullet</param>
     /// <returns></returns>
-    IEnumerator ReturnBullet(float time)
+    private IEnumerator ReturnBullet(float time)
     {
         yield return new WaitForSeconds(time);
         Push();
     }
 
+    // Called when the bullet collides with another object.
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ENEMY"))
         {
+            // If the bullet hits an enemy, apply damage and return the bullet to the pool.
             Entity enemy = other.GetComponent<Entity>();
             enemy.TakeDamage(player, 10f);
+            player.InvokeEvent(AugmentationEventType.ON_HIT, player, new OnHitArgs(other.ClosestPoint(transform.position), enemy));
             StopAllCoroutines();
             Push();
         }
     }
 
+    // Deactivates the bullet and returns it to the pool.
     public void Push()
     {
         gameObject.SetActive(false);
