@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class TempPlayable : PlayableCtrl
 {
-    [SerializeField]
-    private ObjectPool bulletObjectPool;
         
     public float tempBulletSpeed = 50f; // Temporary bullet speed, can be adjusted in the inspector.
 

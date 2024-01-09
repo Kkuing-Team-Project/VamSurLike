@@ -17,6 +17,8 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnAttackPlayer;
     public event AugmentationDelegate OnBulletHit;
 
+    private AugEventArgs defaultArgs;
+
     [Header("총알 갯수")]
     public int bulletNum;
 
@@ -50,6 +52,7 @@ public abstract class PlayableCtrl : Entity
     {
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, 3);
+        defaultArgs = new AugEventArgs(transform, this);
     }
 
     void FixedUpdate()
@@ -63,20 +66,20 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        if (HasAugmentation<DamageUp>())
+        if (HasAugmentation<TempAug>())
         {
-            GetAugmentation<DamageUp>().SetAugmentationLevel(GetAugmentationLevel<DamageUp>() + 1);
+            GetAugmentation<TempAug>().SetAugmentationLevel(GetAugmentationLevel<TempAug>() + 1);
         }
         else
         {
-            AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
+            AddAugmentation(new TempAug(1, AugmentationEventType.ON_HIT));
         }
     }
 
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
-        OnUpdateAugmentation?.Invoke(this, EventArgs.Empty);
+        OnUpdateAugmentation?.Invoke(this, defaultArgs);
 
         inputVector.x = Input.GetAxisRaw("Horizontal");
         inputVector.z = Input.GetAxisRaw("Vertical");
@@ -128,8 +131,7 @@ public abstract class PlayableCtrl : Entity
     /// <returns></returns>
     protected Entity GetNearestEnemy()
     {
-        var radius = stat.Get(StatType.ATTACK_DISTANCE);
-        var enemies = Physics.OverlapSphere(transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
+        var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
         if (enemies.Length > 0)
         {
             Entity result = enemies[0].GetComponent<Entity>();
@@ -198,7 +200,7 @@ public abstract class PlayableCtrl : Entity
         WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
         while (true)
         {
-            OnAttackPlayer?.Invoke(this, EventArgs.Empty);
+            OnAttackPlayer?.Invoke(this, defaultArgs);
             PlayerAttack(bulletNum, bulletInterval);
             yield return attackDelay;
         }
@@ -210,7 +212,7 @@ public abstract class PlayableCtrl : Entity
         switch (aug.eventType)
         {
             case AugmentationEventType.ON_START:
-                aug.AugmentationEffect(this, EventArgs.Empty);
+                aug.AugmentationEffect(this, defaultArgs);
                 OnStartAugmentation += aug.AugmentationEffect;
                 break;
             case AugmentationEventType.ON_UPDATE:
@@ -306,7 +308,6 @@ public abstract class PlayableCtrl : Entity
         TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position).GetComponent<TempBullet>();
 
         bullet.player = this;
-        bullet.transform.position = transform.position;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);
         bullet.rigid.velocity = speed * bullet.transform.forward;
         return bullet;
@@ -332,21 +333,21 @@ public abstract class PlayableCtrl : Entity
         return augmentationList.Find((a) => string.Equals(a.GetType().Name, augName)).level;
     }
 
-    public void InvokeEvent(AugmentationEventType type, Entity sender, EventArgs e)
+    public void InvokeEvent(AugmentationEventType type, Entity sender, AugEventArgs e)
     {
         switch (type)
         {
             case AugmentationEventType.ON_START:
-                OnStartAugmentation(sender, e);
+                OnStartAugmentation?.Invoke(sender, e);
                 break;
             case AugmentationEventType.ON_UPDATE:
-                OnUpdateAugmentation(sender, e);
+                OnUpdateAugmentation?.Invoke(sender, e);
                 break;
             case AugmentationEventType.ON_ATTACK:
-                OnAttackPlayer(sender, e);
+                OnAttackPlayer?.Invoke(sender, e);
                 break;
             case AugmentationEventType.ON_HIT:
-                OnBulletHit(sender, e);
+                OnBulletHit?.Invoke(sender, e);
                 break;
             default:
                 break;

@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class TempAug : Augmentation
 {
-    public TempAug(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+    public TempAug(int level, AugmentationEventType eventType) : base(level, eventType)
     {
     }
 
-    public override void AugmentationEffect(Entity sender, EventArgs e)
+    public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        Debug.Log("임시 증강");
+        Debug.Log(e.eventTr);
     }
 }
+    

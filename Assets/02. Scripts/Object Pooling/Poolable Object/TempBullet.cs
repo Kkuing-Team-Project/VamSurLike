@@ -38,12 +38,12 @@ public class TempBullet : MonoBehaviour, IPoolable
     // Called when the bullet collides with another object.
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("ENEMY"))
+        if (other.gameObject.CompareTag("ENEMY"))
         {
             // If the bullet hits an enemy, apply damage and return the bullet to the pool.
             Entity enemy = other.GetComponent<Entity>();
+            player.InvokeEvent(AugmentationEventType.ON_HIT, player, new AugEventArgs(other.transform, enemy));
             enemy.TakeDamage(player, 10f);
-            player.InvokeEvent(AugmentationEventType.ON_HIT, player, new OnHitArgs(other.ClosestPoint(transform.position), enemy));
             StopAllCoroutines();
             Push();
         }

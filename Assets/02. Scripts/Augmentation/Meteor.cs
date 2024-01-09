@@ -13,17 +13,17 @@ public class Meteor : Augmentation
     private Collider[] enemies; // 모든 적을 저장할 배열
     
 
-    public Meteor(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+    public Meteor(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
         
 	}
 
-	public override void AugmentationEffect(Entity sender, EventArgs e)
+	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
         
 	}
 
-	private IEnumerator AttackCoroutine(Vector3 targetPosition)
+	private IEnumerator AttackCoroutine(Vector3 targetPosition, Entity player)
     {
 
         while (true)
@@ -41,7 +41,7 @@ public class Meteor : Augmentation
                     int randomEnemyIdx = UnityEngine.Random.Range(0, enemies.Length);
                     if (Util.IsTargetInSight(Camera.main.transform, enemies[randomEnemyIdx].transform, Camera.main.fieldOfView))
                     {
-                        LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, 3f);
+                        LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, 3f, player);
                         break;
                     }
                     else
@@ -51,7 +51,7 @@ public class Meteor : Augmentation
         }
     }
 
-    private IEnumerator LaunchMeteorAttack(Vector3 targetPosition, float time)
+    private IEnumerator LaunchMeteorAttack(Vector3 targetPosition, float time, Entity player)
     {
 
         // 메테오 프리팹을 생성하여 타겟 위치에 떨어뜨림
