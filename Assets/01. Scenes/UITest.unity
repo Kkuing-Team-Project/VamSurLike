@@ -193,8 +193,16 @@ MonoBehaviour:
   playerCamera: {fileID: 1686009783}
   delay: 0
   range: 75
-  mul: 1.5
-  testPrefab: {fileID: 8419087428408014999, guid: ad32883ce9b1370459043cac64a7f932, type: 3}
+  mul: 1.27
+  objectType: 0
+  spawnObjects:
+  - objectPrefab: {fileID: 8419087428408014999, guid: ad32883ce9b1370459043cac64a7f932, type: 3}
+    percent: 10
+    realPercentMin: 0
+  - objectPrefab: {fileID: 2912871820685555210, guid: 2b22152288296144eb2456f85cc28e8c, type: 3}
+    percent: 90
+    realPercentMin: 10
+  maxPercent: 100
   isMax: 1
   maxRangeRadius: 50
   entityRadius: 10
@@ -606,10 +614,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2458bf35155734f933e2df632c65ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletNum: 0
+  bulletInterval: 0
   rotationAnglePerSecond: 0
+  bulletObjectPool: {fileID: 0}
   dashSpeed: 40
   dashTime: 0
-  bulletObjectPool: {fileID: 0}
   tempBulletSpeed: 50
 --- !u!54 &551876035
 Rigidbody:
@@ -740,7 +750,9 @@ MonoBehaviour:
   delay: 1
   range: 20
   mul: 1.5
-  testPrefab: {fileID: 1545624767}
+  objectType: 0
+  spawnObjects: []
+  maxPercent: 0
   isMax: 0
   maxRangeRadius: 50
   entityRadius: 0.5

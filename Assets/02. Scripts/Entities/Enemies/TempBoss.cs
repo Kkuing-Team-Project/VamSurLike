@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempBoss : BossCtrl
 {
-    public AnimationClip clip;
     public Transform pattern1Tr;
 
     protected override void InitEntity()
@@ -74,8 +74,11 @@ public class TempBoss : BossCtrl
     public void Pattern1Attack()
     {
         Collider[] col = Physics.OverlapSphere(pattern1Tr.position, 10, 1 << LayerMask.NameToLayer("PLAYER"));
-        Debug.Log($"{gameObject.name}: {10}");
+
         if (col.Length > 0)
+        {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
+            Debug.LogError(col[0].GetComponent<Entity>().hp);
+        }
     }
 }

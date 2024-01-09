@@ -20,7 +20,6 @@ public abstract class EnemyCtrl : Entity
 
     protected override void UpdateEntity()
     {
-        base.UpdateEntity();
         var origin = transform.position;
         origin.y = 0;
         var target = playable.transform.position;
@@ -43,6 +42,5 @@ public abstract class EnemyCtrl : Entity
 
     protected override void OnEntityDied()
     {
-        // gameObject.SetActive(false);
     }
 }

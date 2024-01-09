@@ -21,7 +21,10 @@ public class PoisonField : Augmentation
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
         CoroutineHandler.StartCoroutine(FieldAttack(e.target));
-    }    
+    }
+
+    
+
     private IEnumerator FieldAttack(Entity player)
     {
         WaitForSeconds waitTime = new WaitForSeconds(2);
@@ -51,10 +54,10 @@ public class PoisonField : Augmentation
 
             yield return waitTime;
 
-            // ½ºÅ³ÀÇ Áö¼Ó½Ã°£À» Ã¼Å©ÇÒ Å¸ÀÌ¸Ó
+            // ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½Ó½Ã°ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½
             float durationTimer = 0;
 
-            // ½ºÅ³ÀÇ ´ë¹ÌÁö µô·¹ÀÌ¸¦ Ã¼Å©ÇÒ Å¸ÀÌ¸Ó
+            // ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ Ã¼Å©ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½
             float delayTimer = 0;
             
             while (true)
@@ -82,11 +85,11 @@ public class PoisonField : Augmentation
                     break;
                 }
 
-                Debug.Log($"½ºÅ³ »ç¿ë Áß... ½ºÅ³ »ç¿ë ½Ã°£ : {durationTimer}");
+                Debug.Log($"ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ ï¿½ï¿½... ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ : {durationTimer}");
                 yield return null;
             }
 
-            Debug.Log("½ºÅ³ Á¾·á");
+            Debug.Log("ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½");
         }
     }
 
