@@ -179,17 +179,18 @@ public abstract class PlayableCtrl : Entity
         Collider[] enemies = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0 )
         {
+            Debug.Log(enemies);
             foreach(var enemy in enemies)
             {
                 Entity target = enemy.GetComponent<Entity>();
-                //target.TakeDamage(this, 1);
+                target.TakeDamage(this, 10);
                 Vector3 knockbackDirection = (target.transform.position - transform.position).normalized;
-                //target.GetComponent<NavMeshAgent>().enabled = false;
-                target.rigid.AddForce(knockbackDirection * 2, ForceMode.Impulse);
+                target.AddEffect(new Stun(1, 0.2f, this));
+                target.rigid.AddForce(knockbackDirection * 3, ForceMode.Impulse);
             }
         }
-        StopCoroutine("DisableEffect");
-        StartCoroutine("DisableEffect");
+        //StopCoroutine("DisableEffect");
+        //StartCoroutine("DisableEffect");
     }
     private IEnumerator DisableEffect()
     {

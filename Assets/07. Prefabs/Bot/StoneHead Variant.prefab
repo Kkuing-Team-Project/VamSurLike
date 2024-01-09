@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 662112331, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_IsKinematic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2229431677084011952, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_RootOrder
