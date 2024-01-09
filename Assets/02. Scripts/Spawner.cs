@@ -6,6 +6,29 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+[System.Serializable]
+public class SpawnObject
+{
+    public GameObject objectPrefab;
+    public float percent;
+    private float realPercentMin;
+    private float realPercentMax;
+
+    public void SetRealPercent(float min, float max)
+    {
+        realPercentMin = min;
+        realPercentMax = max;
+        Debug.Log($"{objectPrefab.name}: {realPercentMin}, {realPercentMax}");
+
+    }
+
+    public bool IsSelected(float value)
+    {
+        Debug.Log($"{value}, {realPercentMin}, {realPercentMax} = {realPercentMin <= value && realPercentMax > value}");
+        return realPercentMin <= value && realPercentMax > value;
+    }
+}
+
 public class Spawner : MonoBehaviour
 {
     private bool gameOver = false;
@@ -23,9 +46,13 @@ public class Spawner : MonoBehaviour
     [SerializeField, Range(1, 2)]
     private float mul = 1.5f;
 
+    [SerializeField] 
+    private ObjectPool.ObjectType objectType;
     [SerializeField]
-    private GameObject[] spawnPrefab;
-    // 0번째 ->
+    private SpawnObject[] spawnObjects;
+
+    [SerializeField]
+    private float maxPercent;
     
     [HideInInspector]
     public bool isMax;
@@ -48,8 +75,20 @@ public class Spawner : MonoBehaviour
             {
                 myTarget.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myTarget.maxRangeRadius);
                 myTarget.entityRadius = EditorGUILayout.FloatField("Entity Radius", myTarget.entityRadius);
+            }
+
+            if (GUI.changed)
+            {
+                myTarget.maxPercent = 0;
+                foreach (SpawnObject spawnObject in myTarget.spawnObjects)
+                {
+                    float max = myTarget.maxPercent + spawnObject.percent;
+                    spawnObject.SetRealPercent(myTarget.maxPercent, max);
+
+                    myTarget.maxPercent = max;
+                }
                 
-                if (GUI.changed) EditorUtility.SetDirty(target);
+                EditorUtility.SetDirty(myTarget);
             }
         }
     }
@@ -57,6 +96,8 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         StartCoroutine(nameof(Spawn));
+        
+        
     }
 
     private void Update()
@@ -156,7 +197,6 @@ public class Spawner : MonoBehaviour
                         newZ = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
                 
                     point = new Vector3(newX, staticPos.y, newZ);
-                    testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
                     //Debug.Log(Vector3.Distance(staticPos, point));
                     //Debug.Log(spawnRadius);
                     // point.x -= pos.x + spawnRadius;
@@ -169,10 +209,24 @@ public class Spawner : MonoBehaviour
                     
                 }
             }
+
+            float spawnObjectPercent = UnityEngine.Random.Range(0, maxPercent);
+            GameObject selectedObj = null;
+            // Debug.Log(spawnObjectPercent);
+
+            foreach (SpawnObject spawnObject in spawnObjects)
+            {
+                if (spawnObject.IsSelected(spawnObjectPercent))
+                {
+                    selectedObj = spawnObject.objectPrefab;
+                    Debug.Log(selectedObj.name);
+                    break;
+                }
+            }
             
             // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
             // change obj pool
-            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy, point);            
+            GameObject enemy = Pool.Pop(objectType, point);
             if (enemy.GetComponent<SpriteRenderer>())
                 enemy.GetComponent<SpriteRenderer>().material.color = color;
             // Instantiate(testPrefab, point, Quaternion.identity);
