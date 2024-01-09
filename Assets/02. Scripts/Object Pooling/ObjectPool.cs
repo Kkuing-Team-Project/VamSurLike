@@ -27,10 +27,6 @@ public class ObjectPool : MonoBehaviour
     // Dictionary to map each ObjectType to a stack of GameObjects
     public Dictionary<ObjectType, Stack<GameObject>> poolDictionary = new Dictionary<ObjectType, Stack<GameObject>>();
 
-    // Number of objects to preallocate
-    [SerializeField]
-    private int allocateCount;
-
     private void Awake()
     {
         // Initialize each pool
@@ -73,7 +69,7 @@ public class ObjectPool : MonoBehaviour
     }
 
     // Method to get an object from the pool
-    public GameObject Pop(ObjectType objectType)
+    public GameObject Pop(ObjectType objectType, Vector3 position)
     {
         // If the pool does not exist, return null
         if (!poolDictionary.ContainsKey(objectType))
@@ -85,6 +81,7 @@ public class ObjectPool : MonoBehaviour
         // Try to pop an object from the stack
         if (poolDictionary[objectType].TryPop(out obj))
         {
+            obj.transform.position = position;
             obj.SetActive(true);
 
             if (poolDictionary[objectType].Count < 3)
@@ -98,7 +95,10 @@ public class ObjectPool : MonoBehaviour
             Allocate(3, objectType);
             if (poolDictionary[objectType].Count > 0)
             {
-                return poolDictionary[objectType].Pop();
+                obj = poolDictionary[objectType].Pop();
+                obj.transform.position = position;
+                obj.SetActive(true);
+                return obj;
             }
             else
             {

@@ -53,7 +53,6 @@ public abstract class PlayableCtrl : Entity
     {
         if (HasAugmentation<DamageUp>())
         {
-            // Debug.Log("!");
             GetAugmentation<DamageUp>().SetAugmentationLevel(GetAugmentationLevel<DamageUp>() + 1);
         }
         else
@@ -61,8 +60,6 @@ public abstract class PlayableCtrl : Entity
             AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
         }
     }
-
-
 
     protected override void UpdateEntity()
     {
@@ -73,7 +70,7 @@ public abstract class PlayableCtrl : Entity
         inputVector.z = Input.GetAxisRaw("Vertical");
 
         // 공격 범위 내에 적이 있다면.
-        if(GetNearestEnemy() != null)
+        if(GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
         {
             #region Look Nearst Enemy
             Vector3 targetPosition = GetNearestEnemy().transform.position;
@@ -87,7 +84,6 @@ public abstract class PlayableCtrl : Entity
 
             if (attackCor == null)
             {
-                print((transform.position - GetNearestEnemy().transform.position).magnitude);
                 attackCor = StartCoroutine(AttackCoroutine());
             }
         }
@@ -98,7 +94,6 @@ public abstract class PlayableCtrl : Entity
         {
             if(attackCor != null)
             {
-                print("공격 범위 내에 적 없다.");
                 StopCoroutine(attackCor);
                 attackCor = null;
             }
@@ -128,18 +123,15 @@ public abstract class PlayableCtrl : Entity
             Entity result = enemies[0].GetComponent<Entity>();
             foreach (var enemy in enemies)
             {
-                // Debug.Log($"Radius : {radius} Distance : {enemy.GetComponent<Collider>().bounds.size}");
                 if (Vector3.Distance(transform.position, result.transform.position) > Vector3.Distance(transform.position, enemy.transform.position))
                 {
                     result = enemy.GetComponent<Entity>();
                 }
             }
-            // Debug.Log(result.gameObject.name);
             return result;
         }
         else
         {
-            // print("null");
             return null;
         }
     }
@@ -172,6 +164,10 @@ public abstract class PlayableCtrl : Entity
         dashCor = null;
     }
 
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
+    }
 
     protected abstract void PlayerSkill();
 

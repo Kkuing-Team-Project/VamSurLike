@@ -72,6 +72,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6455097426093169748, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6455097426093169748, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_TagString
       value: ENEMY
       objectReference: {fileID: 0}

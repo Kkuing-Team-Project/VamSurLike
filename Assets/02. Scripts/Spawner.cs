@@ -144,8 +144,7 @@ public class Spawner : MonoBehaviour
 
             // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
             // change obj pool
-            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy);
-            enemy.transform.position = point;
+            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy, point);            
             // Instantiate(testPrefab, point, Quaternion.identity);
         }
     }
