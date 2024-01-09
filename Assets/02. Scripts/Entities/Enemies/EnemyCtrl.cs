@@ -8,7 +8,6 @@ public abstract class EnemyCtrl : Entity
 {
     protected NavMeshAgent nav;
     protected PlayableCtrl playable;
-    protected Transform enemyPool;
 
     protected override void InitEntity()
     {
@@ -17,11 +16,6 @@ public abstract class EnemyCtrl : Entity
             playable = FindObjectOfType<PlayableCtrl>();
         if (nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
-        if (enemyPool == null)
-        {
-            enemyPool = GameObject.Find("EnemyPool").transform;
-            transform.SetParent(enemyPool);
-        }
     }
 
     protected override void UpdateEntity()
