@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
     private float mul = 1.5f;
 
     [SerializeField]
-    private GameObject testPrefab;
+    private GameObject[] testPrefabs = new GameObject[4];
     
     [HideInInspector]
     public bool isMax;
