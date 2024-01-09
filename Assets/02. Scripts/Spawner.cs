@@ -11,7 +11,9 @@ public class SpawnObject
 {
     public GameObject objectPrefab;
     public float percent;
+    [SerializeField]
     private float realPercentMin;
+    [SerializeField]
     private float realPercentMax;
 
     public void SetRealPercent(float min, float max)
@@ -19,7 +21,6 @@ public class SpawnObject
         realPercentMin = min;
         realPercentMax = max;
         Debug.Log($"{objectPrefab.name}: {realPercentMin}, {realPercentMax}");
-
     }
 
     public bool IsSelected(float value)

@@ -198,8 +198,10 @@ MonoBehaviour:
   spawnObjects:
   - objectPrefab: {fileID: 8419087428408014999, guid: ad32883ce9b1370459043cac64a7f932, type: 3}
     percent: 10
+    realPercentMin: 0
   - objectPrefab: {fileID: 2912871820685555210, guid: 2b22152288296144eb2456f85cc28e8c, type: 3}
     percent: 90
+    realPercentMin: 10
   maxPercent: 100
   isMax: 1
   maxRangeRadius: 50
