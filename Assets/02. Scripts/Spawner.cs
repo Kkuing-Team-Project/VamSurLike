@@ -28,8 +28,10 @@ public class Spawner : MonoBehaviour
     
     [HideInInspector]
     public bool isMax;
-    private float maxRangeRadius = 50.0f;
-    private float entityRadius = 0.5f;
+    [HideInInspector]
+    public float maxRangeRadius = 50.0f;
+    [HideInInspector]
+    public float entityRadius = 0.5f;
     
     #if UNITY_EDITOR
     [CustomEditor(typeof(Spawner))]
@@ -103,48 +105,70 @@ public class Spawner : MonoBehaviour
         while (!gameOver)
         {
             yield return new WaitForSeconds(delay);
-
-            float x = UnityEngine.Random.Range(-(mapSize.x * 0.5f) + center.x, (mapSize.x * 0.5f) + center.x);
-            float z = UnityEngine.Random.Range(-(mapSize.z * 0.5f) + center.z, (mapSize.z * 0.5f) + center.z);
+            Color color = Color.white;
+            
+            float minRandomRangeX = -(mapSize.x * 0.5f) + center.x;
+            float maxRandomRangeX = (mapSize.x * 0.5f) + center.x;
+            float minRandomRangeZ = -(mapSize.z * 0.5f) + center.z;
+            float maxRandomRangeZ = (mapSize.z * 0.5f) + center.z;
+            
+            float x = UnityEngine.Random.Range(minRandomRangeX, maxRandomRangeX);
+            float z = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
             float selectX = width * mul * 0.5f;
             float selectZ = height * mul * 0.5f;
+            float spawnRadius = maxRangeRadius - entityRadius;
             
             Vector3 point = new Vector3(x, staticPos.y, z);
-            if (-selectX + center.x <= x && x <= selectX + center.x &&
-                -selectZ + center.z <= z && z <= selectZ + center.z)
+            bool isInsideRedBox = -selectX + center.x <= x && x <= selectX + center.x &&
+                                  -selectZ + center.z <= z && z <= selectZ + center.z;
+            bool isOutOfMaxCircle = Vector3.Distance(staticPos, point) > spawnRadius;
+            
+            if (isInsideRedBox || isOutOfMaxCircle)
             {
-                float minX = selectX + center.x;
+                float minSideX = selectX + center.x;
                 if (Mathf.Abs(-selectX + center.x - x) < Mathf.Abs(selectX + center.x - x))
-                    minX = -selectX + center.x;
-                float minZ = selectZ + center.z;
+                    minSideX = -selectX + center.x;
+                float minSideZ = selectZ + center.z;
                 if (Mathf.Abs(-selectZ + center.z - z) < Mathf.Abs(selectZ + center.z - z))
-                    minZ = -selectZ + center.z;
+                    minSideZ = -selectZ + center.z;
 
-                if (Mathf.Abs(minX - x) < Mathf.Abs(minZ - z))
-                    minZ = z;
+                float maxSideX = mapSize.x * 0.5f;
+                if (Mathf.Abs(-maxSideX + center.x - minSideX) > Mathf.Abs(maxSideX + center.x - minSideX))
+                    minRandomRangeX = minSideX;
                 else
-                    minX = x;
+                    maxRandomRangeX = minSideX;
 
-                point = new Vector3(minX, staticPos.y, minZ);
-            }
-
-            if (isMax)
-            {
-                float spawnRadius = maxRangeRadius - entityRadius;
-                if (Vector3.Distance(staticPos, point) > spawnRadius)
+                float maxSideZ = mapSize.z * 0.5f;
+                if (Mathf.Abs(-maxSideZ + center.z - minSideZ) > Mathf.Abs(maxSideZ + center.z - minSideZ))
+                    minRandomRangeZ = minSideZ;
+                else
+                    maxRandomRangeZ = minSideZ;
+                
+                if (isInsideRedBox)
                 {
-                    testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
-                    Debug.Log(Vector3.Distance(staticPos, point));
-                    Debug.Log(spawnRadius);
-                    // point.x -= pos.x + spawnRadius;
-                    // point.z -= pos.z + spawnRadius;
+                    float newX = x;
+                    float newZ = z;
+                    color = Color.blue;
+                    if (Mathf.Abs(minSideX - x) < Mathf.Abs(minSideZ - z))
+                        newX = UnityEngine.Random.Range(minRandomRangeX, maxRandomRangeX);
+                    else
+                        newZ = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
+                
+                    point = new Vector3(newX, staticPos.y, newZ);
                 }
                 
+                if (isMax && isOutOfMaxCircle)
+                {
+                    color = color == Color.blue ? Color.yellow : Color.red;
+                    
+                }
             }
-
+            
             // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
             // change obj pool
             GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy, point);            
+            if (enemy.GetComponent<SpriteRenderer>())
+                enemy.GetComponent<SpriteRenderer>().material.color = color;
             // Instantiate(testPrefab, point, Quaternion.identity);
         }
     }
