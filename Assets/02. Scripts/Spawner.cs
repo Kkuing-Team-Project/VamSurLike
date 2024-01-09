@@ -122,7 +122,8 @@ public class Spawner : MonoBehaviour
             }
 
             // change obj pool
-            Pool.Pop(ObjectPool.ObjectType.Enemy).transform.position=point;
+            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy);
+            enemy.transform.position = point;
             // Instantiate(testPrefab, point, Quaternion.identity);
         }
     }

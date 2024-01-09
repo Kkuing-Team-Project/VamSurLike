@@ -13,15 +13,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2229431677084011952, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.14642513
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2229431677084011952, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000011920929
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2229431677084011952, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.2975662
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2229431677084011952, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -82,9 +82,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &662112329
 CapsuleCollider:
@@ -131,6 +131,6 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

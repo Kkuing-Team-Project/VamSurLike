@@ -17,6 +17,10 @@ public class TempPlayable : PlayableCtrl
     protected override void PlayerAttack()
     {
         TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet).GetComponent<TempBullet>();
+        if (bullet == null)
+        {
+            return;
+        }
         bullet.transform.rotation = Quaternion.LookRotation(transform.forward);
 
         bullet.rigid.velocity = tempBulletSpeed * transform.forward;

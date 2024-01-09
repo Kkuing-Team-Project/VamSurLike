@@ -87,16 +87,18 @@ public abstract class PlayableCtrl : Entity
 
             if (attackCor == null)
             {
+                print((transform.position - GetNearestEnemy().transform.position).magnitude);
                 attackCor = StartCoroutine(AttackCoroutine());
             }
         }
 
 
         // 공격 범위 내에 적이 없다면
-        else
+        else if (GetNearestEnemy() == null)
         {
             if(attackCor != null)
             {
+                print("공격 범위 내에 적 없다.");
                 StopCoroutine(attackCor);
                 attackCor = null;
             }
@@ -119,20 +121,27 @@ public abstract class PlayableCtrl : Entity
     /// <returns></returns>
     protected Entity GetNearestEnemy()
     {
-        var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
+        var radius = stat.Get(StatType.ATTACK_DISTANCE);
+        var enemies = Physics.OverlapSphere(transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
         if (enemies.Length > 0)
         {
             Entity result = enemies[0].GetComponent<Entity>();
             foreach (var enemy in enemies)
             {
+                Debug.Log($"Radius : {radius} Distance : {enemy.GetComponent<Collider>().bounds.size}");
                 if (Vector3.Distance(transform.position, result.transform.position) > Vector3.Distance(transform.position, enemy.transform.position))
                 {
                     result = enemy.GetComponent<Entity>();
                 }
             }
+            Debug.Log(result.gameObject.name);
             return result;
         }
-        else return null;
+        else
+        {
+            print("null");
+            return null;
+        }
     }
 
     protected IEnumerator DashCor()
