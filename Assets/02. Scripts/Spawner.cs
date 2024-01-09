@@ -1,33 +1,32 @@
-using System;
 using System.Collections;
 using UnityEngine;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 [System.Serializable]
 public class SpawnObject
 {
-    public GameObject objectPrefab;
+    public GameObject prefab;
+    public ObjectPool.ObjectType type;
     public float percent;
-    [SerializeField]
     private float realPercentMin;
-    [SerializeField]
     private float realPercentMax;
 
     public void SetRealPercent(float min, float max)
     {
         realPercentMin = min;
         realPercentMax = max;
-        Debug.Log($"{objectPrefab.name}: {realPercentMin}, {realPercentMax}");
     }
 
     public bool IsSelected(float value)
     {
-        Debug.Log($"{value}, {realPercentMin}, {realPercentMax} = {realPercentMin <= value && realPercentMax > value}");
         return realPercentMin <= value && realPercentMax > value;
     }
+}
+
+[System.Serializable]
+public class Wave
+{
+    public float duration;
+    public SpawnObject[] spawnObjects;
 }
 
 public class Spawner : MonoBehaviour
@@ -46,9 +45,18 @@ public class Spawner : MonoBehaviour
     private float range = 20.0f;
     [SerializeField, Range(1, 2)]
     private float mul = 1.5f;
+    
+    [HideInInspector]
+    public bool isWave;
+    
+    [HideInInspector]
+    public SpawnObject[] spawnObjects;
 
-    [SerializeField]
-    private GameObject[] testPrefabs = new GameObject[4];
+    [HideInInspector]
+    public Wave[] waves;
+    
+    [HideInInspector]
+    public float maxPercent;
     
     [HideInInspector]
     public bool isMax;
@@ -57,28 +65,9 @@ public class Spawner : MonoBehaviour
     [HideInInspector]
     public float entityRadius = 0.5f;
     
-    #if UNITY_EDITOR
-    [CustomEditor(typeof(Spawner))]
-    public class SpawnerEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            Spawner myTarget = (Spawner)target;
-            myTarget.isMax = EditorGUILayout.Toggle("Is Max", myTarget.isMax);
-
-            if (myTarget.isMax)
-            {
-                myTarget.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myTarget.maxRangeRadius);
-                myTarget.entityRadius = EditorGUILayout.FloatField("Entity Radius", myTarget.entityRadius);
-                
-                if (GUI.changed) EditorUtility.SetDirty(target);
-            }
-        }
-    }
-    #endif
     private void Start()
     {
+        SetPercent();
         StartCoroutine(nameof(Spawn));
     }
 
@@ -122,6 +111,18 @@ public class Spawner : MonoBehaviour
         mapSize = new Vector3(width * mul + range, 0, height * mul + range);
     }
 
+    private void SetPercent()
+    {
+        maxPercent = 0;
+        foreach (SpawnObject spawnObject in spawnObjects)
+        {
+            float max = maxPercent + spawnObject.percent;
+            spawnObject.SetRealPercent(maxPercent, max);
+
+            maxPercent = max;
+        }
+    }
+    
     private IEnumerator Spawn()
     {
         Vector3 staticPos = transform.position;
@@ -189,7 +190,18 @@ public class Spawner : MonoBehaviour
                 if (isMax && isOutOfMaxCircle)
                 {
                     color = color == Color.blue ? Color.yellow : Color.red;
-                    
+                }
+            }
+
+            float percent = UnityEngine.Random.Range(0, maxPercent);
+            ObjectPool.ObjectType type;
+            foreach (SpawnObject spawnObject in spawnObjects)
+            {
+                if (spawnObject.IsSelected(percent))
+                {
+                    type = spawnObject.type;
+                    Debug.Log(spawnObject.prefab.name);
+                    break;
                 }
             }
             
@@ -265,5 +277,7 @@ public class Spawner : MonoBehaviour
             Gizmos.color = Color.black;
             Gizmos.DrawWireSphere(transform.position, maxRangeRadius - entityRadius);
         }
+
+        SetPercent();
     }
 }
