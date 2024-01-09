@@ -53,7 +53,6 @@ public abstract class PlayableCtrl : Entity
     {
         if (HasAugmentation<DamageUp>())
         {
-            Debug.Log("!");
             GetAugmentation<DamageUp>().SetAugmentationLevel(GetAugmentationLevel<DamageUp>() + 1);
         }
         else
@@ -61,8 +60,6 @@ public abstract class PlayableCtrl : Entity
             AddAugmentation(new DamageUp(this, 1, AugmentationEventType.ON_UPDATE));
         }
     }
-
-
 
     protected override void UpdateEntity()
     {
@@ -73,7 +70,7 @@ public abstract class PlayableCtrl : Entity
         inputVector.z = Input.GetAxisRaw("Vertical");
 
         // 공격 범위 내에 적이 있다면.
-        if(GetNearestEnemy() != null)
+        if(GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
         {
             #region Look Nearst Enemy
             Vector3 targetPosition = GetNearestEnemy().transform.position;
@@ -167,6 +164,10 @@ public abstract class PlayableCtrl : Entity
         dashCor = null;
     }
 
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
+    }
 
     protected abstract void PlayerSkill();
 

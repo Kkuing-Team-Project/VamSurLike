@@ -26,8 +26,10 @@ public class Spawner : MonoBehaviour
     [SerializeField]
     private GameObject testPrefab;
     
-    private bool isMax;
+    [HideInInspector]
+    public bool isMax;
     private float maxRangeRadius = 50.0f;
+    private float entityRadius = 0.5f;
     
     #if UNITY_EDITOR
     [CustomEditor(typeof(Spawner))]
@@ -36,12 +38,15 @@ public class Spawner : MonoBehaviour
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            Spawner myToggle = (Spawner)target;
-            myToggle.isMax = EditorGUILayout.Toggle("Is Max", myToggle.isMax);
+            Spawner myTarget = (Spawner)target;
+            myTarget.isMax = EditorGUILayout.Toggle("Is Max", myTarget.isMax);
 
-            if (myToggle.isMax)
+            if (myTarget.isMax)
             {
-                myToggle.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myToggle.maxRangeRadius);
+                myTarget.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myTarget.maxRangeRadius);
+                myTarget.entityRadius = EditorGUILayout.FloatField("Entity Radius", myTarget.entityRadius);
+                
+                if (GUI.changed) EditorUtility.SetDirty(target);
             }
         }
     }
@@ -93,6 +98,8 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
+        Vector3 staticPos = transform.position;
+
         while (!gameOver)
         {
             yield return new WaitForSeconds(delay);
@@ -102,7 +109,7 @@ public class Spawner : MonoBehaviour
             float selectX = width * mul * 0.5f;
             float selectZ = height * mul * 0.5f;
             
-            Vector3 point = new Vector3(x, 1.0f, z);
+            Vector3 point = new Vector3(x, staticPos.y, z);
             if (-selectX + center.x <= x && x <= selectX + center.x &&
                 -selectZ + center.z <= z && z <= selectZ + center.z)
             {
@@ -118,12 +125,26 @@ public class Spawner : MonoBehaviour
                 else
                     minX = x;
 
-                point = new Vector3(minX, 1.0f, minZ);
+                point = new Vector3(minX, staticPos.y, minZ);
             }
 
+            if (isMax)
+            {
+                float spawnRadius = maxRangeRadius - entityRadius;
+                if (Vector3.Distance(staticPos, point) > spawnRadius)
+                {
+                    testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
+                    Debug.Log(Vector3.Distance(staticPos, point));
+                    Debug.Log(spawnRadius);
+                    // point.x -= pos.x + spawnRadius;
+                    // point.z -= pos.z + spawnRadius;
+                }
+                
+            }
+
+            // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
             // change obj pool
-            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy);
-            enemy.transform.position = point;
+            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy, point);            
             // Instantiate(testPrefab, point, Quaternion.identity);
         }
     }
@@ -184,8 +205,12 @@ public class Spawner : MonoBehaviour
         Gizmos.DrawLine(playerCamera.transform.position, center);
         Gizmos.DrawWireCube(center, boxSize / mul);
         
-        Gizmos.color = Color.blue;
         if (isMax)
+        {
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, maxRangeRadius);
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireSphere(transform.position, maxRangeRadius - entityRadius);
+        }
     }
 }
