@@ -194,15 +194,9 @@ MonoBehaviour:
   delay: 0
   range: 75
   mul: 1.27
-  isWave: 1
+  isWave: 0
   spawnObjects:
-  - prefab: {fileID: 8419087428408014999, guid: ad32883ce9b1370459043cac64a7f932, type: 3}
-    type: 0
-    percent: 0
-  - prefab: {fileID: 8419087428408014999, guid: ad32883ce9b1370459043cac64a7f932, type: 3}
-    type: 0
-    percent: 0
-  - prefab: {fileID: 8419087428408014999, guid: ad32883ce9b1370459043cac64a7f932, type: 3}
+  - prefab: {fileID: 0}
     type: 0
     percent: 0
   waves:
@@ -219,11 +213,17 @@ MonoBehaviour:
     - prefab: {fileID: 0}
       type: 0
       percent: 0
+  - duration: 0
+    spawnObjects:
     - prefab: {fileID: 0}
       type: 0
       percent: 0
-  - duration: 0
-    spawnObjects:
+    - prefab: {fileID: 0}
+      type: 0
+      percent: 0
+    - prefab: {fileID: 0}
+      type: 0
+      percent: 0
     - prefab: {fileID: 0}
       type: 0
       percent: 0
@@ -778,7 +778,7 @@ MonoBehaviour:
   delay: 1
   range: 20
   mul: 1.5
-  isWave: 0
+  isWave: 1
   spawnObjects: []
   waves: []
   maxPercent: 0
