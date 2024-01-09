@@ -17,7 +17,7 @@ public class ObjectPool : MonoBehaviour
     {
         public ObjectType type;     // 오브젝트 타입
         public GameObject prefab;   // 오브젝트 프리펩
-        public int size;
+        public int size;            // 초기 풀 사이즈
     }
 
     // 풀 리스트
@@ -25,10 +25,6 @@ public class ObjectPool : MonoBehaviour
 
     public Dictionary<ObjectType, Stack<GameObject>> poolDictionary = new Dictionary<ObjectType, Stack<GameObject>>();
 
-    
-    // 초기에 할당할 오브젝트 수
-    [SerializeField]
-    private int allocateCount;
 
     private void Awake()
     {
