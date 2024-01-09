@@ -19,6 +19,9 @@ public class PoisonField : Augmentation
     {
         CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
+
+    
+
     private IEnumerator FieldAttack(Entity player)
     {
         
@@ -50,7 +53,7 @@ public class PoisonField : Augmentation
             }
             
             yield return waitTime;
-            Debug.Log("10ÃÊÈÄ ½ºÅ³ ¹ßµ¿");
+            Debug.Log("10ÃƒÃŠÃˆÃ„ Â½ÂºÃ…Â³ Â¹ÃŸÂµÂ¿");
 
            
 

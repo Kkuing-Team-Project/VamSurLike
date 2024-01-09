@@ -20,14 +20,13 @@ public class StoneHead : EnemyCtrl, IPoolable
 
     protected override void EnemyAttack()
     {
-        Debug.Log("EnemyAttack");
+        playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
 
         HP -= dmg; // Reduce HP by the damage amount
-        print(HP);
         if (HP <= 0)
         {
             OnEntityDied(); // Call the Die method if HP is 0 or less
