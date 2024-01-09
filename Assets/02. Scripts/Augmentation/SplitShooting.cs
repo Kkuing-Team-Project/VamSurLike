@@ -7,12 +7,12 @@ public class SplitShooting : Augmentation
 {
 	public int lvl;
 
-	public SplitShooting(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+	public SplitShooting(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
 
 	}
 
-	public override void AugmentationEffect(Entity sender, EventArgs e)
+	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
 		
 	}
