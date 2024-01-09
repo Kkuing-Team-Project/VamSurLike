@@ -504,7 +504,7 @@ MonoBehaviour:
   range: 20
   mul: 1.5
   testPrefab: {fileID: 0}
-  isMax: 0
+  isMax: 1
 --- !u!4 &494569237
 Transform:
   m_ObjectHideFlags: 0
@@ -513,7 +513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494569235}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.427689, y: 31.840858, z: -33.618153}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 1144405914}
   - component: {fileID: 1144405913}
   - component: {fileID: 1144405912}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -810,7 +810,7 @@ Transform:
   m_GameObject: {fileID: 1144405911}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 250, y: 250, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
