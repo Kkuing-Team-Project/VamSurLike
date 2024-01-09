@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class PoisonField : Augmentation
 {
+    //Skill Damage
     public float DAMAGE = 50f;
 
-    int stop;
 
 
 
@@ -54,10 +54,10 @@ public class PoisonField : Augmentation
 
             yield return waitTime;
 
-            // ��ų�� ���ӽð��� üũ�� Ÿ�̸�
+            // Skill Reuse Time
             float durationTimer = 0;
 
-            // ��ų�� ����� �����̸� üũ�� Ÿ�̸�
+            // Skill damage time
             float delayTimer = 0;
             
             while (true)
@@ -85,11 +85,11 @@ public class PoisonField : Augmentation
                     break;
                 }
 
-                Debug.Log($"��ų ��� ��... ��ų ��� �ð� : {durationTimer}");
+                Debug.Log($"Skill in use... Skill Remaining Time : {durationTimer}");
                 yield return null;
             }
 
-            Debug.Log("��ų ����");
+            Debug.Log("skill stop");
         }
     }
 
