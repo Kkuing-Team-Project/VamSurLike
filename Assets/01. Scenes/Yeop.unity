@@ -1731,34 +1731,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pool: {fileID: 1583247436}
   playerCamera: {fileID: 2105808736}
-  delay: 1
+  delay: 0.5
   range: 20
   mul: 1.5
   waves:
-  - duration: 30
+  - duration: 1
     spawnables:
     - prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
       probability: 1
       objectType: 0
-  - duration: 30
+  - duration: 1
     spawnables:
     - prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
       probability: 0.4
       objectType: 0
     - prefab: {fileID: 977019405514459944, guid: a97e3f37a0c84422a91594d673c51c9e, type: 3}
       probability: 0.6
-      objectType: 0
-  - duration: 5
+      objectType: 1
+  - duration: 40
     spawnables:
     - prefab: {fileID: 977019405514459944, guid: a97e3f37a0c84422a91594d673c51c9e, type: 3}
       probability: 0.4
-      objectType: 0
+      objectType: 1
     - prefab: {fileID: 7409560758361498147, guid: 635dd840b5d134b7aac2ab70ddd60ed5, type: 3}
       probability: 0.5
-      objectType: 0
+      objectType: 2
     - prefab: {fileID: 5082108705794039475, guid: 8f8a2cec8a17d47b69d20cd0f1ebc030, type: 3}
       probability: 0.1
-      objectType: 0
+      objectType: 3
   isMax: 1
   maxRangeRadius: 50
   entityRadius: 0.5
@@ -1792,15 +1792,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - type: 1
-    prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
-    size: 10
   - type: 0
+    prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
+    size: 0
+  - type: 1
     prefab: {fileID: 977019405514459944, guid: a97e3f37a0c84422a91594d673c51c9e, type: 3}
-    size: 10
+    size: 0
   - type: 2
+    prefab: {fileID: 7409560758361498147, guid: 635dd840b5d134b7aac2ab70ddd60ed5, type: 3}
+    size: 0
+  - type: 3
+    prefab: {fileID: 5082108705794039475, guid: 8f8a2cec8a17d47b69d20cd0f1ebc030, type: 3}
+    size: 0
+  - type: 4
     prefab: {fileID: 2912871820685555210, guid: 2b22152288296144eb2456f85cc28e8c, type: 3}
-    size: 10
+    size: 0
 --- !u!4 &1583247437
 Transform:
   m_ObjectHideFlags: 0

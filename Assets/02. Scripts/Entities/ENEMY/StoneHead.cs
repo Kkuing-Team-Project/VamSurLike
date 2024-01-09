@@ -37,7 +37,8 @@ public class StoneHead : EnemyCtrl, IPoolable
     public void Push()
     {
         gameObject.SetActive(false);
-        pool.Push(gameObject);
+        
+        pool?.Push(gameObject);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)

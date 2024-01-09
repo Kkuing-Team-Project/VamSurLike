@@ -57,6 +57,7 @@ public abstract class PlayableCtrl : Entity
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, 3);
         defaultArgs = new AugEventArgs(transform, this);
+        tempEffectObj = transform.Find("Effect Obj").gameObject;
     }
 
     void FixedUpdate()
@@ -177,29 +178,28 @@ public abstract class PlayableCtrl : Entity
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("ENEMY"));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, 5f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0 )
         {
-            Debug.Log(enemies);
             foreach(var enemy in enemies)
             {
                 Entity target = enemy.GetComponent<Entity>();
                 target.TakeDamage(this, 10);
                 Vector3 knockbackDirection = (target.transform.position - transform.position).normalized;
                 target.AddEffect(new Stun(1, 0.2f, this));
-                target.rigid.AddForce(knockbackDirection * 3, ForceMode.Impulse);
+                target.rigid.AddForce(knockbackDirection * 20, ForceMode.Impulse);
             }
         }
-        //StopCoroutine("DisableEffect");
-        //StartCoroutine("DisableEffect");
+        StopCoroutine("DisableEffect");
+        StartCoroutine("DisableEffect");
     }
     private IEnumerator DisableEffect()
     {
         tempEffectObj.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         tempEffectObj.SetActive(false);
     }
-
+     
     protected abstract void PlayerSkill();
 
 
