@@ -155,7 +155,7 @@ public class Spawner : MonoBehaviour
                         newZ = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
                 
                     point = new Vector3(newX, staticPos.y, newZ);
-                    testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
+                    //testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
                     //Debug.Log(Vector3.Distance(staticPos, point));
                     //Debug.Log(spawnRadius);
                     // point.x -= pos.x + spawnRadius;

@@ -9,25 +9,22 @@ public class PoisonField : Augmentation
     public float DAMAGE = 0.5f;
     
 
-    public PoisonField(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+    public PoisonField(int level, AugmentationEventType eventType) : base(level, eventType)
     {
     }
 
    
 
-    public override void AugmentationEffect(Entity sender, EventArgs e)
+    public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        CoroutineHandler.StartCoroutine(FieldAttack());
-    }
-
-    
-
-    private IEnumerator FieldAttack()
+        CoroutineHandler.StartCoroutine(FieldAttack(e.target));
+    }    
+    private IEnumerator FieldAttack(Entity player)
     {
         
 
 
-        WaitForSeconds waitTime = new WaitForSeconds(1);
+        WaitForSeconds waitTime = new WaitForSeconds(10);
         while (true)
         {
             float radius = 0;
@@ -52,7 +49,7 @@ public class PoisonField : Augmentation
                     break;
             }
             
-            yield return new WaitForSeconds(10f);
+            yield return waitTime;
             Debug.Log("10초후 스킬 발동");
 
            
