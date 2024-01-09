@@ -27,7 +27,7 @@ public class PoisonField : Augmentation
         
 
 
-        WaitForSeconds waitTime = new WaitForSeconds(1);
+        WaitForSeconds waitTime = new WaitForSeconds(10);
         while (true)
         {
             float radius = 0;
@@ -52,8 +52,8 @@ public class PoisonField : Augmentation
                     break;
             }
             
-            yield return new WaitForSeconds(10f);
-            Debug.Log("10ÃÊÈÄ ½ºÅ³ ¹ßµ¿");
+            yield return waitTime;
+            Debug.Log("10ÃƒÃŠÃˆÃ„ Â½ÂºÃ…Â³ Â¹ÃŸÂµÂ¿");
 
            
 

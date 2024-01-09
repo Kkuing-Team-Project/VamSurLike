@@ -6,6 +6,30 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+[System.Serializable]
+public class SpawnObject
+{
+    public GameObject objectPrefab;
+    public float percent;
+    [SerializeField]
+    private float realPercentMin;
+    [SerializeField]
+    private float realPercentMax;
+
+    public void SetRealPercent(float min, float max)
+    {
+        realPercentMin = min;
+        realPercentMax = max;
+        Debug.Log($"{objectPrefab.name}: {realPercentMin}, {realPercentMax}");
+    }
+
+    public bool IsSelected(float value)
+    {
+        Debug.Log($"{value}, {realPercentMin}, {realPercentMax} = {realPercentMin <= value && realPercentMax > value}");
+        return realPercentMin <= value && realPercentMax > value;
+    }
+}
+
 public class Spawner : MonoBehaviour
 {
     private bool gameOver = false;
