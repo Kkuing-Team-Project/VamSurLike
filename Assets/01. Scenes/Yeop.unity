@@ -424,7 +424,7 @@ Transform:
   m_GameObject: {fileID: 1144405911}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 250, y: 250, z: 250}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -466,6 +466,8 @@ MonoBehaviour:
   mul: 1.5
   testPrefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
   isMax: 0
+  maxRangeRadius: 50
+  entityRadius: 0.5
 --- !u!4 &1497293320
 Transform:
   m_ObjectHideFlags: 0
