@@ -2,26 +2,32 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-
-public class EnergyField : Augmentation
+public class PoisonField : Augmentation
 {
+    public float DAMAGE = 0.5f;
+    
 
-    public EnergyField(int level, AugmentationEventType eventType) : base(level, eventType)
-    {     
+    public PoisonField(int level, AugmentationEventType eventType) : base(level, eventType)
+    {
     }
+
+   
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
         CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
 
+    
 
     private IEnumerator FieldAttack(Entity player)
     {
-        WaitForSeconds waitTime = new WaitForSeconds(1);
+        
+
+
+        WaitForSeconds waitTime = new WaitForSeconds(10);
         while (true)
         {
             float radius = 0;
@@ -40,17 +46,20 @@ public class EnergyField : Augmentation
                     radius = 4;
                     break;
                 case 5:
-                    radius = 5;
+                    radius = 6;
                     break;
                 default:
                     break;
             }
-
+            
             yield return waitTime;
-            Debug.Log("�����");
+            Debug.Log("10ÃÊÈÄ ½ºÅ³ ¹ßµ¿");
+
+           
+
 
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
-            if (enemies.Length > 0)
+            if (enemies.Length > 0 )
             {
                 foreach (var enemy in enemies)
                 {
@@ -58,5 +67,11 @@ public class EnergyField : Augmentation
                 }
             }
         }
+        
+
+
+
+
     }
+
 }

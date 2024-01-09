@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1917,7 +1917,7 @@ Transform:
   m_GameObject: {fileID: 1144405911}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 250, y: 250, z: 250}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1933,6 +1933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1497293320}
   - component: {fileID: 1497293319}
+  - component: {fileID: 1497293321}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -1947,18 +1948,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497293318}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOver: 0
+  <center>k__BackingField: {x: 0.0000038146973, y: 0, z: 8.795182}
+  <mapSize>k__BackingField: {x: 113.715805, y: 0, z: 69.645226}
+  <height>k__BackingField: 33.096817
+  <width>k__BackingField: 62.477203
   Pool: {fileID: 1583247436}
   playerCamera: {fileID: 2105808736}
   delay: 1
   range: 20
   mul: 1.5
-  testPrefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
+  testPrefab: {fileID: 7934654247757923480, guid: b66eaa9cf2eec4ebe9c728e76fb61ece, type: 3}
   isMax: 0
+  maxRangeRadius: 50
+  entityRadius: 0.5
 --- !u!4 &1497293320
 Transform:
   m_ObjectHideFlags: 0
@@ -1974,6 +1982,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1497293321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497293318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f370e2af4b5274bb2b18f6cf5e88e8d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pool: {fileID: 1583247436}
+  playerCamera: {fileID: 2105808736}
+  delay: 1
+  range: 20
+  mul: 1.5
+  waves:
+  - duration: 30
+    spawnables:
+    - prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
+      probability: 1
+      objectType: 0
+  - duration: 30
+    spawnables:
+    - prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
+      probability: 0.4
+      objectType: 0
+    - prefab: {fileID: 977019405514459944, guid: a97e3f37a0c84422a91594d673c51c9e, type: 3}
+      probability: 0.6
+      objectType: 0
+  - duration: 5
+    spawnables:
+    - prefab: {fileID: 977019405514459944, guid: a97e3f37a0c84422a91594d673c51c9e, type: 3}
+      probability: 0.4
+      objectType: 0
+    - prefab: {fileID: 7409560758361498147, guid: 635dd840b5d134b7aac2ab70ddd60ed5, type: 3}
+      probability: 0.5
+      objectType: 0
+    - prefab: {fileID: 5082108705794039475, guid: 8f8a2cec8a17d47b69d20cd0f1ebc030, type: 3}
+      probability: 0.1
+      objectType: 0
+  isMax: 1
+  maxRangeRadius: 50
+  entityRadius: 0.5
 --- !u!1 &1583247435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,10 +2057,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - type: 0
-    prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
-    size: 20
   - type: 1
+    prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
+    size: 10
+  - type: 0
+    prefab: {fileID: 977019405514459944, guid: a97e3f37a0c84422a91594d673c51c9e, type: 3}
+    size: 10
+  - type: 2
     prefab: {fileID: 2912871820685555210, guid: 2b22152288296144eb2456f85cc28e8c, type: 3}
     size: 10
 --- !u!4 &1583247437
@@ -2087,7 +2143,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786584048}
-  m_LocalRotation: {x: 0.42415538, y: -0.000000015581922, z: 0.0000000072981816, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: 7.5841975e-26, z: -3.5522477e-26, w: 0.9055895}
   m_LocalPosition: {x: 0, y: 13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2356,7 +2412,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105808735}
-  m_LocalRotation: {x: 0.42415538, y: -0.000000015581922, z: 0.0000000072981816, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: 7.5841975e-26, z: -3.5522477e-26, w: 0.9055895}
   m_LocalPosition: {x: 0, y: 13, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2493,8 +2549,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2458bf35155734f933e2df632c65ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletNum: 1
-  bulletInterval: 15
+  bulletNum: 0
+  bulletInterval: 0
   rotationAnglePerSecond: 270
   bulletObjectPool: {fileID: 1583247436}
   dashSpeed: 40

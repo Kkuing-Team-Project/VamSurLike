@@ -9,8 +9,11 @@ public class ObjectPool : MonoBehaviour
     // Enum to define different object types
     public enum ObjectType
     {
-        Enemy,
-        Bullet
+        StoneHead,
+        Prion,
+        Servant,
+        DarkArcher,
+        Bullet,
     }
 
     [System.Serializable]
@@ -84,6 +87,7 @@ public class ObjectPool : MonoBehaviour
         // If the pool does not exist, return null
         if (!poolDictionary.ContainsKey(objectType))
         {
+            Debug.LogError("Pool for type " + objectType + " does not exist.");
             return null;
         }
 
@@ -93,7 +97,8 @@ public class ObjectPool : MonoBehaviour
         {
             obj.transform.position = position;
             obj.SetActive(true);
-
+            Debug.Log("Popped and activated object of type: " + objectType); // 로그 추가
+            
             if (poolDictionary[objectType].Count < 3)
             {
                 Allocate(5, objectType);
@@ -108,10 +113,13 @@ public class ObjectPool : MonoBehaviour
                 obj = poolDictionary[objectType].Pop();
                 obj.transform.position = position;
                 obj.SetActive(true);
+                Debug.Log("Allocated and activated object of type: " + objectType); // 로그 추가
+                
                 return obj;
             }
             else
             {
+                Debug.LogError("Failed to allocate object of type " + objectType);
                 return null;
             }
         }
