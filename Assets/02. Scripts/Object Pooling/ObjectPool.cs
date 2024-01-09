@@ -116,7 +116,7 @@ public class ObjectPool : MonoBehaviour
             }
         }
     }
-
+    
     // Method to return an object back to the pool
     public void Push(GameObject obj, ObjectType type)
     {
