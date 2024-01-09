@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempBoss : BossCtrl
 {
-    public AnimationClip clip;
-    public Transform pattern1Tr;
+    public Transform[] patternTr;
+    public float pattern1Rad = 3;
+    public Vector3 pattern2Box;
+    public Vector3 pattern3Box;
+    public float pattern4Rad = 3;
 
     protected override void InitEntity()
     {
@@ -22,8 +26,9 @@ public class TempBoss : BossCtrl
     public IEnumerator Pattern2()
     {
         animator.SetTrigger("Pattern2");
-        yield return new WaitUntil(() => IsAnimationClipPlaying("Start", patternIdx + 1) == true);
-        yield return new WaitUntil(() => IsAnimationClipPlaying("Wait", patternIdx + 1) == true);
+        yield return new WaitUntil(() => IsAnimationClipPlaying("Loop", patternIdx + 1) == true);
+        yield return new WaitUntil(() => IsAnimationClipPlaying("Loop", patternIdx + 1) == false);
+        Pattern2Attack();
     }
     public IEnumerator Pattern3()
     {
@@ -73,9 +78,67 @@ public class TempBoss : BossCtrl
 
     public void Pattern1Attack()
     {
-        Collider[] col = Physics.OverlapSphere(pattern1Tr.position, 10, 1 << LayerMask.NameToLayer("PLAYER"));
-        Debug.Log($"{gameObject.name}: {10}");
+
+        Collider[] col = Physics.OverlapSphere(patternTr[0].position, pattern1Rad, 1 << LayerMask.NameToLayer("PLAYER"));
+
         if (col.Length > 0)
+        {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
+        }
+    }
+
+    public void Pattern2Attack()
+    {
+        Collider[] col = Physics.OverlapBox(patternTr[1].position, pattern2Box / 2, Quaternion.identity, 1 << LayerMask.NameToLayer("PLAYER"));
+        if(col.Length > 0)
+        {
+            col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
+        }
+    }
+
+    public void Pattern3Attack()
+    {
+        Collider[] col = Physics.OverlapBox(patternTr[1].position, pattern3Box / 2, Quaternion.identity, 1 << LayerMask.NameToLayer("PLAYER"));
+        if (col.Length > 0)
+        {
+            col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
+        }
+    }
+
+    public void Pattern4Attack()
+    {
+
+        Collider[] col = Physics.OverlapSphere(patternTr[3].position, pattern4Rad, 1 << LayerMask.NameToLayer("PLAYER"));
+
+        if (col.Length > 0)
+        {
+            col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
+        }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.green;
+            switch (patternIdx)
+            {
+                case 0:
+                    Gizmos.DrawWireSphere(patternTr[0].position, pattern1Rad);
+                    break;
+                case 1:
+                    Gizmos.DrawWireCube(patternTr[1].position, pattern2Box);
+                    break;
+                case 2:
+                    Gizmos.DrawWireCube(patternTr[2].position, pattern3Box);
+                    break;
+                case 3:
+                    Gizmos.DrawWireSphere(patternTr[3].position, pattern4Rad);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
