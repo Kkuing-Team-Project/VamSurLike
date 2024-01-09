@@ -5,22 +5,13 @@ using UnityEngine;
 public class TempPlayable : PlayableCtrl
 {
     [SerializeField]
-    ObjectPool bulletObjectPool;
+    private ObjectPool bulletObjectPool;
         
     public float tempBulletSpeed = 50f; // ���� Ŭ�������� �޾ƿ����� �����Ұ�.
 
     protected override void OnEntityDied()
     {
 
-    }
-
-    protected override void PlayerAttack()
-    {
-        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet).GetComponent<TempBullet>();
-        bullet.transform.rotation = Quaternion.LookRotation(transform.forward);
-
-        bullet.rigid.velocity = tempBulletSpeed * transform.forward;
-        bullet.transform.position = transform.position;
     }
 
     protected override void PlayerSkill()

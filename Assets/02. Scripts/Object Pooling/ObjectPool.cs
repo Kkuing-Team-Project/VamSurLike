@@ -56,7 +56,7 @@ public class ObjectPool : MonoBehaviour
         {
             if (pool.type != objectType)
             {
-                return;
+                continue;
             }
             for (int i = 0; i < count; i++)
             {
@@ -87,7 +87,6 @@ public class ObjectPool : MonoBehaviour
             return poolDictionary[objectType].Pop();
         }
     }
-
 
     public void Push(GameObject obj, ObjectType type)
     {

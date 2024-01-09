@@ -8,7 +8,8 @@ public class TempBullet : MonoBehaviour, IPoolable
     public Rigidbody rigid { get; set; }
     public Stack<GameObject> pool { get; set; }
 
-    TempPlayable player;
+    [HideInInspector]
+    public PlayableCtrl player;
 
     public void Create(Stack<GameObject> pool)
     {
@@ -26,7 +27,7 @@ public class TempBullet : MonoBehaviour, IPoolable
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
-    IEnumerator ReturnBullet(float time)
+    private IEnumerator ReturnBullet(float time)
     {
         yield return new WaitForSeconds(time);
         Push();
@@ -38,6 +39,7 @@ public class TempBullet : MonoBehaviour, IPoolable
         {
             Entity enemy = other.GetComponent<Entity>();
             enemy.TakeDamage(player, 10f);
+            player.InvokeEvent(AugmentationEventType.ON_HIT, player, new OnHitArgs(other.ClosestPoint(transform.position), enemy));
             StopAllCoroutines();
             Push();
         }
