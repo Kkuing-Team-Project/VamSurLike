@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class PlayableCtrl : Entity
 {
@@ -19,24 +20,24 @@ public abstract class PlayableCtrl : Entity
 
     private AugEventArgs defaultArgs;
 
+    [Header("오브젝트 풀"), SerializeField]
+    private ObjectPool bulletObjectPool;
+
     [Header("총알 갯수")]
     public int bulletNum;
 
     [Header("총알 간 각도")]
     public float bulletInterval;
 
-    [Tooltip("초당 회전 각도 값")]
+    [Header("초당 회전 각도 값")]
     public float rotationAnglePerSecond;
-
-
-    [SerializeField]
-    private ObjectPool bulletObjectPool;
 
     [Header("점멸 속도"), SerializeField]
     private float dashSpeed = 40f;
 
     [Header("점멸 이동 시간"), SerializeField]
     private float dashTime;
+        
 
     // 이동 입력값
     private Vector3 inputVector;
@@ -48,12 +49,14 @@ public abstract class PlayableCtrl : Entity
     // 증강 리스트
     private List<Augmentation> augmentationList = new List<Augmentation>();
 
+    // 임시 이펙트 오브젝트
+    GameObject tempEffectObj;
+
     protected override void InitEntity()
     {
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, 3);
         defaultArgs = new AugEventArgs(transform, this);
-        AddEffect(new Stun(1, 2, this));
     }
 
     void FixedUpdate()
@@ -173,7 +176,26 @@ public abstract class PlayableCtrl : Entity
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-
+        Collider[] enemies = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("ENEMY"));
+        if (enemies.Length > 0 )
+        {
+            foreach(var enemy in enemies)
+            {
+                Entity target = enemy.GetComponent<Entity>();
+                //target.TakeDamage(this, 1);
+                Vector3 knockbackDirection = (target.transform.position - transform.position).normalized;
+                //target.GetComponent<NavMeshAgent>().enabled = false;
+                target.rigid.AddForce(knockbackDirection * 2, ForceMode.Impulse);
+            }
+        }
+        StopCoroutine("DisableEffect");
+        StartCoroutine("DisableEffect");
+    }
+    private IEnumerator DisableEffect()
+    {
+        tempEffectObj.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        tempEffectObj.SetActive(false);
     }
 
     protected abstract void PlayerSkill();

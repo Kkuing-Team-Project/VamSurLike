@@ -7,30 +7,21 @@ using UnityEditor;
 #endif
 
 [System.Serializable]
-public class SpawnObject
+public struct Spawnable
 {
-    public GameObject objectPrefab;
-    public float percent;
-    [SerializeField]
-    private float realPercentMin;
-    [SerializeField]
-    private float realPercentMax;
-
-    public void SetRealPercent(float min, float max)
-    {
-        realPercentMin = min;
-        realPercentMax = max;
-        Debug.Log($"{objectPrefab.name}: {realPercentMin}, {realPercentMax}");
-    }
-
-    public bool IsSelected(float value)
-    {
-        Debug.Log($"{value}, {realPercentMin}, {realPercentMax} = {realPercentMin <= value && realPercentMax > value}");
-        return realPercentMin <= value && realPercentMax > value;
-    }
+    public GameObject prefab;
+    public float probability; // 이 프리팹이 생성될 확률
+    public ObjectPool.ObjectType objectType;
 }
 
-public class Spawner : MonoBehaviour
+[System.Serializable]
+public struct Wave
+{
+    public float duration; // 웨이브의 지속 시간
+    public Spawnable[] spawnables; // 해당 웨이브에서 사용될 Spawnable 배열
+}
+
+public class Spawner2 : MonoBehaviour
 {
     private bool gameOver = false;
     public Vector3 center { get; private set; }
@@ -38,6 +29,7 @@ public class Spawner : MonoBehaviour
     public float height { get; private set; }
     public float width { get; private set; }
     public ObjectPool Pool;
+
     [SerializeField]
     private Camera playerCamera;
     [SerializeField]
@@ -48,8 +40,12 @@ public class Spawner : MonoBehaviour
     private float mul = 1.5f;
 
     [SerializeField]
-    private GameObject[] testPrefabs = new GameObject[4];
-    
+    private Wave[] waves; // 웨이브 배열
+    private int currentWaveIndex = 0; // 현재 웨이브 인덱스
+    private float waveTimer; // 웨이브 타이머
+
+    private Vector3 point;
+
     [HideInInspector]
     public bool isMax;
     [HideInInspector]
@@ -58,13 +54,13 @@ public class Spawner : MonoBehaviour
     public float entityRadius = 0.5f;
     
     #if UNITY_EDITOR
-    [CustomEditor(typeof(Spawner))]
+    [CustomEditor(typeof(Spawner2))]
     public class SpawnerEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            Spawner myTarget = (Spawner)target;
+            Spawner2 myTarget = (Spawner2)target;
             myTarget.isMax = EditorGUILayout.Toggle("Is Max", myTarget.isMax);
 
             if (myTarget.isMax)
@@ -77,12 +73,162 @@ public class Spawner : MonoBehaviour
         }
     }
     #endif
+
     private void Start()
     {
-        StartCoroutine(nameof(Spawn));
+        StartWave();
     }
 
     private void Update()
+    {
+        if (gameOver || waves.Length == 0)
+            return;
+
+        waveTimer -= Time.deltaTime;
+        if (waveTimer <= 0 && currentWaveIndex < waves.Length - 1)
+        {
+            currentWaveIndex++;
+            StartWave();
+        }
+
+        UpdateSpawnArea();
+    }
+
+    private void StartWave()
+    {
+        waveTimer = waves[currentWaveIndex].duration;
+        Debug.Log("Wave " + (currentWaveIndex + 1) + " 시작");
+        StartCoroutine(Spawn(waves[currentWaveIndex]));
+    }
+
+    private IEnumerator Spawn(Wave wave)
+    {
+        Vector3 staticPos = transform.position;
+        float waveEndTime = Time.time + wave.duration;
+
+        while (!gameOver && Time.time < waveEndTime)
+        {
+            yield return new WaitForSeconds(delay);
+
+            Color color = Color.white;
+                
+            float minRandomRangeX = -(mapSize.x * 0.5f) + center.x;
+            float maxRandomRangeX = (mapSize.x * 0.5f) + center.x;
+            float minRandomRangeZ = -(mapSize.z * 0.5f) + center.z;
+            float maxRandomRangeZ = (mapSize.z * 0.5f) + center.z;
+                
+            float x = UnityEngine.Random.Range(minRandomRangeX, maxRandomRangeX);
+            float z = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
+            float selectX = width * mul * 0.5f;
+            float selectZ = height * mul * 0.5f;
+            float spawnRadius = maxRangeRadius - entityRadius;
+                
+            Vector3 point = new Vector3(x, staticPos.y, z);
+            bool isInsideRedBox = -selectX + center.x <= x && x <= selectX + center.x && 
+                                -selectZ + center.z <= z && z <= selectZ + center.z;
+            bool isOutOfMaxCircle = Vector3.Distance(staticPos, point) > spawnRadius;
+
+            if (isInsideRedBox || isOutOfMaxCircle)
+            {
+                float minSideX = selectX + center.x;
+                if (Mathf.Abs(-selectX + center.x - x) < Mathf.Abs(selectX + center.x - x))
+                    minSideX = -selectX + center.x;
+                    float minSideZ = selectZ + center.z;
+                    
+                if (Mathf.Abs(-selectZ + center.z - z) < Mathf.Abs(selectZ + center.z - z))
+                    minSideZ = -selectZ + center.z;
+                    float maxSideX = mapSize.x * 0.5f;
+
+                if (Mathf.Abs(-maxSideX + center.x - minSideX) > Mathf.Abs(maxSideX + center.x - minSideX))
+                        minRandomRangeX = minSideX;
+                    else
+                        maxRandomRangeX = minSideX;
+
+                    float maxSideZ = mapSize.z * 0.5f;
+
+                if (Mathf.Abs(-maxSideZ + center.z - minSideZ) > Mathf.Abs(maxSideZ + center.z - minSideZ))
+                    minRandomRangeZ = minSideZ;
+                else
+                    maxRandomRangeZ = minSideZ;
+                    
+                if (isInsideRedBox)
+                {
+                    float newX = x;
+                    float newZ = z;
+                    color = Color.blue;
+                    if (Mathf.Abs(minSideX - x) < Mathf.Abs(minSideZ - z))
+                        newX = UnityEngine.Random.Range(minRandomRangeX, maxRandomRangeX);
+                    else{
+                        newZ = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
+                    
+                        point = new Vector3(newX, staticPos.y, newZ);
+                        // print(point);
+                        SpawnEnemy(wave, point);
+                    }
+                }
+            }
+
+            if (isMax && isOutOfMaxCircle)
+            {
+                color = color == Color.blue ? Color.yellow : Color.red;
+                    
+            }
+        }
+         Debug.Log("Wave " + (currentWaveIndex + 1) + " 종료"); // 웨이브 종료 로그
+
+        if (currentWaveIndex < waves.Length - 1)
+        {
+            currentWaveIndex++;
+            StartWave(); // 다음 웨이브 시작
+        }
+        else
+        {
+            // 모든 웨이브 완료 후 처리 로직 (예: 게임 종료, 승리 화면 등)
+        }
+    }
+
+    private void SpawnEnemy(Wave wave, Vector3 point)
+    {
+        Spawnable selectedSpawnable = SelectPrefabBasedOnProbability(wave.spawnables);
+        GameObject enemyPrefab = selectedSpawnable.prefab;
+        if (enemyPrefab != null)
+        {
+            // Vector3 point = CalculateSpawnPosition();
+            // print(point);
+            GameObject enemy = Pool.Pop(selectedSpawnable.objectType, point); // 여기 수정
+            // 나머지 코드...
+        }
+    }
+    private Spawnable SelectPrefabBasedOnProbability(Spawnable[] spawnables)
+    {
+        float totalProbability = 0;
+        foreach (var spawnable in spawnables)
+        {
+            totalProbability += spawnable.probability;
+        }
+
+        float randomPoint = UnityEngine.Random.Range(0, totalProbability);
+        float currentProbability = 0;
+
+        foreach (var spawnable in spawnables)
+        {
+            currentProbability += spawnable.probability;
+            if (randomPoint <= currentProbability)
+            {
+                return spawnable;
+            }
+        }
+
+        return default; // 기본값 반환
+    }
+
+    // private Vector3 CalculateSpawnPosition()
+    // {
+    //     // 적 생성 위치 계산 로직
+    //     return point;
+    // }
+
+    private void UpdateSpawnArea()
     {
         Ray rightTopRay = playerCamera.ViewportPointToRay(Vector2.one);
         Ray leftTopRay = playerCamera.ViewportPointToRay(new Vector2(1, 0));
@@ -122,87 +268,7 @@ public class Spawner : MonoBehaviour
         mapSize = new Vector3(width * mul + range, 0, height * mul + range);
     }
 
-    private IEnumerator Spawn()
-    {
-        Vector3 staticPos = transform.position;
-
-        while (!gameOver)
-        {
-            yield return new WaitForSeconds(delay);
-            Color color = Color.white;
-            
-            float minRandomRangeX = -(mapSize.x * 0.5f) + center.x;
-            float maxRandomRangeX = (mapSize.x * 0.5f) + center.x;
-            float minRandomRangeZ = -(mapSize.z * 0.5f) + center.z;
-            float maxRandomRangeZ = (mapSize.z * 0.5f) + center.z;
-            
-            float x = UnityEngine.Random.Range(minRandomRangeX, maxRandomRangeX);
-            float z = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
-            float selectX = width * mul * 0.5f;
-            float selectZ = height * mul * 0.5f;
-            float spawnRadius = maxRangeRadius - entityRadius;
-            
-            Vector3 point = new Vector3(x, staticPos.y, z);
-            bool isInsideRedBox = -selectX + center.x <= x && x <= selectX + center.x &&
-                                  -selectZ + center.z <= z && z <= selectZ + center.z;
-            bool isOutOfMaxCircle = Vector3.Distance(staticPos, point) > spawnRadius;
-            
-            if (isInsideRedBox || isOutOfMaxCircle)
-            {
-                float minSideX = selectX + center.x;
-                if (Mathf.Abs(-selectX + center.x - x) < Mathf.Abs(selectX + center.x - x))
-                    minSideX = -selectX + center.x;
-                float minSideZ = selectZ + center.z;
-                if (Mathf.Abs(-selectZ + center.z - z) < Mathf.Abs(selectZ + center.z - z))
-                    minSideZ = -selectZ + center.z;
-
-                float maxSideX = mapSize.x * 0.5f;
-                if (Mathf.Abs(-maxSideX + center.x - minSideX) > Mathf.Abs(maxSideX + center.x - minSideX))
-                    minRandomRangeX = minSideX;
-                else
-                    maxRandomRangeX = minSideX;
-
-                float maxSideZ = mapSize.z * 0.5f;
-                if (Mathf.Abs(-maxSideZ + center.z - minSideZ) > Mathf.Abs(maxSideZ + center.z - minSideZ))
-                    minRandomRangeZ = minSideZ;
-                else
-                    maxRandomRangeZ = minSideZ;
-                
-                if (isInsideRedBox)
-                {
-                    float newX = x;
-                    float newZ = z;
-                    color = Color.blue;
-                    if (Mathf.Abs(minSideX - x) < Mathf.Abs(minSideZ - z))
-                        newX = UnityEngine.Random.Range(minRandomRangeX, maxRandomRangeX);
-                    else
-                        newZ = UnityEngine.Random.Range(minRandomRangeZ, maxRandomRangeZ);
-                
-                    point = new Vector3(newX, staticPos.y, newZ);
-                    //testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
-                    //Debug.Log(Vector3.Distance(staticPos, point));
-                    //Debug.Log(spawnRadius);
-                    // point.x -= pos.x + spawnRadius;
-                    // point.z -= pos.z + spawnRadius;
-                }
-                
-                if (isMax && isOutOfMaxCircle)
-                {
-                    color = color == Color.blue ? Color.yellow : Color.red;
-                    
-                }
-            }
-            
-            // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
-            // change obj pool
-            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy, point);            
-            if (enemy.GetComponent<SpriteRenderer>())
-                enemy.GetComponent<SpriteRenderer>().material.color = color;
-            // Instantiate(testPrefab, point, Quaternion.identity);
-        }
-    }
-
-    public void OnDrawGizmosSelected()
+     public void OnDrawGizmosSelected()
     {
         Ray rightTopRay = playerCamera.ViewportPointToRay(Vector2.one);
         Ray leftTopRay = playerCamera.ViewportPointToRay(new Vector2(1, 0));
