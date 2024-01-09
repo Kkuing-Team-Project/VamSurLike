@@ -195,7 +195,7 @@ public class Spawner : MonoBehaviour
             
             // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");
             // change obj pool
-            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.Enemy, point);            
+            GameObject enemy = Pool.Pop(ObjectPool.ObjectType.StoneHead, point);            
             if (enemy.GetComponent<SpriteRenderer>())
                 enemy.GetComponent<SpriteRenderer>().material.color = color;
             // Instantiate(testPrefab, point, Quaternion.identity);
