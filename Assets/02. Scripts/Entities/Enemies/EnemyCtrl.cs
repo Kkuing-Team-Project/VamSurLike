@@ -17,11 +17,11 @@ public abstract class EnemyCtrl : Entity
             playable = FindObjectOfType<PlayableCtrl>();
         if (nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
-        if (enemyPool == null)
-        {
-           enemyPool = GameObject.Find("EnemyPool").transform;
-           transform.SetParent(enemyPool);
-        }
+        //if (enemyPool == null)
+        //{
+        //   enemyPool = GameObject.Find("EnemyPool").transform;
+        //   transform.SetParent(enemyPool);
+        //}
     }
 
     protected override void UpdateEntity()
