@@ -20,7 +20,7 @@ public class Stat
         {
             [StatType.MAX_HP] = 100f,
             [StatType.MOVE_SPEED] = 1f,
-            [StatType.ATTACK_SPEED] = 2f,
+            [StatType.ATTACK_SPEED] = 2f,   //롤 공속식(초당 n회)
             [StatType.DAMAGE] = 10f,
             [StatType.ATTACK_DISTANCE] = 5,
             [StatType.SKILL_COOL_DOWN_MAG] = 1f,

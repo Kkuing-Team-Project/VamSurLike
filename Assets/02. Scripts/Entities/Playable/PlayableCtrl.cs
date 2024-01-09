@@ -53,6 +53,7 @@ public abstract class PlayableCtrl : Entity
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, 3);
         defaultArgs = new AugEventArgs(transform, this);
+        AddEffect(new Stun(1, 2, this));
     }
 
     void FixedUpdate()
@@ -66,19 +67,11 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        if (HasAugmentation<TempAug>())
-        {
-            GetAugmentation<TempAug>().SetAugmentationLevel(GetAugmentationLevel<TempAug>() + 1);
-        }
-        else
-        {
-            AddAugmentation(new TempAug(1, AugmentationEventType.ON_HIT));
-        }
+        AddAugmentation(new TempAug(1, AugmentationEventType.ON_HIT));
     }
 
     protected override void UpdateEntity()
     {
-        base.UpdateEntity();
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
 
         inputVector.x = Input.GetAxisRaw("Horizontal");
@@ -209,25 +202,32 @@ public abstract class PlayableCtrl : Entity
     //증강 추가 메소드
     public void AddAugmentation(Augmentation aug)
     {
-        switch (aug.eventType)
+        if (!HasAugmentation<Augmentation>())
         {
-            case AugmentationEventType.ON_START:
-                aug.AugmentationEffect(this, defaultArgs);
-                OnStartAugmentation += aug.AugmentationEffect;
-                break;
-            case AugmentationEventType.ON_UPDATE:
-                OnUpdateAugmentation += aug.AugmentationEffect;
-                break;
-            case AugmentationEventType.ON_ATTACK:
-                OnAttackPlayer += aug.AugmentationEffect;
-                break;
-            case AugmentationEventType.ON_HIT:
-                OnBulletHit += aug.AugmentationEffect;
-                break;
-            default:
-                break;
+            switch (aug.eventType)
+            {
+                case AugmentationEventType.ON_START:
+                    aug.AugmentationEffect(this, defaultArgs);
+                    OnStartAugmentation += aug.AugmentationEffect;
+                    break;
+                case AugmentationEventType.ON_UPDATE:
+                    OnUpdateAugmentation += aug.AugmentationEffect;
+                    break;
+                case AugmentationEventType.ON_ATTACK:
+                    OnAttackPlayer += aug.AugmentationEffect;
+                    break;
+                case AugmentationEventType.ON_HIT:
+                    OnBulletHit += aug.AugmentationEffect;
+                    break;
+                default:
+                    break;
+            }
+            augmentationList.Add(aug);
         }
-        augmentationList.Add(aug);
+        else
+        {
+            GetAugmentation<Augmentation>().SetAugmentationLevel(GetAugmentationLevel<Augmentation>() + 1);
+        }
     }
 
     //증강 삭제(클래스에 따라)
