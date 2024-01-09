@@ -57,6 +57,7 @@ public abstract class PlayableCtrl : Entity
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, 3);
         defaultArgs = new AugEventArgs(transform, this);
+        tempEffectObj = transform.Find("Effect Obj").gameObject;
     }
 
     void FixedUpdate()
@@ -179,7 +180,6 @@ public abstract class PlayableCtrl : Entity
         Collider[] enemies = Physics.OverlapSphere(transform.position, 5f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0 )
         {
-            Debug.Log(enemies);
             foreach(var enemy in enemies)
             {
                 Entity target = enemy.GetComponent<Entity>();
@@ -189,13 +189,13 @@ public abstract class PlayableCtrl : Entity
                 target.rigid.AddForce(knockbackDirection * 20, ForceMode.Impulse);
             }
         }
-        //StopCoroutine("DisableEffect");
-        //StartCoroutine("DisableEffect");
+        StopCoroutine("DisableEffect");
+        StartCoroutine("DisableEffect");
     }
     private IEnumerator DisableEffect()
     {
         tempEffectObj.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         tempEffectObj.SetActive(false);
     }
      
