@@ -1,26 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 
 public class TempPlayable : PlayableCtrl
 {
-    [SerializeField]
-    ObjectPool bulletObjectPool;
         
-    public float tempBulletSpeed = 50f; // 무기 클래스에서 받아오도록 변경할것.
+    public float tempBulletSpeed = 50f; // Temporary bullet speed, can be adjusted in the inspector.
 
     protected override void OnEntityDied()
     {
 
-    }
-
-    protected override void PlayerAttack()
-    {
-        TempBullet bullet = bulletObjectPool.Pop().GetComponent<TempBullet>();
-        bullet.transform.rotation = Quaternion.LookRotation(transform.forward);
-
-        bullet.rigid.velocity = tempBulletSpeed * transform.forward;
-        bullet.transform.position = transform.position;
     }
 
     protected override void PlayerSkill()
@@ -34,12 +24,8 @@ public class TempPlayable : PlayableCtrl
         {
             Gizmos.color = Color.green;
 
+            // Draws a green wireframe sphere to visualize attack distance
             Gizmos.DrawWireSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE));
         }        
-    }
-
-    protected override void OnTakeDamage(Entity caster, float dmg)
-    {
-
     }
 }

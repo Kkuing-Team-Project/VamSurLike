@@ -9,14 +9,16 @@ public class BossController : Entity
 {
     public Rigidbody rb;
     public AgentController ac;
-    public Renderer squareRenderer; // 정사각형 오브젝트의 렌더러
+    public Renderer squareRenderer_Action; // 정사각형 오브젝트의 렌더러
+    public Renderer squareRenderer_Hp;
+    public Renderer squareRenderer_Attack;
     private Vector3 initialPosition; // 보스 캐릭터의 초기 위치를 저장할 변수
 
     public new float hp = 1000f; // 체력
     public float moveSpeed = 1.5f; // 이동 속도
     public float attackPower = 2f; // 공격력
-    public float meleeAttackDistance = 2.0f; // 근거리 공격 거리
-    public float longAttackDistance = 6.0f; // 장거리 공격 거리
+    public float meleeAttackDistance = 3.0f; // 근거리 공격 거리
+    public float longAttackDistance = 9.0f; // 장거리 공격 거리
 
     public bool reset = false; // 리셋 비활성화
     public bool stop = false; // 멈추기 비활성화
@@ -34,7 +36,9 @@ public class BossController : Entity
     protected List<PatternDelegate> patternList = new List<PatternDelegate>(); // 패턴 리스트
 
     protected NavMeshAgent nav; // 네비게이션 에이전트
-    protected PlayableCtrl playable;  // 플레이어블 컨트롤러
+    //protected BossController2 playable;  // 플레이어블 컨트롤러
+    public GameObject playable;
+    public string bossName;
     protected Transform enemyPool; // 적들을 관리하는 풀
 
     protected Coroutine attackPatternCor; // 공격 패턴
@@ -49,6 +53,24 @@ public class BossController : Entity
         initialPosition = transform.position;
     }
 
+    void Update_Action_SquareColor(Color color)
+    {
+        // 정사각형 오브젝트의 색깔 변경
+        squareRenderer_Action.material.color = color;
+    }
+
+    void Update_Hp_SquareColor(Color color)
+    {
+        // 정사각형 오브젝트의 색깔 변경
+        squareRenderer_Hp.material.color = color;
+    }
+
+    void Update_Attack_SquareColor(Color color)
+    {
+        // 정사각형 오브젝트의 색깔 변경
+        squareRenderer_Attack.material.color = color;
+    }
+
     // 엔티티 초기화 메서드: 보스 객체가 생성되거나 게임이 시작될 때 호출됩니다.
     protected override void InitEntity()
     {
@@ -58,7 +80,8 @@ public class BossController : Entity
         // playable 변수가 설정되지 않았다면, PlayableCtrl 컴포넌트를 찾아서 할당합니다.
         // 이는 일반적으로 플레이어 캐릭터를 제어하는 컴포넌트를 찾는데 사용됩니다.
         if (playable == null)
-            playable = FindObjectOfType<PlayableCtrl>();
+            // playable = FindObjectOfType<PlayableCtrl>();
+            playable =  GameObject.Find(bossName);
 
         // nav 변수가 설정되지 않았다면, 이 게임 오브젝트에 부착된 NavMeshAgent 컴포넌트를 찾아서 할당합니다.
         // NavMeshAgent는 보스의 경로 계획 및 이동에 사용됩니다.
@@ -87,49 +110,23 @@ public class BossController : Entity
         }
     }
 
-    protected override void UpdateEntity() // 업데이트 메서드
+    protected override void UpdateEntity()
     {
-        base.UpdateEntity(); // Entity 클래스의 업데이트 메서드 호출
-        // 플레이어와의 거리를 계산하여 보스의 이동 또는 공격 패턴을 결정합니다.
-        var origin = transform.position; 
+        base.UpdateEntity();
+        var origin = transform.position;
         origin.y = 0;
         var target = playable.transform.position;
         target.y = 0;
-        float distanceToPlayer = Vector3.Distance(origin, target);
-
-        // 공격 거리 밖에 있으면 보스 이동
-        if (distanceToPlayer > longAttackDistance && attackPatternCor == null)
+        if (Vector3.Distance(origin, target) > stat.Get(StatType.ATTACK_DISTANCE) && attackPatternCor == null)
             BossMove();
-        else if (distanceToPlayer <= meleeAttackDistance) // 근거리 공격 조건
+        else
         {
             if (attackPatternCor == null)
                 attackPatternCor = StartCoroutine(BossPatternCor());
         }
-        else if (distanceToPlayer <= longAttackDistance) // 장거리 공격 조건
-        {
-            if (attackPatternCor == null)
-                attackPatternCor = StartCoroutine(BossPatternCor());
-        }
-
         BossAnimation();
+        // UpdateColorBasedOnHealth();
     }
-
-    // protected override void UpdateEntity()
-    // {
-    //     base.UpdateEntity();
-    //     var origin = transform.position;
-    //     origin.y = 0;
-    //     var target = playable.transform.position;
-    //     target.y = 0;
-    //     if (Vector3.Distance(origin, target) > stat.Get(StatType.ATTACK_DISTANCE) && attackPatternCor == null)
-    //         BossMove();
-    //     else
-    //     {
-    //         if (attackPatternCor == null)
-    //             attackPatternCor = StartCoroutine(BossPatternCor());
-    //     }
-    //     BossAnimation();
-    // }
 
     protected virtual void BossAnimation()
     {
@@ -144,18 +141,86 @@ public class BossController : Entity
         nav.speed = stat.Get(StatType.MOVE_SPEED);
         nav.stoppingDistance = stat.Get(StatType.ATTACK_DISTANCE);
         nav.SetDestination(playable.transform.position);
+        Update_Action_SquareColor(Color.black);
+    }
+
+     // 체력에 따라 색깔을 업데이트하는 메서드
+    protected void UpdateColorBasedOnHealth()
+    {
+        if (hp > 800) // 현재 hp 1000 ~ 800
+        {
+            Update_Hp_SquareColor(new Color(0.5f, 0.7f, 1.0f)); // 하늘색
+        }
+        else if (hp > 400) // 현재 hp 800 ~ 400
+        {
+            Update_Hp_SquareColor(Color.green); // 초록색
+        }
+        else if (hp > 200) // 현재 hp 400 ~ 200
+        {
+            Update_Hp_SquareColor(Color.yellow); // 노란색
+        }
+        else // 현재 hp 200 ~ 0
+        {
+            Update_Hp_SquareColor(Color.red); // 빨간색
+        }
     }
  
     protected IEnumerator BossPatternCor()  // 보스 패턴 코루틴
-    {
+    {   
+        var origin = transform.position;
+        var target = playable.transform.position;
+        float distanceToPlayer = Vector3.Distance(origin, target);
+        UpdateColorBasedOnHealth();
+
+        // 거리와 체력에 따라 패턴 인덱스 결정
+        if (hp > 800 && distanceToPlayer > meleeAttackDistance && distanceToPlayer <= longAttackDistance)
+        {
+            // hp가 800 이상이고, 플레이어가 장거리 공격 가능 범위 내에 있을 때 장거리 공격을 선호합니다.
+            nowPatternIdx = 1; // 장거리 패턴
+            Color purple = new Color(0.5f, 0f, 1f);
+            Update_Action_SquareColor(purple);
+        }
+        else if (distanceToPlayer <= meleeAttackDistance)
+        {
+            // 플레이어가 근거리 공격 범위 내에 있을 때 근거리 공격을 실행합니다.
+            nowPatternIdx = 0; // 근거리 패턴
+            Color orange = new Color(1f, 0.5f, 0f);
+            Update_Action_SquareColor(orange);
+        }
+        else
+        {
+            // 기본적으로 근거리 패턴을 실행합니다.
+            nowPatternIdx = 0; // 근거리 패턴
+        }
+        bool attackHit = CheckIfAttackHits(playable); // 플레이어와의 충돌을 검사하는 함수
+
+        if(attackHit)
+        {
+            // 공격이 플레이어에게 맞았을 때
+            Update_Attack_SquareColor(Color.blue); // 공격 성공시 파란색으로 변경
+        }
+        else
+        {
+            // 공격이 플레이어에게 맞지 않았을 때
+            Update_Attack_SquareColor(Color.red); // 공격 실패시 빨간색으로 변경
+        }
+
+
         // 애니메이션 레이어 변경 (패턴에 맞게)
-        yield return ChangeAnimLayer(nowPatternIdx + 1, 0.1f, true);
+        yield return ChangeAnimLayer(nowPatternIdx, 0.1f, true);
         yield return StartCoroutine(patternList[nowPatternIdx].Invoke());
         // 애니메이션 레이어 복원 (Idle 상태로)
-        yield return ChangeAnimLayer(nowPatternIdx + 1, waitTime, false);
-        // 다음 패턴 선택
-        nowPatternIdx = Random.Range(0, patternList.Count);
+        yield return ChangeAnimLayer(nowPatternIdx, waitTime, false);
         attackPatternCor = null;
+    }
+
+        // 공격이 플레이어에게 맞았는지 확인하는 함수
+    protected bool CheckIfAttackHits(GameObject player)
+    {
+        // 여기서는 플레이어와의 충돌 검사 로직을 구현합니다.
+        // 실제 게임에서는 물리적 충돌 감지, Raycasting, 히트박스 검사 등을 사용할 수 있습니다.
+        // 이 예시에서는 단순화를 위해 랜덤한 결과를 반환합니다.
+        return Random.value > 0.5; // 50% 확률로 공격이 맞았다고 가정
     }
 
     // 애니메이션 레이어를 변경하는 코루틴

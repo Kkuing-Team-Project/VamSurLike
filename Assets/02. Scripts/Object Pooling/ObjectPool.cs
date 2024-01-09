@@ -1,56 +1,126 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour 
+public class ObjectPool : MonoBehaviour
 {
-    // 풀링할 오브젝트 프리팹
-    [SerializeField]
-    private Poolable poolObj;
-
-    // 초기에 할당할 오브젝트 수
-    [SerializeField]
-    private int allocateCount;
-
-    // 오브젝트를 넣어둘 스택
-    private Stack<Poolable> poolStack = new Stack<Poolable>();
-
-    private void Start()
+    // Enum to define different object types
+    public enum ObjectType
     {
-        Allocate(allocateCount);
+        Enemy,
+        Bullet
     }
+
+    [System.Serializable]
+    public struct Pool 
+    {
+        public ObjectType type;     // Type of object
+        public GameObject prefab;   // Prefab for the object
+        public int size;            // Size of the pool
+    }
+
+    // List to hold different pools
+    public List<Pool> pools;
+
+    // Dictionary to map each ObjectType to a stack of GameObjects
+    public Dictionary<ObjectType, Stack<GameObject>> poolDictionary = new Dictionary<ObjectType, Stack<GameObject>>();
+
+    private void Awake()
+    {
+        // Initialize each pool
+        foreach (var pool in pools)
+        {
+            Stack<GameObject> objectPool = new Stack<GameObject>();
+            new GameObject(pool.type.ToString()).transform.SetParent(transform);
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab, transform);
+                obj.SetActive(false);
+
+                objectPool.Push(obj);
+
+                obj.GetComponent<IPoolable>().Create(objectPool);
+
+                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
+            }
+            poolDictionary.Add(pool.type, objectPool);
+        }
+    }
+
 
     /// <summary>
-    /// 할당
+    /// Allocate additional objects
     /// </summary>
-    /// <param name="allocateCount">할당 개수</param>
-    public void Allocate(int allocateCount)
+    /// <param name="count">Number of objects to allocate</param>
+    public void Allocate(int count, ObjectType objectType)
     {
-        for (int i = 0; i < allocateCount; i++)
+        // Allocate objects of a specific type
+        foreach(var pool in pools)
         {
-            Poolable allocateObj = Instantiate(poolObj, transform);
-            allocateObj.Create(this);
-            poolStack.Push(allocateObj);
+            if (pool.type != objectType)
+            {
+                continue;
+            }
+            for (int i = 0; i < count; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab, transform);
+                obj.SetActive(false);
+
+                poolDictionary[pool.type].Push(obj);
+
+                obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
+
+                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
+
+            }
         }
     }
 
-    public GameObject Pop()
+    // Method to get an object from the pool
+    public GameObject Pop(ObjectType objectType, Vector3 position)
     {
-        Poolable obj = poolStack.Pop();
-        obj.gameObject.SetActive(true);
-
-        // 풀에 오브젝트가 3개보다 적으면 5개 추가 할당
-        if (poolStack.Count < 3)
+        // If the pool does not exist, return null
+        if (!poolDictionary.ContainsKey(objectType))
         {
-            Allocate(5);
+            return null;
         }
-        return obj.gameObject;
-    }
 
-    public void Push(Poolable obj)
+        GameObject obj;
+        // Try to pop an object from the stack
+        if (poolDictionary[objectType].TryPop(out obj))
+        {
+            obj.transform.position = position;
+            obj.SetActive(true);
+
+            if (poolDictionary[objectType].Count < 3)
+            {
+                Allocate(5, objectType);
+            }
+            return obj;
+        }
+        else
+        {
+            Allocate(3, objectType);
+            if (poolDictionary[objectType].Count > 0)
+            {
+                obj = poolDictionary[objectType].Pop();
+                obj.transform.position = position;
+                obj.SetActive(true);
+                return obj;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+    
+    // Method to return an object back to the pool
+    public void Push(GameObject obj, ObjectType type)
     {
-        obj.gameObject.SetActive(false);
-        poolStack.Push(obj);
+        obj.SetActive(false);
+        poolDictionary[type].Push(obj);
     }
 }

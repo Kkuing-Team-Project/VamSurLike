@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType { EXP, LEVEL, KILL, Time, Health, Coin }
+    public enum InfoType { EXP, LEVEL, KILL, TIME, HEALTH, COIN }
     public InfoType type;
 
     Text myText;
@@ -32,18 +32,18 @@ public class HUD : MonoBehaviour
 			case InfoType.KILL:
 				// myText.text = string.Format("{0:F0}", GameManager.instance.KILL);
 				break;
-			case InfoType.Time:
+			case InfoType.TIME:
 				// float 남은시간 = GameManager.instance.최대시간 - GameManager.instance.진행시간
 				// int min(분) = Mathf.FloorToInt(남은시간 / 60);
 				// int sec(초) = Mathf.FloorToInt(남은시간 % 60);
 				// myText.text = string.Format("{0:D2}:{1:D2}", min,sec);
 				break;
-			case InfoType.Health:
-				// float 현재 체력 = GameManager.instance.health;
-				// float max체력 = GameManager.instance.maxhealth;
+			case InfoType.HEALTH:
+				// float 현재 체력 = GameManager.instance.HEALTH;
+				// float max체력 = GameManager.instance.maxHEALTH;
 				// mySlider.value = 현재 체력 / max체력;
 				break;
-			case InfoType.Coin:
+			case InfoType.COIN:
 
 				break;
 		}
