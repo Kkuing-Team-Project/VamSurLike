@@ -9,20 +9,20 @@ public class PoisonField : Augmentation
     public float DAMAGE = 0.5f;
     
 
-    public PoisonField(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
+    public PoisonField(int level, AugmentationEventType eventType) : base(level, eventType)
     {
     }
 
    
 
-    public override void AugmentationEffect(Entity sender, EventArgs e)
+    public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        CoroutineHandler.StartCoroutine(FieldAttack());
+        CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
 
     
 
-    private IEnumerator FieldAttack()
+    private IEnumerator FieldAttack(Entity player)
     {
         
 
