@@ -59,13 +59,15 @@ public class ObjectPool : MonoBehaviour
         {
             if (pool.type != objectType)
             {
-                return;
+                continue;
             }
             for (int i = 0; i < count; i++)
             {
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
                 poolDictionary[pool.type].Push(obj);
+                obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
+
             }
         }
     }
@@ -84,13 +86,24 @@ public class ObjectPool : MonoBehaviour
         if (poolDictionary[objectType].TryPop(out obj))
         {
             obj.SetActive(true);
+
+            if (poolDictionary[objectType].Count < 3)
+            {
+                Allocate(5, objectType);
+            }
             return obj;
         }
         else
         {
-            // If the stack is empty, allocate more objects and return one
-            Allocate(5, objectType);
-            return poolDictionary[objectType].Pop();
+            Allocate(3, objectType);
+            if (poolDictionary[objectType].Count > 0)
+            {
+                return poolDictionary[objectType].Pop();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
