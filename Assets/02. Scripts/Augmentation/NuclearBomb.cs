@@ -6,7 +6,6 @@ using UnityEngine;
 public class NuclearBomb : Augmentation
 {
 	public float skillTime = 240f;
-	public int lvl = 0;
 
 	public NuclearBomb(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
@@ -30,7 +29,7 @@ public class NuclearBomb : Augmentation
 				enemy.GetComponent<Entity>().TakeDamage(player, enemy.hp);
 			}
 
-			switch (lvl)
+			switch (level)
 			{
 				case 1:
 					skillTime = 240f;
