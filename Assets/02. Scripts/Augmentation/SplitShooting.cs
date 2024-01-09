@@ -9,7 +9,7 @@ public class SplitShooting : Augmentation
 
 	public SplitShooting(PlayableCtrl player, int level, AugmentationEventType eventType) : base(player, level, eventType)
 	{
-
+		// bullet ภฮลอน๚ , bullet num
 	}
 
 	public override void AugmentationEffect(Entity sender, EventArgs e)
