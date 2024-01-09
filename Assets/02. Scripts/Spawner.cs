@@ -98,6 +98,8 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
+        Vector3 staticPos = transform.position;
+
         while (!gameOver)
         {
             yield return new WaitForSeconds(delay);
@@ -107,7 +109,7 @@ public class Spawner : MonoBehaviour
             float selectX = width * mul * 0.5f;
             float selectZ = height * mul * 0.5f;
             
-            Vector3 point = new Vector3(x, 1.0f, z);
+            Vector3 point = new Vector3(x, staticPos.y, z);
             if (-selectX + center.x <= x && x <= selectX + center.x &&
                 -selectZ + center.z <= z && z <= selectZ + center.z)
             {
@@ -123,19 +125,21 @@ public class Spawner : MonoBehaviour
                 else
                     minX = x;
 
-                point = new Vector3(minX, 1.0f, minZ);
+                point = new Vector3(minX, staticPos.y, minZ);
             }
 
             if (isMax)
             {
-                Vector3 pos = transform.position;
                 float spawnRadius = maxRangeRadius - entityRadius;
-                if (point.x <= pos.x + spawnRadius &&
-                    point.z <= pos.z + spawnRadius)
+                if (Vector3.Distance(staticPos, point) > spawnRadius)
                 {
-                    point.x -= pos.x + spawnRadius;
-                    point.z -= pos.z + spawnRadius;
+                    testPrefab.GetComponent<SpriteRenderer>().material.color = Color.red;
+                    Debug.Log(Vector3.Distance(staticPos, point));
+                    Debug.Log(spawnRadius);
+                    // point.x -= pos.x + spawnRadius;
+                    // point.z -= pos.z + spawnRadius;
                 }
+                
             }
 
             // Debug.Log($"풀 하기전 {testPrefab} {point} {Quaternion.identity}");

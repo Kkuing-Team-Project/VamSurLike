@@ -16,4 +16,14 @@ public class StoneHead : EnemyCtrl
     {
         
     }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void EnemyAttack()
+    {
+        throw new System.NotImplementedException();
+    }
 }

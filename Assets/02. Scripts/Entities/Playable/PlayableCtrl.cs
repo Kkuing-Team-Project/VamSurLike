@@ -53,7 +53,7 @@ public abstract class PlayableCtrl : Entity
     {
         if (HasAugmentation<DamageUp>())
         {
-            Debug.Log("!");
+            // Debug.Log("!");
             GetAugmentation<DamageUp>().SetAugmentationLevel(GetAugmentationLevel<DamageUp>() + 1);
         }
         else
@@ -128,18 +128,18 @@ public abstract class PlayableCtrl : Entity
             Entity result = enemies[0].GetComponent<Entity>();
             foreach (var enemy in enemies)
             {
-                Debug.Log($"Radius : {radius} Distance : {enemy.GetComponent<Collider>().bounds.size}");
+                // Debug.Log($"Radius : {radius} Distance : {enemy.GetComponent<Collider>().bounds.size}");
                 if (Vector3.Distance(transform.position, result.transform.position) > Vector3.Distance(transform.position, enemy.transform.position))
                 {
                     result = enemy.GetComponent<Entity>();
                 }
             }
-            Debug.Log(result.gameObject.name);
+            // Debug.Log(result.gameObject.name);
             return result;
         }
         else
         {
-            print("null");
+            // print("null");
             return null;
         }
     }
