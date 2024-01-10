@@ -24,6 +24,9 @@ public abstract class PlayableCtrl : Entity
 
     private AugEventArgs defaultArgs;
 
+    [Header("게이지 바"), SerializeField]
+    GaugeBar gaugeBar;
+
 
     [Header("총알 갯수")]
     public int bulletNum;
@@ -232,9 +235,24 @@ public abstract class PlayableCtrl : Entity
         yield return new WaitForSeconds(dashTime);
 
         rigid.velocity = Vector3.zero;
+
         canMove = true;
 
-        yield return new WaitForSeconds(5f);
+        gaugeBar.SetBarValue("DashBar", 0, 5f);
+
+        float cooltimeTimer = 0f;
+        while (true)
+        {
+            cooltimeTimer += Time.deltaTime;
+            gaugeBar.SetBarValue("DashBar", cooltimeTimer, 5f);
+
+            yield return null;
+            if (cooltimeTimer >= 5f)
+            {
+                gaugeBar.SetBarValue("DashBar", 5f, 5f);
+                break;
+            }
+        }
 
         dashCor = null;
     }
