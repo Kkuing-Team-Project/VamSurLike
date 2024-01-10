@@ -9,6 +9,9 @@ public enum SpiritState
 
 public class Spirit : Entity
 {
+    public SpiritState spiritState { get; private set; }
+    
+
     protected override void OnEntityDied()
     {
     }
