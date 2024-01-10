@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
+using TMPro;
 using TreeEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,8 +24,6 @@ public abstract class PlayableCtrl : Entity
 
     private AugEventArgs defaultArgs;
 
-    [Header("오브젝트 풀"), SerializeField]
-    private ObjectPool bulletObjectPool;
 
     [Header("총알 갯수")]
     public int bulletNum;
@@ -32,7 +32,7 @@ public abstract class PlayableCtrl : Entity
     public float bulletInterval;
 
     [Header("초당 회전 각도 값")]
-    public float rotationAnglePerSecond;
+    public float rotationAnglePerSecond = 270f;
 
     [Header("점멸 속도"), SerializeField]
     private float dashSpeed = 40f;
@@ -51,15 +51,36 @@ public abstract class PlayableCtrl : Entity
     // 증강 리스트
     private List<Augmentation> augmentationList = new List<Augmentation>();
 
-    // 임시 이펙트 오브젝트
-    GameObject tempEffectObj;
+    Animator anim;
+    ObjectPool bulletObjectPool;
 
+    [Header("테스트용 임시 값들")]
+    public bool isTest = false;
+    [Header("캐릭터 이동 속도"), SerializeField]
+    float tempMoveSpeed = 5f;
+    [Header("공격 사거리"), SerializeField]
+    float tempAttackRange = 12f;
+    [Header("공격 속도"), SerializeField]
+    float tempAttackSpeed = 2.5f;
     protected override void InitEntity()
     {
         base.InitEntity();
-        stat.SetDefault(StatType.MOVE_SPEED, 3);
+        
+        if (isTest)
+        {
+            stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
+            stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
+            stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
+        }
+        else
+        {
+            stat.SetDefault(StatType.MOVE_SPEED, 3);
+        }
+
+
         defaultArgs = new AugEventArgs(transform, this);
-        tempEffectObj = transform.Find("Effect Obj").gameObject;
+        anim = GetComponent<Animator>();
+        bulletObjectPool = FindObjectOfType<ObjectPool>();
     }
 
     void FixedUpdate()
@@ -80,23 +101,39 @@ public abstract class PlayableCtrl : Entity
     {
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
 
-        inputVector.x = Input.GetAxisRaw("Horizontal");
-        inputVector.z = Input.GetAxisRaw("Vertical");
+        inputVector.x = Input.GetAxis("Horizontal");
+        inputVector.z = Input.GetAxis("Vertical");
+        if (inputVector.magnitude > 0)
+        {
+            anim.SetBool("IsMove", true);
 
+            anim.SetFloat("InputX", transform.TransformVector(inputVector).x);
+            anim.SetFloat("InputZ", -transform.TransformVector(inputVector).z);
+
+            anim.speed = Mathf.Lerp(0f, 1f, rigid.velocity.magnitude / 6f);     // Code to set animation speed based on movement speed
+        }
+        else
+        {
+            anim.SetBool("IsMove", false);
+        }
+
+        #region Check Experience Gem around player
         Collider[] experienceGems = Physics.OverlapSphere(transform.position, stat.Get(StatType.EXP_RANGE), LayerMask.GetMask("EXP"));
+        if (experienceGems.LongLength > 0)
+        {
+            for (int i = 0; i < experienceGems.Length; i++)
+            {
+                experienceGems[i].GetComponent<ExperienceGem>().PullToPlayer(this);
+            }
+        }
+        #endregion
+
+        Vector3 targetPosition = Vector3.zero;
 
         // 공격 범위 내에 적이 있다면.
         if (GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
         {
-            #region Look Nearst Enemy
-            Vector3 targetPosition = GetNearestEnemy().transform.position;
-            targetPosition.y = transform.position.y;
-            Vector3 targetDirection = (targetPosition - transform.position).normalized;   // 적을 향한 벡터
-            Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
-
-            transform.rotation = nextRotation;
-
-            #endregion
+            targetPosition = GetNearestEnemy().transform.position;
 
             if (attackCor == null)
             {
@@ -112,7 +149,21 @@ public abstract class PlayableCtrl : Entity
                 StopCoroutine(attackCor);
                 attackCor = null;
             }
+
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                targetPosition = hit.point;
+            }
         }
+
+        targetPosition.y = transform.position.y;
+        Vector3 targetDirection = (targetPosition - transform.position).normalized;
+        Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
+
+        transform.rotation = nextRotation;
+
+
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -183,7 +234,7 @@ public abstract class PlayableCtrl : Entity
     {
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
-        Collider[] enemies = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("ENEMY"));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0 )
         {
             foreach(var enemy in enemies)
@@ -195,22 +246,13 @@ public abstract class PlayableCtrl : Entity
                 target.rigid.AddForce(knockbackDirection * 20, ForceMode.Impulse);
             }
         }
-        StopCoroutine("DisableEffect");
-        StartCoroutine("DisableEffect");
-    }
-    private IEnumerator DisableEffect()
-    {
-        tempEffectObj.SetActive(true);
-        yield return new WaitForSeconds(0.25f);
-        tempEffectObj.SetActive(false);
     }
      
     protected abstract void PlayerSkill();
 
 
     protected virtual void PlayerAttack(int bulletNum, float interval)
-    {
-        
+    {        
         for (int i = 0; i < bulletNum; i++)
         {
             CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
@@ -343,7 +385,7 @@ public abstract class PlayableCtrl : Entity
 
     public TempBullet CreateBullet(float speed, float rot)
     {
-        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position).GetComponent<TempBullet>();
+        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
 
         bullet.player = this;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);
