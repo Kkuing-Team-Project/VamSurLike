@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &494569236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,13 +505,14 @@ MonoBehaviour:
   mul: 1
   isWave: 1
   spawnObjects: []
+  maxPercent: 1
   waves:
   - duration: 10
     spawnObjects:
     - type: 0
+      showPercent: 0
       percent: 1
-  maxPercent: 1
-  currentWaveIndex: 0
+    maxPercent: 100
   isMax: 1
   maxRangeRadius: 50
   entityRadius: 0.5
@@ -773,12 +774,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - type: 0
+  - type: 1
     prefab: {fileID: 4562141296139026733, guid: 25ac24b96d0fd457996bf808ee3966e9, type: 3}
-    size: 30
-  - type: 4
+    size: 0
+  - type: 5
     prefab: {fileID: 2912871820685555210, guid: 2b22152288296144eb2456f85cc28e8c, type: 3}
-    size: 10
+    size: 0
+  - type: 6
+    prefab: {fileID: 3630959107996539053, guid: d256871cc6bfc1e41ad084184e8e3230, type: 3}
+    size: 5
 --- !u!4 &1583247437
 Transform:
   m_ObjectHideFlags: 0

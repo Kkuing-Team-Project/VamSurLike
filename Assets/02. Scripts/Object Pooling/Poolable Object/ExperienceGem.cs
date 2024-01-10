@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TempExperienceGem : MonoBehaviour, IPoolable
+public class ExperienceGem : MonoBehaviour, IPoolable
 {
     [Header("»πµÊ Ω√ ¿Ãµø º”µµ"), SerializeField]
     float moveSpeed;
@@ -14,7 +14,7 @@ public class TempExperienceGem : MonoBehaviour, IPoolable
 
     private void Start()
     {
-        coll = GetComponentInChildren<Collider>();
+        coll = GetComponent<Collider>();
     }
 
     public void Create(Stack<GameObject> pool)
@@ -26,6 +26,7 @@ public class TempExperienceGem : MonoBehaviour, IPoolable
     public void Push()
     {
         gameObject.SetActive(false);
+        coll.enabled = true;
         pool.Push(gameObject);
     }
 
@@ -37,19 +38,22 @@ public class TempExperienceGem : MonoBehaviour, IPoolable
 
     IEnumerator PullToPlayerCor(PlayableCtrl player)
     {
+        Vector3 targetPosition;
         while (true)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            targetPosition = player.transform.position;
+            targetPosition.y = 0;
 
-            if ((transform.position - player.transform.position).sqrMagnitude < 0.01f)
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+
+            if ((transform.position - targetPosition).sqrMagnitude < 0.01f)
             {
                 player.AddExp(1f);
-                //Push();
                 break;
             }
             yield return null;
         }
-        gameObject.SetActive(false);
+        Push();
         yield return null;
     }
 }
