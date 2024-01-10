@@ -24,6 +24,7 @@ public enum BlessType
 public class Spirit : Entity
 {
     private PlayableCtrl player;
+    [HideInInspector]
     public CollapseZone collapseZone;
     public SpiritState spiritState { get; private set; }
 
