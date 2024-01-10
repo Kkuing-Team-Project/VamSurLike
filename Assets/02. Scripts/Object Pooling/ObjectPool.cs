@@ -15,6 +15,7 @@ public class ObjectPool : MonoBehaviour
         Servant,
         DarkArcher,
         Bullet,
+        Arrow,
         Experience
     }
 
