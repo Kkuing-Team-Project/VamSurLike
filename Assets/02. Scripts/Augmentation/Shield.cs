@@ -6,36 +6,28 @@ using UnityEngine;
 public class Shield : Augmentation
 {
 	public int maxShield = 1;
-	public int curShield = 0;
-	public bool isHit = true;
+	public int curShield = 3;
 	public GameObject shield;
 
 	public Shield(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
-		// 1. ½Çµå ÀÌ¹ÌÁö ¹Þ¾Æ¿À±â
-		// 2. ¿¡³Ê¹Ì °ø°Ý ÆÇÁ¤ ¹Þ¾Æ¿À±â
-		
+		CoroutineHandler.StartCoroutine(NumberOfShields());
 	}
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e) 
 	{
-		CoroutineHandler.StartCoroutine(NumberOfShields());
+		//if(shield == null)
+		//{
+		//	e.eventTr.Find("PlayerCanvas").Find("Shield");
+		//}
 
-		if(shield == null)
+		if (curShield > 0) // 
 		{
-			e.eventTr.Find("PlayerCanvas").Find("Shield");
-		}
+			// ë¬´ì  ì¶”ê°€
+			e.target.AddEffect(new Invincible(1,Time.deltaTime, e.target));
 
-		if (isHit) // ÇÇ°Ý ½Ã
-		{
-			curShield -= 1;
-			// ¹«Àû Ãß°¡
-			e.target.AddEffect(new Invincble(Time.deltaTime));
-			if (curShield == 0)
-			{
-				shield.gameObject.SetActive(false);
-			}
 		}
+		shield.gameObject.SetActive(curShield > 0);
 	}
 
 	private IEnumerator NumberOfShields()
