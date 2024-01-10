@@ -27,6 +27,7 @@ public class Servant : EnemyCtrl, IPoolable
 
     protected override void OnEntityDied()
     {
+        base.OnEntityDied();
         Push(); // Return the enemy to the pool
     }
 
