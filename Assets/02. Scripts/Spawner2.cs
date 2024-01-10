@@ -43,6 +43,7 @@ public class Spawner2 : MonoBehaviour
     private Wave[] waves; // 웨이브 배열
     private int currentWaveIndex = 0; // 현재 웨이브 인덱스
     private float waveTimer; // 웨이브 타이머
+    private int cnt = 0;
 
     private Vector3 point;
 
@@ -76,37 +77,36 @@ public class Spawner2 : MonoBehaviour
 
     private void Start()
     {
-        StartWave();
+        StartCoroutine(StartWaves());
     }
 
     private void Update()
     {
-        if (gameOver || waves.Length == 0)
-            return;
-
-        waveTimer -= Time.deltaTime;
-        if (waveTimer <= 0 && currentWaveIndex < waves.Length - 1)
-        {
-            currentWaveIndex++;
-            StartWave();
-        }
-
         UpdateSpawnArea();
     }
 
-    private void StartWave()
+    private IEnumerator StartWaves()
     {
-        waveTimer = waves[currentWaveIndex].duration;
-        Debug.Log("Wave " + (currentWaveIndex + 1) + " 시작");
-        StartCoroutine(Spawn(waves[currentWaveIndex]));
+        foreach (Wave wave in waves)
+        {
+            StartCoroutine(Spawn(wave));
+            StartWave(wave);
+            // 웨이브의 지속 시간만큼 기다림
+            yield return new WaitForSeconds(wave.duration);
+        }
     }
+
+    private void StartWave(Wave wave)
+    {
+        // 웨이브 시작 관련 로직
+        // 예: 적 생성, 타이머 시작 등
+    }
+
 
     private IEnumerator Spawn(Wave wave)
     {
         Vector3 staticPos = transform.position;
-        float waveEndTime = Time.time + wave.duration;
-
-        while (!gameOver && Time.time < waveEndTime)
+        while (!gameOver)
         {
             yield return new WaitForSeconds(delay);
 
@@ -174,12 +174,12 @@ public class Spawner2 : MonoBehaviour
                     
             }
         }
-         Debug.Log("Wave " + (currentWaveIndex + 1) + " 종료"); // 웨이브 종료 로그
+        Debug.Log("Wave 종료"); // 웨이브 종료 로그
 
         if (currentWaveIndex < waves.Length - 1)
         {
             currentWaveIndex++;
-            StartWave(); // 다음 웨이브 시작
+            StartWave(wave); // 다음 웨이브 시작
         }
         else
         {
