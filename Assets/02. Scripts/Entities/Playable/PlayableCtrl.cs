@@ -51,6 +51,8 @@ public abstract class PlayableCtrl : Entity
     // 증강 리스트
     private List<Augmentation> augmentationList = new List<Augmentation>();
 
+    bool canMove = true;
+
     Animator anim;
     ObjectPool bulletObjectPool;
 
@@ -85,7 +87,7 @@ public abstract class PlayableCtrl : Entity
 
     void FixedUpdate()
     {
-        if (dashCor == null)
+        if (canMove)
         {
             rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
         }
@@ -204,6 +206,7 @@ public abstract class PlayableCtrl : Entity
 
     protected IEnumerator DashCor()
     {
+        canMove = false;
         rigid.velocity = Vector3.zero;
         Vector3 direction = inputVector.normalized;
 
@@ -226,6 +229,9 @@ public abstract class PlayableCtrl : Entity
         yield return new WaitForSeconds(dashTime);
 
         rigid.velocity = Vector3.zero;
+        canMove = true;
+
+        yield return new WaitForSeconds(5f);
 
         dashCor = null;
     }
