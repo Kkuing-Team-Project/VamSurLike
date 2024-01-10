@@ -243,7 +243,7 @@ public class Spawner : MonoBehaviour
             }
         }
 
-        return ObjectPool.ObjectType.Bullet;
+        return ObjectPool.ObjectType.None;
     }
 
     public void OnDrawGizmosSelected()
