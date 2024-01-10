@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class AnimationDelegate : MonoBehaviour
 {
-    public Entity entity;
     
+    private Entity entity;
+
+    private void Start()
+    {
+        entity = transform.parent.GetComponent<Entity>();
+    }
 
     public void AnimationEvent(string animName)
     {
