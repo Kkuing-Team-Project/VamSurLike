@@ -37,7 +37,6 @@ public abstract class PlayableCtrl : Entity
 
     [Header("점멸 이동 시간"), SerializeField]
     private float dashTime;
-        
 
     // 이동 입력값
     private Vector3 inputVector;
@@ -82,8 +81,16 @@ public abstract class PlayableCtrl : Entity
         inputVector.x = Input.GetAxisRaw("Horizontal");
         inputVector.z = Input.GetAxisRaw("Vertical");
 
-        Collider[] experienceGems = Physics.OverlapSphere(transform.position, 3, LayerMask.GetMask("EXP"));
-
+        #region Check Experience Gem around player
+        Collider[] experienceGems = Physics.OverlapSphere(transform.position, 2, LayerMask.GetMask("EXP"));
+        if (experienceGems.Length > 0)
+        {
+            for (int i = 0; i < experienceGems.Length; i++)
+            {
+                experienceGems[i].GetComponent<ExperienceGem>().PullToPlayer(this);
+            }
+        }
+        #endregion
 
         // 공격 범위 내에 적이 있다면.
         if (GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
