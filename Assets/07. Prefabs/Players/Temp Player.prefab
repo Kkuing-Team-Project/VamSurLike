@@ -1261,7 +1261,7 @@ GameObject:
   - component: {fileID: 947150223}
   - component: {fileID: 947150221}
   m_Layer: 3
-  m_Name: Q_Serion_Skel_dup
+  m_Name: Temp Player
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
