@@ -240,7 +240,7 @@ public abstract class PlayableCtrl : Entity
             foreach(var enemy in enemies)
             {
                 Entity target = enemy.GetComponent<Entity>();
-                target.TakeDamage(this, 10);
+                target.TakeDamage(this, 10f);
                 Vector3 knockbackDirection = (target.transform.position - transform.position).normalized;
                 target.AddEffect(new Stun(1, 0.2f, this));
                 target.rigid.AddForce(knockbackDirection * 20, ForceMode.Impulse);

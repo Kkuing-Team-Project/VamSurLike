@@ -16,6 +16,7 @@ public class Prion : EnemyCtrl, IPoolable
         stat.SetDefault(StatType.MOVE_SPEED, speed); // Set the MOVE_SPEED stat
         stat.SetDefault(StatType.DAMAGE, attackPower); // Set the ATTACK_POWER stat
         stat.SetDefault(StatType.ATTACK_DISTANCE, 2f);
+        hp = HP;
     }
 
     protected override void EnemyAttack()
@@ -26,7 +27,6 @@ public class Prion : EnemyCtrl, IPoolable
 
     protected override void OnEntityDied()
     {
-        // Handle death logic here, e.g., play animations, sound effects, etc.
         Push(); // Return the enemy to the pool
     }
 
@@ -44,6 +44,6 @@ public class Prion : EnemyCtrl, IPoolable
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-
+        Debug.Log($" 공격자 : {caster}, Prion Hp : {hp}");
     }
 }

@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   archer: {fileID: 0}
+  attackPower: 1
 --- !u!65 &5349373520557820410
 BoxCollider:
   m_ObjectHideFlags: 0
