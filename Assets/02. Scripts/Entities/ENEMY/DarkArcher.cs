@@ -23,18 +23,16 @@ public class DarkArcher : EnemyCtrl, IPoolable
         stat.SetDefault(StatType.MOVE_SPEED, speed); // Set the MOVE_SPEED stat
         stat.SetDefault(StatType.DAMAGE, attackPower); // Set the ATTACK_POWER stat
         stat.SetDefault(StatType.ATTACK_DISTANCE, targetAttackDistance);
-
+        hp = HP;
     }
 
     protected override void EnemyAttack()
     {
-        if(attackCor == null)
-            attackCor = StartCoroutine(AttackCor());
+        if(attackCor == null) attackCor = StartCoroutine(AttackCor());
     }
 
     protected override void OnEntityDied()
     {
-        // Handle death logic here, e.g., play animations, sound effects, etc.
         Push(); // Return the enemy to the pool
     }
 
@@ -47,13 +45,12 @@ public class DarkArcher : EnemyCtrl, IPoolable
     public void Push()
     {
         gameObject.SetActive(false);
-        
         pool?.Push(gameObject);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-
+        Debug.Log($" 공격자 : {caster}, DarkArcher Hp : {hp}");
     }
 
     protected override void UpdateEntity()
@@ -64,41 +61,38 @@ public class DarkArcher : EnemyCtrl, IPoolable
     }  
 
     protected override void EnemyMove(){
-        if(attackCor == null)
-            base.EnemyMove();
+        if(attackCor == null) base.EnemyMove();
     }
 
-    private IEnumerator AttackCor(){
-        
-        // animator.SetTrigger("chargeArrowLoop");
-        // yield return new WaitUntil(() => IsAnimationClipPlaying("chargeArrowLoop", 0) == false);
-        // ShootArrow();
+    private IEnumerator AttackCor()
+    {
+        var targetDir = transform.forward;
+        float rotTime = 0;
 
         animator.SetTrigger("Shoot");
         yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == true);
-        ShootArrow();
+        ShootArrow(targetDir);
 
         playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
         yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == false);
-
+        
+        while(rotTime < 0.9f){
+            Vector3 target = playable.transform.position;
+            target.y = transform.position.y;
+            Vector3 lookAt = (target - transform.position).normalized;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookAt), 180f * Time.deltaTime);
+            yield return null;
+            rotTime += Time.deltaTime;
+        }
         attackCor = null;
     }
-    
 
-    private void ShootArrow()
+    private void ShootArrow(Vector3 dir)
     {   
-        // 오브젝트 풀에서 화살을 가져옴
-        // GameObject arrowObject = bulletObjepoolctPool.Pop(ObjectPool.ObjectType.Bullet, spawnPosition, Quaternion.identity);
         GameObject arrowObject = objectPool.Pop(ObjectPool.ObjectType.Arrow, arrowposition.position);
-
-        
-        // 화살의 Rigidbody를 가져와 발사 방향과 속도를 설정
         Rigidbody arrowRigidbody = arrowObject.GetComponent<Rigidbody>();
-        Vector3 targetDirection = (playable.transform.position - arrowposition.position).normalized; // 플레이어를 향하는 방향
-        arrowRigidbody.velocity = targetDirection * arrowSpeed;
-        arrowObject.transform.rotation = Quaternion.LookRotation(targetDirection);
-
-        // 화살이 일정 시간 후에 파괴되도록 설정
+        arrowRigidbody.velocity = dir * arrowSpeed;
+        arrowObject.transform.rotation = Quaternion.LookRotation(dir);
         Destroy(arrowObject, 3f);
     }
 }
