@@ -10,6 +10,7 @@ public class TempArrow : MonoBehaviour, IPoolable
 
     [HideInInspector]
     public DarkArcher  archer;
+    public float attackPower = 1f;  // Attack power value
 
     // Called when the bullet is created. Initializes the Rigidbody and sets the pool.
     public void Create(Stack<GameObject> pool)
@@ -43,8 +44,7 @@ public class TempArrow : MonoBehaviour, IPoolable
             // If the bullet hits an enemy, apply damage and return the bullet to the pool.
             Entity playable = other.GetComponent<Entity>();
             // archer.InvokeEvent(AugmentationEventType.ON_HIT, archer, new AugEventArgs(other.transform, playable));
-            playable.TakeDamage(archer, 10f);
-            StopAllCoroutines();
+            playable.TakeDamage(archer, attackPower);
             Push();
         }
     }

@@ -10,8 +10,9 @@ public class DarkArcher : EnemyCtrl, IPoolable
     public float test = 1f;
     public float targetAttackDistance = 10f; // 플레이어 인식 타겟 거리
     public float arrowSpeed = 50f; //총알 스피드
+    public Transform arrowposition;
 
-    public ObjectPool objectPool; // 화살을 관리할 오브젝트 풀
+    ObjectPool objectPool; // 화살을 관리할 오브젝트 풀
 
     public Stack<GameObject> pool { get; set; }
     private Coroutine attackCor;
@@ -68,10 +69,13 @@ public class DarkArcher : EnemyCtrl, IPoolable
     }
 
     private IEnumerator AttackCor(){
+        
+        // animator.SetTrigger("chargeArrowLoop");
+        // yield return new WaitUntil(() => IsAnimationClipPlaying("chargeArrowLoop", 0) == false);
+        // ShootArrow();
 
         animator.SetTrigger("Shoot");
         yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == true);
-
         ShootArrow();
 
         playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
@@ -79,25 +83,23 @@ public class DarkArcher : EnemyCtrl, IPoolable
 
         attackCor = null;
     }
+    
 
     private void ShootArrow()
-    {
-        // 화살의 생성 위치를 현재 위치에 오프셋을 적용하여 설정
-        Vector3 spawnPosition = transform.position + new Vector3(-0.6f, 1.3f, 0);
-        
+    {   
         // 오브젝트 풀에서 화살을 가져옴
         // GameObject arrowObject = bulletObjepoolctPool.Pop(ObjectPool.ObjectType.Bullet, spawnPosition, Quaternion.identity);
-        GameObject arrowObject = objectPool.Pop(ObjectPool.ObjectType.Arrow, spawnPosition);
+        GameObject arrowObject = objectPool.Pop(ObjectPool.ObjectType.Arrow, arrowposition.position);
 
         
         // 화살의 Rigidbody를 가져와 발사 방향과 속도를 설정
         Rigidbody arrowRigidbody = arrowObject.GetComponent<Rigidbody>();
-        Vector3 targetDirection = (playable.transform.position - spawnPosition).normalized; // 플레이어를 향하는 방향
+        Vector3 targetDirection = (playable.transform.position - arrowposition.position).normalized; // 플레이어를 향하는 방향
         arrowRigidbody.velocity = targetDirection * arrowSpeed;
+        arrowObject.transform.rotation = Quaternion.LookRotation(targetDirection);
 
         // 화살이 일정 시간 후에 파괴되도록 설정
         Destroy(arrowObject, 3f);
     }
 }
-
 
