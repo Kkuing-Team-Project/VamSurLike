@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &738844255461805959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5821196519843057697}
+  m_Layer: 6
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5821196519843057697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738844255461805959}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.28, y: 1.5833185, z: 0.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 55166968825120225}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7458614773299905593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1361679724614947950}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1361679724614947950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7458614773299905593}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.010289039, y: -0.0000000047683715, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6736021030161449342}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8285839556550514770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7,6 +69,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 266590378446136365, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3781460027858274017, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
       propertyPath: m_Name
       value: DarkArcher Variant
@@ -57,15 +123,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8232238436841086387, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8232238436841086387, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8232238436841086387, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8232238436841086387, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -81,6 +147,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
+--- !u!4 &55166968825120225 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8232238436841086387, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
+  m_PrefabInstance: {fileID: 8285839556550514770}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5082108705794039475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3781460027858274017, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
@@ -156,3 +227,10 @@ MonoBehaviour:
   attackPower: 1
   test: 1
   targetAttackDistance: 10
+  arrowSpeed: 20
+  arrowposition: {fileID: 5821196519843057697}
+--- !u!4 &6736021030161449342 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3424442559156934956, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
+  m_PrefabInstance: {fileID: 8285839556550514770}
+  m_PrefabAsset: {fileID: 0}
