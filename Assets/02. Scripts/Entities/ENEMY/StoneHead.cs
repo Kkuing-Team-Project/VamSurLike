@@ -7,6 +7,7 @@ public class StoneHead : EnemyCtrl, IPoolable
     public float speed = 1f;  // Speed value
     public float attackPower = 2;  // Attack power value
     public float test = 1f;
+    public float HP = 10f;
     public Stack<GameObject> pool { get; set; }
 
     protected override void InitEntity()
@@ -15,6 +16,7 @@ public class StoneHead : EnemyCtrl, IPoolable
         stat.SetDefault(StatType.MOVE_SPEED, speed); // Set the MOVE_SPEED stat
         stat.SetDefault(StatType.DAMAGE, attackPower); // Set the ATTACK_POWER stat
         stat.SetDefault(StatType.ATTACK_DISTANCE, 2f);
+        hp = HP;
     }
 
     protected override void EnemyAttack()
@@ -25,7 +27,7 @@ public class StoneHead : EnemyCtrl, IPoolable
 
     protected override void OnEntityDied()
     {
-        // Handle death logic here, e.g., play animations, sound effects, etc.
+        base.OnEntityDied();
         Push(); // Return the enemy to the pool
     }
 
@@ -43,6 +45,6 @@ public class StoneHead : EnemyCtrl, IPoolable
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-
+        Debug.Log($" 공격자 : {caster}, StoneHead Hp : {hp}");
     }
 }
