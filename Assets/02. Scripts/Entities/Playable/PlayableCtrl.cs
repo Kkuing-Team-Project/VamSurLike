@@ -82,8 +82,11 @@ public abstract class PlayableCtrl : Entity
         inputVector.x = Input.GetAxisRaw("Horizontal");
         inputVector.z = Input.GetAxisRaw("Vertical");
 
+        Collider[] experienceGems = Physics.OverlapSphere(transform.position, 3, LayerMask.GetMask("EXP"));
+
+
         // 공격 범위 내에 적이 있다면.
-        if(GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
+        if (GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
         {
             #region Look Nearst Enemy
             Vector3 targetPosition = GetNearestEnemy().transform.position;
@@ -100,7 +103,6 @@ public abstract class PlayableCtrl : Entity
                 attackCor = StartCoroutine(AttackCoroutine());
             }
         }
-
 
         // 공격 범위 내에 적이 없다면
         else if (GetNearestEnemy() == null)
@@ -317,7 +319,7 @@ public abstract class PlayableCtrl : Entity
         augmentationList.Remove(del);
     }
 
-    public void SetExperienceValue(float val)
+    public void AddExp(float val)
     {
         exp += val;
         if(exp >= requireExp)
