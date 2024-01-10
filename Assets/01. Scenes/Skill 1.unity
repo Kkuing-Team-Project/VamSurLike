@@ -479,7 +479,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436933015}
-  m_LocalRotation: {x: 0.5209447, y: -0.00031682212, z: 0.00019335601, w: 0.85359037}
+  m_LocalRotation: {x: 0.5209447, y: -0.00031687508, z: 0.00019338836, w: 0.85359037}
   m_LocalPosition: {x: 0, y: 12.2, z: -7.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -982,7 +982,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239433069}
-  m_LocalRotation: {x: 0.5209447, y: -0.00031682212, z: 0.00019335601, w: 0.85359037}
+  m_LocalRotation: {x: 0.5209447, y: -0.00031687508, z: 0.00019338836, w: 0.85359037}
   m_LocalPosition: {x: 0, y: 12.2, z: -7.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1088,7 +1088,6 @@ MonoBehaviour:
   - type: 0
     prefab: {fileID: 7306623911170888745, guid: 67bf4d16def6f5748a9e462712fb0d97, type: 3}
     size: 30
-  allocateCount: 10
 --- !u!4 &1583247437
 Transform:
   m_ObjectHideFlags: 0
@@ -1233,10 +1232,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2458bf35155734f933e2df632c65ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationAnglePerSecond: 90
-  dashDist: 10
-  dashTime: 0
+  rigid: {fileID: 0}
   bulletObjectPool: {fileID: 1583247436}
+  bulletNum: 0
+  bulletInterval: 0
+  rotationAnglePerSecond: 90
+  dashSpeed: 40
+  dashTime: 0
   tempBulletSpeed: 50
 --- !u!114 &2122775721
 MonoBehaviour:
