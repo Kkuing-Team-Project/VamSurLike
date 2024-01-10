@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Net.NetworkInformation;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class SpawnObject
 {
     public ObjectPool.ObjectType type;
+
+    public float showPercent;
     public float percent;
     private float realPercentMin;
     private float realPercentMax;
@@ -14,6 +17,7 @@ public class SpawnObject
     {
         realPercentMin = min;
         realPercentMax = max;
+        Debug.Log($"{type}: {realPercentMin}, {realPercentMax}");
     }
 
     public bool IsSelected(float value)
@@ -27,6 +31,7 @@ public class Wave
 {
     public float duration;
     public SpawnObject[] spawnObjects;
+    public float maxPercent = 100.0f;
 }
 
 public class Spawner : MonoBehaviour
@@ -50,10 +55,11 @@ public class Spawner : MonoBehaviour
     public bool isWave;
     [HideInInspector]
     public SpawnObject[] spawnObjects;
+    [HideInInspector] 
+    public float maxPercent;
     [HideInInspector]
     public Wave[] waves;
-    public float maxPercent;
-    public int currentWaveIndex;
+    private int currentWaveIndex;
 
     [HideInInspector]
     public bool isMax;
@@ -67,6 +73,8 @@ public class Spawner : MonoBehaviour
         currentWaveIndex = 0;
         if (isWave)
             StartCoroutine(nameof(ChangeWave));
+        else
+            SetPercent(spawnObjects, maxPercent);
         
         StartCoroutine(nameof(Spawn));
     }
@@ -76,15 +84,30 @@ public class Spawner : MonoBehaviour
         UpdateSpawnArea();
     }
     
-    private void SetPercent(SpawnObject[] objects)
+    private void SetPercent(SpawnObject[] objects, float percentMax)
     {
-        maxPercent = 0;
+        float total = 0;
         foreach (SpawnObject spawnObject in objects)
         {
-            float max = maxPercent + spawnObject.percent;
-            spawnObject.SetRealPercent(maxPercent, max);
+            total += spawnObject.percent;
+        }
 
-            maxPercent = max;
+        float min = 0;
+        foreach (SpawnObject spawnObject in objects)
+        {
+            float currentPercent;
+            if (total > percentMax)
+            {
+                currentPercent = spawnObject.percent / total * percentMax;
+                spawnObject.percent = currentPercent;
+            }
+            else
+            {
+                currentPercent = spawnObject.percent;
+            }
+            
+            spawnObject.SetRealPercent(min, min + currentPercent);
+            min += currentPercent;
         }
     }
 
@@ -134,10 +157,10 @@ public class Spawner : MonoBehaviour
 
         if (currentWaveIndex < waves.Length - 1)
         {
-            Debug.Log("wave change");
             currentWaveIndex++;
-            SetPercent(waves[currentWaveIndex].spawnObjects);
+            SetPercent(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent);
             StartCoroutine(nameof(ChangeWave));
+            Debug.Log($"wave change... current wave index: {currentWaveIndex}");
         }
     }
     
@@ -225,11 +248,12 @@ public class Spawner : MonoBehaviour
 
     public void OnDrawGizmosSelected()
     {
-        if (isWave)
-            SetPercent(waves[currentWaveIndex].spawnObjects);
-        else
-            SetPercent(spawnObjects);
-        
+        foreach (Wave wave in waves)
+        {
+            SetPercent(wave.spawnObjects, wave.maxPercent);
+        }
+        SetPercent(spawnObjects, maxPercent);
+    
         UpdateSpawnArea();
 
         Vector3 boxSize = new Vector3(width * mul, 0, height * mul);

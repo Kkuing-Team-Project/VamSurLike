@@ -197,32 +197,43 @@ MonoBehaviour:
   isWave: 0
   spawnObjects:
   - type: 0
+    showPercent: 0
     percent: 0
+  maxPercent: 0
   waves:
   - duration: 0
     spawnObjects:
     - type: 0
+      showPercent: 0
       percent: 0
     - type: 0
+      showPercent: 0
       percent: 0
+    maxPercent: 0
   - duration: 0
     spawnObjects:
     - type: 0
+      showPercent: 0
       percent: 0
+    maxPercent: 0
   - duration: 0
     spawnObjects:
     - type: 0
+      showPercent: 0
       percent: 0
     - type: 0
+      showPercent: 0
       percent: 0
     - type: 0
+      showPercent: 0
       percent: 0
     - type: 0
+      showPercent: 0
       percent: 0
     - type: 0
+      showPercent: 0
       percent: 0
-  maxPercent: 0
-  currentWaveIndex: 0
+    maxPercent: 0
   isMax: 1
   maxRangeRadius: 50
   entityRadius: 10
@@ -773,29 +784,14 @@ MonoBehaviour:
   mul: 1.5
   isWave: 1
   spawnObjects: []
+  maxPercent: 100
   waves:
-  - duration: 1
-    spawnObjects:
-    - type: 0
-      percent: 100
-  - duration: 1
-    spawnObjects:
-    - type: 0
-      percent: 90
-  - duration: 1
-    spawnObjects:
-    - type: 0
-      percent: 80
-  - duration: 1
-    spawnObjects:
-    - type: 0
-      percent: 70
   - duration: 0
     spawnObjects:
     - type: 0
-      percent: 60
-  maxPercent: 100
-  currentWaveIndex: 0
+      showPercent: 0
+      percent: 100
+    maxPercent: 100
   isMax: 0
   maxRangeRadius: 50
   entityRadius: 0.5

@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands.Merge;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
@@ -29,11 +30,21 @@ public class SpawnerEditor : Editor
                 GUILayout.BeginVertical("", new GUIStyle(GUI.skin.box));
                 EditorGUILayout.PropertyField(m_Waves.GetArrayElementAtIndex(i), new GUIContent("Wave " + i));
                 GUILayout.EndVertical();
+                
+                if (myTarget.waves[i].maxPercent <= 0)
+                {
+                    EditorGUILayout.HelpBox($"Wave {i} Max Percent out of range", MessageType.Error);
+                }
+                else if (myTarget.waves[i].maxPercent != 100)
+                {
+                    EditorGUILayout.HelpBox($"Wave {i} Max Percent is not 100", MessageType.Warning);
+                }
             }
         }
         else
         {
-            EditorGUILayout.PropertyField(m_SpawnObjects.FindPropertyRelative("Array.size"), new GUIContent("Spawn Object Count"));
+            myTarget.maxPercent = EditorGUILayout.FloatField("Max Percent", myTarget.maxPercent);
+            EditorGUILayout.PropertyField(m_SpawnObjects.FindPropertyRelative("Array.size"), new GUIContent("Spawn Object Kind Count"));
             EditorGUI.indentLevel = 1;
             for (int i = 0; i < m_SpawnObjects.arraySize; ++i)
             {
@@ -42,6 +53,14 @@ public class SpawnerEditor : Editor
                 GUI.color = Color.white;
                 EditorGUILayout.PropertyField(m_SpawnObjects.GetArrayElementAtIndex(i), new GUIContent("Spawn Object " + i));
                 GUILayout.EndVertical();
+            }
+            if (myTarget.maxPercent <= 0)
+            {
+                EditorGUILayout.HelpBox("Max Percent out of range", MessageType.Error);
+            }
+            else if (myTarget.maxPercent != 100)
+            {
+                EditorGUILayout.HelpBox("Max Percent is not 100", MessageType.Warning);
             }
         }
         EditorGUI.indentLevel = 0;
@@ -71,6 +90,7 @@ public class SpawnObjectDrawer : PropertyDrawer
             EditorGUILayout.BeginVertical();
             // EditorGUILayout.PropertyField(property.FindPropertyRelative("prefab"), new GUIContent("Prefab"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("type"), new GUIContent("Type"));
+            EditorGUILayout.PropertyField(property.FindPropertyRelative("showPercent"), new GUIContent("Show Percent"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("percent"), new GUIContent("Percent"));
             EditorGUI.indentLevel = startIndentLevel;
             EditorGUILayout.EndVertical();
@@ -92,9 +112,10 @@ public class WaveDrawer : PropertyDrawer
             EditorGUI.indentLevel = 2;
             EditorGUILayout.BeginVertical();
             EditorGUILayout.PropertyField(property.FindPropertyRelative("duration"), new GUIContent("Duration"));
+            EditorGUILayout.PropertyField(property.FindPropertyRelative("maxPercent"), new GUIContent("Max Percent"));
             // EditorGUILayout.PropertyField(property.FindPropertyRelative("spawnObjects"), new GUIContent("Spawn Objects"));
             
-            EditorGUILayout.PropertyField(m_SpawnObjects.FindPropertyRelative("Array.size"), new GUIContent("Spawn Object Count"));
+            EditorGUILayout.PropertyField(m_SpawnObjects.FindPropertyRelative("Array.size"), new GUIContent("Spawn Object Kind Count"));
             for (int j = 0; j < m_SpawnObjects.arraySize; ++j)
             {
                 GUI.color = Color.gray;
