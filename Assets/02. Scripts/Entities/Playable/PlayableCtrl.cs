@@ -58,6 +58,8 @@ public abstract class PlayableCtrl : Entity
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
+    [Header("경험치 획득 범위"), SerializeField]
+    float tempExpRange = 7f;
     [Header("캐릭터 이동 속도"), SerializeField]
     float tempMoveSpeed = 5f;
     [Header("공격 사거리"), SerializeField]
@@ -70,6 +72,7 @@ public abstract class PlayableCtrl : Entity
         
         if (isTest)
         {
+            stat.SetDefault(StatType.EXP_RANGE, tempExpRange);
             stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
             stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
             stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
