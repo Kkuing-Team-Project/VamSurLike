@@ -6,36 +6,28 @@ using UnityEngine;
 public class Shield : Augmentation
 {
 	public int maxShield = 1;
-	public int curShield = 0;
-	public bool isHit = true;
+	public int curShield = 3;
 	public GameObject shield;
 
 	public Shield(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
-		// 1. 실드 이미지 받아오기
-		// 2. 에너미 공격 판정 받아오기
-		
+		CoroutineHandler.StartCoroutine(NumberOfShields());
 	}
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e) 
 	{
-		CoroutineHandler.StartCoroutine(NumberOfShields());
+		//if(shield == null)
+		//{
+		//	e.eventTr.Find("PlayerCanvas").Find("Shield");
+		//}
 
-		if(shield == null)
+		if (curShield > 0) // 
 		{
-			e.eventTr.Find("PlayerCanvas").Find("Shield");
-		}
-
-		if (isHit) // 피격 시
-		{
-			curShield -= 1;
 			// 무적 추가
-			e.target.AddEffect(new Invincble(Time.deltaTime));
-			if (curShield == 0)
-			{
-				shield.gameObject.SetActive(false);
-			}
+			e.target.AddEffect(new Invincible(1,Time.deltaTime, e.target));
+
 		}
+		shield.gameObject.SetActive(curShield > 0);
 	}
 
 	private IEnumerator NumberOfShields()

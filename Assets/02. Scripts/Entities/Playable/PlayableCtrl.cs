@@ -72,7 +72,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(1, AugmentationEventType.ON_START));
+        AddAugmentation(new Shield(1, AugmentationEventType.ON_DAMAGE));
     }
 
     protected override void UpdateEntity()
