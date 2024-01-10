@@ -103,7 +103,6 @@ public abstract class PlayableCtrl : Entity
 
         inputVector.x = Input.GetAxis("Horizontal");
         inputVector.z = Input.GetAxis("Vertical");
-
         if (inputVector.magnitude > 0)
         {
             anim.SetBool("IsMove", true);
@@ -119,7 +118,7 @@ public abstract class PlayableCtrl : Entity
         }
 
         #region Check Experience Gem around player
-        Collider[] experienceGems = Physics.OverlapSphere(transform.position, 3, LayerMask.GetMask("EXP"));
+        Collider[] experienceGems = Physics.OverlapSphere(transform.position, stat.Get(StatType.EXP_RANGE), LayerMask.GetMask("EXP"));
         if (experienceGems.LongLength > 0)
         {
             for (int i = 0; i < experienceGems.Length; i++)
