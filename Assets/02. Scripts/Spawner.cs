@@ -8,8 +8,8 @@ public class SpawnObject
 {
     public ObjectPool.ObjectType type;
 
-    public float showPercent;
     public float percent;
+    public float percentAmpl;
     private float realPercentMin;
     private float realPercentMax;
 
@@ -41,6 +41,7 @@ public class Spawner : MonoBehaviour
     public Vector3 mapSize { get; private set; }
     public float height { get; private set; }
     public float width { get; private set; }
+    
     public ObjectPool Pool;
     [SerializeField]
     private Camera playerCamera;
@@ -92,7 +93,7 @@ public class Spawner : MonoBehaviour
         float total = 0;
         foreach (SpawnObject spawnObject in objects)
         {
-            total += spawnObject.percent;
+            total += spawnObject.percentAmpl;
         }
 
         float min = 0;
@@ -100,10 +101,10 @@ public class Spawner : MonoBehaviour
         {
             float currentPercent;
             if (total > percentMax)
-                currentPercent = spawnObject.percent / total * percentMax;
+                currentPercent = spawnObject.percentAmpl / total * percentMax;
             else
-                currentPercent = spawnObject.percent;
-            spawnObject.showPercent = currentPercent;
+                currentPercent = spawnObject.percentAmpl;
+            spawnObject.percent = currentPercent;
 
             spawnObject.SetRealPercent(min, min + currentPercent);
             min += currentPercent;

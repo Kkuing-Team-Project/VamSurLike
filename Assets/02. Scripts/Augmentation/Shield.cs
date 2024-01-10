@@ -23,7 +23,7 @@ public class Shield : Augmentation
 
 		if (curShield > 0) // 
 		{
-			// ¹«Àû Ãß°¡
+			// ë¬´ì  ì¶”ê°€
 			e.target.AddEffect(new Invincible(1,Time.deltaTime, e.target));
 
 		}
