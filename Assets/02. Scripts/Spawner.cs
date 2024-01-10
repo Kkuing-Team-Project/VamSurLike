@@ -17,7 +17,7 @@ public class SpawnObject
     {
         realPercentMin = min;
         realPercentMax = max;
-        Debug.Log($"{type}: {realPercentMin}, {realPercentMax}");
+        // Debug.Log($"{type}: {realPercentMin}, {realPercentMax}");
     }
 
     public bool IsSelected(float value)
@@ -72,7 +72,10 @@ public class Spawner : MonoBehaviour
     {
         currentWaveIndex = 0;
         if (isWave)
-            StartCoroutine(nameof(ChangeWave));
+        {
+            SetPercent(waves[0].spawnObjects, waves[0].maxPercent);
+            StartCoroutine(nameof(ChangeWave));            
+        }
         else
             SetPercent(spawnObjects, maxPercent);
         
@@ -97,15 +100,11 @@ public class Spawner : MonoBehaviour
         {
             float currentPercent;
             if (total > percentMax)
-            {
                 currentPercent = spawnObject.percent / total * percentMax;
-                spawnObject.percent = currentPercent;
-            }
             else
-            {
                 currentPercent = spawnObject.percent;
-            }
-            
+            spawnObject.showPercent = currentPercent;
+
             spawnObject.SetRealPercent(min, min + currentPercent);
             min += currentPercent;
         }
@@ -160,7 +159,7 @@ public class Spawner : MonoBehaviour
             currentWaveIndex++;
             SetPercent(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent);
             StartCoroutine(nameof(ChangeWave));
-            Debug.Log($"wave change... current wave index: {currentWaveIndex}");
+            // Debug.Log($"wave change... current wave index: {currentWaveIndex}");
         }
     }
     
