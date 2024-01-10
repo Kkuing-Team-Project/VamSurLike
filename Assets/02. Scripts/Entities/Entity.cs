@@ -76,9 +76,10 @@ public abstract class Entity : MonoBehaviour
     /// <param name="dmg"></param>
     public void TakeDamage(Entity caster, float dmg)
     {
-        hp -= dmg;
-
         OnTakeDamage(caster, dmg);
+
+        if (HasEffect<Invincible>() == false)
+            hp -= dmg;
 
         if (hp <= 0)
             OnEntityDied();
