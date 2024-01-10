@@ -184,7 +184,7 @@ public abstract class PlayableCtrl : Entity
     {
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
-        Collider[] enemies = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("ENEMY"));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0 )
         {
             foreach(var enemy in enemies)
