@@ -39,12 +39,8 @@ public abstract class BossCtrl : Entity
             playable = FindObjectOfType<PlayableCtrl>();
         if (nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
-        if (enemyPool == null)
-        {
-            enemyPool = GameObject.Find("EnemyPool").transform;
-            transform.SetParent(enemyPool);
-        }
         patternIdx = 0;
+        stat.SetDefault(StatType.MOVE_SPEED, 2f);
     }
 
     /// <summary>
@@ -109,13 +105,18 @@ public abstract class BossCtrl : Entity
             yield break;
 
         float dT = 0;
+
+        Vector3 lookAt = (playable.transform.position - transform.position).normalized;
+        lookAt.y = 0;
+
         while(dT < time)
         {
             dT += Time.deltaTime;
             yield return null;
             float val = increasing ? dT / time : 1f - dT / time;
-
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookAt), 180 * Time.deltaTime);
             animator.SetLayerWeight(layer, val);
+            
         }
 
     }

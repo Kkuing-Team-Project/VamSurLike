@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class TempBoss : BossCtrl
+public class Giant : BossCtrl
 {
     public Transform[] patternTr;
     public float pattern1Rad = 3;
@@ -89,8 +88,8 @@ public class TempBoss : BossCtrl
 
     public void Pattern2Attack()
     {
-        Collider[] col = Physics.OverlapBox(patternTr[1].position, pattern2Box / 2, Quaternion.identity, 1 << LayerMask.NameToLayer("PLAYER"));
-        if(col.Length > 0)
+        Collider[] col = Physics.OverlapBox(patternTr[1].position, pattern2Box / 2, patternTr[1].rotation, 1 << LayerMask.NameToLayer("PLAYER"));
+        if (col.Length > 0)
         {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
         }
@@ -98,7 +97,7 @@ public class TempBoss : BossCtrl
 
     public void Pattern3Attack()
     {
-        Collider[] col = Physics.OverlapBox(patternTr[1].position, pattern3Box / 2, Quaternion.identity, 1 << LayerMask.NameToLayer("PLAYER"));
+        Collider[] col = Physics.OverlapBox(patternTr[2].position, pattern3Box / 2, patternTr[2].rotation, 1 << LayerMask.NameToLayer("PLAYER"));
         if (col.Length > 0)
         {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
@@ -121,6 +120,8 @@ public class TempBoss : BossCtrl
     {
         if (Application.isPlaying)
         {
+            GL.PushMatrix();
+            GL.MultMatrix(Matrix4x4.TRS(patternTr[0].position, patternTr[0].rotation, transform.lossyScale));
             Gizmos.color = Color.green;
             switch (patternIdx)
             {
@@ -139,6 +140,7 @@ public class TempBoss : BossCtrl
                 default:
                     break;
             }
+            GL.PopMatrix();
         }
     }
 }

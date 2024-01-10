@@ -9,6 +9,7 @@ public enum AugmentationEventType
     ON_UPDATE,      //업데이트마다
     ON_ATTACK,      //공격 시
     ON_HIT,         //적에게 닿았을 때
+    ON_DAMAGE,
 }
 
 

@@ -135,10 +135,10 @@ GameObject:
   - component: {fileID: 6237631584534737079}
   - component: {fileID: 6237631584534737078}
   - component: {fileID: 6237631584534737077}
-  - component: {fileID: 6237631584534737076}
+  - component: {fileID: 4100131624786401355}
   - component: {fileID: 4110658905756203830}
   m_Layer: 6
-  m_Name: TempBoss
+  m_Name: Giant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -202,7 +202,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6237631584534737076
+--- !u!114 &4100131624786401355
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6237631584534737099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 982dc0b947bafe440868686c341d45e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 99c42d4d5e18bf640bc3e19c040d5c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rigid: {fileID: 0}
@@ -249,7 +249,7 @@ PrefabInstance:
     - target: {fileID: 597650349, guid: e54bdabb3ec384f43b588ab5c1afa29d, type: 3}
       propertyPath: entity
       value: 
-      objectReference: {fileID: 6237631584534737076}
+      objectReference: {fileID: 0}
     - target: {fileID: 18603945918856940, guid: e54bdabb3ec384f43b588ab5c1afa29d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 29.198046
