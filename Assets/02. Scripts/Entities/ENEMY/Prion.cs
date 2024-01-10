@@ -20,18 +20,8 @@ public class Prion : EnemyCtrl, IPoolable
 
     protected override void EnemyAttack()
     {
-        Debug.Log("EnemyAttack");
-    }
-
-    protected override void OnTakeDamage(Entity caster, float dmg)
-    {
-
-        HP -= dmg; // Reduce HP by the damage amount
-        print(HP);
-        if (HP <= 0)
-        {
-            OnEntityDied(); // Call the Die method if HP is 0 or less
-        }
+        playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
+        Push();
     }
 
     protected override void OnEntityDied()
@@ -48,6 +38,12 @@ public class Prion : EnemyCtrl, IPoolable
     public void Push()
     {
         gameObject.SetActive(false);
-        pool.Push(gameObject);
+        
+        pool?.Push(gameObject);
+    }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
     }
 }

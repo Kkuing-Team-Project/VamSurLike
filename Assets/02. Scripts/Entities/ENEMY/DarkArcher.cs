@@ -4,34 +4,27 @@ using UnityEngine;
 
 public class DarkArcher : EnemyCtrl, IPoolable
 {
-   public float HP = 20f;
+    public float HP = 20f;
     public float speed = 1.5f;  // Speed value
     public float attackPower = 1f;  // Attack power value
     public float test = 1f;
+    public float targetAttackDistance = 10f; // 플레이어 인식 타겟 거리
     public Stack<GameObject> pool { get; set; }
+
+    private Coroutine attackCor;
 
     protected override void InitEntity()
     {
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, speed); // Set the MOVE_SPEED stat
-        stat.SetDefault(StatType.DAMAGE , attackPower); // Set the ATTACK_POWER stat
-        stat.SetDefault(StatType.ATTACK_DISTANCE, 2f);
+        stat.SetDefault(StatType.DAMAGE, attackPower); // Set the ATTACK_POWER stat
+        stat.SetDefault(StatType.ATTACK_DISTANCE, targetAttackDistance);
     }
 
     protected override void EnemyAttack()
     {
-        Debug.Log("EnemyAttack");
-    }
-
-    protected override void OnTakeDamage(Entity caster, float dmg)
-    {
-
-        HP -= dmg; // Reduce HP by the damage amount
-        print(HP);
-        if (HP <= 0)
-        {
-            OnEntityDied(); // Call the Die method if HP is 0 or less
-        }
+        if(attackCor == null)
+            attackCor = StartCoroutine(AttackCor());
     }
 
     protected override void OnEntityDied()
@@ -48,6 +41,36 @@ public class DarkArcher : EnemyCtrl, IPoolable
     public void Push()
     {
         gameObject.SetActive(false);
-        pool.Push(gameObject);
+        
+        pool?.Push(gameObject);
+    }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+
+    }
+
+    protected override void UpdateEntity()
+    {
+        base.UpdateEntity();
+        float velocity = nav.velocity.magnitude; // vector -> 거리
+        animator.SetFloat("Velocity", velocity);
+    }  
+
+    protected override void EnemyMove(){
+        if(attackCor == null)
+            base.EnemyMove();
+    }
+
+    private IEnumerator AttackCor(){
+
+        animator.SetTrigger("Shoot");
+        yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == true);
+        playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
+        yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == false);
+
+        attackCor = null;
     }
 }
+
+

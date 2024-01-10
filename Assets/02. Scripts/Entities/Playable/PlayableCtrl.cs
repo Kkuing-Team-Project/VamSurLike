@@ -17,6 +17,7 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnUpdateAugmentation;
     public event AugmentationDelegate OnAttackPlayer;
     public event AugmentationDelegate OnBulletHit;
+    public event AugmentationDelegate OnTakeDamageAugmentation;
 
     private AugEventArgs defaultArgs;
 
@@ -57,6 +58,7 @@ public abstract class PlayableCtrl : Entity
         base.InitEntity();
         stat.SetDefault(StatType.MOVE_SPEED, 3);
         defaultArgs = new AugEventArgs(transform, this);
+        tempEffectObj = transform.Find("Effect Obj").gameObject;
     }
 
     void FixedUpdate()
@@ -70,7 +72,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new TempAug(1, AugmentationEventType.ON_HIT));
+        AddAugmentation(new DamageUp(1, AugmentationEventType.ON_START));
     }
 
     protected override void UpdateEntity()
@@ -80,8 +82,11 @@ public abstract class PlayableCtrl : Entity
         inputVector.x = Input.GetAxisRaw("Horizontal");
         inputVector.z = Input.GetAxisRaw("Vertical");
 
+        Collider[] experienceGems = Physics.OverlapSphere(transform.position, 3, LayerMask.GetMask("EXP"));
+
+
         // 공격 범위 내에 적이 있다면.
-        if(GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
+        if (GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
         {
             #region Look Nearst Enemy
             Vector3 targetPosition = GetNearestEnemy().transform.position;
@@ -98,7 +103,6 @@ public abstract class PlayableCtrl : Entity
                 attackCor = StartCoroutine(AttackCoroutine());
             }
         }
-
 
         // 공격 범위 내에 적이 없다면
         else if (GetNearestEnemy() == null)
@@ -119,6 +123,7 @@ public abstract class PlayableCtrl : Entity
         {
             dashCor = StartCoroutine(DashCor());
         }
+        Debug.Log(hp);
     }
 
     /// <summary>
@@ -176,10 +181,11 @@ public abstract class PlayableCtrl : Entity
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, 5f, LayerMask.GetMask("ENEMY"));
+        OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
+
+        Collider[] enemies = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0 )
         {
-            Debug.Log(enemies);
             foreach(var enemy in enemies)
             {
                 Entity target = enemy.GetComponent<Entity>();
@@ -189,13 +195,13 @@ public abstract class PlayableCtrl : Entity
                 target.rigid.AddForce(knockbackDirection * 20, ForceMode.Impulse);
             }
         }
-        //StopCoroutine("DisableEffect");
-        //StartCoroutine("DisableEffect");
+        StopCoroutine("DisableEffect");
+        StartCoroutine("DisableEffect");
     }
     private IEnumerator DisableEffect()
     {
         tempEffectObj.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         tempEffectObj.SetActive(false);
     }
      
@@ -242,6 +248,9 @@ public abstract class PlayableCtrl : Entity
                 case AugmentationEventType.ON_HIT:
                     OnBulletHit += aug.AugmentationEffect;
                     break;
+                case AugmentationEventType.ON_DAMAGE:
+                    OnTakeDamageAugmentation += aug.AugmentationEffect;
+                    break;
                 default:
                     break;
             }
@@ -279,6 +288,9 @@ public abstract class PlayableCtrl : Entity
             case AugmentationEventType.ON_HIT:
                 OnBulletHit -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
+            case AugmentationEventType.ON_DAMAGE:
+                OnTakeDamageAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
             default:
                 break;
         }
@@ -310,13 +322,16 @@ public abstract class PlayableCtrl : Entity
             case AugmentationEventType.ON_HIT:
                 OnBulletHit -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
+            case AugmentationEventType.ON_DAMAGE:
+                OnTakeDamageAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
             default:
                 break;
         }
         augmentationList.Remove(del);
     }
 
-    public void SetExperienceValue(float val)
+    public void AddExp(float val)
     {
         exp += val;
         if(exp >= requireExp)
@@ -371,6 +386,9 @@ public abstract class PlayableCtrl : Entity
                 break;
             case AugmentationEventType.ON_HIT:
                 OnBulletHit?.Invoke(sender, e);
+                break;
+            case AugmentationEventType.ON_DAMAGE:
+                OnTakeDamageAugmentation?.Invoke(sender, e);
                 break;
             default:
                 break;

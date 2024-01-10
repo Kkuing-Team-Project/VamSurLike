@@ -9,6 +9,7 @@ public class ObjectPool : MonoBehaviour
     // Enum to define different object types
     public enum ObjectType
     {
+        None,
         StoneHead,
         Prion,
         Servant,
@@ -84,6 +85,9 @@ public class ObjectPool : MonoBehaviour
     // Method to get an object from the pool
     public GameObject Pop(ObjectType objectType, Vector3 position)
     {
+        if (objectType == ObjectType.None)
+            return null;
+        
         // If the pool does not exist, return null
         if (!poolDictionary.ContainsKey(objectType))
         {
