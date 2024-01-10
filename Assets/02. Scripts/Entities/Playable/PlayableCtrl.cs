@@ -83,8 +83,7 @@ public abstract class PlayableCtrl : Entity
         inputVector.x = Input.GetAxisRaw("Horizontal");
         inputVector.z = Input.GetAxisRaw("Vertical");
 
-        Collider[] experienceGems = Physics.OverlapSphere(transform.position, 3, LayerMask.GetMask("EXP"));
-
+        Collider[] experienceGems = Physics.OverlapSphere(transform.position, stat.Get(StatType.EXP_RANGE), LayerMask.GetMask("EXP"));
 
         // 공격 범위 내에 적이 있다면.
         if (GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
