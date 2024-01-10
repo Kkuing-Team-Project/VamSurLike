@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 3617694507700487862}
   - component: {fileID: 3617694507700487865}
   m_Layer: 0
-  m_Name: TempPlayer
+  m_Name: Trash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
