@@ -7,11 +7,10 @@ public class Meteor : Augmentation
 {
     public float meteorDmg = 10f; // 메테오 데미지
     public float splashDamageRadius = 5f; // 스플래쉬 피해 반경
+    public float enemiesFindRadius = 20f;
     public float skillTime = 0f;
-    public int lvl = 0;
 	public GameObject meteorPrefab; // 메테오 프리팹
     private Collider[] enemies; // 모든 적을 저장할 배열
-    
 
     public Meteor(int level, AugmentationEventType eventType) : base(level, eventType)
 	{
@@ -20,10 +19,10 @@ public class Meteor : Augmentation
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-        
-	}
+        CoroutineHandler.StartCoroutine(AttackCoroutine(e.target));
+    }
 
-	private IEnumerator AttackCoroutine(Vector3 targetPosition, Entity player)
+    private IEnumerator AttackCoroutine(Entity player)
     {
 
         while (true)
@@ -31,7 +30,7 @@ public class Meteor : Augmentation
             yield return new WaitForSeconds(skillTime);
 
 
-            Collider[] enemies = Physics.OverlapSphere(targetPosition, splashDamageRadius, 1 << LayerMask.NameToLayer("ENEMY"));
+            Collider[] enemies = Physics.OverlapSphere(player.transform.position, enemiesFindRadius, 1 << LayerMask.NameToLayer("ENEMY"));
 
             if(enemies.Length > 0)
 			{
@@ -77,7 +76,7 @@ public class Meteor : Augmentation
 		    }
 		}
 
-        switch (lvl)
+        switch (level)
         {
             case 1:
                 skillTime = 12f;
