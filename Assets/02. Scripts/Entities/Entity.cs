@@ -9,8 +9,10 @@ public abstract class Entity : MonoBehaviour
     public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
     protected Animator animator;
+    
     [HideInInspector]
     public Rigidbody rigid;
+
     void OnEnable()
     {
         InitEntity(); 
@@ -70,7 +72,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     /// <summary>
-    /// ¿£Æ¼Æ¼¿¡°Ô ´ë¹ÌÁö ÁÖ´Â
+    /// ï¿½ï¿½Æ¼Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½
     /// </summary>
     /// <param name="caster"></param>
     /// <param name="dmg"></param>
@@ -94,9 +96,6 @@ public abstract class Entity : MonoBehaviour
 
     protected abstract void OnEntityDied();
 
-    //ÇöÀç ÇØ´ç ¾Ö´Ï¸ÞÀÌ¼Ç È£Ãâ ÁßÀÎÁö
-    //name: ¾Ö´Ï¸ÞÀÌÅÍ ³» Å¬¸³ÀÇ ÀÌ¸§
-    //layerIdx: È£ÃâÇÒ ¾Ö´Ï¸ÞÀÌ¼ÇÀÇ ·¹ÀÌ¾î (±âº» 0)
     protected bool IsAnimationClipPlaying(string name, int layerIdx)
     {
         return animator.GetCurrentAnimatorStateInfo(layerIdx).IsName(name) && animator.GetCurrentAnimatorStateInfo(layerIdx).normalizedTime < 1f;

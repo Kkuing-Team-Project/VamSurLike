@@ -15,7 +15,9 @@ public class ObjectPool : MonoBehaviour
         Servant,
         DarkArcher,
         Bullet,
-        Experience
+        Arrow,
+        Experience,
+        CollapseZone
     }
 
     [System.Serializable]
