@@ -12,8 +12,6 @@ public class DarkArcher : EnemyCtrl, IPoolable
     public float arrowSpeed = 50f; //총알 스피드
     public Transform arrowposition;
 
-    ObjectPool objectPool; // 화살을 관리할 오브젝트 풀
-
     public Stack<GameObject> pool { get; set; }
     private Coroutine attackCor;
 
@@ -33,13 +31,13 @@ public class DarkArcher : EnemyCtrl, IPoolable
 
     protected override void OnEntityDied()
     {
+        base.OnEntityDied();
         Push(); // Return the enemy to the pool
     }
 
     public void Create(Stack<GameObject> pool)
     {
         this.pool = pool;
-        objectPool = GameObject.FindObjectOfType<ObjectPool>().GetComponent<ObjectPool>();
     }
 
     public void Push()

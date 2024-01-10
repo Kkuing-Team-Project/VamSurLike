@@ -8,6 +8,7 @@ public abstract class EnemyCtrl : Entity
 {
     protected NavMeshAgent nav;
     protected PlayableCtrl playable;
+    protected ObjectPool objectPool;
 
     protected override void InitEntity()
     {
@@ -16,6 +17,8 @@ public abstract class EnemyCtrl : Entity
             playable = FindObjectOfType<PlayableCtrl>();
         if (nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
+
+        objectPool = FindObjectOfType<ObjectPool>();
     }
 
     protected override void UpdateEntity()
@@ -42,5 +45,6 @@ public abstract class EnemyCtrl : Entity
 
     protected override void OnEntityDied()
     {
+        objectPool.Pop(ObjectPool.ObjectType.Experience, transform.position);
     }
 }
