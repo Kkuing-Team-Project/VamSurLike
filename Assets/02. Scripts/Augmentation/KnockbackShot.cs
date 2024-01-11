@@ -33,7 +33,7 @@ public class KnockbackShot : Augmentation
                 knockbackForce = 1f;
                 break;
         }
-
+        knockbackForce = 5f;
         if (e.target.TryGetComponent(out Rigidbody rigid))
         {
             Vector3 knockbackDirection = e.eventTr.forward * -1f;
