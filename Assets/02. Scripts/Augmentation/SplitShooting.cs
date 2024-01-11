@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SplitShooting : Augmentation
 {
-	public SplitShooting(int level, AugmentationEventType eventType) : base(level, eventType)
+	public SplitShooting(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
 	{
 
 	}

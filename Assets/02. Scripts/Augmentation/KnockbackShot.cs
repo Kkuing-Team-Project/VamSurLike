@@ -6,7 +6,7 @@ using UnityEngine;
 public class KnockbackShot : Augmentation
 {
 
-  public KnockbackShot(int level, AugmentationEventType eventType) : base(level, eventType)
+  public KnockbackShot(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
 	{
         
 	}

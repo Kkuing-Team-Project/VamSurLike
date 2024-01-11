@@ -7,7 +7,7 @@ public class NuclearBomb : Augmentation
 {
 	public float skillTime = 240f;
 
-	public NuclearBomb(int level, AugmentationEventType eventType) : base(level, eventType)
+	public NuclearBomb(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
 	{
 
 		

@@ -9,7 +9,7 @@ using UnityEngine;
 public class EnergyField : Augmentation
 {
 
-    public EnergyField(int level, AugmentationEventType eventType) : base(level, eventType)
+    public EnergyField(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
     {     
     }
 

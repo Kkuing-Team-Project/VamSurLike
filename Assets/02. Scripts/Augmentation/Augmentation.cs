@@ -38,11 +38,13 @@ public class Augmentation
 {
     public AugmentationEventType eventType { get; private set; }
     public int level { get; private set; }
+    public int maxLevel { get; private set; }
 
-    public Augmentation(int level, AugmentationEventType eventType)
+    public Augmentation(int level, int maxLevel, AugmentationEventType eventType)
     {
         this.eventType = eventType;
         this.level = level;
+        this.maxLevel = maxLevel;
     }
 
     public virtual void AugmentationEffect(Entity sender, AugEventArgs e)

@@ -92,6 +92,7 @@ public abstract class PlayableCtrl : Entity
         defaultArgs = new AugEventArgs(transform, this);
 
         anim = GetComponent<Animator>();
+        requireExp = int.Parse(GameManager.instance.levelTable[0]["NEED_EXP"].ToString());
         objectPool = FindObjectOfType<ObjectPool>();
         cameraShakeSource = GetComponent<CinemachineImpulseSource>();
     }
@@ -107,7 +108,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(1, AugmentationEventType.ON_UPDATE));
+        AddAugmentation(new DamageUp(1, 2, AugmentationEventType.ON_UPDATE));
     }
 
     protected override void UpdateEntity()
@@ -435,6 +436,30 @@ public abstract class PlayableCtrl : Entity
                 break;
         }
         augmentationList.Remove(del);
+    }
+    
+    public void AddExp(float val)
+    {
+        if (level >= GameManager.instance.levelTable.Count)
+            return;
+
+        exp += val;
+        if(exp >= requireExp)
+        {
+            exp = exp - requireExp;
+            level++;
+            requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
+        }
+    }
+
+    public TempBullet CreateBullet(float speed, float rot)
+    {
+        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
+
+        bullet.player = this;
+        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
+        bullet.rigid.velocity = speed * bullet.transform.forward;
+        return bullet;
     }
 
     public Augmentation GetAugmentation<T>() where T : Augmentation

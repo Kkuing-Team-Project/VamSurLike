@@ -10,7 +10,7 @@ public class FootSlow : Augmentation
 
 
 
-    public FootSlow(int level, AugmentationEventType eventType) : base(level, eventType)
+    public FootSlow(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
     {
     }
 

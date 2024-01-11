@@ -8,7 +8,7 @@ public class DamageUp : Augmentation
     public float radius;
     public float maintainTime;
     
-    public DamageUp(int level, AugmentationEventType eventType) : base(level, eventType)
+    public DamageUp(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
     {
     }
 

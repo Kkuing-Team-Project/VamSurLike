@@ -9,7 +9,7 @@ public class Shield : Augmentation
 	public int curShield = 3;
 	public GameObject shield;
 
-	public Shield(int level, AugmentationEventType eventType) : base(level, eventType)
+	public Shield(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
 	{
 		CoroutineHandler.StartCoroutine(NumberOfShields());
 	}

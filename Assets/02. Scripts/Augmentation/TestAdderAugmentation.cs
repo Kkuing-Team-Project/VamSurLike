@@ -8,6 +8,6 @@ public class TestAdderAugmentation : MonoBehaviour
     
     void Start()
     {
-        player.AddAugmentation(new PoisonField(1, AugmentationEventType.ON_START));
+        player.AddAugmentation(new PoisonField(1, 1, AugmentationEventType.ON_START));
     }
 }
