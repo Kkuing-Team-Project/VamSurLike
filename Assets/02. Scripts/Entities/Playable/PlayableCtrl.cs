@@ -25,7 +25,7 @@ public abstract class PlayableCtrl : Entity
     private AugEventArgs defaultArgs;
 
     [Header("게이지 바"), SerializeField]
-    GaugeBar gaugeBar;
+    PlayerGaugeBar gaugeBar;
 
 
     [Header("총알 갯수")]
@@ -238,18 +238,18 @@ public abstract class PlayableCtrl : Entity
 
         canMove = true;
 
-        gaugeBar.SetBarValue("DashBar", 0, 5f);
+        gaugeBar.DashBar.SetBarValue(0, 5f);
 
         float cooltimeTimer = 0f;
         while (true)
         {
             cooltimeTimer += Time.deltaTime;
-            gaugeBar.SetBarValue("DashBar", cooltimeTimer, 5f);
+            gaugeBar.DashBar.SetBarValue(cooltimeTimer, 5f);
 
             yield return null;
             if (cooltimeTimer >= 5f)
             {
-                gaugeBar.SetBarValue("DashBar", 5f, 5f);
+                gaugeBar.DashBar.SetBarValue(5f, 5f);
                 break;
             }
         }
