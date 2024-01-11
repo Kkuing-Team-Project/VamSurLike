@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
                 break;
             default:
 
-                ui.SetActive(false);
+                ui.SetActive(true);
                 break;
         }
     }
