@@ -286,6 +286,7 @@ public abstract class PlayableCtrl : Entity
         }
         cameraShakeSource.GenerateImpulse();
 
+
         GameObject effectObj = objectPool.Pop(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion
