@@ -25,14 +25,16 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ui.SetActive(true);
+        player = FindObjectOfType<PlayableCtrl>();
         switch (scene.name)
         {
             case "Yeopseung":
-                ui.SetActive(true);
-                player = FindObjectOfType<PlayableCtrl>();
+
                 Debug.Log(player.gameObject.name);
                 break;
             default:
+
                 ui.SetActive(false);
                 break;
         }
