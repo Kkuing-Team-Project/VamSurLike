@@ -2,50 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class HUD : MonoBehaviour
+namespace VamSureLikeSystem.MenuSystem
 {
-    public enum InfoType { EXP, LEVEL, KILL, TIME, HEALTH, COIN }
-    public InfoType type;
-
-    Text myText;
-    Slider mySlider;
-
-	void Awake()
+	public class HUD : MonoBehaviour
 	{
-		myText = GetComponent<Text>();
-		mySlider = GetComponent<Slider>();
-	}
+		public enum InfoType { EXP, LEVEL, KILL, TIME, HEALTH, COIN }
+		public InfoType type;
 
-	void LateUpdate()
-	{
-		switch (type)
+		Text myText;
+		Slider mySlider;
+
+		void Awake()
 		{
-			case InfoType.EXP:
-				// float ÇöÀç °æÇèÄ¡ = GameManager.instance.EXP;
-				// float max°æÇèÄ¡ = GameManager.instance.nextEXP[GameManager.instance.LEVEL];
-				// mySlider.value = ÇöÀç °æÇèÄ¡ / max°æÇèÄ¡;
-				break;
-			case InfoType.LEVEL:
-				// myText.text = string.Format("Lv.{0:F0}", GameManager.instance.LEVEL);
-				break;
-			case InfoType.KILL:
-				// myText.text = string.Format("{0:F0}", GameManager.instance.KILL);
-				break;
-			case InfoType.TIME:
-				// float ³²Àº½Ã°£ = GameManager.instance.ÃÖ´ë½Ã°£ - GameManager.instance.ÁøÇà½Ã°£
-				// int min(ºÐ) = Mathf.FloorToInt(³²Àº½Ã°£ / 60);
-				// int sec(ÃÊ) = Mathf.FloorToInt(³²Àº½Ã°£ % 60);
-				// myText.text = string.Format("{0:D2}:{1:D2}", min,sec);
-				break;
-			case InfoType.HEALTH:
-				// float ÇöÀç Ã¼·Â = GameManager.instance.HEALTH;
-				// float maxÃ¼·Â = GameManager.instance.maxHEALTH;
-				// mySlider.value = ÇöÀç Ã¼·Â / maxÃ¼·Â;
-				break;
-			case InfoType.COIN:
-
-				break;
+			myText = GetComponent<Text>();
+			mySlider = GetComponent<Slider>();
 		}
+
+		void LateUpdate()
+		{
+			switch (type)
+			{
+				case InfoType.EXP:
+					// float ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ = GameManager.instance.EXP;
+					// float maxï¿½ï¿½ï¿½ï¿½Ä¡ = GameManager.instance.nextEXP[GameManager.instance.LEVEL];
+					// mySlider.value = ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ / maxï¿½ï¿½ï¿½ï¿½Ä¡;
+					break;
+				case InfoType.LEVEL:
+					// myText.text = string.Format("Lv.{0:F0}", GameManager.instance.LEVEL);
+					break;
+				case InfoType.KILL:
+					// myText.text = string.Format("{0:F0}", GameManager.instance.KILL);
+					break;
+				case InfoType.TIME:
+					// float ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ = GameManager.instance.ï¿½Ö´ï¿½Ã°ï¿½ - GameManager.instance.ï¿½ï¿½ï¿½ï¿½Ã°ï¿½
+					// int min(ï¿½ï¿½) = Mathf.FloorToInt(ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ / 60);
+					// int sec(ï¿½ï¿½) = Mathf.FloorToInt(ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ % 60);
+					// myText.text = string.Format("{0:D2}:{1:D2}", min,sec);
+					break;
+				case InfoType.HEALTH:
+					// float ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ = GameManager.instance.HEALTH;
+					// float maxÃ¼ï¿½ï¿½ = GameManager.instance.maxHEALTH;
+					// mySlider.value = ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ / maxÃ¼ï¿½ï¿½;
+					break;
+				case InfoType.COIN:
+
+					break;
+			}
+		}
+
+		public void QuitGame()
+        {
+            Application.Quit(); // ê²Œìž„ ì¢…ë£Œ
+        }
 	}
 }
