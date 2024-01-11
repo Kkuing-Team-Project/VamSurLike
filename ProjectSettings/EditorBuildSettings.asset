@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01. Scenes/Yeopseung.unity
     guid: a056561f6516043a6963fc6a344cd7c1
+  - enabled: 1
+    path: Assets/01. Scenes/InGameScene.unity
+    guid: 9c46fb38b4669044b85159f7be8ddfde
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9ecc2103f99564249addc5761d1d2e3f, type: 2}

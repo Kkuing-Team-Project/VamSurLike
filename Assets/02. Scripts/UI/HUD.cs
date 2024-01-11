@@ -12,7 +12,6 @@ public class HUD : MonoBehaviour
 	public Text killCountText;
 	public Text levelText;
 	public Slider expSlider;
-	public int killCount;
 	public GameObject augImg;
 	public ScrollRect augScroll;
 
@@ -31,11 +30,14 @@ public class HUD : MonoBehaviour
 
 		timeText.text = string.Format("{0:D2} : {1:D2}", sceneStartTime / 60, sceneStartTime % 60);
 
-		killCountText.text = killCount.ToString();
+		killCountText.text = GameManager.instance.killCount.ToString();
 
 		levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
 
-		expSlider.value = GameManager.instance.player.exp / GameManager.instance.player.requireExp;
+		if (GameManager.instance.player.level >= GameManager.instance.levelTable.Count - 1)
+			expSlider.value = 1;
+		else
+			expSlider.value = GameManager.instance.player.exp / GameManager.instance.player.requireExp;
 	}
 
 

@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public GameObject loadingPanel;
-    public HUD inGameUI;
     public Text loadingPercentage;
+    [HideInInspector]
     public PlayableCtrl player;
     public List<Dictionary<string, object>> statTable;
     public List<Dictionary<string, object>> levelTable;
+    public int killCount;
 
     private void Awake()
     {
@@ -32,16 +33,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        inGameUI.gameObject.SetActive(false);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        killCount = 0;
         player = FindObjectOfType<PlayableCtrl>();
         switch (scene.name)
         {
             default:
-                inGameUI.gameObject.SetActive(true);
                 break;
         }
     }
@@ -63,6 +63,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadInGame()
     {
-        StartCoroutine(LoadAsyncScene("Yeopseung"));
+        StartCoroutine(LoadAsyncScene("InGameScene"));
     }
 }
