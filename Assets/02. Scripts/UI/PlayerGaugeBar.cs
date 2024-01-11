@@ -9,7 +9,7 @@ public class PlayerGaugeBar : MonoBehaviour
 
     PlayableCtrl player;
 
-    private void Awake()
+    private void Start()
     {
         player = GameManager.instance.player;
     }

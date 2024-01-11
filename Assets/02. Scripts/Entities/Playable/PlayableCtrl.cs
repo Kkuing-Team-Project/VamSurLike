@@ -57,7 +57,7 @@ public abstract class PlayableCtrl : Entity
     bool canMove = true;
 
     Animator anim;
-    ObjectPool bulletObjectPool;
+    ObjectPool objectPool;
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
@@ -88,7 +88,7 @@ public abstract class PlayableCtrl : Entity
 
         defaultArgs = new AugEventArgs(transform, this);
         anim = GetComponent<Animator>();
-        bulletObjectPool = FindObjectOfType<ObjectPool>();
+        objectPool = FindObjectOfType<ObjectPool>();
     }
 
     void FixedUpdate()
@@ -117,7 +117,7 @@ public abstract class PlayableCtrl : Entity
             anim.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
             anim.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
-            anim.speed = Mathf.Lerp(0f, 1f, rigid.velocity.magnitude / 6f);     // Code to set animation speed based on movement speed
+            anim.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
         }
         else
         {
@@ -259,6 +259,8 @@ public abstract class PlayableCtrl : Entity
     {
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
+        gaugeBar.HpBar.SetBarValue(hp, stat.Get(StatType.MAX_HP));
+
         Collider[] enemies = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0 )
         {
@@ -271,6 +273,7 @@ public abstract class PlayableCtrl : Entity
                 target.rigid.AddForce(knockbackDirection * 20, ForceMode.Impulse);
             }
         }
+        GameObject effectObj = objectPool.Pop(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
      
     protected abstract void PlayerSkill();
@@ -410,7 +413,7 @@ public abstract class PlayableCtrl : Entity
 
     public TempBullet CreateBullet(float speed, float rot)
     {
-        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
+        TempBullet bullet = objectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
 
         bullet.player = this;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);

@@ -1347,13 +1347,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2458bf35155734f933e2df632c65ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityType: 0
   rigid: {fileID: 0}
-  bulletNum: 1
+  gaugeBar: {fileID: 0}
+  bulletNum: 0
   bulletInterval: 0
   rotationAnglePerSecond: 270
   dashSpeed: 40
   dashTime: 0.1
   isTest: 1
+  tempExpRange: 7
   tempMoveSpeed: 6
   tempAttackRange: 12
   tempAttackSpeed: 5

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -17,7 +18,8 @@ public class ObjectPool : MonoBehaviour
         Bullet,
         Arrow,
         Experience,
-        CollapseZone
+        CollapseZone,
+        HitParticle
     }
 
     [System.Serializable]
@@ -56,7 +58,6 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Allocate additional objects
     /// </summary>
@@ -80,10 +81,19 @@ public class ObjectPool : MonoBehaviour
                 obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
 
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
-
             }
         }
     }
+
+    //async Task CreateNewObject(GameObject prefab, ObjectType type, Stack<GameObject> objectPool)
+    //{
+    //    GameObject obj;
+    //    await Task.Run(() =>
+    //    {
+    //        obj = Instantiate(prefab);
+    //        obj.SetActive(false);
+    //    })
+    //}
 
     // Method to get an object from the pool
     public GameObject Pop(ObjectType objectType, Vector3 position)
