@@ -422,15 +422,20 @@ public abstract class PlayableCtrl : Entity
     
     public void AddExp(float val)
     {
-        if (level >= GameManager.instance.levelTable.Count)
-            return;
-
-        exp += val;
-        if(exp >= requireExp)
+        if (level >= GameManager.instance.levelTable.Count - 1)
         {
-            exp = exp - requireExp;
-            level++;
-            requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
+            return;
+        }
+        else
+        {
+
+            exp += val;
+            if(exp >= requireExp)
+            {
+                exp = exp - requireExp;
+                level++;
+                requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
+            }
         }
     }
 
