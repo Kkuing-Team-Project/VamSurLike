@@ -67,6 +67,22 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4451744842583874851, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451744842583874851, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451744842583874851, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4451744842583874851, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7934654247757923480, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
       propertyPath: m_Name
       value: Servant Variant
@@ -94,6 +110,32 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3344830382273478549}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf82391c2b8dcba41b87c0dcc6cd4f12, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &4487158950725919010 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3930541818698254233, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
+  m_PrefabInstance: {fileID: 633179880546657979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9011314375695941351
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4487158950725919010}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: bf82391c2b8dcba41b87c0dcc6cd4f12, type: 2}
@@ -176,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b185b315abc4d65bea50f831c78a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityType: 0
   rigid: {fileID: 0}
   HP: 10
   speed: 3

@@ -72,7 +72,6 @@ public abstract class PlayableCtrl : Entity
     protected override void InitEntity()
     {
         base.InitEntity();
-        Debug.Log($"{stat.Get(StatType.MAX_HP)} / {hp}");
 
         if (isTest)
         {
@@ -103,13 +102,12 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(1, AugmentationEventType.ON_START));
+        AddAugmentation(new DamageUp(1, AugmentationEventType.ON_UPDATE));
     }
 
     protected override void UpdateEntity()
     {
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
-
         inputVector.x = Input.GetAxis("Horizontal");
         inputVector.z = Input.GetAxis("Vertical");
         if (inputVector.magnitude > 0)

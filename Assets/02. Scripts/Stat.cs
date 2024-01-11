@@ -30,30 +30,8 @@ public class Stat
             [StatType.EXP_RANGE] = 2f,
             [StatType.HEAL_MAG] = 1f,
         },
-    addValue = new Dictionary<StatType, float>()
-    {
-        [StatType.MAX_HP] = 0f,
-        [StatType.MOVE_SPEED] = 0f,
-        [StatType.ATTACK_SPEED] = 0f,
-        [StatType.DAMAGE] = 0f,
-        [StatType.ATTACK_DISTANCE] = 0,
-        [StatType.SKILL_COOL_DOWN_MAG] = 0f,
-        [StatType.SKILL_FORCE_MAG] = 0f,
-        [StatType.EXP_RANGE] = 0f,
-        [StatType.HEAL_MAG] = 0f
-    },
-    multipleValue = new Dictionary<StatType, float>()
-    {
-        [StatType.MAX_HP] = 1f,
-        [StatType.MOVE_SPEED] = 1f,
-        [StatType.ATTACK_SPEED] = 1f,
-        [StatType.DAMAGE] = 1f,
-        [StatType.ATTACK_DISTANCE] = 1f,
-        [StatType.SKILL_COOL_DOWN_MAG] = 1f,
-        [StatType.SKILL_FORCE_MAG] = 1f,
-        [StatType.EXP_RANGE] = 1f,
-        [StatType.HEAL_MAG] = 1f
-    },
+    addValue = new (),
+    multipleValue = new(),
     currentValue = new Dictionary<StatType, float>()
     {
         [StatType.MAX_HP] = 100f,
@@ -79,7 +57,7 @@ public class Stat
         InitStat();
     }
 
-    private void InitStat()
+    public void InitStat()
     {
         StatType[] statTypes = (StatType[])System.Enum.GetValues(typeof(StatType));
 
@@ -90,7 +68,7 @@ public class Stat
         }
     }
 
-    private void UpdateStat()
+    public void UpdateStat()
     {
         StatType[] statTypes = (StatType[])System.Enum.GetValues(typeof(StatType));
         foreach (var type in statTypes)

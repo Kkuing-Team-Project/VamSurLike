@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class SpawnObject
@@ -45,7 +47,11 @@ public class Spawner : MonoBehaviour
     public ObjectPool Pool;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float delay = 1.0f;
-    [SerializeField, Range(1, 2)] private float mul = 1.5f;
+
+    public bool stop;
+    private float currentTime;
+    private float lastSpawnTime;
+    private float lastChangeWaveTime;
 
     [HideInInspector] public bool isWave;
     [HideInInspector] public SpawnObject[] spawnObjects;
@@ -58,6 +64,7 @@ public class Spawner : MonoBehaviour
     [HideInInspector] public float entityRadius = 0.5f;
     [HideInInspector] public float notSpawnRadius = 5.0f;
     [HideInInspector] public float range = 20.0f;
+    [HideInInspector] public float mul = 1.5f;
 
     private Vector3 minRandomRange;
     private Vector3 maxRandomRange;
@@ -65,20 +72,33 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         currentWaveIndex = 0;
+        currentTime = 0;
         if (isWave)
-        {
             SetPercent(waves[0].spawnObjects, waves[0].maxPercent);
-            StartCoroutine(nameof(ChangeWave));
-        }
         else
             SetPercent(spawnObjects, maxPercent);
-
-        StartCoroutine(nameof(Spawn));
     }
 
     private void Update()
     {
         UpdateSpawnArea();
+
+        if (!stop)
+        {
+            currentTime += Time.deltaTime;
+
+            if (lastSpawnTime + delay < currentTime)
+            {
+                lastSpawnTime = currentTime;
+                Spawn();
+            }
+
+            if (isWave && lastChangeWaveTime + waves[currentWaveIndex].duration < currentTime)
+            {
+                lastChangeWaveTime = currentTime;
+                ChangeWave();
+            }
+        }
     }
 
     private void SetPercent(SpawnObject[] objects, float percentMax)
@@ -181,88 +201,138 @@ public class Spawner : MonoBehaviour
         return new Vector3(newX, point.y, newZ);
     }
 
-    private IEnumerator ChangeWave()
+    private void ChangeWave()
     {
-        yield return new WaitForSeconds(waves[currentWaveIndex].duration);
-
         if (currentWaveIndex < waves.Length - 1)
         {
             currentWaveIndex++;
             SetPercent(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent);
-            StartCoroutine(nameof(ChangeWave));
-            // Debug.Log($"wave change... current wave index: {currentWaveIndex}");
+            Debug.Log($"wave change... current wave index: {currentWaveIndex}");
         }
     }
 
-    private IEnumerator Spawn()
+    private void Spawn()
     {
         Vector3 staticPos = transform.position;
 
-        while (!gameOver)
+        minRandomRange = new Vector3(-(mapSize.x * 0.5f) + center.x, 0, -(mapSize.z * 0.5f) + center.z);
+        maxRandomRange = new Vector3((mapSize.x * 0.5f) + center.x, 0, (mapSize.z * 0.5f) + center.z);
+        if (isStatic)
         {
-            yield return new WaitForSeconds(delay);
-
-            minRandomRange = new Vector3(-(mapSize.x * 0.5f) + center.x, 0, -(mapSize.z * 0.5f) + center.z);
-            maxRandomRange = new Vector3((mapSize.x * 0.5f) + center.x, 0, (mapSize.z * 0.5f) + center.z);
-            if (isStatic)
-            {
-                minRandomRange.x = -(mapSize.x * 0.5f) + staticPos.x;
-                maxRandomRange.x = (mapSize.x * 0.5f) + staticPos.x;
-                minRandomRange.z = -(mapSize.z * 0.5f) + staticPos.z;
-                maxRandomRange.z = (mapSize.z * 0.5f) + staticPos.z;
-            }
-
-            float x = UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x);
-            float z = UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z);
-
-            float spawnRadius = maxRangeRadius - entityRadius;
-
-            Vector3 point = new Vector3(x, staticPos.y, z);
-            bool isOutOfMaxCircle = Vector3.Distance(staticPos, point) > spawnRadius;
-            Vector3 select = new Vector3(width * mul * 0.5f, 0, height * mul * 0.5f);
-
-            if (isStatic)
-            {
-                if (isOutOfMaxCircle)
-                {
-                    if (Vector3.Distance(staticPos, point) > spawnRadius)
-                    {
-                        minRandomRange.x = -(mapSize.x * 0.5f) / Mathf.Sqrt(2) + staticPos.x;
-                        maxRandomRange.x = (mapSize.x * 0.5f) / Mathf.Sqrt(2) + staticPos.x;
-                        minRandomRange.z = -(mapSize.z * 0.5f) / Mathf.Sqrt(2) + staticPos.z;
-                        maxRandomRange.z = (mapSize.z * 0.5f) / Mathf.Sqrt(2) + staticPos.z;
-
-                        point.x = UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x);
-                        point.z = UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z);
-                    }
-                }
-
-                if (Vector3.Distance(center, point) < notSpawnRadius)
-                {
-                    Vector3 maxSide = new Vector3(notSpawnRadius, 0, notSpawnRadius);
-                    
-                    Vector3 minSide = new Vector3(maxSide.x + staticPos.x - point.x, 0, maxSide.z + staticPos.z - point.z);
-                    if (Mathf.Abs(-maxSide.x + staticPos.x - point.x) > Mathf.Abs(maxSide.x + staticPos.x - point.x))
-                        minSide.x = -maxSide.x + staticPos.x;
-                    if (Mathf.Abs(-maxSide.z + staticPos.z - point.z) > Mathf.Abs(maxSide.z + staticPos.z - point.z))
-                        minSide.z = -maxSide.z + staticPos.z;
-                    
-                    point = minSide + center;
-                }
-            }
-            else if (-select.x + center.x <= x && x <= select.x + center.x &&
-                     -select.z + center.z <= z && z <= select.z + center.z)
-            {
-                Vector3 minSide = GetMinSide(new Vector3(x, 0, z), center, select);
-                point = SaeHan(point, x, z, minSide, new Vector3(mapSize.x * 0.5f, 0, mapSize.z * 0.5f), center);
-            }
-
-            ObjectPool.ObjectType type =
-                isWave
-                    ? GetRandomSpawnObjectType(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent)
-                    : GetRandomSpawnObjectType(spawnObjects, maxPercent);
-            GameObject enemy = Pool.Pop(type, point);
+            minRandomRange.x = -(mapSize.x * 0.5f) + staticPos.x;
+            maxRandomRange.x = (mapSize.x * 0.5f) + staticPos.x;
+            minRandomRange.z = -(mapSize.z * 0.5f) + staticPos.z;
+            maxRandomRange.z = (mapSize.z * 0.5f) + staticPos.z;
         }
+
+        float x = UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x);
+        float z = UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z);
+
+        float spawnRadius = maxRangeRadius - entityRadius;
+
+        Vector3 point = new Vector3(x, staticPos.y, z);
+        bool isOutOfMaxCircle = Vector3.Distance(staticPos, point) > spawnRadius;
+        Vector3 select = new Vector3(width * mul * 0.5f, 0, height * mul * 0.5f);
+
+        if (isStatic)
+        {
+            minRandomRange.x = -(mapSize.x * 0.5f) / Mathf.Sqrt(2) + staticPos.x;
+            maxRandomRange.x = (mapSize.x * 0.5f) / Mathf.Sqrt(2) + staticPos.x;
+            minRandomRange.z = -(mapSize.z * 0.5f) / Mathf.Sqrt(2) + staticPos.z;
+            maxRandomRange.z = (mapSize.z * 0.5f) / Mathf.Sqrt(2) + staticPos.z;
+
+            if (isOutOfMaxCircle)
+            {
+                if (Vector3.Distance(staticPos, point) > spawnRadius)
+                {
+                    point.x = UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x);
+                    point.z = UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z);
+                }
+            }
+
+            if (Vector3.Distance(center, point) < notSpawnRadius)
+            {
+                float leftRandomRange = center.x;
+                float rightRandomRange = center.x;
+                float topRandomRange = center.z;
+                float downRandomRange = center.z;
+                if (-notSpawnRadius + center.x > minRandomRange.x)
+                {
+                    leftRandomRange = -notSpawnRadius + center.x < maxRandomRange.x
+                        ? -notSpawnRadius + center.x
+                        : maxRandomRange.x;
+                }
+
+                if (notSpawnRadius + center.x < maxRandomRange.x)
+                {
+                    rightRandomRange = notSpawnRadius + center.x > minRandomRange.x
+                        ? notSpawnRadius + center.x
+                        : minRandomRange.x;
+                }
+
+                if (notSpawnRadius + center.z < maxRandomRange.z)
+                {
+                    topRandomRange = notSpawnRadius + center.z > minRandomRange.z
+                        ? notSpawnRadius + center.z
+                        : minRandomRange.z;
+                }
+
+                if (-notSpawnRadius + center.z > minRandomRange.z)
+                {
+                    downRandomRange = -notSpawnRadius + center.z < maxRandomRange.z
+                        ? -notSpawnRadius + center.z
+                        : maxRandomRange.z;
+                }
+
+                List<Vector3> randomPos = new List<Vector3>();
+                Vector3 temp = staticPos;
+                if (leftRandomRange != center.x)
+                {
+                    temp.x = UnityEngine.Random.Range(minRandomRange.x, leftRandomRange);
+                    temp.z = UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z);
+
+                    randomPos.Add(temp);
+                }
+
+                if (rightRandomRange != center.x)
+                {
+                    temp.x = UnityEngine.Random.Range(rightRandomRange, maxRandomRange.x);
+                    temp.z = UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z);
+
+                    randomPos.Add(temp);
+                }
+
+                if (topRandomRange != center.z)
+                {
+                    temp.x = UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x);
+                    temp.z = UnityEngine.Random.Range(maxRandomRange.z, topRandomRange);
+
+                    randomPos.Add(temp);
+                }
+
+                if (downRandomRange != center.z)
+                {
+                    temp.x = UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x);
+                    temp.z = UnityEngine.Random.Range(downRandomRange, minRandomRange.z);
+
+                    randomPos.Add(temp);
+                }
+
+                point = randomPos[UnityEngine.Random.Range(0, randomPos.Count)];
+            }
+        }
+        else if (-select.x + center.x <= x && x <= select.x + center.x &&
+                 -select.z + center.z <= z && z <= select.z + center.z)
+        {
+            Vector3 minSide = GetMinSide(new Vector3(x, 0, z), center, select);
+            point = SaeHan(point, x, z, minSide, new Vector3(mapSize.x * 0.5f, 0, mapSize.z * 0.5f), center);
+        }
+
+        ObjectPool.ObjectType type =
+            isWave
+                ? GetRandomSpawnObjectType(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent)
+                : GetRandomSpawnObjectType(spawnObjects, maxPercent);
+        GameObject enemy = Pool.Pop(type, point);
     }
 
     private ObjectPool.ObjectType GetRandomSpawnObjectType(SpawnObject[] objects, float percentMax)
@@ -290,12 +360,13 @@ public class Spawner : MonoBehaviour
 
         UpdateSpawnArea();
 
+        Vector3 staticPos = transform.position;
         if (isStatic)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, maxRangeRadius);
+            Gizmos.DrawWireSphere(staticPos, maxRangeRadius);
             Gizmos.color = Color.black;
-            Gizmos.DrawWireSphere(transform.position, maxRangeRadius - entityRadius);
+            Gizmos.DrawWireSphere(staticPos, maxRangeRadius - entityRadius);
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(center, notSpawnRadius);

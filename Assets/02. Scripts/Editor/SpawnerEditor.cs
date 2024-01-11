@@ -77,12 +77,13 @@ public class SpawnerEditor : Editor
         if (myTarget.isStatic)
         {
             myTarget.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myTarget.maxRangeRadius);
-            myTarget.entityRadius = EditorGUILayout.FloatField("Entity Radius", myTarget.entityRadius);
-            myTarget.notSpawnRadius = EditorGUILayout.FloatField("Not Spawn Radius", myTarget.notSpawnRadius);
+            myTarget.entityRadius = EditorGUILayout.Slider("Entity Radius", myTarget.entityRadius, 0, myTarget.maxRangeRadius);
+            myTarget.notSpawnRadius = EditorGUILayout.Slider("Not Spawn Radius", myTarget.notSpawnRadius, 0, myTarget.maxRangeRadius - myTarget.entityRadius - 5.0f);
         }
         else
         {
             myTarget.range = EditorGUILayout.FloatField("Range", myTarget.range);
+            myTarget.mul = EditorGUILayout.Slider("Mul" ,myTarget.mul, 1, 2);
         }
 
         serializedObject.ApplyModifiedProperties();
