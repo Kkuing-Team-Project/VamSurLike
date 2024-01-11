@@ -155,25 +155,32 @@ MonoBehaviour:
   Pool: {fileID: 542207853}
   playerCamera: {fileID: 1686009783}
   delay: 0
-  mul: 1.5
+  stop: 0
   isWave: 0
   spawnObjects:
   - type: 1
     percent: 100
-    percentAmpl: 1000
-  - type: 1
-    percent: 0
-    percentAmpl: 0
+    percentAmpl: 100
   maxPercent: 100
   waves:
   - duration: 0
-    spawnObjects: []
+    spawnObjects:
+    - type: 1
+      percent: 100
+      percentAmpl: 100
+    maxPercent: 100
+  - duration: 0
+    spawnObjects:
+    - type: 1
+      percent: 100
+      percentAmpl: 100
     maxPercent: 100
   isStatic: 1
   maxRangeRadius: 50
-  entityRadius: 10
-  notSpawnRadius: 15
-  range: 20
+  entityRadius: 5
+  notSpawnRadius: 20
+  range: 33.21
+  mul: 1.389
 --- !u!4 &174029508
 Transform:
   m_ObjectHideFlags: 0
@@ -182,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174029506}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 0.1, z: -3.2}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -385,13 +392,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d2458bf35155734f933e2df632c65ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityType: 0
   rigid: {fileID: 0}
-  bulletObjectPool: {fileID: 0}
+  gaugeBar: {fileID: 0}
   bulletNum: 0
   bulletInterval: 0
   rotationAnglePerSecond: 0
   dashSpeed: 40
   dashTime: 0
+  isTest: 0
+  tempExpRange: 7
+  tempMoveSpeed: 5
+  tempAttackRange: 12
+  tempAttackSpeed: 2.5
   tempBulletSpeed: 50
 --- !u!54 &551876035
 Rigidbody:
@@ -520,7 +533,7 @@ MonoBehaviour:
   Pool: {fileID: 542207853}
   playerCamera: {fileID: 1686009783}
   delay: 0
-  mul: 1.5
+  stop: 0
   isWave: 1
   spawnObjects:
   - type: 0
@@ -575,6 +588,7 @@ MonoBehaviour:
   entityRadius: 0.5
   notSpawnRadius: 5
   range: 20
+  mul: 1.5
 --- !u!4 &788882069
 Transform:
   m_ObjectHideFlags: 0
@@ -614,7 +628,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858065483}
-  m_LocalRotation: {x: 0.47185794, y: 0.000000021454227, z: -0.000000011481954, w: 0.88167465}
+  m_LocalRotation: {x: 0.47185794, y: -0.000000021454227, z: 0.000000011481954, w: 0.88167465}
   m_LocalPosition: {x: 0, y: 16, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -972,7 +986,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1686009782}
-  m_LocalRotation: {x: 0.47185794, y: 0.000000021454227, z: -0.000000011481954, w: 0.88167465}
+  m_LocalRotation: {x: 0.47185794, y: -0.000000021454227, z: 0.000000011481954, w: 0.88167465}
   m_LocalPosition: {x: 0, y: 16, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
