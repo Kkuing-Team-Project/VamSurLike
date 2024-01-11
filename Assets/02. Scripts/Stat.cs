@@ -12,6 +12,7 @@ public enum StatType
     SKILL_COOL_DOWN_MAG,   
     SKILL_FORCE_MAG,
     EXP_RANGE,
+    HEAL_MAG,
 }
 
 public class Stat
@@ -27,6 +28,7 @@ public class Stat
             [StatType.SKILL_COOL_DOWN_MAG] = 1f,
             [StatType.SKILL_FORCE_MAG] = 1f,
             [StatType.EXP_RANGE] = 2f,
+            [StatType.HEAL_MAG] = 1f,
         },
     addValue = new Dictionary<StatType, float>()
     {
@@ -38,6 +40,7 @@ public class Stat
         [StatType.SKILL_COOL_DOWN_MAG] = 0f,
         [StatType.SKILL_FORCE_MAG] = 0f,
         [StatType.EXP_RANGE] = 0f,
+        [StatType.HEAL_MAG] = 0f
     },
     multipleValue = new Dictionary<StatType, float>()
     {
@@ -48,7 +51,8 @@ public class Stat
         [StatType.ATTACK_DISTANCE] = 1f,
         [StatType.SKILL_COOL_DOWN_MAG] = 1f,
         [StatType.SKILL_FORCE_MAG] = 1f,
-        [StatType.EXP_RANGE] = 1f
+        [StatType.EXP_RANGE] = 1f,
+        [StatType.HEAL_MAG] = 1f
     },
     currentValue = new Dictionary<StatType, float>()
     {
@@ -60,6 +64,7 @@ public class Stat
         [StatType.SKILL_COOL_DOWN_MAG] = 1f,
         [StatType.SKILL_FORCE_MAG] = 1f,
         [StatType.EXP_RANGE] = 1f,
+        [StatType.HEAL_MAG] = 1f
     };
 
     public Stat()

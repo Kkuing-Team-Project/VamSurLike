@@ -25,7 +25,7 @@ public abstract class PlayableCtrl : Entity
     private AugEventArgs defaultArgs;
 
     [Header("게이지 바"), SerializeField]
-    GaugeBar gaugeBar;
+    PlayerGaugeBar gaugeBar;
 
 
     [Header("총알 갯수")]
@@ -72,17 +72,18 @@ public abstract class PlayableCtrl : Entity
     protected override void InitEntity()
     {
         base.InitEntity();
-        
+        Debug.Log($"{stat.Get(StatType.MAX_HP)} / {hp}");
+
         if (isTest)
         {
-            stat.SetDefault(StatType.EXP_RANGE, tempExpRange);
-            stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
-            stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
-            stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
+           stat.SetDefault(StatType.EXP_RANGE, tempExpRange);
+           stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
+           stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
+           stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
         }
         else
         {
-            stat.SetDefault(StatType.MOVE_SPEED, 3);
+           stat.SetDefault(StatType.MOVE_SPEED, 3);
         }
 
 
@@ -115,8 +116,8 @@ public abstract class PlayableCtrl : Entity
         {
             anim.SetBool("IsMove", true);
 
-            anim.SetFloat("InputX", transform.TransformVector(inputVector).x);
-            anim.SetFloat("InputZ", -transform.TransformVector(inputVector).z);
+            anim.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
+            anim.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
             anim.speed = Mathf.Lerp(0f, 1f, rigid.velocity.magnitude / 6f);     // Code to set animation speed based on movement speed
         }
@@ -182,7 +183,6 @@ public abstract class PlayableCtrl : Entity
         {
             dashCor = StartCoroutine(DashCor());
         }
-        Debug.Log(hp);
     }
 
     /// <summary>
@@ -238,18 +238,18 @@ public abstract class PlayableCtrl : Entity
 
         canMove = true;
 
-        gaugeBar.SetBarValue("DashBar", 0, 5f);
+        gaugeBar.DashBar.SetBarValue(0, 5f);
 
         float cooltimeTimer = 0f;
         while (true)
         {
             cooltimeTimer += Time.deltaTime;
-            gaugeBar.SetBarValue("DashBar", cooltimeTimer, 5f);
+            gaugeBar.DashBar.SetBarValue(cooltimeTimer, 5f);
 
             yield return null;
             if (cooltimeTimer >= 5f)
             {
-                gaugeBar.SetBarValue("DashBar", 5f, 5f);
+                gaugeBar.DashBar.SetBarValue(5f, 5f);
                 break;
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public GameObject ui;
     public PlayableCtrl player;
-
+    public List<Dictionary<string, object>> statTable;
 
     private void Awake()
     {
@@ -21,19 +22,22 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        statTable = CSVReader.Read("Data/StatTable");
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ui.SetActive(true);
+        player = FindObjectOfType<PlayableCtrl>();
         switch (scene.name)
         {
             case "Yeopseung":
-                ui.SetActive(true);
-                player = FindObjectOfType<PlayableCtrl>();
+
                 Debug.Log(player.gameObject.name);
                 break;
             default:
-                ui.SetActive(false);
+
+                ui.SetActive(true);
                 break;
         }
     }
