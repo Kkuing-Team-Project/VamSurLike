@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerGaugeBar : MonoBehaviour
 {
-    public GaugeBar HpBar { get; private set; }
-    public GaugeBar DashBar { get; private set; }
+    public GaugeBar HpBar;
+    public GaugeBar DashBar;
 
     PlayableCtrl player;
 

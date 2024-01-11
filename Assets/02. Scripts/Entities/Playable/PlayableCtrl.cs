@@ -74,17 +74,17 @@ public abstract class PlayableCtrl : Entity
         base.InitEntity();
         Debug.Log($"{stat.Get(StatType.MAX_HP)} / {hp}");
 
-        //if (isTest)
-        //{
-        //    stat.SetDefault(StatType.EXP_RANGE, tempExpRange);
-        //    stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
-        //    stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
-        //    stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
-        //}
-        //else
-        //{
-        //    stat.SetDefault(StatType.MOVE_SPEED, 3);
-        //}
+        if (isTest)
+        {
+           stat.SetDefault(StatType.EXP_RANGE, tempExpRange);
+           stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
+           stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
+           stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
+        }
+        else
+        {
+           stat.SetDefault(StatType.MOVE_SPEED, 3);
+        }
 
 
         defaultArgs = new AugEventArgs(transform, this);
