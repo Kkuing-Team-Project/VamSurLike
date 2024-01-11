@@ -12,7 +12,7 @@ public class PoisonField : Augmentation
 
 
 
-    public PoisonField(int level, AugmentationEventType eventType) : base(level, eventType)
+    public PoisonField(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
     {
     }
 
@@ -69,7 +69,7 @@ public class PoisonField : Augmentation
                 {
                     if (delayTimer > 1f)
                     {
-                        Collider[] enemies = Physics.OverlapSphere(player.transform.position, 5, 1 << LayerMask.NameToLayer("ENEMY"));
+                        Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
                         if (enemies.Length > 0)
                         {
                             foreach (var enemy in enemies)

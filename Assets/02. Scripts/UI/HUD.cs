@@ -3,58 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using Slider = UnityEngine.UI.Slider;
 
-namespace VamSureLikeSystem.MenuSystem
+public class HUD : MonoBehaviour
 {
-	public class HUD : MonoBehaviour
+	public Text timeText;
+	public Text killCountText;
+	public Text levelText;
+	public Slider expSlider;
+	public int killCount;
+	public GameObject augImg;
+	public ScrollRect augScroll;
+
+
+	void LateUpdate()
 	{
-		public enum InfoType { EXP, LEVEL, KILL, TIME, HEALTH, COIN }
-		public InfoType type;
+		UIUpdate();
+	}
 
-		Text myText;
-		Slider mySlider;
+	private void UIUpdate()
+	{
+		if (GameManager.instance.player == null)
+			return;
 
-		void Awake()
-		{
-			myText = GetComponent<Text>();
-			mySlider = GetComponent<Slider>();
-		}
+		int sceneStartTime = (int)Time.timeSinceLevelLoad;
 
-		void LateUpdate()
-		{
-			switch (type)
-			{
-				case InfoType.EXP:
-					// float ���� ����ġ = GameManager.instance.EXP;
-					// float max����ġ = GameManager.instance.nextEXP[GameManager.instance.LEVEL];
-					// mySlider.value = ���� ����ġ / max����ġ;
-					break;
-				case InfoType.LEVEL:
-					// myText.text = string.Format("Lv.{0:F0}", GameManager.instance.LEVEL);
-					break;
-				case InfoType.KILL:
-					// myText.text = string.Format("{0:F0}", GameManager.instance.KILL);
-					break;
-				case InfoType.TIME:
-					// float �����ð� = GameManager.instance.�ִ�ð� - GameManager.instance.����ð�
-					// int min(��) = Mathf.FloorToInt(�����ð� / 60);
-					// int sec(��) = Mathf.FloorToInt(�����ð� % 60);
-					// myText.text = string.Format("{0:D2}:{1:D2}", min,sec);
-					break;
-				case InfoType.HEALTH:
-					// float ���� ü�� = GameManager.instance.HEALTH;
-					// float maxü�� = GameManager.instance.maxHEALTH;
-					// mySlider.value = ���� ü�� / maxü��;
-					break;
-				case InfoType.COIN:
+		timeText.text = string.Format("{0:D2} : {1:D2}", sceneStartTime / 60, sceneStartTime % 60);
 
-					break;
-			}
-		}
+		killCountText.text = killCount.ToString();
 
-		public void QuitGame()
-        {
-            Application.Quit(); // 게임 종료
-        }
+		levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
+
+		expSlider.value = GameManager.instance.player.exp / GameManager.instance.player.requireExp;
+	}
+
+
+
+	public void QuitGame()
+	{
+		Application.Quit(); // 게임 종료
+	}
+
+	[ContextMenu("")]
+	public void AddRune()
+	{
+		GameObject tempImg = Instantiate(augImg);
+		tempImg.transform.SetParent(augScroll.content);
 	}
 }

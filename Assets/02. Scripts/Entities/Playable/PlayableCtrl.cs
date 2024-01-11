@@ -89,6 +89,7 @@ public abstract class PlayableCtrl : Entity
         defaultArgs = new AugEventArgs(transform, this);
         anim = GetComponent<Animator>();
         bulletObjectPool = FindObjectOfType<ObjectPool>();
+        requireExp = int.Parse(GameManager.instance.levelTable[0]["NEED_EXP"].ToString());
     }
 
     void FixedUpdate()
@@ -102,7 +103,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(1, AugmentationEventType.ON_UPDATE));
+        AddAugmentation(new DamageUp(1, 2, AugmentationEventType.ON_UPDATE));
     }
 
     protected override void UpdateEntity()
@@ -400,11 +401,15 @@ public abstract class PlayableCtrl : Entity
 
     public void AddExp(float val)
     {
+        if (level >= GameManager.instance.levelTable.Count)
+            return;
+
         exp += val;
         if(exp >= requireExp)
         {
             exp = exp - requireExp;
             level++;
+            requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
         }
     }
 

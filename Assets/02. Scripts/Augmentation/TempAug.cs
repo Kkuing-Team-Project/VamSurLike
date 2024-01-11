@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TempAug : Augmentation
 {
-    public TempAug(int level, AugmentationEventType eventType) : base(level, eventType)
+    public TempAug(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
     {
     }
 
