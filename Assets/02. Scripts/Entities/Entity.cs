@@ -1,10 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EntityType
+{
+    NONE,
+    FIRE,
+    STONE_HEAD,
+}
+
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Entity : MonoBehaviour
 {
+    public EntityType entityType;
     public Stat stat;
     public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
@@ -33,6 +42,7 @@ public abstract class Entity : MonoBehaviour
     protected virtual void InitEntity()
     {
         stat = new Stat();
+        //SetEntityStat(entityType);
         hp = stat.Get(StatType.MAX_HP);
         animator = gameObject.GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
@@ -101,4 +111,32 @@ public abstract class Entity : MonoBehaviour
         return animator.GetCurrentAnimatorStateInfo(layerIdx).IsName(name) && animator.GetCurrentAnimatorStateInfo(layerIdx).normalizedTime < 1f;
     }
 
+    /// <summary>
+    /// Method that initialize stat
+    /// This method refer to GameManager, Resource/Data/StatTable.csv
+    /// </summary>
+    public void SetEntityStat(EntityType type)
+    {
+        int idx = -1;
+        for (int i = 0; i < GameManager.instance.statTable.Count; i++)
+        {
+            if (type.ToString().Equals(GameManager.instance.statTable[i]["CHARACTER_ID"].ToString()))
+            {
+                idx = i;
+                break;
+            }
+        }
+
+        if (idx == -1)
+        {
+            Debug.LogError("Value not found!");
+            return;
+        }
+
+        var keys = new List<string>(GameManager.instance.statTable[idx].Keys);
+        for (int i = 1; i < GameManager.instance.statTable[0].Count; i++)
+        {
+            stat.SetDefault(Enum.Parse<StatType>(keys[i]), float.Parse(GameManager.instance.statTable[idx][keys[i]].ToString()));
+        }
+    }
 }
