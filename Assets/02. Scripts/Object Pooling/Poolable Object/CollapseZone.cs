@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -16,18 +17,16 @@ public class CollapseZone : MonoBehaviour, IPoolable
     private PlayableCtrl player;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         player = FindObjectOfType<PlayableCtrl>();
         spirit = FindObjectOfType<Spirit>();
-        spirit.collapseZone = this;
     }
 
     private void Update()
     {
         if (spirit == null)
             return;
-        
 
         float value = 0;
 
@@ -55,7 +54,6 @@ public class CollapseZone : MonoBehaviour, IPoolable
         }
     }
 
-
     private void OnDrawGizmos()
     {
         if (Application.isPlaying)
@@ -64,16 +62,23 @@ public class CollapseZone : MonoBehaviour, IPoolable
             Gizmos.DrawWireSphere(transform.position, zoneRange);
         }
     }
+    
+    private void OnEnable()
+    {
+        spirit.collapseZone = this;
+        stablity = 0;
+    }
 
     public void Create(Stack<GameObject> pool)
     {
         this.pool = pool;
     }
-
+    
     public void Push()
     {
+        spirit.collapseZone = null;
         gameObject.SetActive(false);
-
+        
         pool?.Push(gameObject);
     }
 }
