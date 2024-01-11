@@ -26,7 +26,7 @@ public class Spirit : Entity
     [SerializeField]
     private Spawner collapseZoneSpawner;
     private PlayableCtrl player;
-    // [HideInInspector]
+    [HideInInspector]
     public CollapseZone collapseZone;
     public SpiritState spiritState { get; private set; }
 
