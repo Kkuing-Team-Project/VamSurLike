@@ -1,9 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
-namespace WargameSystem.MenuSystem
+namespace VamSureLikeSystem.MenuSystem
 {
     public class MainUIManager : MonoBehaviour
     {
