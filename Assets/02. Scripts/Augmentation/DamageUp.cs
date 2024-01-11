@@ -14,6 +14,7 @@ public class DamageUp : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        e.target.stat.Add(StatType.DAMAGE, e.target.stat.Get(StatType.DAMAGE) * 0.1f * level);
+        e.target.stat.Multiply(StatType.DAMAGE, 1.1f * level);
+        Debug.Log($"플레이어 대미지:  {e.target.stat.Get(StatType.DAMAGE)}");
     }
 }
