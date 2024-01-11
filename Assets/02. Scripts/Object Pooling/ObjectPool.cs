@@ -49,6 +49,7 @@ public class ObjectPool : MonoBehaviour
                 objectPool.Push(obj);
 
                 obj.GetComponent<IPoolable>().Create(objectPool);
+                obj.GetComponent<IPoolable>().Push();
 
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
             }
@@ -78,6 +79,7 @@ public class ObjectPool : MonoBehaviour
                 poolDictionary[pool.type].Push(obj);
 
                 obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
+                obj.GetComponent<IPoolable>().Push();
 
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
 
@@ -102,14 +104,15 @@ public class ObjectPool : MonoBehaviour
         // Try to pop an object from the stack
         if (poolDictionary[objectType].TryPop(out obj))
         {
-            obj.transform.position = position;
-            obj.SetActive(true);
-            Debug.Log("Popped and activated object of type: " + objectType); // 로그 추가
-            
             if (poolDictionary[objectType].Count < 3)
             {
                 Allocate(5, objectType);
             }
+            
+            obj.transform.position = position;
+            obj.SetActive(true);
+            Debug.Log("Popped and activated object of type: " + objectType); // 로그 추가
+            
             return obj;
         }
         else

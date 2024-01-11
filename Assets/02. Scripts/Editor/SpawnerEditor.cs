@@ -78,7 +78,7 @@ public class SpawnerEditor : Editor
         {
             myTarget.maxRangeRadius = EditorGUILayout.FloatField("Max Range Radius", myTarget.maxRangeRadius);
             myTarget.entityRadius = EditorGUILayout.Slider("Entity Radius", myTarget.entityRadius, 0, myTarget.maxRangeRadius);
-            myTarget.notSpawnRadius = EditorGUILayout.Slider("Not Spawn Radius", myTarget.notSpawnRadius, 0, myTarget.maxRangeRadius - myTarget.entityRadius - 5.0f);
+            myTarget.notSpawnRadius = EditorGUILayout.Slider("Not Spawn Radius", myTarget.notSpawnRadius, 0, myTarget.maxRangeRadius - myTarget.entityRadius - 15.0f);
         }
         else
         {

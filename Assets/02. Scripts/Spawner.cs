@@ -207,7 +207,7 @@ public class Spawner : MonoBehaviour
         {
             currentWaveIndex++;
             SetPercent(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent);
-            Debug.Log($"wave change... current wave index: {currentWaveIndex}");
+            // Debug.Log($"wave change... current wave index: {currentWaveIndex}");
         }
     }
 
