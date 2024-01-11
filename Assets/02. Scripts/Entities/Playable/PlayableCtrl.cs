@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -56,8 +57,10 @@ public abstract class PlayableCtrl : Entity
 
     bool canMove = true;
 
+    // Components applied to the player object.
     Animator anim;
-    ObjectPool bulletObjectPool;
+    ObjectPool objectPool;
+    CinemachineImpulseSource cameraShakeSource;
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
@@ -87,9 +90,11 @@ public abstract class PlayableCtrl : Entity
 
 
         defaultArgs = new AugEventArgs(transform, this);
+
         anim = GetComponent<Animator>();
-        bulletObjectPool = FindObjectOfType<ObjectPool>();
         requireExp = int.Parse(GameManager.instance.levelTable[0]["NEED_EXP"].ToString());
+        objectPool = FindObjectOfType<ObjectPool>();
+        cameraShakeSource = GetComponent<CinemachineImpulseSource>();
     }
 
     void FixedUpdate()
@@ -118,7 +123,7 @@ public abstract class PlayableCtrl : Entity
             anim.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
             anim.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
-            anim.speed = Mathf.Lerp(0f, 1f, rigid.velocity.magnitude / 6f);     // Code to set animation speed based on movement speed
+            anim.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
         }
         else
         {
@@ -136,6 +141,7 @@ public abstract class PlayableCtrl : Entity
         }
         #endregion
 
+        #region Check Enmey around player
         Vector3 targetPosition = Vector3.zero;
 
         // 공격 범위 내에 적이 있다면.
@@ -164,13 +170,15 @@ public abstract class PlayableCtrl : Entity
                 targetPosition = hit.point;
             }
         }
+        #endregion
 
+        #region Rotate Player
         targetPosition.y = transform.position.y;
         Vector3 targetDirection = (targetPosition - transform.position).normalized;
         Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
 
         transform.rotation = nextRotation;
-
+        #endregion
 
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -209,6 +217,7 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
+    #region Dash Method
     protected IEnumerator DashCor()
     {
         canMove = false;
@@ -255,15 +264,19 @@ public abstract class PlayableCtrl : Entity
 
         dashCor = null;
     }
+    #endregion
 
+    #region Take Damage Method
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
+        gaugeBar.HpBar.SetBarValue(hp, stat.Get(StatType.MAX_HP));
+
         Collider[] enemies = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("ENEMY"));
-        if (enemies.Length > 0 )
+        if (enemies.Length > 0)
         {
-            foreach(var enemy in enemies)
+            foreach (var enemy in enemies)
             {
                 Entity target = enemy.GetComponent<Entity>();
                 target.TakeDamage(this, 10f);
@@ -272,19 +285,17 @@ public abstract class PlayableCtrl : Entity
                 target.rigid.AddForce(knockbackDirection * 20, ForceMode.Impulse);
             }
         }
+        cameraShakeSource.GenerateImpulse();
+
+
+        GameObject effectObj = objectPool.Pop(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
-     
+    #endregion
+
+
     protected abstract void PlayerSkill();
 
-
-    protected virtual void PlayerAttack(int bulletNum, float interval)
-    {        
-        for (int i = 0; i < bulletNum; i++)
-        {
-            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
-        }
-    }
-
+    #region Attack
     private IEnumerator AttackCoroutine()
     {
         WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
@@ -295,7 +306,35 @@ public abstract class PlayableCtrl : Entity
             yield return attackDelay;
         }
     }
+    protected virtual void PlayerAttack(int bulletNum, float interval)
+    {
+        for (int i = 0; i < bulletNum; i++)
+        {
+            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
+        }
+    }
 
+    public TempBullet CreateBullet(float speed, float rot)
+    {
+        TempBullet bullet = objectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
+
+        bullet.player = this;
+        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
+        bullet.rigid.velocity = speed * bullet.transform.forward;
+        return bullet;
+    }
+    #endregion
+
+    public void AddExp(float val)
+    {
+        exp += val;
+        if (exp >= requireExp)
+        {
+            exp = exp - requireExp;
+            level++;
+        }
+    }
+    #region Augmentation Method
     //증강 추가 메소드
     public void AddAugmentation(Augmentation aug)
     {
@@ -334,7 +373,7 @@ public abstract class PlayableCtrl : Entity
     public void DeleteAugmentation<T>() where T : Augmentation
     {
         Augmentation del = augmentationList.Find((a) => a is T);
-        
+
         if (del.eventType == AugmentationEventType.ON_START || augmentationList.Count <= 0)
             return;
 
@@ -398,7 +437,7 @@ public abstract class PlayableCtrl : Entity
         }
         augmentationList.Remove(del);
     }
-
+    
     public void AddExp(float val)
     {
         if (level >= GameManager.instance.levelTable.Count)
@@ -466,4 +505,5 @@ public abstract class PlayableCtrl : Entity
                 break;
         }
     }
+    #endregion
 }

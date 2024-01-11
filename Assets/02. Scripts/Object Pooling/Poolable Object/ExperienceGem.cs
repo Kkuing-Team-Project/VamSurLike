@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ExperienceGem : MonoBehaviour, IPoolable
 {
-    [Header("È¹µæ ½Ã ÀÌµ¿ ¼Óµµ"), SerializeField]
+    [Header("È¹ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Óµï¿½"), SerializeField]
     float moveSpeed;
         
     public Stack<GameObject> pool { get; set; }

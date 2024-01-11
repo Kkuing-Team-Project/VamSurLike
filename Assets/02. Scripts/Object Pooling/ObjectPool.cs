@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -17,7 +18,8 @@ public class ObjectPool : MonoBehaviour
         Bullet,
         Arrow,
         Experience,
-        CollapseZone
+        CollapseZone,
+        HitParticle
     }
 
     [System.Serializable]
@@ -49,13 +51,13 @@ public class ObjectPool : MonoBehaviour
                 objectPool.Push(obj);
 
                 obj.GetComponent<IPoolable>().Create(objectPool);
+                obj.GetComponent<IPoolable>().Push();
 
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
             }
             poolDictionary.Add(pool.type, objectPool);
         }
     }
-
 
     /// <summary>
     /// Allocate additional objects
@@ -78,12 +80,22 @@ public class ObjectPool : MonoBehaviour
                 poolDictionary[pool.type].Push(obj);
 
                 obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
+                obj.GetComponent<IPoolable>().Push();
 
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
-
             }
         }
     }
+
+    //async Task CreateNewObject(GameObject prefab, ObjectType type, Stack<GameObject> objectPool)
+    //{
+    //    GameObject obj;
+    //    await Task.Run(() =>
+    //    {
+    //        obj = Instantiate(prefab);
+    //        obj.SetActive(false);
+    //    })
+    //}
 
     // Method to get an object from the pool
     public GameObject Pop(ObjectType objectType, Vector3 position)
@@ -102,14 +114,15 @@ public class ObjectPool : MonoBehaviour
         // Try to pop an object from the stack
         if (poolDictionary[objectType].TryPop(out obj))
         {
-            obj.transform.position = position;
-            obj.SetActive(true);
-            Debug.Log("Popped and activated object of type: " + objectType); // 로그 추가
-            
             if (poolDictionary[objectType].Count < 3)
             {
                 Allocate(5, objectType);
             }
+            
+            obj.transform.position = position;
+            obj.SetActive(true);
+            Debug.Log("Popped and activated object of type: " + objectType); // 로그 추가
+            
             return obj;
         }
         else

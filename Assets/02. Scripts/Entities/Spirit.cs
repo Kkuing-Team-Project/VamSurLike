@@ -23,8 +23,10 @@ public enum BlessType
 [RequireComponent(typeof(NavMeshAgent))]
 public class Spirit : Entity
 {
+    [SerializeField]
+    private Spawner collapseZoneSpawner;
     private PlayableCtrl player;
-    [HideInInspector]
+    // [HideInInspector]
     public CollapseZone collapseZone;
     public SpiritState spiritState { get; private set; }
 
@@ -46,10 +48,12 @@ public class Spirit : Entity
     {
         if(collapseZone == null)
         {
+            if (collapseZoneSpawner) collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
         }
         else
         {
+            if (collapseZoneSpawner) collapseZoneSpawner.stop = true;
             var zonePos = collapseZone.transform.position;
             zonePos.y = 0;
             var origin = transform.position;
