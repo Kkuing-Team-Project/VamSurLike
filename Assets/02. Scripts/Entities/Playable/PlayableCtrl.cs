@@ -58,7 +58,6 @@ public abstract class PlayableCtrl : Entity
     bool canMove = true;
 
     // Components applied to the player object.
-    Animator anim;
     ObjectPool objectPool;
     CinemachineImpulseSource cameraShakeSource;
 
@@ -91,7 +90,7 @@ public abstract class PlayableCtrl : Entity
 
         defaultArgs = new AugEventArgs(transform, this);
 
-        anim = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         requireExp = int.Parse(GameManager.instance.levelTable[0]["NEED_EXP"].ToString());
         objectPool = FindObjectOfType<ObjectPool>();
         cameraShakeSource = GetComponent<CinemachineImpulseSource>();
@@ -108,7 +107,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(1, 2, AugmentationEventType.ON_UPDATE));
+        AddAugmentation(new KnockbackShot(1, 2, AugmentationEventType.ON_HIT));
     }
 
     protected override void UpdateEntity()
@@ -118,16 +117,16 @@ public abstract class PlayableCtrl : Entity
         inputVector.z = Input.GetAxis("Vertical");
         if (inputVector.magnitude > 0)
         {
-            anim.SetBool("IsMove", true);
+            animator.SetBool("IsMove", true);
 
-            anim.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
-            anim.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
+            animator.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
+            animator.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
-            anim.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
+            animator.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
         }
         else
         {
-            anim.SetBool("IsMove", false);
+            animator.SetBool("IsMove", false);
         }
 
         #region Check Experience Gem around player

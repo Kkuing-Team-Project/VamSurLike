@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pool: {fileID: 1583247436}
   playerCamera: {fileID: 436933017}
-  delay: 0
+  delay: 0.2
   stop: 0
   isWave: 1
   spawnObjects: []
