@@ -314,26 +314,8 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
-    public TempBullet CreateBullet(float speed, float rot)
-    {
-        TempBullet bullet = objectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
-
-        bullet.player = this;
-        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
-        bullet.rigid.velocity = speed * bullet.transform.forward;
-        return bullet;
-    }
     #endregion
 
-    public void AddExp(float val)
-    {
-        exp += val;
-        if (exp >= requireExp)
-        {
-            exp = exp - requireExp;
-            level++;
-        }
-    }
     #region Augmentation Method
     //증강 추가 메소드
     public void AddAugmentation(Augmentation aug)
@@ -454,7 +436,7 @@ public abstract class PlayableCtrl : Entity
 
     public TempBullet CreateBullet(float speed, float rot)
     {
-        TempBullet bullet = bulletObjectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
+        TempBullet bullet = objectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
 
         bullet.player = this;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);
