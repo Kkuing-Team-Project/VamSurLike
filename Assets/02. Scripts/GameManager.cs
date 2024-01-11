@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public GameObject ui;
     public PlayableCtrl player;
-
+    public List<Dictionary<string, object>> statTable;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
+        statTable = CSVReader.Read("Data/StatTable");
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

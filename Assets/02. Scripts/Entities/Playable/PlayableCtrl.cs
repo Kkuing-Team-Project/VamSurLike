@@ -72,18 +72,19 @@ public abstract class PlayableCtrl : Entity
     protected override void InitEntity()
     {
         base.InitEntity();
-        
-        if (isTest)
-        {
-            stat.SetDefault(StatType.EXP_RANGE, tempExpRange);
-            stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
-            stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
-            stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
-        }
-        else
-        {
-            stat.SetDefault(StatType.MOVE_SPEED, 3);
-        }
+        Debug.Log($"{stat.Get(StatType.MAX_HP)} / {hp}");
+
+        //if (isTest)
+        //{
+        //    stat.SetDefault(StatType.EXP_RANGE, tempExpRange);
+        //    stat.SetDefault(StatType.MOVE_SPEED, tempMoveSpeed);
+        //    stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
+        //    stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
+        //}
+        //else
+        //{
+        //    stat.SetDefault(StatType.MOVE_SPEED, 3);
+        //}
 
 
         defaultArgs = new AugEventArgs(transform, this);
@@ -182,7 +183,6 @@ public abstract class PlayableCtrl : Entity
         {
             dashCor = StartCoroutine(DashCor());
         }
-        Debug.Log(hp);
     }
 
     /// <summary>
