@@ -115,8 +115,8 @@ public abstract class PlayableCtrl : Entity
         {
             anim.SetBool("IsMove", true);
 
-            anim.SetFloat("InputX", transform.TransformVector(inputVector).x);
-            anim.SetFloat("InputZ", -transform.TransformVector(inputVector).z);
+            anim.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
+            anim.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
             anim.speed = Mathf.Lerp(0f, 1f, rigid.velocity.magnitude / 6f);     // Code to set animation speed based on movement speed
         }

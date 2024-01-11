@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &494569236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,7 +501,6 @@ MonoBehaviour:
   Pool: {fileID: 1583247436}
   playerCamera: {fileID: 436933017}
   delay: 1
-  range: 20
   mul: 1
   isWave: 1
   spawnObjects: []
@@ -513,9 +512,11 @@ MonoBehaviour:
       percent: 100
       percentAmpl: 100
     maxPercent: 100
-  isMax: 0
+  isStatic: 0
   maxRangeRadius: 50
   entityRadius: 0.5
+  notSpawnRadius: 5
+  range: 20
 --- !u!4 &494569237
 Transform:
   m_ObjectHideFlags: 0
@@ -932,8 +933,10 @@ MonoBehaviour:
   barInformations:
   - type: HpBar
     barImage: {fileID: 6751713087105519529}
+    isWolrdSpace: 0
   - type: DashBar
     barImage: {fileID: 6751713087053243911}
+    isWolrdSpace: 0
 --- !u!1001 &3617694507540707857
 PrefabInstance:
   m_ObjectHideFlags: 0
