@@ -43,6 +43,8 @@ public class ObjectPool : MonoBehaviour
         {
             Stack<GameObject> objectPool = new Stack<GameObject>();
             new GameObject(pool.type.ToString()).transform.SetParent(transform);
+            poolDictionary.Add(pool.type, objectPool);
+
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab, transform);
@@ -51,11 +53,9 @@ public class ObjectPool : MonoBehaviour
                 objectPool.Push(obj);
 
                 obj.GetComponent<IPoolable>().Create(objectPool);
-                obj.GetComponent<IPoolable>().Push();
 
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
             }
-            poolDictionary.Add(pool.type, objectPool);
         }
     }
 
@@ -80,22 +80,11 @@ public class ObjectPool : MonoBehaviour
                 poolDictionary[pool.type].Push(obj);
 
                 obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
-                obj.GetComponent<IPoolable>().Push();
 
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
             }
         }
     }
-
-    //async Task CreateNewObject(GameObject prefab, ObjectType type, Stack<GameObject> objectPool)
-    //{
-    //    GameObject obj;
-    //    await Task.Run(() =>
-    //    {
-    //        obj = Instantiate(prefab);
-    //        obj.SetActive(false);
-    //    })
-    //}
 
     // Method to get an object from the pool
     public GameObject Pop(ObjectType objectType, Vector3 position)
@@ -113,7 +102,7 @@ public class ObjectPool : MonoBehaviour
         GameObject obj;
         // Try to pop an object from the stack
         if (poolDictionary[objectType].TryPop(out obj))
-        {
+        {            
             if (poolDictionary[objectType].Count < 3)
             {
                 Allocate(5, objectType);
@@ -121,7 +110,6 @@ public class ObjectPool : MonoBehaviour
             
             obj.transform.position = position;
             obj.SetActive(true);
-            Debug.Log("Popped and activated object of type: " + objectType); // 로그 추가
             
             return obj;
         }
@@ -133,7 +121,6 @@ public class ObjectPool : MonoBehaviour
                 obj = poolDictionary[objectType].Pop();
                 obj.transform.position = position;
                 obj.SetActive(true);
-                Debug.Log("Allocated and activated object of type: " + objectType); // 로그 추가
                 
                 return obj;
             }

@@ -63,13 +63,13 @@ public abstract class PlayableCtrl : Entity
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
-    [Header("경험치 획득 범위"), SerializeField]
+    [Tooltip("경험치 획득 범위"), SerializeField]
     float tempExpRange = 7f;
-    [Header("캐릭터 이동 속도"), SerializeField]
+    [Tooltip("캐릭터 이동 속도"), SerializeField]
     float tempMoveSpeed = 5f;
-    [Header("공격 사거리"), SerializeField]
+    [Tooltip("공격 사거리"), SerializeField]
     float tempAttackRange = 12f;
-    [Header("공격 속도"), SerializeField]
+    [Tooltip("공격 속도"), SerializeField]
     float tempAttackSpeed = 2.5f;
     protected override void InitEntity()
     {
@@ -113,6 +113,8 @@ public abstract class PlayableCtrl : Entity
     protected override void UpdateEntity()
     {
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
+
+        #region Move Player
         inputVector.x = Input.GetAxis("Horizontal");
         inputVector.z = Input.GetAxis("Vertical");
         if (inputVector.magnitude > 0)
@@ -128,6 +130,7 @@ public abstract class PlayableCtrl : Entity
         {
             animator.SetBool("IsMove", false);
         }
+        #endregion
 
         #region Check Experience Gem around player
         Collider[] experienceGems = Physics.OverlapSphere(transform.position, stat.Get(StatType.EXP_RANGE), LayerMask.GetMask("EXP"));
@@ -140,7 +143,7 @@ public abstract class PlayableCtrl : Entity
         }
         #endregion
 
-        #region Check Enmey around player
+        #region Check Enmey around player And Attack, Rotate
         Vector3 targetPosition = Vector3.zero;
 
         // 공격 범위 내에 적이 있다면.
@@ -169,9 +172,7 @@ public abstract class PlayableCtrl : Entity
                 targetPosition = hit.point;
             }
         }
-        #endregion
 
-        #region Rotate Player
         targetPosition.y = transform.position.y;
         Vector3 targetDirection = (targetPosition - transform.position).normalized;
         Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
@@ -287,7 +288,7 @@ public abstract class PlayableCtrl : Entity
         cameraShakeSource.GenerateImpulse();
 
 
-        GameObject effectObj = objectPool.Pop(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
+        objectPool.Pop(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion
 

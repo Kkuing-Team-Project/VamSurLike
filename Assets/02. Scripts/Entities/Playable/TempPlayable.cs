@@ -26,6 +26,6 @@ public class TempPlayable : PlayableCtrl
 
             // Draws a green wireframe sphere to visualize attack distance
             Gizmos.DrawWireSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE));
-        }        
+        }
     }
 }
