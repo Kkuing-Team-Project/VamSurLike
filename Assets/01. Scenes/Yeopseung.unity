@@ -368,7 +368,7 @@ MonoBehaviour:
   Pool: {fileID: 1583247436}
   playerCamera: {fileID: 2105808736}
   delay: 0.2
-  mul: 1.5
+  stop: 0
   isWave: 1
   spawnObjects: []
   maxPercent: 100
@@ -405,6 +405,7 @@ MonoBehaviour:
   entityRadius: 0.5
   notSpawnRadius: 5
   range: 20
+  mul: 1.5
 --- !u!1 &1583247435
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,7 +534,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786584048}
-  m_LocalRotation: {x: 0.42415538, y: -0.000000015582488, z: 0.000000007298447, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: -0.000000015581922, z: 0.0000000072981816, w: 0.90558946}
   m_LocalPosition: {x: 0, y: 11, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -859,7 +860,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105808735}
-  m_LocalRotation: {x: 0.42415538, y: -0.000000015582488, z: 0.000000007298447, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: -0.000000015581922, z: 0.0000000072981816, w: 0.90558946}
   m_LocalPosition: {x: 0, y: 11, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
