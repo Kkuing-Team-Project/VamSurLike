@@ -6,8 +6,13 @@ using UnityEngine;
 public enum EntityType
 {
     NONE,
-    FIRE,
-    STONE_HEAD,
+    P_FIRE,
+    P_ICE,
+    P_WIND,
+    E_StoneHead,
+    E_Prion,
+    E_Servant,
+    E_DarkArcher,
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -42,7 +47,7 @@ public abstract class Entity : MonoBehaviour
     protected virtual void InitEntity()
     {
         stat = new Stat();
-        //SetEntityStat(entityType);
+        SetEntityStat(entityType);
         hp = stat.Get(StatType.MAX_HP);
         animator = gameObject.GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
@@ -129,7 +134,7 @@ public abstract class Entity : MonoBehaviour
 
         if (idx == -1)
         {
-            Debug.LogError("Value not found!");
+            Debug.LogError($"{gameObject.name} : Value not found!");
             return;
         }
 

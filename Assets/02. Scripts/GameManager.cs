@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        statTable = CSVReader.Read("Data/StatTable");
+        statTable = CSVReader.Read("Data/Character_Enemy_Stat_Chart");
         levelTable = CSVReader.Read("Data/CharacterLevelChart");
         loadingPanel.SetActive(false);
     }
