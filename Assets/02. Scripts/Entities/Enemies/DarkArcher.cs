@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class DarkArcher : EnemyCtrl, IPoolable
 {
-    public float HP = 20f;
-    public float speed = 1.5f;  // Speed value
-    public float attackPower = 1f;  // Attack power value
-    public float test = 1f;
-    public float targetAttackDistance = 10f; // 플레이어 인식 타겟 거리
     public float arrowSpeed = 50f; //총알 스피드
     public Transform arrowposition;
 
@@ -18,10 +13,6 @@ public class DarkArcher : EnemyCtrl, IPoolable
     protected override void InitEntity()
     {
         base.InitEntity();
-        stat.SetDefault(StatType.MOVE_SPEED, speed); // Set the MOVE_SPEED stat
-        stat.SetDefault(StatType.DAMAGE, attackPower); // Set the ATTACK_POWER stat
-        stat.SetDefault(StatType.ATTACK_DISTANCE, targetAttackDistance);
-        hp = HP;
     }
 
     protected override void EnemyAttack()

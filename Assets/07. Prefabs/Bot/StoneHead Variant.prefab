@@ -59,6 +59,10 @@ PrefabInstance:
       propertyPath: HP
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 2732145552400089825, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
+      propertyPath: entityType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5382554080805178036, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_IsActive
       value: 0
