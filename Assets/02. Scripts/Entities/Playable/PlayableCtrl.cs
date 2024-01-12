@@ -198,7 +198,7 @@ public abstract class PlayableCtrl : Entity
     /// <returns></returns>
     protected Entity GetNearestEnemy()
     {
-        var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY"));
+        var enemies = Physics.OverlapSphere(transform.position, stat.Get(StatType.ATTACK_DISTANCE), 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
         if (enemies.Length > 0)
         {
             Entity result = enemies[0].GetComponent<Entity>();

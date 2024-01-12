@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,8 @@ public abstract class BossCtrl : Entity
 
     protected Coroutine attackPatternCor;
 
+    protected CinemachineImpulseSource cameraShakeSource;
+
     protected override void InitEntity()
     {
         base.InitEntity();
@@ -41,6 +44,8 @@ public abstract class BossCtrl : Entity
             nav = gameObject.GetComponent<NavMeshAgent>();
         patternIdx = 0;
         stat.SetDefault(StatType.MOVE_SPEED, 2f);
+        gameObject.GetComponent<Collider>().enabled = true;
+        cameraShakeSource = gameObject.GetComponent<CinemachineImpulseSource>();
     }
 
     /// <summary>

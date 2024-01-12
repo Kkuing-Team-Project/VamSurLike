@@ -14,6 +14,8 @@ public class Giant : BossCtrl
     {
         base.InitEntity();
         RegisterPatterns(new PatternDelegate(Pattern1), new PatternDelegate(Pattern2), new PatternDelegate(Pattern3), new PatternDelegate(Pattern4));
+        stat.SetDefault(StatType.MAX_HP, 5000);
+        hp = stat.Get(StatType.MAX_HP);
     }
 
     public IEnumerator Pattern1()
@@ -40,14 +42,31 @@ public class Giant : BossCtrl
         yield return new WaitUntil(() => IsAnimationClipPlaying("Wait", patternIdx + 1) == true);
     }
 
+    private IEnumerator DeathCor()
+    {
+        animator.SetTrigger("Death");
+        yield return new WaitForSeconds(3f);
+        float elapsedTime = 0;
+        while(elapsedTime < 1)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+            gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_Color", new Color(1, 1, 1, 1f - elapsedTime));
+        }
+        Destroy(gameObject);
+    }
+
     protected override void OnEntityDied()
     {
-        Debug.Log("º¸½º »ç¸Á");
+        statusEffects.Add(new Stun(1, 5f, this));
+        nav.isStopped = true;
+        gameObject.GetComponent<Collider>().enabled = false;
+        StartCoroutine(DeathCor());
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-
+        
     }
 
     protected override void OnFinishPattern(int nowPatternIdx)
@@ -77,9 +96,8 @@ public class Giant : BossCtrl
 
     public void Pattern1Attack()
     {
-
         Collider[] col = Physics.OverlapSphere(patternTr[0].position, pattern1Rad, 1 << LayerMask.NameToLayer("PLAYER"));
-
+        cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
         {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
@@ -89,6 +107,7 @@ public class Giant : BossCtrl
     public void Pattern2Attack()
     {
         Collider[] col = Physics.OverlapBox(patternTr[1].position, pattern2Box / 2, patternTr[1].rotation, 1 << LayerMask.NameToLayer("PLAYER"));
+        cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
         {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
@@ -98,6 +117,7 @@ public class Giant : BossCtrl
     public void Pattern3Attack()
     {
         Collider[] col = Physics.OverlapBox(patternTr[2].position, pattern3Box / 2, patternTr[2].rotation, 1 << LayerMask.NameToLayer("PLAYER"));
+        cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
         {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
@@ -108,12 +128,13 @@ public class Giant : BossCtrl
     {
 
         Collider[] col = Physics.OverlapSphere(patternTr[3].position, pattern4Rad, 1 << LayerMask.NameToLayer("PLAYER"));
-
+        cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
         {
             col[0].GetComponent<Entity>().TakeDamage(this, stat.Get(StatType.DAMAGE));
         }
     }
+
 
 
     private void OnDrawGizmos()
