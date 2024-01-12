@@ -46,7 +46,7 @@ public class Spirit : Entity
 
     protected override void UpdateEntity()
     {
-        if(collapseZone == null)
+        if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
             if (collapseZoneSpawner) collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
