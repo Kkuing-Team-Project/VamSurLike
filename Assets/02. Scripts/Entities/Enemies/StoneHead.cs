@@ -22,7 +22,7 @@ public class StoneHead : EnemyCtrl, IPoolable
     protected override void EnemyAttack()
     {
         playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
-        Push();
+        TakeDamage(this, stat.Get(StatType.MAX_HP));
     }
 
     protected override void OnEntityDied()
