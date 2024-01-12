@@ -23,6 +23,8 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnBulletHit;
     public event AugmentationDelegate OnTakeDamageAugmentation;
 
+    public HUD hud;
+
     private AugEventArgs defaultArgs;
 
     [Header("게이지 바"), SerializeField]
@@ -435,6 +437,9 @@ public abstract class PlayableCtrl : Entity
                 exp = exp - requireExp;
                 level++;
                 requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
+                Time.timeScale = 0;
+                hud.augPanel.SetActive(true);
+                hud.SetAugmentation();
             }
         }
     }

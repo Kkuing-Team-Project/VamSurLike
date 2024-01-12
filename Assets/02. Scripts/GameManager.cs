@@ -30,16 +30,7 @@ public class GameManager : MonoBehaviour
         statTable = CSVReader.Read("Data/Character_Enemy_Stat_Chart");
         levelTable = CSVReader.Read("Data/CharacterLevelChart");
         augTable = CSVReader.Read("Data/Reinforce_Chart");
-        for (int i = 0; i < augTable.Count; i++)
-        {
-            var keys = new List<string>(augTable[i].Keys);
-            string result = "";
-            for (int j = 0; j < augTable[i].Count; j++)
-            {
-                result += augTable[i][keys[j]];
-            }
-            Debug.Log(result);
-        }
+        Debug.Log(GetAugMaxLevel("knock back shot"));
         loadingPanel.SetActive(false);
     }
 
@@ -76,5 +67,17 @@ public class GameManager : MonoBehaviour
     public void LoadInGame()
     {
         StartCoroutine(LoadAsyncScene("InGameScene"));
+    }
+
+    public int GetAugMaxLevel(string key)
+    {
+        int result = 0;
+        for (int i = 0; i < augTable.Count; i++)
+        {
+            if (augTable[i][key].ToString() == "NONE")
+                break;
+            result++;
+        }
+        return result;
     }
 }

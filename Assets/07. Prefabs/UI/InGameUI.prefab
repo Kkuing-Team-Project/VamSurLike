@@ -32,7 +32,7 @@ RectTransform:
   m_Children:
   - {fileID: 7829472418590494621}
   m_Father: {fileID: 1925251631980451090}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -270,7 +270,7 @@ RectTransform:
   - {fileID: 1925251631501129327}
   - {fileID: 1925251633161830689}
   m_Father: {fileID: 1925251631980451090}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1037,6 +1037,9 @@ MonoBehaviour:
   augImg: {fileID: 0}
   augScroll: {fileID: 0}
   statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
 --- !u!1 &1925251631768884582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,10 +1691,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1925251632903522332}
-  - {fileID: 1925251633316027751}
   - {fileID: 1925251631299442816}
   - {fileID: 2455390226350535131}
   - {fileID: 4801365036644916592}
+  - {fileID: 1925251633316027751}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1780,6 +1783,9 @@ MonoBehaviour:
   augImg: {fileID: 0}
   augScroll: {fileID: 0}
   statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
 --- !u!1 &1925251631996263975
 GameObject:
   m_ObjectHideFlags: 0
@@ -3144,6 +3150,9 @@ MonoBehaviour:
   augImg: {fileID: 0}
   augScroll: {fileID: 0}
   statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
 --- !u!1 &1925251632309826817
 GameObject:
   m_ObjectHideFlags: 0
@@ -4589,6 +4598,9 @@ MonoBehaviour:
   augImg: {fileID: 0}
   augScroll: {fileID: 0}
   statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
 --- !u!1 &1925251632918897769
 GameObject:
   m_ObjectHideFlags: 0
@@ -5640,6 +5652,9 @@ MonoBehaviour:
   augImg: {fileID: 0}
   augScroll: {fileID: 0}
   statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
 --- !u!1 &1925251633151058538
 GameObject:
   m_ObjectHideFlags: 0
@@ -6539,7 +6554,7 @@ RectTransform:
   - {fileID: 1925251633013478331}
   - {fileID: 1925251631807944109}
   m_Father: {fileID: 1925251631980451090}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7596,7 +7611,7 @@ RectTransform:
   - {fileID: 3123794953290544856}
   - {fileID: 241110808302971375}
   m_Father: {fileID: 1925251631980451090}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

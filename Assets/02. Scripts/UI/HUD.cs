@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
-using Slider = UnityEngine.UI.Slider;
 
 public class HUD : MonoBehaviour
 {
@@ -16,6 +14,9 @@ public class HUD : MonoBehaviour
 	public ScrollRect augScroll;
 	public GameObject statImg;
 	public Text statText;
+
+	public GameObject augPanel;
+	public Button[] augButtons;
 
 
 	void LateUpdate()
@@ -67,5 +68,15 @@ public class HUD : MonoBehaviour
 	{
 		GameObject tempImg = Instantiate(augImg);
 		tempImg.transform.SetParent(augScroll.content);
+	}
+
+	public void SetAugmentation()
+	{
+		augButtons[0].onClick.RemoveAllListeners();
+		augButtons[0].onClick.AddListener(() => { 
+			GameManager.instance.player.AddAugmentation(new DamageUp(1, GameManager.instance.GetAugMaxLevel("C_damage up"), AugmentationEventType.ON_UPDATE));
+            augPanel.SetActive(false);
+            Time.timeScale = 1;
+		});
 	}
 }

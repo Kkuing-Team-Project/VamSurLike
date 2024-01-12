@@ -44,13 +44,8 @@ public class CollapseZone : MonoBehaviour, IPoolable
         stablity = Mathf.Clamp(stablity + (value * Time.deltaTime), 0, 100f);
         if (stablity >= 100)
         {
-            Debug.Log("점령 성공");
             spirit.SetBlessType();
             Push();
-        }
-        else
-        {
-            Debug.Log($"안정도 / {Mathf.Round(stablity)}");
         }
     }
 
