@@ -97,32 +97,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
---- !u!1 &3344830382273478549 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2783990095889324334, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
-  m_PrefabInstance: {fileID: 633179880546657979}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1895500875126293487
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3344830382273478549}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf82391c2b8dcba41b87c0dcc6cd4f12, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4487158950725919010 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3930541818698254233, guid: 5f9257f9d3c349846b14eab39e05a554, type: 3}
@@ -218,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b185b315abc4d65bea50f831c78a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: 0
+  entityType: 6
   rigid: {fileID: 0}
   HP: 10
   speed: 3

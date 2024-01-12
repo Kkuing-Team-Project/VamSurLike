@@ -17,10 +17,6 @@ public class DarkArcher : EnemyCtrl, IPoolable
     protected override void InitEntity()
     {
         base.InitEntity();
-        stat.SetDefault(StatType.MOVE_SPEED, speed); // Set the MOVE_SPEED stat
-        stat.SetDefault(StatType.DAMAGE, attackPower); // Set the ATTACK_POWER stat
-        stat.SetDefault(StatType.ATTACK_DISTANCE, targetAttackDistance);
-        hp = HP;
     }
 
     protected override void EnemyAttack()

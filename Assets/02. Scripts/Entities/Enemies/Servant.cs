@@ -4,19 +4,11 @@ using UnityEngine;
 
 public class Servant : EnemyCtrl, IPoolable
 {
-    public float HP = 10f;
-    public float speed = 3f;  // Speed value
-    public float attackPower = 1f;  // Attack power value
-    public float test = 1f;
     public Stack<GameObject> pool { get; set; }
 
     protected override void InitEntity()
     {
         base.InitEntity();
-        stat.SetDefault(StatType.MOVE_SPEED, speed); // Set the MOVE_SPEED stat
-        stat.SetDefault(StatType.DAMAGE, attackPower); // Set the ATTACK_POWER stat
-        stat.SetDefault(StatType.ATTACK_DISTANCE, 2f);
-        hp = HP;
     }
 
     protected override void EnemyAttack()
