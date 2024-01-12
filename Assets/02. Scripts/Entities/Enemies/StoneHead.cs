@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class StoneHead : EnemyCtrl, IPoolable
 {
+    public float speed = 1f;  // Speed value
+    public float attackPower = 2;  // Attack power value
+    public float HP = 10f;
     public Stack<GameObject> pool { get; set; }
 
     protected override void InitEntity()
