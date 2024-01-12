@@ -14,6 +14,8 @@ public class HUD : MonoBehaviour
 	public Slider expSlider;
 	public GameObject augImg;
 	public ScrollRect augScroll;
+	public GameObject statImg;
+	public Text statText;
 
 
 	void LateUpdate()
@@ -38,6 +40,18 @@ public class HUD : MonoBehaviour
 			expSlider.value = 1;
 		else
 			expSlider.value = GameManager.instance.player.exp / GameManager.instance.player.requireExp;
+
+		if (Input.GetKey(KeyCode.C))
+		{
+			statImg.SetActive(true);
+			statText.text = string.Format("MaxHP: {0:D2}\nDmg: {1:D2}\nAtkSpd: {2:D2}\nAtkDist: {3:D2}",
+				(int)GameManager.instance.player.stat.Get(StatType.MAX_HP), (int)GameManager.instance.player.stat.Get(StatType.DAMAGE),
+				(int)GameManager.instance.player.stat.Get(StatType.ATTACK_SPEED), (int)GameManager.instance.player.stat.Get(StatType.ATTACK_DISTANCE));
+		}
+		else
+		{
+			statImg.SetActive(false);
+		}
 	}
 
 
