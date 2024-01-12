@@ -23,6 +23,12 @@ public class TempArrow : MonoBehaviour, IPoolable
         StartCoroutine(ReturnBullet(3f));
     }
 
+    public void SetArcher(DarkArcher archer)
+    {
+        this.archer = archer;
+    }
+
+
     /// <summary>
     /// </summary>
     /// <param name="time">Time in seconds before returning the bullet</param>
@@ -39,6 +45,7 @@ public class TempArrow : MonoBehaviour, IPoolable
         {
             Entity playable = other.GetComponent<Entity>();
             playable.TakeDamage(archer, attackPower);
+            StopAllCoroutines();
             Push();
         }
     }
