@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
         statTable = CSVReader.Read("Data/Character_Enemy_Stat_Chart");
         levelTable = CSVReader.Read("Data/CharacterLevelChart");
         augTable = CSVReader.Read("Data/Reinforce_Chart");
-        Debug.Log(GetAugMaxLevel("knock back shot"));
         loadingPanel.SetActive(false);
     }
 

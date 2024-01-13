@@ -109,7 +109,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new KnockbackShot(1, 2, AugmentationEventType.ON_HIT));
+        AddAugmentation(new KnockbackShot(1, 2));
     }
 
     protected override void UpdateEntity()
@@ -461,7 +461,12 @@ public abstract class PlayableCtrl : Entity
 
     public bool HasAugmentation<T>() where T : Augmentation
     {
-        return augmentationList.Find((a) => a is T) is not null;
+        return augmentationList.Exists((a) => a is T);
+    }
+
+    public bool HasAugmentation(string augName)
+    {
+        return augmentationList.Exists((a) => a.GetType().Name == augName);
     }
 
     public int GetAugmentationLevel<T>() where T : Augmentation

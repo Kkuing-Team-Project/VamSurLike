@@ -6,14 +6,14 @@ using JetBrains.Annotations;
 
 public class FootSlow : Augmentation
 {
-
-
-
-
-    public FootSlow(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
+    public FootSlow(int level, int maxLevel) : base(level, maxLevel)
     {
     }
 
+    protected override AugmentationEventType GetEventType()
+    {
+        return AugmentationEventType.ON_START;
+    }
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {

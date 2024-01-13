@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum AugmentationEventType
 {
+    NONE,
     ON_START,       //증강 획득 시
     ON_UPDATE,      //업데이트마다
     ON_ATTACK,      //공격 시
@@ -34,15 +35,21 @@ public enum AugmentationEventType
 /// 
 public delegate void AugmentationDelegate(Entity sender, AugEventArgs e);
 
-public class Augmentation
+public abstract class Augmentation
 {
-    public AugmentationEventType eventType { get; private set; }
+    public AugmentationEventType eventType { 
+        get 
+        { 
+            return GetEventType();
+        }
+        private set { eventType = value; } }
+    protected abstract AugmentationEventType GetEventType();
+
     public int level { get; private set; }
     public int maxLevel { get; private set; }
 
-    public Augmentation(int level, int maxLevel, AugmentationEventType eventType)
+    public Augmentation(int level, int maxLevel)
     {
-        this.eventType = eventType;
         this.level = level;
         this.maxLevel = maxLevel;
     }
@@ -53,5 +60,6 @@ public class Augmentation
     }
 
     public void SetAugmentationLevel(int level) => this.level = level;
+
 }
 

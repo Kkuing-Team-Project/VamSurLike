@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TempAug : Augmentation
+public class EnemyHPDown : Augmentation
 {
-    public TempAug(int level, int maxLevel) : base(level, maxLevel)
+    public EnemyHPDown(int level, int maxLevel) : base(level, maxLevel)
     {
     }
 
@@ -16,7 +15,6 @@ public class TempAug : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        Debug.Log(e.eventTr);
+        base.AugmentationEffect(sender, e);
     }
 }
-    

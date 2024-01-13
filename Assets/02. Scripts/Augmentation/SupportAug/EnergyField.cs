@@ -9,8 +9,13 @@ using UnityEngine;
 public class EnergyField : Augmentation
 {
 
-    public EnergyField(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
+    public EnergyField(int level, int maxLevel) : base(level, maxLevel)
     {     
+    }
+
+    protected override AugmentationEventType GetEventType()
+    {
+        return AugmentationEventType.ON_START;
     }
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
