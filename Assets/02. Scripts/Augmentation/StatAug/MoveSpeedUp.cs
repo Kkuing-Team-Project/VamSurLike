@@ -15,6 +15,6 @@ public class MoveSpeedUp : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        e.target.stat.Add(StatType.MOVE_SPEED, 6 + level);
+        e.target.stat.Add(StatType.MOVE_SPEED, float.Parse(GameManager.instance.augTable[level]["MoveSpeedUp"].ToString()));
     }
 }

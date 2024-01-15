@@ -6,10 +6,16 @@ public class EnemyMoveSpeedDown : Augmentation
 {
     public EnemyMoveSpeedDown(int level, int maxLevel) : base(level, maxLevel)
     {
+        
     }
 
     protected override AugmentationEventType GetEventType()
     {
-        return AugmentationEventType.ON_UPDATE;
+        return AugmentationEventType.ON_UPDATE_ENEMY;
+    }
+
+    public override void AugmentationEffect(Entity sender, AugEventArgs e)
+    {
+        e.target.stat.Add(StatType.MOVE_SPEED, float.Parse(GameManager.instance.augTable[level]["EnemyMoveSpeedDown"].ToString()));
     }
 }

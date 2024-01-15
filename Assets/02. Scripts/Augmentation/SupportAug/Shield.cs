@@ -15,7 +15,7 @@ public class Shield : Augmentation
 	}
 	protected override AugmentationEventType GetEventType()
 	{
-		return AugmentationEventType.ON_START;
+		return AugmentationEventType.ON_DAMAGE;
 	}
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e) 

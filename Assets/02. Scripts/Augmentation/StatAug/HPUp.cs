@@ -15,7 +15,7 @@ public class HPUp : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        e.target.stat.SetDefault(StatType.MAX_HP, e.target.stat.Get(StatType.MAX_HP) + 1);
+        e.target.stat.SetDefault(StatType.MAX_HP, float.Parse(GameManager.instance.augTable[level]["HPUp"].ToString()));
         e.target.Heal(e.target.stat.Get(StatType.MAX_HP));
     }
 }

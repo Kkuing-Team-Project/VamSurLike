@@ -10,7 +10,9 @@ public enum AugmentationEventType
     ON_UPDATE,      //업데이트마다
     ON_ATTACK,      //공격 시
     ON_HIT,         //적에게 닿았을 때
-    ON_DAMAGE,
+    ON_DAMAGE,      //대미지 받았을 때
+    ON_SPAWN_ENEMY,
+    ON_UPDATE_ENEMY
 }
 
 

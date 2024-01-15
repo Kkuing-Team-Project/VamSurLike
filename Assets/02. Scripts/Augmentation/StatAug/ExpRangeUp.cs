@@ -15,6 +15,6 @@ public class ExpRangeUp : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        e.target.stat.Add(StatType.EXP_RANGE, 8 + level);
+        e.target.stat.Add(StatType.EXP_RANGE, float.Parse(GameManager.instance.augTable[level]["ExpRangeUp"].ToString()));
     }
 }
