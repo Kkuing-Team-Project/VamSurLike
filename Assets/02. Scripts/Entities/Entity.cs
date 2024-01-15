@@ -13,6 +13,8 @@ public enum EntityType
     E_Prion,
     E_Servant,
     E_DarkArcher,
+    Soul,
+    B_Giant,
 }
 
 [RequireComponent(typeof(Rigidbody))]

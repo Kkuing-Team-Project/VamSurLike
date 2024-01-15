@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c42d4d5e18bf640bc3e19c040d5c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: 0
+  entityType: 9
   rigid: {fileID: 0}
   waitTime: 1
   patternTr:
