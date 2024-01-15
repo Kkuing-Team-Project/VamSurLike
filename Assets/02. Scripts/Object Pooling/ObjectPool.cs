@@ -24,6 +24,7 @@ public class ObjectPool : MonoBehaviour
         DamageText,
         Meteor,
         EarthShatter,
+        Shield
     }
 
     [System.Serializable]
