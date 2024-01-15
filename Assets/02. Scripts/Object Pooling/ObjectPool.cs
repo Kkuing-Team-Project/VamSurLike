@@ -34,14 +34,14 @@ public class ObjectPool : MonoBehaviour
     public List<Pool> pools;
 
     // Dictionary to map each ObjectType to a stack of GameObjects
-    public Dictionary<ObjectType, Stack<GameObject>> poolDictionary = new Dictionary<ObjectType, Stack<GameObject>>();
+    public Dictionary<ObjectType, Queue<GameObject>> poolDictionary = new Dictionary<ObjectType, Queue<GameObject>>();
 
     private void Awake()
     {
         // Initialize each pool
         foreach (var pool in pools)
         {
-            Stack<GameObject> objectPool = new Stack<GameObject>();
+            Queue<GameObject> objectPool = new Queue<GameObject>();
             new GameObject(pool.type.ToString()).transform.SetParent(transform);
             poolDictionary.Add(pool.type, objectPool);
 
@@ -50,7 +50,7 @@ public class ObjectPool : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
 
-                objectPool.Push(obj);
+                objectPool.Enqueue(obj);
 
                 obj.GetComponent<IPoolable>().Create(objectPool);
 
@@ -77,7 +77,7 @@ public class ObjectPool : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
 
-                poolDictionary[pool.type].Push(obj);
+                poolDictionary[pool.type].Enqueue(obj);
 
                 obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
 
@@ -87,7 +87,7 @@ public class ObjectPool : MonoBehaviour
     }
 
     // Method to get an object from the pool
-    public GameObject Pop(ObjectType objectType, Vector3 position)
+    public GameObject GetObject(ObjectType objectType, Vector3 position)
     {
         if (objectType == ObjectType.None)
             return null;
@@ -101,7 +101,7 @@ public class ObjectPool : MonoBehaviour
 
         GameObject obj;
         // Try to pop an object from the stack
-        if (poolDictionary[objectType].TryPop(out obj))
+        if (poolDictionary[objectType].TryDequeue(out obj))
         {            
             if (poolDictionary[objectType].Count < 3)
             {
@@ -118,7 +118,8 @@ public class ObjectPool : MonoBehaviour
             Allocate(3, objectType);
             if (poolDictionary[objectType].Count > 0)
             {
-                obj = poolDictionary[objectType].Pop();
+                obj = poolDictionary[objectType].Dequeue();
+
                 obj.transform.position = position;
                 obj.SetActive(true);
                 
@@ -133,9 +134,9 @@ public class ObjectPool : MonoBehaviour
     }
     
     // Method to return an object back to the pool
-    public void Push(GameObject obj, ObjectType type)
+    public void ReturnObject(GameObject obj, ObjectType type)
     {
         obj.SetActive(false);
-        poolDictionary[type].Push(obj);
+        poolDictionary[type].Enqueue(obj);
     }
 }

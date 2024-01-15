@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Prion : EnemyCtrl, IPoolable
 {
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
 
     protected override void InitEntity()
     {
@@ -14,25 +14,25 @@ public class Prion : EnemyCtrl, IPoolable
     protected override void EnemyAttack()
     {
         playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
-        Push();
+        ReturnObject();
     }
 
     protected override void OnEntityDied()
     {
         base.OnEntityDied();
-        Push(); // Return the enemy to the pool
+        ReturnObject(); // Return the enemy to the pool
     }
 
-    public void Create(Stack<GameObject> pool)
+    public void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
     }
 
-    public void Push()
+    public void ReturnObject()
     {
         gameObject.SetActive(false);
         
-        pool?.Push(gameObject);
+        pool?.Enqueue(gameObject);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)

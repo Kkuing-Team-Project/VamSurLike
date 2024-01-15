@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PoisonField : Augmentation
@@ -11,9 +12,9 @@ public class PoisonField : Augmentation
 
 
 
-
     public PoisonField(int level, int maxLevel) : base(level, maxLevel)
     {
+        
     }
 
     protected override AugmentationEventType GetEventType()
@@ -27,11 +28,10 @@ public class PoisonField : Augmentation
         CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
 
-    
-
     private IEnumerator FieldAttack(Entity player)
     {
-        WaitForSeconds waitTime = new WaitForSeconds(2);
+        Vector3 dmagePosition = player.transform.position;
+
         while (true)
         {
             float radius = 10;
@@ -56,12 +56,9 @@ public class PoisonField : Augmentation
                     break;
             }
 
-            yield return waitTime;
+            yield return new WaitForSeconds(10);
 
-            // Skill Reuse Time
             float durationTimer = 0;
-
-            // Skill damage time
             float delayTimer = 0;
             
             while (true)
@@ -69,32 +66,27 @@ public class PoisonField : Augmentation
                 durationTimer += Time.deltaTime;
                 delayTimer += Time.deltaTime;
                 
-                if (durationTimer < 5f)
-                {
-                    if (delayTimer > 1f)
-                    {
-                        Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
-                        if (enemies.Length > 0)
-                        {
-                            foreach (var enemy in enemies)
-                            {
-                                enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE));
-                            }
-                        }
-                        delayTimer = 0f;
-                    }
-                } 
-                else
+                if (durationTimer >= 5f)
                 {
                     break;
                 }
 
-                Debug.Log($"Skill in use... Skill Remaining Time : {durationTimer}");
+                if(delayTimer >= 1f)
+                {
+                    
+                    Collider[] enemies = Physics.OverlapSphere(dmagePosition, radius, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
+                    if (enemies.Length > 0)
+                    {
+                        foreach (var enemy in enemies)
+                        {
+                            enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE));
+                        }
+                    }
+                    delayTimer = 0f;
+                }
                 yield return null;
             }
-
-            Debug.Log("skill stop");
+            Debug.Log("Poison Field Stop");
         }
     }
-
 }

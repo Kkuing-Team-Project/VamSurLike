@@ -8,7 +8,7 @@ public class ExperienceGem : MonoBehaviour, IPoolable
     [Header("ȹ�� �� �̵� �ӵ�"), SerializeField]
     float moveSpeed;
         
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
 
     Collider coll;
 
@@ -17,17 +17,17 @@ public class ExperienceGem : MonoBehaviour, IPoolable
         coll = GetComponent<Collider>();
     }
 
-    public void Create(Stack<GameObject> pool)
+    public void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
         coll = GetComponentInChildren<Collider>();
     }
 
-    public void Push()
+    public void ReturnObject()
     {
         gameObject.SetActive(false);
         coll.enabled = true;
-        pool.Push(gameObject);
+        pool.Enqueue(gameObject);
     }
 
     public void PullToPlayer(PlayableCtrl player)
@@ -53,7 +53,8 @@ public class ExperienceGem : MonoBehaviour, IPoolable
             }
             yield return null;
         }
-        Push();
+        ReturnObject();
         yield return null;
     }
+
 }

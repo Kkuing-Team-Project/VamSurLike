@@ -295,7 +295,7 @@ public abstract class PlayableCtrl : Entity
         cameraShakeSource.GenerateImpulse();
 
 
-        objectPool.Pop(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
+        objectPool.GetObject(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion
 
@@ -452,7 +452,7 @@ public abstract class PlayableCtrl : Entity
 
     public TempBullet CreateBullet(float speed, float rot)
     {
-        TempBullet bullet = objectPool.Pop(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
+        TempBullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
 
         bullet.player = this;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);

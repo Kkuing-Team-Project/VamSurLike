@@ -11,7 +11,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
     [Tooltip("ºØ±«Á¸ ¹üÀ§"), Range(1f, 10f)]
     public float zoneRange;
     public float stablity { get; private set; }
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
 
     private Spirit spirit;
     private PlayableCtrl player;
@@ -45,7 +45,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
         if (stablity >= 100)
         {
             spirit.SetBlessType();
-            Push();
+            ReturnObject();
         }
     }
 
@@ -64,16 +64,16 @@ public class CollapseZone : MonoBehaviour, IPoolable
         stablity = 0;
     }
 
-    public void Create(Stack<GameObject> pool)
+    public void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
     }
     
-    public void Push()
+    public void ReturnObject()
     {
         spirit.collapseZone = null;
         gameObject.SetActive(false);
         
-        pool?.Push(gameObject);
+        pool?.Enqueue(gameObject);
     }
 }
