@@ -9,6 +9,7 @@ public abstract class EnemyCtrl : Entity
     protected NavMeshAgent nav;
     protected PlayableCtrl playable;
     protected ObjectPool objectPool;
+    protected AugEventArgs enemyArgs;
 
     protected override void InitEntity()
     {
@@ -17,12 +18,15 @@ public abstract class EnemyCtrl : Entity
             playable = FindObjectOfType<PlayableCtrl>();
         if (nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
-
+        if (enemyArgs == null)
+            enemyArgs = new AugEventArgs(transform, this);
+        playable.InvokeEvent(AugmentationEventType.ON_SPAWN_ENEMY, this, enemyArgs);
         objectPool = FindObjectOfType<ObjectPool>();
     }
 
     protected override void UpdateEntity()
     {
+        playable.InvokeEvent(AugmentationEventType.ON_UPDATE_ENEMY, this, enemyArgs);
         var origin = transform.position;
         origin.y = 0;
         var target = playable.transform.position;

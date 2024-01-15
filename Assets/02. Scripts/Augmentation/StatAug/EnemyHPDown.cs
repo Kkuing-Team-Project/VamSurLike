@@ -10,11 +10,12 @@ public class EnemyHPDown : Augmentation
 
     protected override AugmentationEventType GetEventType()
     {
-        return AugmentationEventType.ON_UPDATE;
+        return AugmentationEventType.ON_SPAWN_ENEMY;
     }
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        base.AugmentationEffect(sender, e);
+        e.target.stat.SetDefault(StatType.MAX_HP, e.target.stat.Get(StatType.MAX_HP) + float.Parse(GameManager.instance.augTable[level]["HPUp"].ToString()));
+        e.target.Heal(e.target.stat.Get(StatType.MAX_HP));
     }
 }

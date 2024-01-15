@@ -15,6 +15,6 @@ public class AttackSpeedUp : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        e.target.stat.Add(StatType.ATTACK_SPEED, 2 + level);
+        e.target.stat.Add(StatType.ATTACK_SPEED, float.Parse(GameManager.instance.augTable[level]["AttackSpeedUp"].ToString()));
     }
 }

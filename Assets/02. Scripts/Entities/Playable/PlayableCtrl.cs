@@ -22,6 +22,8 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnAttackPlayer;
     public event AugmentationDelegate OnBulletHit;
     public event AugmentationDelegate OnTakeDamageAugmentation;
+    public event AugmentationDelegate OnSpawnEnemy;
+    public event AugmentationDelegate OnUpdateEnemy;
 
     public HUD hud;
 
@@ -55,7 +57,7 @@ public abstract class PlayableCtrl : Entity
     private Coroutine dashCor;
 
     // 증강 리스트
-    public List<Augmentation> augmentationList = new List<Augmentation>();
+    private List<Augmentation> augmentationList = new List<Augmentation>();
 
     bool canMove = true;
 
@@ -109,12 +111,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new HPUp(1, GameManager.instance.GetAugMaxLevel("HPUp")));
         AddAugmentation(new DamageUp(1, GameManager.instance.GetAugMaxLevel("DamageUp")));
-        foreach (var item in augmentationList)
-        {
-            Debug.Log(item.GetType().Name);
-        }
     }
 
     protected override void UpdateEntity()
@@ -348,6 +345,12 @@ public abstract class PlayableCtrl : Entity
                 case AugmentationEventType.ON_DAMAGE:
                     OnTakeDamageAugmentation += aug.AugmentationEffect;
                     break;
+                case AugmentationEventType.ON_SPAWN_ENEMY:
+                    OnSpawnEnemy += aug.AugmentationEffect;
+                    break;
+                case AugmentationEventType.ON_UPDATE_ENEMY:
+                    OnUpdateAugmentation += aug.AugmentationEffect;
+                    break;
                 default:
                     break;
             }
@@ -388,6 +391,12 @@ public abstract class PlayableCtrl : Entity
             case AugmentationEventType.ON_DAMAGE:
                 OnTakeDamageAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
+            case AugmentationEventType.ON_SPAWN_ENEMY:
+                OnSpawnEnemy -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_UPDATE_ENEMY:
+                OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
             default:
                 break;
         }
@@ -421,6 +430,12 @@ public abstract class PlayableCtrl : Entity
                 break;
             case AugmentationEventType.ON_DAMAGE:
                 OnTakeDamageAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_SPAWN_ENEMY:
+                OnSpawnEnemy -= new AugmentationDelegate(del.AugmentationEffect);
+                break;
+            case AugmentationEventType.ON_UPDATE_ENEMY:
+                OnUpdateAugmentation -= new AugmentationDelegate(del.AugmentationEffect);
                 break;
             default:
                 break;
@@ -508,6 +523,12 @@ public abstract class PlayableCtrl : Entity
                 break;
             case AugmentationEventType.ON_DAMAGE:
                 OnTakeDamageAugmentation?.Invoke(sender, e);
+                break;
+            case AugmentationEventType.ON_SPAWN_ENEMY:
+                OnSpawnEnemy?.Invoke(sender, e);
+                break;
+            case AugmentationEventType.ON_UPDATE_ENEMY:
+                OnUpdateAugmentation?.Invoke(sender, e);
                 break;
             default:
                 break;
