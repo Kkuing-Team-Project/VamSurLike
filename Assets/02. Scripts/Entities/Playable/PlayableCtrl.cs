@@ -55,7 +55,7 @@ public abstract class PlayableCtrl : Entity
     private Coroutine dashCor;
 
     // 증강 리스트
-    private List<Augmentation> augmentationList = new List<Augmentation>();
+    public List<Augmentation> augmentationList = new List<Augmentation>();
 
     bool canMove = true;
 
@@ -109,7 +109,12 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new KnockbackShot(1, 2));
+        AddAugmentation(new HPUp(1, GameManager.instance.GetAugMaxLevel("HPUp")));
+        AddAugmentation(new DamageUp(1, GameManager.instance.GetAugMaxLevel("DamageUp")));
+        foreach (var item in augmentationList)
+        {
+            Debug.Log(item.GetType().Name);
+        }
     }
 
     protected override void UpdateEntity()
@@ -322,7 +327,8 @@ public abstract class PlayableCtrl : Entity
     //증강 추가 메소드
     public void AddAugmentation(Augmentation aug)
     {
-        if (!HasAugmentation<Augmentation>())
+        Debug.Log($"{aug.GetType().Name} : {!HasAugmentation(aug.GetType().Name)}");
+        if (!HasAugmentation(aug.GetType().Name))
         {
             switch (aug.eventType)
             {
@@ -349,7 +355,7 @@ public abstract class PlayableCtrl : Entity
         }
         else
         {
-            GetAugmentation<Augmentation>().SetAugmentationLevel(GetAugmentationLevel<Augmentation>() + 1);
+            GetAugmentation(aug.GetType().Name).SetAugmentationLevel(GetAugmentationLevel(aug.GetType().Name) + 1);
         }
     }
 
@@ -459,14 +465,19 @@ public abstract class PlayableCtrl : Entity
         return augmentationList.Find((a) => a is T);
     }
 
+    public Augmentation GetAugmentation(string augName)
+    {
+        return augmentationList.Find((a) => (a.GetType().Name == augName));
+    }
+
     public bool HasAugmentation<T>() where T : Augmentation
     {
-        return augmentationList.Exists((a) => a is T);
+        return augmentationList.Find((a) => a is T) is not null;
     }
 
     public bool HasAugmentation(string augName)
     {
-        return augmentationList.Exists((a) => a.GetType().Name == augName);
+        return augmentationList.Find((a) => a.GetType().Name == augName) is not null;
     }
 
     public int GetAugmentationLevel<T>() where T : Augmentation
