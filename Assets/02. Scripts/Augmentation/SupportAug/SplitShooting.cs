@@ -5,9 +5,14 @@ using UnityEngine;
 
 public class SplitShooting : Augmentation
 {
-	public SplitShooting(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
+	public SplitShooting(int level, int maxLevel) : base(level, maxLevel)
 	{
 
+	}
+
+	protected override AugmentationEventType GetEventType()
+	{
+		return AugmentationEventType.ON_ATTACK;
 	}
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)

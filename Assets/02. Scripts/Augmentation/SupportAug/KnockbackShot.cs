@@ -6,12 +6,17 @@ using UnityEngine;
 public class KnockbackShot : Augmentation
 {
 
-  public KnockbackShot(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
+    public KnockbackShot(int level, int maxLevel) : base(level, maxLevel)
 	{
         
 	}
 
-	public override void AugmentationEffect(Entity sender, AugEventArgs e)
+    protected override AugmentationEventType GetEventType()
+    {
+        return AugmentationEventType.ON_HIT;
+    }
+
+    public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
         float knockbackForce = 0; // 넉백 힘
 

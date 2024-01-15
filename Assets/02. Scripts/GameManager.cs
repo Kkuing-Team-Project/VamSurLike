@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public PlayableCtrl player;
     public List<Dictionary<string, object>> statTable;
     public List<Dictionary<string, object>> levelTable;
+    public List<Dictionary<string, object>> augTable;
     public int killCount;
 
     private void Awake()
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         statTable = CSVReader.Read("Data/Character_Enemy_Stat_Chart");
         levelTable = CSVReader.Read("Data/CharacterLevelChart");
+        augTable = CSVReader.Read("Data/Reinforce_Chart");
         loadingPanel.SetActive(false);
     }
 
@@ -64,5 +66,17 @@ public class GameManager : MonoBehaviour
     public void LoadInGame()
     {
         StartCoroutine(LoadAsyncScene("InGameScene"));
+    }
+
+    public int GetAugMaxLevel(string key)
+    {
+        int result = 0;
+        for (int i = 0; i < augTable.Count; i++)
+        {
+            if (augTable[i][key].ToString() == "NONE")
+                break;
+            result++;
+        }
+        return result;
     }
 }

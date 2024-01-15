@@ -34,6 +34,7 @@ public class Spirit : Entity
     public float blessRange = 5f;
     public BlessType blessType { get; private set; }
     private NavMeshAgent nav;
+    private Collider col;
 
     protected override void InitEntity()
     {
@@ -42,11 +43,12 @@ public class Spirit : Entity
             player = FindObjectOfType<PlayableCtrl>();
         if(nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
+        col = gameObject.GetComponent<Collider>();
     }
 
     protected override void UpdateEntity()
     {
-        if(collapseZone == null)
+        if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
             if (collapseZoneSpawner) collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
@@ -72,12 +74,15 @@ public class Spirit : Entity
         switch (spiritState)
         {
             case SpiritState.IDLE:
+                col.enabled = false;
                 break;
             case SpiritState.MOVE:
                 nav.speed = stat.Get(StatType.MOVE_SPEED);
                 nav.SetDestination(collapseZone.transform.position);
+                col.enabled = false;
                 break;
             case SpiritState.OCCUPY:
+                col.enabled = true;
                 break;
             default:
                 break;
