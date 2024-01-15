@@ -38,4 +38,9 @@ public class EffectParticle : MonoBehaviour, IPoolable
     {
         pool.ReturnObject(gameObject, objectType);
     }
+
+    public void StopEffect()
+    {
+        mainParticle?.Stop();
+    }
 }

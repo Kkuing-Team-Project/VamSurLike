@@ -112,6 +112,7 @@ public abstract class PlayableCtrl : Entity
     public void AddAugmentationTest()
     {
         AddAugmentation(new DamageUp(1, GameManager.instance.GetAugMaxLevel("DamageUp")));
+        AddAugmentation(new PoisonField(1, GameManager.instance.GetAugMaxLevel("PoisonField")));
     }
 
     protected override void UpdateEntity()
