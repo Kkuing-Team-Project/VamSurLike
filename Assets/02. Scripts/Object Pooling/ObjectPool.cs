@@ -48,13 +48,15 @@ public class ObjectPool : MonoBehaviour
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab, transform);
+
                 obj.SetActive(false);
+                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
 
                 objectPool.Enqueue(obj);
 
-                obj.GetComponent<IPoolable>().Create(objectPool);
-
-                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
+                IPoolable poolable = obj.GetComponent<IPoolable>();
+                poolable.pool = this;
+                poolable.OnCreate();
             }
         }
     }
@@ -76,12 +78,13 @@ public class ObjectPool : MonoBehaviour
             {
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
+                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
 
                 poolDictionary[pool.type].Enqueue(obj);
 
-                obj.GetComponent<IPoolable>().Create(poolDictionary[pool.type]);
-
-                obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
+                IPoolable poolable = obj.GetComponent<IPoolable>();
+                poolable.pool = this;
+                poolable.OnCreate();
             }
         }
     }
@@ -107,10 +110,10 @@ public class ObjectPool : MonoBehaviour
             {
                 Allocate(5, objectType);
             }
-            
             obj.transform.position = position;
             obj.SetActive(true);
             
+            obj.GetComponent<IPoolable>().OnActivate();
             return obj;
         }
         else
@@ -123,6 +126,7 @@ public class ObjectPool : MonoBehaviour
                 obj.transform.position = position;
                 obj.SetActive(true);
                 
+                obj.GetComponent<IPoolable>().OnActivate();
                 return obj;
             }
             else

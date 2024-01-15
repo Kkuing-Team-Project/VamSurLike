@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class EffectParticle : MonoBehaviour, IPoolable
 {
-    public Queue<GameObject> pool { get; set; }
+    public ObjectPool pool { get; set; }
+
     protected ParticleSystem mainParticle;
-    public virtual void Create(Queue<GameObject> pool)
+    protected ObjectPool.ObjectType objectType;
+    public void OnCreate()
     {
-        this.pool = pool;
         mainParticle = transform.GetComponent<ParticleSystem>();
     }
-
-    protected virtual void OnEnable()
+    public virtual void OnActivate()
     {
         if (mainParticle != null)
         {
@@ -36,7 +36,6 @@ public class EffectParticle : MonoBehaviour, IPoolable
 
     public virtual void ReturnObject()
     {
-        gameObject.SetActive(false);
-        pool.Enqueue(gameObject);
+        pool.ReturnObject(gameObject, objectType);
     }
 }

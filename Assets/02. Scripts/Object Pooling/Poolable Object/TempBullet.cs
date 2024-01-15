@@ -6,20 +6,19 @@ using UnityEngine;
 public class TempBullet : MonoBehaviour, IPoolable
 {
     public Rigidbody rigid { get; set; }
-    public Queue<GameObject> pool { get; set; }
+    public ObjectPool pool { get; set; }
 
     [HideInInspector]
     public PlayableCtrl player;
 
     // Called when the bullet is created. Initializes the Rigidbody and sets the pool.
-    public void Create(Queue<GameObject> pool)
+    public void OnCreate()
     {
-        this.pool = pool;
         rigid = GetComponent<Rigidbody>();
     }
 
     // Called when the bullet is enabled. Starts a coroutine to return the bullet to the pool after a set time.
-    private void OnEnable()
+    public void OnActivate()
     {
         StartCoroutine(ReturnBullet(3f));
     }
@@ -52,7 +51,6 @@ public class TempBullet : MonoBehaviour, IPoolable
     // Deactivates the bullet and returns it to the pool.
     public void ReturnObject()
     {
-        gameObject.SetActive(false);
-        pool.Enqueue(gameObject);
+        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Bullet);
     }
 }
