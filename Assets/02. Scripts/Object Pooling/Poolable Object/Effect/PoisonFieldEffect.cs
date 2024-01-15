@@ -15,9 +15,26 @@ public class PoisonFieldEffect : EffectParticle
         objectType = ObjectPool.ObjectType.PoisonField;
     }
 
-    void SetEffectSize(float size)
+    public override void OnActivate()
     {
-        ParticleSystem.EmissionModule emission = firstGasParticle.emission;
+        base.OnActivate();
+    }
+
+    public void SetEffectSize(float size)
+    {
+        ParticleSystem.ShapeModule shape = mainParticle.shape;
+        shape.scale = Vector3.one * size;
+        shape = firstGasParticle.shape;
+        shape.scale = Vector3.one * size;
+        shape = secondGasParticle.shape;
+        shape.scale = Vector3.one * size;
+
+
+        ParticleSystem.EmissionModule emission = mainParticle.emission;
         emission.rateOverTime = mainParticle.emission.rateOverTime.constant * size;
+        emission = firstGasParticle.emission;
+        emission.rateOverTime = firstGasParticle.emission.rateOverTime.constant * size;
+        emission = secondGasParticle.emission;
+        emission.rateOverTime = secondGasParticle.emission.rateOverTime.constant * size;
     }
 }
