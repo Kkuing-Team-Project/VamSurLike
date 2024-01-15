@@ -23,6 +23,8 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnBulletHit;
     public event AugmentationDelegate OnTakeDamageAugmentation;
 
+    public HUD hud;
+
     private AugEventArgs defaultArgs;
 
     [Header("게이지 바"), SerializeField]
@@ -107,7 +109,7 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new KnockbackShot(1, 2, AugmentationEventType.ON_HIT));
+        AddAugmentation(new KnockbackShot(1, 2));
     }
 
     protected override void UpdateEntity()
@@ -435,6 +437,9 @@ public abstract class PlayableCtrl : Entity
                 exp = exp - requireExp;
                 level++;
                 requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
+                Time.timeScale = 0;
+                hud.augPanel.SetActive(true);
+                hud.SetAugmentation();
             }
         }
     }
@@ -456,7 +461,12 @@ public abstract class PlayableCtrl : Entity
 
     public bool HasAugmentation<T>() where T : Augmentation
     {
-        return augmentationList.Find((a) => a is T) is not null;
+        return augmentationList.Exists((a) => a is T);
+    }
+
+    public bool HasAugmentation(string augName)
+    {
+        return augmentationList.Exists((a) => a.GetType().Name == augName);
     }
 
     public int GetAugmentationLevel<T>() where T : Augmentation

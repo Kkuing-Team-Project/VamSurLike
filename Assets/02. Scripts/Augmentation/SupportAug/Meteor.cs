@@ -12,12 +12,17 @@ public class Meteor : Augmentation
 	public GameObject meteorPrefab; // 메테오 프리팹
     private Collider[] enemies; // 모든 적을 저장할 배열
 
-    public Meteor(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
+    public Meteor(int level, int maxLevel) : base(level, maxLevel)
 	{
         
 	}
 
-	public override void AugmentationEffect(Entity sender, AugEventArgs e)
+    protected override AugmentationEventType GetEventType()
+    {
+        return AugmentationEventType.ON_START;
+    }
+
+    public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
         CoroutineHandler.StartCoroutine(AttackCoroutine(e.target));
     }

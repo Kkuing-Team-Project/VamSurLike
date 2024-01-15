@@ -14,14 +14,18 @@ public class FootSlow : Augmentation
     private float speedDownPercent = 0.2f;
 
     private HashSet<Entity> changedEntities = new HashSet<Entity>();
-
-    public FootSlow(int level, int maxLevel, AugmentationEventType eventType) : base(level, maxLevel, eventType)
+    
+    public FootSlow(int level, int maxLevel) : base(level, maxLevel)
     {
         lastActionTime = Time.time;
         delay = 0f;
         duration = 1.0f;
     }
 
+    protected override AugmentationEventType GetEventType()
+    {
+        return AugmentationEventType.ON_START;
+    }
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {

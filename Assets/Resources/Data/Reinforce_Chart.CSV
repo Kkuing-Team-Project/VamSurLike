@@ -1,7 +1,7 @@
-splash shot,knock back shot,protective film,protective film,energy curtain,Small Meteo,poison zone,Extinction magic,adhesive shoes,C_ hp up,C_move speed up,C_damage up,C_attack speed up,C_exp range up,E_hp down,E_move speed down
-0.3,0.2,1,1,1,12,1,240,20,6,7,6,3,9,-1,-0.2
-0.5,0.4,2,2,2,10,2,210,30,7,8,7,4,10,-2,-0.4
-0.9,0.6,3,3,3,8,3,180,40,8,9,8,5,11,-3,-0.6
-,0.8,4,4,4,6,4,150,50,9,10,9,6,12,-4,-0.8
-,1,5,5,5,4,5,120,60,10,11,10,7,13,-5,-1
-,,,,,,,,,11,12,11,8,14,-6,-1.2
+SplitShooting,KnockbackShot,Shield,EnergyField,Meteor,PoisonField,NuclearBomb,FootSlow,HPUp,MoveSpeedUp,DamageUp,AttackSpeedUp,ExpRangeUp,EnemyHPDown,EnemyMoveSpeedDown
+0.3,0.2,1,1,12,1,240,20,6,7,6,3,9,-1,-0.2
+0.5,0.4,2,2,10,2,210,30,7,8,7,4,10,-2,-0.4
+0.9,0.6,3,3,8,3,180,40,8,9,8,5,11,-3,-0.6
+NONE,0.8,4,4,6,4,150,50,9,10,9,6,12,-4,-0.8
+NONE,1,5,5,4,5,120,60,10,11,10,7,13,-5,-1
+NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,11,12,11,8,14,-6,-1.2

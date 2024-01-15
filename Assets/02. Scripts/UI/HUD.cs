@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
-using Slider = UnityEngine.UI.Slider;
+using System;
+
 
 public class HUD : MonoBehaviour
 {
@@ -16,6 +16,10 @@ public class HUD : MonoBehaviour
 	public ScrollRect augScroll;
 	public GameObject statImg;
 	public Text statText;
+
+	public GameObject augPanel;
+	public Button[] augButtons;
+	public Text[] augNameTexts;
 
 
 	void LateUpdate()
@@ -34,12 +38,17 @@ public class HUD : MonoBehaviour
 
 		killCountText.text = GameManager.instance.killCount.ToString();
 
-		levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
 
 		if (GameManager.instance.player.level >= GameManager.instance.levelTable.Count - 1)
+		{
+			levelText.text = "Max";
 			expSlider.value = 1;
+		}
 		else
+		{
 			expSlider.value = GameManager.instance.player.exp / GameManager.instance.player.requireExp;
+			levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
+		}
 
 		if (Input.GetKey(KeyCode.C))
 		{
@@ -67,5 +76,84 @@ public class HUD : MonoBehaviour
 	{
 		GameObject tempImg = Instantiate(augImg);
 		tempImg.transform.SetParent(augScroll.content);
+	}
+	
+
+	public void SetAugmentation()
+	{
+		List<string> tempAugList = new List<string>();
+		var augKeys = new List<string>(GameManager.instance.augTable[0].Keys);
+		for (int i = 0; i < augButtons.Length; i++)
+		{
+			int errorCheck = 0;     //prevention error
+
+			int rand = -1;
+			while (errorCheck < 100)
+			{
+				rand = UnityEngine.Random.Range(0, GameManager.instance.augTable[0].Count);
+				if (tempAugList.Count > 0)
+				{
+					if (tempAugList.Exists((n) => n == augKeys[rand]))
+					{
+						errorCheck++;
+					}
+					else
+					{
+						if (GameManager.instance.player.HasAugmentation(augKeys[rand]) == false)
+						{
+							tempAugList.Add(augKeys[rand]);
+							break;
+						}
+						else if (GameManager.instance.player.HasAugmentation(augKeys[rand]) &&
+							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]))
+						{
+							tempAugList.Add(augKeys[rand]);
+							break;
+						}
+
+						else
+						{
+							errorCheck++;
+						}
+					}
+				}
+				else
+				{
+
+					if (GameManager.instance.player.HasAugmentation(augKeys[rand]) == false)
+					{
+						tempAugList.Add(augKeys[rand]);
+						break;
+					}
+
+					else if (GameManager.instance.player.HasAugmentation(augKeys[rand]) == true &&
+							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]))
+					{
+						tempAugList.Add(augKeys[rand]);
+						break;
+					}
+					else
+					{
+						errorCheck++;
+					}
+				}
+			}
+			if (errorCheck >= 100)
+				tempAugList.Add("TempAug");
+
+		}
+
+
+		for (int i = 0; i < augButtons.Length; i++)
+		{
+			augButtons[i].onClick.RemoveAllListeners();
+			augNameTexts[i].text = tempAugList[i];
+			Augmentation aug = Activator.CreateInstance(Type.GetType(tempAugList[i]), 1, GameManager.instance.GetAugMaxLevel(tempAugList[i])) as Augmentation;
+			augButtons[i].onClick.AddListener(() => {
+				GameManager.instance.player.AddAugmentation(aug);
+				augPanel.SetActive(false);
+				Time.timeScale = 1;
+			});
+		}
 	}
 }
