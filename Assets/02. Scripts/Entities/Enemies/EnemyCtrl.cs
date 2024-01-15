@@ -45,7 +45,7 @@ public abstract class EnemyCtrl : Entity
 
     protected override void OnEntityDied()
     {
-        objectPool.Pop(ObjectPool.ObjectType.Experience, transform.position);
+        objectPool.GetObject(ObjectPool.ObjectType.Experience, transform.position);
         GameManager.instance.killCount++;
     }
 }
