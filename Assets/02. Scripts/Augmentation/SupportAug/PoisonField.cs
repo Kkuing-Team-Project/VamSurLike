@@ -30,8 +30,6 @@ public class PoisonField : Augmentation
 
     private IEnumerator FieldAttack(Entity player)
     {
-        Vector3 dmagePosition = player.transform.position;
-
         while (true)
         {
             float radius = 10;
@@ -57,6 +55,9 @@ public class PoisonField : Augmentation
             }
 
             yield return new WaitForSeconds(10);
+            Vector3 dmagePosition = player.transform.position;
+
+            ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.PoisonField, dmagePosition);
 
             float durationTimer = 0;
             float delayTimer = 0;

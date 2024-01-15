@@ -9,12 +9,15 @@ public class PoisonFieldEffect : EffectParticle
     [Header("Gas (2) Particle"), SerializeField]
     ParticleSystem secondGasParticle;
 
+    public override void OnCreate()
+    {
+        base.OnCreate();
+        //objectType = ObjectPool.ObjectType.Poison
+    }
+
     void SetEffectSize(float size)
     {
         ParticleSystem.EmissionModule emission = firstGasParticle.emission;
         emission.rateOverTime = mainParticle.emission.rateOverTime.constant * size;
-
-        ParticleSystem.ColorOverLifetimeModule temp = mainParticle.colorOverLifetime;
-        temp.enabled = false;
     }
 }

@@ -8,7 +8,7 @@ public class EffectParticle : MonoBehaviour, IPoolable
 
     protected ParticleSystem mainParticle;
     protected ObjectPool.ObjectType objectType;
-    public void OnCreate()
+    public virtual void OnCreate()
     {
         mainParticle = transform.GetComponent<ParticleSystem>();
     }
