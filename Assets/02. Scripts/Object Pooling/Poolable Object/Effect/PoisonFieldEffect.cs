@@ -12,7 +12,7 @@ public class PoisonFieldEffect : EffectParticle
     public override void OnCreate()
     {
         base.OnCreate();
-        //objectType = ObjectPool.ObjectType.Poison
+        objectType = ObjectPool.ObjectType.PoisonField;
     }
 
     void SetEffectSize(float size)
