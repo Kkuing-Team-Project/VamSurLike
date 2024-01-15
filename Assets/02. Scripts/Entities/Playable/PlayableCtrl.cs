@@ -27,11 +27,12 @@ public abstract class PlayableCtrl : Entity
 
     public HUD hud;
 
+    public string testAugName;
+
     private AugEventArgs defaultArgs;
 
     [Header("게이지 바"), SerializeField]
     PlayerGaugeBar gaugeBar;
-
 
     [Header("총알 갯수")]
     public int bulletNum;
@@ -47,7 +48,10 @@ public abstract class PlayableCtrl : Entity
 
     [Header("점멸 이동 시간"), SerializeField]
     private float dashTime;
-        
+
+    public VolumeManager volumManager;
+    [SerializeField]
+    Transform bulletFireTrf;
 
     // 이동 입력값
     private Vector3 inputVector;
@@ -111,8 +115,22 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(1, GameManager.instance.GetAugMaxLevel("DamageUp")));
-        AddAugmentation(new PoisonField(1, GameManager.instance.GetAugMaxLevel("PoisonField")));
+        Type type = Type.GetType(testAugName);
+        if (type == null)
+        {
+            Debug.LogError("Augmentation Not Found!");
+            return;
+        }
+        Augmentation aug = null;
+        if (HasAugmentation(testAugName) == false)
+        {
+            aug = Activator.CreateInstance(type, 1, GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
+        }
+        else
+        {
+            aug = Activator.CreateInstance(type, GetAugmentationLevel(testAugName), GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
+        }
+        AddAugmentation(aug);
     }
 
     protected override void UpdateEntity()
@@ -197,6 +215,37 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
+    #region Attack
+    private IEnumerator AttackCoroutine()
+    {
+        WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
+        while (true)
+        {
+            OnAttackPlayer?.Invoke(this, defaultArgs);
+            PlayerAttack(bulletNum, bulletInterval);
+            yield return attackDelay;
+        }
+    }
+    protected virtual void PlayerAttack(int bulletNum, float interval)
+    {
+        for (int i = 0; i < bulletNum; i++)
+        {
+            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
+        }
+    }
+
+    public TempBullet CreateBullet(float speed, float rot)
+    {
+        TempBullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, bulletFireTrf.position).GetComponent<TempBullet>();
+
+        bullet.player = this;
+        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
+        bullet.rigid.velocity = speed * bullet.transform.forward;
+        return bullet;
+    }
+
+    #endregion
+
     /// <summary>
     /// 가장 근접한 적을 반환하는 메서드
     /// </summary>
@@ -219,6 +268,31 @@ public abstract class PlayableCtrl : Entity
         else
         {
             return null;
+        }
+    }
+
+    public void AddExp(float val)
+    {
+        if (level >= GameManager.instance.levelTable.Count - 1)
+        {
+            return;
+        }
+        else
+        {
+
+            exp += val;
+            if (exp >= requireExp)
+            {
+                exp = exp - requireExp;
+                level++;
+                requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
+                if (isTest == false)
+                {
+                    Time.timeScale = 0;
+                    hud.augPanel.SetActive(true);
+                    hud.SetAugmentation();
+                }
+            }
         }
     }
 
@@ -291,8 +365,7 @@ public abstract class PlayableCtrl : Entity
             }
         }
         cameraShakeSource.GenerateImpulse();
-
-
+        volumManager.StartHitEffect(0.5f);
         objectPool.GetObject(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion
@@ -300,26 +373,6 @@ public abstract class PlayableCtrl : Entity
 
     protected abstract void PlayerSkill();
 
-    #region Attack
-    private IEnumerator AttackCoroutine()
-    {
-        WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
-        while (true)
-        {
-            OnAttackPlayer?.Invoke(this, defaultArgs);
-            PlayerAttack(bulletNum, bulletInterval);
-            yield return attackDelay;
-        }
-    }
-    protected virtual void PlayerAttack(int bulletNum, float interval)
-    {
-        for (int i = 0; i < bulletNum; i++)
-        {
-            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
-        }
-    }
-
-    #endregion
 
     #region Augmentation Method
     //증강 추가 메소드
@@ -359,7 +412,16 @@ public abstract class PlayableCtrl : Entity
         }
         else
         {
-            GetAugmentation(aug.GetType().Name).SetAugmentationLevel(GetAugmentationLevel(aug.GetType().Name) + 1);
+            if(aug.eventType == AugmentationEventType.ON_START)
+            {
+                int level = GetAugmentationLevel(aug.GetType().Name) + 1;
+                aug.SetAugmentationLevel(level);
+                aug.AugmentationEffect(this, defaultArgs);
+            }
+            else
+            {
+                GetAugmentation(aug.GetType().Name).SetAugmentationLevel(GetAugmentationLevel(aug.GetType().Name) + 1);
+            }
         }
     }
 
@@ -442,41 +504,6 @@ public abstract class PlayableCtrl : Entity
                 break;
         }
         augmentationList.Remove(del);
-    }
-    
-    public void AddExp(float val)
-    {
-        if (level >= GameManager.instance.levelTable.Count - 1)
-        {
-            return;
-        }
-        else
-        {
-
-            exp += val;
-            if(exp >= requireExp)
-            {
-                exp = exp - requireExp;
-                level++;
-                requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
-                if(isTest == false)
-                {
-                    Time.timeScale = 0;
-                    hud.augPanel.SetActive(true);
-                    hud.SetAugmentation();
-                }
-            }
-        }
-    }
-
-    public TempBullet CreateBullet(float speed, float rot)
-    {
-        TempBullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
-
-        bullet.player = this;
-        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
-        bullet.rigid.velocity = speed * bullet.transform.forward;
-        return bullet;
     }
 
     public Augmentation GetAugmentation<T>() where T : Augmentation

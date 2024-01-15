@@ -50,7 +50,7 @@ public class HUD : MonoBehaviour
 			levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
 		}
 
-		if (Input.GetKey(KeyCode.C))
+		if (Input.GetKey(KeyCode.Tab))
 		{
 			statImg.SetActive(true);
 			statText.text = string.Format("MaxHP: {0:D2}\nDmg: {1:D2}\nAtkSpd: {2:D2}\nAtkDist: {3:D2}\nMvSpd: {4:D2}\nExpRge: {5:D2}",
@@ -151,7 +151,6 @@ public class HUD : MonoBehaviour
 			Augmentation aug = Activator.CreateInstance(Type.GetType(tempAugList[i]), 1, GameManager.instance.GetAugMaxLevel(tempAugList[i])) as Augmentation;
 			augButtons[i].onClick.AddListener(() => {
 				GameManager.instance.player.AddAugmentation(aug);
-				Debug.Log(aug.GetType().Name);
 				augPanel.SetActive(false);
 				Time.timeScale = 1;
 			});

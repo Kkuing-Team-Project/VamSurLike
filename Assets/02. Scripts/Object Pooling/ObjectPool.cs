@@ -20,7 +20,10 @@ public class ObjectPool : MonoBehaviour
         Experience,
         CollapseZone,
         HitParticle,
-        PoisonField
+        PoisonField,
+        DamageText,
+        Meteor,
+        Shield
     }
 
     [System.Serializable]
@@ -36,7 +39,6 @@ public class ObjectPool : MonoBehaviour
 
     // Dictionary to map each ObjectType to a stack of GameObjects
     public Dictionary<ObjectType, Queue<GameObject>> poolDictionary = new Dictionary<ObjectType, Queue<GameObject>>();
-
     private void Awake()
     {
         // Initialize each pool
@@ -80,7 +82,6 @@ public class ObjectPool : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
-
                 poolDictionary[pool.type].Enqueue(obj);
 
                 IPoolable poolable = obj.GetComponent<IPoolable>();
