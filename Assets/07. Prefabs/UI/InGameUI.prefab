@@ -1040,6 +1040,8 @@ MonoBehaviour:
   statText: {fileID: 0}
   augPanel: {fileID: 0}
   augButtons: []
+  augNameTexts: []
+  playerGaugeBar: {fileID: 0}
 --- !u!1 &1925251631768884582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1786,6 +1788,8 @@ MonoBehaviour:
   statText: {fileID: 0}
   augPanel: {fileID: 0}
   augButtons: []
+  augNameTexts: []
+  playerGaugeBar: {fileID: 2610317700322258721}
 --- !u!1 &1925251631996263975
 GameObject:
   m_ObjectHideFlags: 0
@@ -3153,6 +3157,8 @@ MonoBehaviour:
   statText: {fileID: 0}
   augPanel: {fileID: 0}
   augButtons: []
+  augNameTexts: []
+  playerGaugeBar: {fileID: 0}
 --- !u!1 &1925251632309826817
 GameObject:
   m_ObjectHideFlags: 0
@@ -4492,7 +4498,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1925251632903522332}
   - component: {fileID: 1925251632903522330}
-  - component: {fileID: 1925251632903522333}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -4579,28 +4584,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1925251632903522333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925251632903522335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5799419659040ba49a26b6c685ded0ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeText: {fileID: 0}
-  killCountText: {fileID: 0}
-  levelText: {fileID: 0}
-  expSlider: {fileID: 0}
-  augImg: {fileID: 0}
-  augScroll: {fileID: 0}
-  statImg: {fileID: 0}
-  statText: {fileID: 0}
-  augPanel: {fileID: 0}
-  augButtons: []
 --- !u!1 &1925251632918897769
 GameObject:
   m_ObjectHideFlags: 0
@@ -5480,7 +5463,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1925251632903522333}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: WargameSystem.MenuSystem.HUD, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -5655,6 +5638,8 @@ MonoBehaviour:
   statText: {fileID: 0}
   augPanel: {fileID: 0}
   augButtons: []
+  augNameTexts: []
+  playerGaugeBar: {fileID: 0}
 --- !u!1 &1925251633151058538
 GameObject:
   m_ObjectHideFlags: 0
