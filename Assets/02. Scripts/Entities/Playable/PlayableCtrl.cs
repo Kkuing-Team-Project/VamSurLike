@@ -34,7 +34,6 @@ public abstract class PlayableCtrl : Entity
     [Header("게이지 바"), SerializeField]
     PlayerGaugeBar gaugeBar;
 
-
     [Header("총알 갯수")]
     public int bulletNum;
 
@@ -51,6 +50,8 @@ public abstract class PlayableCtrl : Entity
     private float dashTime;
 
     public VolumeManager volumManager;
+    [SerializeField]
+    Transform bulletFireTrf;
 
     // 이동 입력값
     private Vector3 inputVector;
