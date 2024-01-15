@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class Prion : EnemyCtrl, IPoolable
 {
-    public Queue<GameObject> pool { get; set; }
+    public ObjectPool pool { get; set; }
 
     protected override void InitEntity()
     {
         base.InitEntity();
+    }
+
+    public void OnCreate()
+    {
+    }
+
+    public void OnActivate()
+    {
     }
 
     protected override void EnemyAttack()
@@ -23,16 +31,11 @@ public class Prion : EnemyCtrl, IPoolable
         ReturnObject(); // Return the enemy to the pool
     }
 
-    public void Create(Queue<GameObject> pool)
-    {
-        this.pool = pool;
-    }
-
     public void ReturnObject()
     {
         gameObject.SetActive(false);
         
-        pool?.Enqueue(gameObject);
+        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Prion);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)

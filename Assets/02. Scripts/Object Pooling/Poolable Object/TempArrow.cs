@@ -6,23 +6,21 @@ using UnityEngine;
 public class TempArrow : MonoBehaviour, IPoolable
 {
     public Rigidbody rigid { get; set; }
-    public Queue<GameObject> pool { get; set; }
+    public ObjectPool pool { get; set; }
 
     [HideInInspector]
     private DarkArcher  archer;
     private float attackPower = 1f;  // Attack power value
-
-    public void Create(Queue<GameObject> pool)
+    public void OnCreate()
     {
-        this.pool = pool;
         rigid = GetComponent<Rigidbody>();
     }
 
-    private void OnEnable()
+    public void OnActivate()
     {
         StartCoroutine(ReturnBullet(3f));
     }
-
+    
     public void SetArcher(DarkArcher archer)
     {
         this.archer = archer;
@@ -52,7 +50,7 @@ public class TempArrow : MonoBehaviour, IPoolable
 
     public void ReturnObject()
     {
-        gameObject.SetActive(false);
-        pool.Enqueue(gameObject);
+        pool.ReturnObject(gameObject, ObjectPool.ObjectType.Arrow);
     }
+
 }

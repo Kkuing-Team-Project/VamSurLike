@@ -11,10 +11,18 @@ public class CollapseZone : MonoBehaviour, IPoolable
     [Tooltip("ºØ±«Á¸ ¹üÀ§"), Range(1f, 10f)]
     public float zoneRange;
     public float stablity { get; private set; }
-    public Queue<GameObject> pool { get; set; }
+    public ObjectPool pool { get; set; }
 
     private Spirit spirit;
     private PlayableCtrl player;
+
+    public void OnCreate()
+    {
+    }
+
+    public void OnActivate()
+    {
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -63,17 +71,10 @@ public class CollapseZone : MonoBehaviour, IPoolable
         spirit.collapseZone = this;
         stablity = 0;
     }
-
-    public void Create(Queue<GameObject> pool)
-    {
-        this.pool = pool;
-    }
     
     public void ReturnObject()
     {
         spirit.collapseZone = null;
-        gameObject.SetActive(false);
-        
-        pool?.Enqueue(gameObject);
+        pool.ReturnObject(gameObject, ObjectPool.ObjectType.CollapseZone);
     }
 }
