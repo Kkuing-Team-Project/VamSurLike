@@ -1017,6 +1017,30 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '00 : 00'
+--- !u!114 &1925251631683431524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925251631683431526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5799419659040ba49a26b6c685ded0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 0}
+  killCountText: {fileID: 0}
+  levelText: {fileID: 0}
+  expSlider: {fileID: 0}
+  augImg: {fileID: 0}
+  augScroll: {fileID: 0}
+  statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
+  augNameTexts: []
+  playerGaugeBar: {fileID: 0}
 --- !u!1 &1925251631768884582
 GameObject:
   m_ObjectHideFlags: 0
@@ -3114,6 +3138,30 @@ MonoBehaviour:
   m_Text: 'Lv. 1
 
 '
+--- !u!114 &1925251632294723626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925251632294723628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5799419659040ba49a26b6c685ded0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 0}
+  killCountText: {fileID: 0}
+  levelText: {fileID: 0}
+  expSlider: {fileID: 0}
+  augImg: {fileID: 0}
+  augScroll: {fileID: 0}
+  statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
+  augNameTexts: []
+  playerGaugeBar: {fileID: 0
 --- !u!1 &1925251632309826817
 GameObject:
   m_ObjectHideFlags: 0
@@ -5582,6 +5630,30 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1925251633147996310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925251633147996328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5799419659040ba49a26b6c685ded0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 0}
+  killCountText: {fileID: 0}
+  levelText: {fileID: 0}
+  expSlider: {fileID: 0}
+  augImg: {fileID: 0}
+  augScroll: {fileID: 0}
+  statImg: {fileID: 0}
+  statText: {fileID: 0}
+  augPanel: {fileID: 0}
+  augButtons: []
+  augNameTexts: []
+  playerGaugeBar: {fileID: 0}
 --- !u!1 &1925251633151058538
 GameObject:
   m_ObjectHideFlags: 0
