@@ -27,6 +27,8 @@ public abstract class PlayableCtrl : Entity
 
     public HUD hud;
 
+    public string testAugName;
+
     private AugEventArgs defaultArgs;
 
     [Header("게이지 바"), SerializeField]
@@ -113,8 +115,22 @@ public abstract class PlayableCtrl : Entity
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
-        AddAugmentation(new DamageUp(1, GameManager.instance.GetAugMaxLevel("DamageUp")));
-        AddAugmentation(new PoisonField(5, GameManager.instance.GetAugMaxLevel("PoisonField")));
+        Type type = Type.GetType(testAugName);
+        if (type == null)
+        {
+            Debug.LogError("Augmentation Not Found!");
+            return;
+        }
+        Augmentation aug = null;
+        if (HasAugmentation(testAugName) == false)
+        {
+            aug = Activator.CreateInstance(type, 1, GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
+        }
+        else
+        {
+            aug = Activator.CreateInstance(type, GetAugmentationLevel(testAugName), GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
+        }
+        AddAugmentation(aug);
     }
 
     protected override void UpdateEntity()
@@ -360,7 +376,16 @@ public abstract class PlayableCtrl : Entity
         }
         else
         {
-            GetAugmentation(aug.GetType().Name).SetAugmentationLevel(GetAugmentationLevel(aug.GetType().Name) + 1);
+            if(aug.eventType == AugmentationEventType.ON_START)
+            {
+                int level = GetAugmentationLevel(aug.GetType().Name) + 1;
+                aug.SetAugmentationLevel(level);
+                aug.AugmentationEffect(this, defaultArgs);
+            }
+            else
+            {
+                GetAugmentation(aug.GetType().Name).SetAugmentationLevel(GetAugmentationLevel(aug.GetType().Name) + 1);
+            }
         }
     }
 

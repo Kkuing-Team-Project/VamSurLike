@@ -151,7 +151,6 @@ public class HUD : MonoBehaviour
 			Augmentation aug = Activator.CreateInstance(Type.GetType(tempAugList[i]), 1, GameManager.instance.GetAugMaxLevel(tempAugList[i])) as Augmentation;
 			augButtons[i].onClick.AddListener(() => {
 				GameManager.instance.player.AddAugmentation(aug);
-				Debug.Log(aug.GetType().Name);
 				augPanel.SetActive(false);
 				Time.timeScale = 1;
 			});
