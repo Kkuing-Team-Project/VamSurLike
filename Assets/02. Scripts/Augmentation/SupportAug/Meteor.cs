@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Meteor : Augmentation
@@ -37,7 +35,7 @@ public class Meteor : Augmentation
             switch (level)
             {
                 case 1:
-                    skillTime = 1f;
+                    skillTime = 12f;
                     break;
                 case 2:
                     skillTime = 10f;

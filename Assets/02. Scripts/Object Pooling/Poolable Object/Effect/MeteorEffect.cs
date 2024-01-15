@@ -1,6 +1,3 @@
-using System;
-using UnityEngine;
-
 public class MeteorEffect : EffectParticle
 {
     public override void OnCreate()
