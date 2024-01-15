@@ -49,7 +49,8 @@ public abstract class PlayableCtrl : Entity
 
     [Header("점멸 이동 시간"), SerializeField]
     private float dashTime;
-        
+
+    public VolumeManager volumManager;
 
     // 이동 입력값
     private Vector3 inputVector;
@@ -307,8 +308,7 @@ public abstract class PlayableCtrl : Entity
             }
         }
         cameraShakeSource.GenerateImpulse();
-
-
+        volumManager.StartHitEffect(0.5f);
         objectPool.GetObject(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion

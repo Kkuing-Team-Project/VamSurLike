@@ -22,6 +22,7 @@ public class ObjectPool : MonoBehaviour
         HitParticle,
         PoisonField,
         DamageText,
+        Meteor
     }
 
     [System.Serializable]
@@ -37,7 +38,6 @@ public class ObjectPool : MonoBehaviour
 
     // Dictionary to map each ObjectType to a stack of GameObjects
     public Dictionary<ObjectType, Queue<GameObject>> poolDictionary = new Dictionary<ObjectType, Queue<GameObject>>();
-
     private void Awake()
     {
         // Initialize each pool
