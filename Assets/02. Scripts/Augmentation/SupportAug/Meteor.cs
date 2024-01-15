@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Meteor : Augmentation
 {
+    private float speed = 2.0f;
     private float meteorDmg = 10f; // 메테오 데미지
     private float splashDamageRadius = 5f; // 스플래쉬 피해 반경
     private float enemiesFindRadius = 20f;
@@ -33,24 +34,31 @@ public class Meteor : Augmentation
         while (true)
         {
             yield return new WaitForSeconds(skillTime);
-
+            switch (level)
+            {
+                case 1:
+                    skillTime = 12f;
+                    break;
+                case 2:
+                    skillTime = 10f;
+                    break;
+                case 3:
+                    skillTime = 8f;
+                    break;
+                case 4:
+                    skillTime = 6f;
+                    break;
+                case 5:
+                    skillTime = 2f;
+                    break;
+            }
 
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, enemiesFindRadius, 1 << LayerMask.NameToLayer("ENEMY"));
 
             if(enemies.Length > 0)
 			{
-                int tryCnt = 0;
-				while (tryCnt < 100)
-				{
-                    int randomEnemyIdx = UnityEngine.Random.Range(0, enemies.Length);
-                    if (Util.IsTargetInSight(Camera.main.transform, enemies[randomEnemyIdx].transform, Camera.main.fieldOfView))
-                    {
-                        LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, 3f, player);
-                        break;
-                    }
-                    else
-                        tryCnt++;
-				}
+                int randomEnemyIdx = UnityEngine.Random.Range(0, enemies.Length);
+                CoroutineHandler.StartCoroutine(LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, speed, player));
 			}
         }
     }
@@ -66,14 +74,14 @@ public class Meteor : Augmentation
         Vector3 origin = targetPosition + Vector3.up * 50;
         while(dT < time)
 		{
+
             meteor.transform.position = Vector3.Lerp(origin, targetPosition, dT / time);
-            yield return null;
+            yield return new WaitForSeconds(Time.deltaTime);
             dT += Time.deltaTime;
 		}
-
+        meteor.GetComponent<MeteorEffect>().ReturnObject();
+        
         Collider[] col = Physics.OverlapSphere(targetPosition, splashDamageRadius, 1 << LayerMask.NameToLayer("ENEMY"));
-
-
         if(col.Length > 0)
 		{
 		    foreach (var enemy in col)
@@ -81,25 +89,5 @@ public class Meteor : Augmentation
                 enemy.GetComponent<Entity>().TakeDamage(player, meteorDmg);
 		    }
 		}
-
-        switch (level)
-        {
-            case 1:
-                skillTime = 12f;
-                break;
-            case 2:
-                skillTime = 10f;
-                break;
-            case 3:
-                skillTime = 8f;
-                break;
-            case 4:
-                skillTime = 6f;
-                break;
-            case 5:
-                skillTime = 2f;
-                break;
-        }
-
     }
 }
