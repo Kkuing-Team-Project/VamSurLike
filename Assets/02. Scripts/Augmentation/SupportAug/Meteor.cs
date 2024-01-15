@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Meteor : Augmentation
 {
-    private float speed = 2.0f;
+    private float time = 2.0f;
     private float meteorDmg = 10f; // 메테오 데미지
     private float splashDamageRadius = 5f; // 스플래쉬 피해 반경
     private float enemiesFindRadius = 20f;
@@ -58,29 +58,15 @@ public class Meteor : Augmentation
             if(enemies.Length > 0)
 			{
                 int randomEnemyIdx = UnityEngine.Random.Range(0, enemies.Length);
-                CoroutineHandler.StartCoroutine(LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, speed, player));
+                CoroutineHandler.StartCoroutine(LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, player));
 			}
         }
     }
 
-    private IEnumerator LaunchMeteorAttack(Vector3 targetPosition, float time, Entity player)
+    private IEnumerator LaunchMeteorAttack(Vector3 targetPosition, Entity player)
     {
-
-        // 메테오 프리팹을 생성하여 타겟 위치에 떨어뜨림
-        // GameObject meteor = UnityEngine.Object.Instantiate(meteorPrefab, , Quaternion.identity);
-        GameObject meteor = pool.GetObject(ObjectPool.ObjectType.Meteor, targetPosition + Vector3.up * 50);
-
-        float dT = 0;
-        Vector3 origin = targetPosition + Vector3.up * 50;
-        while(dT < time)
-		{
-
-            meteor.transform.position = Vector3.Lerp(origin, targetPosition, dT / time);
-            yield return new WaitForSeconds(Time.deltaTime);
-            dT += Time.deltaTime;
-		}
-        meteor.GetComponent<MeteorEffect>().ReturnObject();
-        
+        pool.GetObject(ObjectPool.ObjectType.Meteor, targetPosition + Vector3.up * 50);
+        yield return new WaitForSeconds(time);
         Collider[] col = Physics.OverlapSphere(targetPosition, splashDamageRadius, 1 << LayerMask.NameToLayer("ENEMY"));
         if(col.Length > 0)
 		{
