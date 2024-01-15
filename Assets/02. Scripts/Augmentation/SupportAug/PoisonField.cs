@@ -32,7 +32,7 @@ public class PoisonField : Augmentation
     {
         while (true)
         {
-            float radius = 10;
+            float radius = 1;
             switch (level)
             {
                 case 1:
@@ -57,8 +57,8 @@ public class PoisonField : Augmentation
             yield return new WaitForSeconds(10);
             Vector3 dmagePosition = player.transform.position;
 
-            ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.PoisonField, dmagePosition);
-
+            PoisonFieldEffect effect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.PoisonField, dmagePosition).GetComponent<PoisonFieldEffect>();
+            effect.SetEffectSize(radius);
             float durationTimer = 0;
             float delayTimer = 0;
             
@@ -69,6 +69,7 @@ public class PoisonField : Augmentation
                 
                 if (durationTimer >= 5f)
                 {
+                    effect.StopEffect();
                     break;
                 }
 

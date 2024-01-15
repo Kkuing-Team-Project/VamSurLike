@@ -4835,6 +4835,7 @@ GameObject:
   - component: {fileID: 765027771019874420}
   - component: {fileID: 598536546593397014}
   - component: {fileID: 597555047185466388}
+  - component: {fileID: -8811066684002426205}
   m_Layer: 0
   m_Name: PoisonGas
   m_TagString: Untagged
@@ -4849,7 +4850,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759374476847130980}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.1, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4858,7 +4859,7 @@ Transform:
   - {fileID: 757691450088920400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &598536546593397014
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4867,7 +4868,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759374476847130980}
   serializedVersion: 8
-  lengthInSec: 10
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
@@ -4942,7 +4943,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 3
       minScalar: 2
       maxCurve:
         serializedVersion: 2
@@ -5427,7 +5428,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 35
+    maxNumParticles: 200
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -9650,6 +9651,21 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-8811066684002426205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759374476847130980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e417b0f719e09104dbcf8066bd265a49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectSize: 1
+  firstGasParticle: {fileID: 597997776879517670}
+  secondGasParticle: {fileID: 598554067261440630}
 --- !u!1 &759656721984692174
 GameObject:
   m_ObjectHideFlags: 0

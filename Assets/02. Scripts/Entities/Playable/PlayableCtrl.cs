@@ -112,6 +112,7 @@ public abstract class PlayableCtrl : Entity
     public void AddAugmentationTest()
     {
         AddAugmentation(new DamageUp(1, GameManager.instance.GetAugMaxLevel("DamageUp")));
+        AddAugmentation(new PoisonField(5, GameManager.instance.GetAugMaxLevel("PoisonField")));
     }
 
     protected override void UpdateEntity()
@@ -458,9 +459,12 @@ public abstract class PlayableCtrl : Entity
                 exp = exp - requireExp;
                 level++;
                 requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
-                Time.timeScale = 0;
-                hud.augPanel.SetActive(true);
-                hud.SetAugmentation();
+                if(isTest == false)
+                {
+                    Time.timeScale = 0;
+                    hud.augPanel.SetActive(true);
+                    hud.SetAugmentation();
+                }
             }
         }
     }
