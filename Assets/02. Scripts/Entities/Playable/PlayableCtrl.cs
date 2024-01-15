@@ -458,9 +458,12 @@ public abstract class PlayableCtrl : Entity
                 exp = exp - requireExp;
                 level++;
                 requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
-                Time.timeScale = 0;
-                hud.augPanel.SetActive(true);
-                hud.SetAugmentation();
+                if(isTest == false)
+                {
+                    Time.timeScale = 0;
+                    hud.augPanel.SetActive(true);
+                    hud.SetAugmentation();
+                }
             }
         }
     }

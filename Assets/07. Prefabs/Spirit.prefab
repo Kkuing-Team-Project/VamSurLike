@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c7231fe8179a0458e37f62af2815de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: 0
+  entityType: 8
   rigid: {fileID: 0}
   collapseZoneSpawner: {fileID: 0}
   collapseZone: {fileID: 0}

@@ -2268,6 +2268,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4100131624786401355, guid: 22e5f6d2ea23de34baf7adaf740ac2be, type: 3}
+      propertyPath: entityType
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6237631584534737079, guid: 22e5f6d2ea23de34baf7adaf740ac2be, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3563,6 +3567,10 @@ PrefabInstance:
     - target: {fileID: 4808470518836229770, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808470518836229774, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
+      propertyPath: entityType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4808470518836229774, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
       propertyPath: collapseZoneSpawner
