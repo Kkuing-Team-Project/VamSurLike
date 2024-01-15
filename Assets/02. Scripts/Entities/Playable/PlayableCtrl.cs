@@ -215,6 +215,37 @@ public abstract class PlayableCtrl : Entity
         }
     }
 
+    #region Attack
+    private IEnumerator AttackCoroutine()
+    {
+        WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
+        while (true)
+        {
+            OnAttackPlayer?.Invoke(this, defaultArgs);
+            PlayerAttack(bulletNum, bulletInterval);
+            yield return attackDelay;
+        }
+    }
+    protected virtual void PlayerAttack(int bulletNum, float interval)
+    {
+        for (int i = 0; i < bulletNum; i++)
+        {
+            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
+        }
+    }
+
+    public TempBullet CreateBullet(float speed, float rot)
+    {
+        TempBullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, bulletFireTrf.position).GetComponent<TempBullet>();
+
+        bullet.player = this;
+        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
+        bullet.rigid.velocity = speed * bullet.transform.forward;
+        return bullet;
+    }
+
+    #endregion
+
     /// <summary>
     /// 가장 근접한 적을 반환하는 메서드
     /// </summary>
@@ -237,6 +268,31 @@ public abstract class PlayableCtrl : Entity
         else
         {
             return null;
+        }
+    }
+
+    public void AddExp(float val)
+    {
+        if (level >= GameManager.instance.levelTable.Count - 1)
+        {
+            return;
+        }
+        else
+        {
+
+            exp += val;
+            if (exp >= requireExp)
+            {
+                exp = exp - requireExp;
+                level++;
+                requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
+                if (isTest == false)
+                {
+                    Time.timeScale = 0;
+                    hud.augPanel.SetActive(true);
+                    hud.SetAugmentation();
+                }
+            }
         }
     }
 
@@ -317,26 +373,6 @@ public abstract class PlayableCtrl : Entity
 
     protected abstract void PlayerSkill();
 
-    #region Attack
-    private IEnumerator AttackCoroutine()
-    {
-        WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
-        while (true)
-        {
-            OnAttackPlayer?.Invoke(this, defaultArgs);
-            PlayerAttack(bulletNum, bulletInterval);
-            yield return attackDelay;
-        }
-    }
-    protected virtual void PlayerAttack(int bulletNum, float interval)
-    {
-        for (int i = 0; i < bulletNum; i++)
-        {
-            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
-        }
-    }
-
-    #endregion
 
     #region Augmentation Method
     //증강 추가 메소드
@@ -468,41 +504,6 @@ public abstract class PlayableCtrl : Entity
                 break;
         }
         augmentationList.Remove(del);
-    }
-    
-    public void AddExp(float val)
-    {
-        if (level >= GameManager.instance.levelTable.Count - 1)
-        {
-            return;
-        }
-        else
-        {
-
-            exp += val;
-            if(exp >= requireExp)
-            {
-                exp = exp - requireExp;
-                level++;
-                requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
-                if(isTest == false)
-                {
-                    Time.timeScale = 0;
-                    hud.augPanel.SetActive(true);
-                    hud.SetAugmentation();
-                }
-            }
-        }
-    }
-
-    public TempBullet CreateBullet(float speed, float rot)
-    {
-        TempBullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, transform.position + Vector3.up).GetComponent<TempBullet>();
-
-        bullet.player = this;
-        bullet.transform.eulerAngles = new Vector3(0, rot, 0);
-        bullet.rigid.velocity = speed * bullet.transform.forward;
-        return bullet;
     }
 
     public Augmentation GetAugmentation<T>() where T : Augmentation
