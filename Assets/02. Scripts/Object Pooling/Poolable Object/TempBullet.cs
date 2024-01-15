@@ -42,7 +42,7 @@ public class TempBullet : MonoBehaviour, IPoolable
             // If the bullet hits an enemy, apply damage and return the bullet to the pool.
             Entity enemy = other.GetComponent<Entity>();
             player.InvokeEvent(AugmentationEventType.ON_HIT, player, new AugEventArgs(other.transform, enemy));
-            enemy.TakeDamage(player, 10f);
+            enemy.TakeDamage(player, player.stat.Get(StatType.DAMAGE));
             StopAllCoroutines();
             ReturnObject();
         }

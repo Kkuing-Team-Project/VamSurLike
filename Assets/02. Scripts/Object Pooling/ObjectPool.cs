@@ -21,6 +21,7 @@ public class ObjectPool : MonoBehaviour
         CollapseZone,
         HitParticle,
         PoisonField,
+        DamageText,
         Meteor
     }
 
@@ -80,7 +81,6 @@ public class ObjectPool : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
-
                 poolDictionary[pool.type].Enqueue(obj);
 
                 IPoolable poolable = obj.GetComponent<IPoolable>();

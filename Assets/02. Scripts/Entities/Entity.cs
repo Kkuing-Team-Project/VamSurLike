@@ -25,6 +25,8 @@ public abstract class Entity : MonoBehaviour
     public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
     protected Animator animator;
+    [HideInInspector]
+    public ObjectPool pool;
     
     [HideInInspector]
     public Rigidbody rigid;
@@ -97,6 +99,9 @@ public abstract class Entity : MonoBehaviour
     {
         OnTakeDamage(caster, dmg);
 
+        DamageEffect damageEffect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.DamageText, transform.position).GetComponent<DamageEffect>();
+        damageEffect.text.text = string.Format("{0:F1}", dmg);
+        damageEffect.originPos = transform.position;
         if (HasEffect<Invincible>() == false)
             hp -= dmg;
 
@@ -143,7 +148,14 @@ public abstract class Entity : MonoBehaviour
         var keys = new List<string>(GameManager.instance.statTable[idx].Keys);
         for (int i = 1; i < GameManager.instance.statTable[0].Count; i++)
         {
-            stat.SetDefault(Enum.Parse<StatType>(keys[i]), float.Parse(GameManager.instance.statTable[idx][keys[i]].ToString()));
+            if (keys[i].ToString().Equals("ATTACK_DISTANCE") && gameObject.GetComponent<CapsuleCollider>().radius + 1 > float.Parse(GameManager.instance.statTable[idx][keys[i]].ToString()))
+            {
+                stat.SetDefault(Enum.Parse<StatType>(keys[i]), gameObject.GetComponent<CapsuleCollider>().radius + 1);
+            }
+            else
+            {
+                stat.SetDefault(Enum.Parse<StatType>(keys[i]), float.Parse(GameManager.instance.statTable[idx][keys[i]].ToString()));
+            }
         }
     }
 }

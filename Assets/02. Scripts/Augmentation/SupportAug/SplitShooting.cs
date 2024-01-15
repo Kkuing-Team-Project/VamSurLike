@@ -21,19 +21,19 @@ public class SplitShooting : Augmentation
 		{
 			case 1:
 				(e.target as PlayableCtrl).bulletInterval = 10;
-				(e.target as PlayableCtrl).bulletInterval = 2;
+				(e.target as PlayableCtrl).bulletNum = 2;
 				break;
 			case 2:
 				(e.target as PlayableCtrl).bulletInterval = 20;
-				(e.target as PlayableCtrl).bulletInterval = 3;
+				(e.target as PlayableCtrl).bulletNum = 3;
 				break;
 			case 3:
 				(e.target as PlayableCtrl).bulletInterval = 20;
-				(e.target as PlayableCtrl).bulletInterval = 4;
+				(e.target as PlayableCtrl).bulletNum = 4;
 				break;
 			case 4:
 				(e.target as PlayableCtrl).bulletInterval = 30;
-				(e.target as PlayableCtrl).bulletInterval = 5;
+				(e.target as PlayableCtrl).bulletNum = 5;
 				break;
 		}
 	}
