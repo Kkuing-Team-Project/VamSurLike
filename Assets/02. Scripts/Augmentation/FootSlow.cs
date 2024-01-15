@@ -13,7 +13,7 @@ public class FootSlow : Augmentation
     private float duration;
     private float speedDownPercent = 0.2f;
 
-    private HashSet<Entity> changedEntities = new HashSet<Entity>();
+    private Dictionary<Entity, float> changedEntities = new Dictionary<Entity, float>();
     
     public FootSlow(int level, int maxLevel) : base(level, maxLevel)
     {
@@ -74,8 +74,8 @@ public class FootSlow : Augmentation
                 pos = sender.transform.position;
                 foreach (var entity in changedEntities)
                 {
-                    entity.stat.Add(StatType.MOVE_SPEED, entity.stat.Get(StatType.MOVE_SPEED) * speedDownPercent); 
-                    entity.stat.UpdateStat();
+                    entity.Key.stat.Add(StatType.MOVE_SPEED, entity.Value); 
+                    entity.Key.stat.UpdateStat();
                 }
                 changedEntities.Clear();
             }
@@ -87,11 +87,12 @@ public class FootSlow : Augmentation
                 Entity entity = collider.GetComponent<Entity>();
                 if (entity)
                 {
-                    if (!changedEntities.Contains(entity))
+                    if (!changedEntities.ContainsKey(entity))
                     {
                         Stat eneityStat = entity.stat;
-                        changedEntities.Add(entity);
-                        eneityStat.Add(StatType.MOVE_SPEED, -(eneityStat.Get(StatType.MOVE_SPEED) * speedDownPercent));
+                        float value = eneityStat.Get(StatType.MOVE_SPEED) * speedDownPercent;
+                        changedEntities.Add(entity, value);
+                        eneityStat.Add(StatType.MOVE_SPEED, -value);
                         eneityStat.UpdateStat();
                     }
                 }
