@@ -23,6 +23,7 @@ public class ObjectPool : MonoBehaviour
         PoisonField,
         DamageText,
         Meteor,
+        EarthShatter,
         Shield
     }
 
