@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMoveSpeedDown : MonoBehaviour
+public class EnemyMoveSpeedDown : Augmentation
 {
-    // Start is called before the first frame update
-    void Start()
+    public EnemyMoveSpeedDown(int level, int maxLevel) : base(level, maxLevel)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override AugmentationEventType GetEventType()
     {
-        
+        return AugmentationEventType.ON_UPDATE;
     }
 }
