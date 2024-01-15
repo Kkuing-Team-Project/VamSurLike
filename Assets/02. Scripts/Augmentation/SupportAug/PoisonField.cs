@@ -7,9 +7,7 @@ using UnityEngine;
 
 public class PoisonField : Augmentation
 {
-    //Skill Damage
-    public float DAMAGE = 50f;
-
+    private Coroutine cor;
 
 
     public PoisonField(int level, int maxLevel) : base(level, maxLevel)
@@ -25,34 +23,18 @@ public class PoisonField : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        CoroutineHandler.StartCoroutine(FieldAttack(e.target));
+        if(cor != null)
+        {
+           CoroutineHandler.StopCoroutine(cor);
+        }
+        cor = CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
 
     private IEnumerator FieldAttack(Entity player)
     {
         while (true)
         {
-            float radius = 1;
-            switch (level)
-            {
-                case 1:
-                    radius = 1;
-                    break;
-                case 2:
-                    radius = 2;
-                    break;
-                case 3:
-                    radius = 3;
-                    break;
-                case 4:
-                    radius = 4;
-                    break;
-                case 5:
-                    radius = 6;
-                    break;
-                default:
-                    break;
-            }
+            float radius = float.Parse(GameManager.instance.augTable[level]["PoisonField"].ToString());
 
             yield return new WaitForSeconds(10);
             Vector3 dmagePosition = player.transform.position;
