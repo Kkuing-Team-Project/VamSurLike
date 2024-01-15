@@ -7,7 +7,7 @@ public class StoneHead : EnemyCtrl, IPoolable
     public float speed = 1f;  // Speed value
     public float attackPower = 2;  // Attack power value
     public float HP = 10f;
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
 
     protected override void InitEntity()
     {
@@ -23,19 +23,19 @@ public class StoneHead : EnemyCtrl, IPoolable
     protected override void OnEntityDied()
     {
         base.OnEntityDied();
-        Push(); // Return the enemy to the pool
+        ReturnObject(); // Return the enemy to the pool
     }
 
-    public void Create(Stack<GameObject> pool)
+    public void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
     }
 
-    public void Push()
+    public void ReturnObject()
     {
         gameObject.SetActive(false);
         
-        pool?.Push(gameObject);
+        pool?.Enqueue(gameObject);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)

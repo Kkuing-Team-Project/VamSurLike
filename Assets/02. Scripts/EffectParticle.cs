@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EffectParticle : MonoBehaviour, IPoolable
 {
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
     protected ParticleSystem mainParticle;
-    public virtual void Create(Stack<GameObject> pool)
+    public virtual void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
         mainParticle = transform.GetComponent<ParticleSystem>();
@@ -27,16 +27,16 @@ public class EffectParticle : MonoBehaviour, IPoolable
         {
             if (!mainParticle.isPlaying)
             {
-                Push();
+                ReturnObject();
                 break;
             }
             yield return null;
         }
     }
 
-    public virtual void Push()
+    public virtual void ReturnObject()
     {
         gameObject.SetActive(false);
-        pool.Push(gameObject);
+        pool.Enqueue(gameObject);
     }
 }

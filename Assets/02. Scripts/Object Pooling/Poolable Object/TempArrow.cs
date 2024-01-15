@@ -6,13 +6,13 @@ using UnityEngine;
 public class TempArrow : MonoBehaviour, IPoolable
 {
     public Rigidbody rigid { get; set; }
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
 
     [HideInInspector]
     private DarkArcher  archer;
     private float attackPower = 1f;  // Attack power value
 
-    public void Create(Stack<GameObject> pool)
+    public void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
         rigid = GetComponent<Rigidbody>();
@@ -36,7 +36,7 @@ public class TempArrow : MonoBehaviour, IPoolable
     private IEnumerator ReturnBullet(float time)
     {
         yield return new WaitForSeconds(time);
-        Push();
+        ReturnObject();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,13 +46,13 @@ public class TempArrow : MonoBehaviour, IPoolable
             Entity playable = other.GetComponent<Entity>();
             playable.TakeDamage(archer, attackPower);
             StopAllCoroutines();
-            Push();
+            ReturnObject();
         }
     }
 
-    public void Push()
+    public void ReturnObject()
     {
         gameObject.SetActive(false);
-        pool.Push(gameObject);
+        pool.Enqueue(gameObject);
     }
 }

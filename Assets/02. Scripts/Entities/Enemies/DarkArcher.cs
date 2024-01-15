@@ -11,7 +11,7 @@ public class DarkArcher : EnemyCtrl, IPoolable
     public float arrowSpeed = 50f; //총알 스피드
     public Transform arrowposition;
 
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
     private Coroutine attackCor;
 
     protected override void InitEntity()
@@ -45,18 +45,18 @@ public class DarkArcher : EnemyCtrl, IPoolable
     protected override void OnEntityDied()
     {
         base.OnEntityDied();
-        Push(); // Return the enemy to the pool
+        ReturnObject(); // Return the enemy to the pool
     }
 
-    public void Create(Stack<GameObject> pool)
+    public void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
     }
 
-    public void Push()
+    public void ReturnObject()
     {
         gameObject.SetActive(false);
-        pool?.Push(gameObject);
+        pool?.Enqueue(gameObject);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
@@ -99,7 +99,7 @@ public class DarkArcher : EnemyCtrl, IPoolable
 
     private void ShootArrow(Vector3 dir)
     {
-        GameObject arrowObject = objectPool.Pop(ObjectPool.ObjectType.Arrow, arrowposition.position);
+        GameObject arrowObject = objectPool.GetObject(ObjectPool.ObjectType.Arrow, arrowposition.position);
         TempArrow tempArrow = arrowObject.GetComponent<TempArrow>();
         if (tempArrow != null)
         {

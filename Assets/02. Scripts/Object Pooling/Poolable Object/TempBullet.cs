@@ -6,13 +6,13 @@ using UnityEngine;
 public class TempBullet : MonoBehaviour, IPoolable
 {
     public Rigidbody rigid { get; set; }
-    public Stack<GameObject> pool { get; set; }
+    public Queue<GameObject> pool { get; set; }
 
     [HideInInspector]
     public PlayableCtrl player;
 
     // Called when the bullet is created. Initializes the Rigidbody and sets the pool.
-    public void Create(Stack<GameObject> pool)
+    public void Create(Queue<GameObject> pool)
     {
         this.pool = pool;
         rigid = GetComponent<Rigidbody>();
@@ -32,7 +32,7 @@ public class TempBullet : MonoBehaviour, IPoolable
     private IEnumerator ReturnBullet(float time)
     {
         yield return new WaitForSeconds(time);
-        Push();
+        ReturnObject();
     }
 
     // Called when the bullet collides with another object.
@@ -45,14 +45,14 @@ public class TempBullet : MonoBehaviour, IPoolable
             player.InvokeEvent(AugmentationEventType.ON_HIT, player, new AugEventArgs(other.transform, enemy));
             enemy.TakeDamage(player, 10f);
             StopAllCoroutines();
-            Push();
+            ReturnObject();
         }
     }
 
     // Deactivates the bullet and returns it to the pool.
-    public void Push()
+    public void ReturnObject()
     {
         gameObject.SetActive(false);
-        pool.Push(gameObject);
+        pool.Enqueue(gameObject);
     }
 }
