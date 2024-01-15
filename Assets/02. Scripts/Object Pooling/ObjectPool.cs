@@ -20,7 +20,8 @@ public class ObjectPool : MonoBehaviour
         Experience,
         CollapseZone,
         HitParticle,
-        PoisonField
+        PoisonField,
+        DamageText,
     }
 
     [System.Serializable]
@@ -80,7 +81,6 @@ public class ObjectPool : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab, transform);
                 obj.SetActive(false);
                 obj.transform.SetParent(transform.Find(pool.type.ToString()).transform);
-
                 poolDictionary[pool.type].Enqueue(obj);
 
                 IPoolable poolable = obj.GetComponent<IPoolable>();

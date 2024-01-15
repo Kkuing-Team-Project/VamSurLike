@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class EnergyField : Augmentation
 {
-
+    private Coroutine cor = null;
     public EnergyField(int level, int maxLevel) : base(level, maxLevel)
     {     
     }
@@ -20,48 +20,29 @@ public class EnergyField : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        CoroutineHandler.StartCoroutine(FieldAttack(e.target));
+        if(cor != null)
+        {
+            CoroutineHandler.StopCoroutine(cor);
+        }
+        cor = CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
 
 
     private IEnumerator FieldAttack(Entity player)
     {
-        WaitForSeconds waitTime = new WaitForSeconds(1);
+        WaitForSeconds waitTime = new WaitForSeconds(0.5f);
         while (true)
         {
-            float radius = 0;
-            switch (level)
-            {
-                case 1:
-                    radius = 1;
-                    break;
-                case 2:
-                    radius = 2;
-                    break;
-                case 3:
-                    radius = 3;
-                    break;
-                case 4:
-                    radius = 4;
-                    break;
-                case 5:
-                    radius = 5;
-                    break;
-                default:
-                    break;
-            }
-
-            yield return waitTime;
-            Debug.Log("½ÇÇàµÊ");
-
-            Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY"));
+            Debug.Log($"{GameManager.instance.augTable[level]["EnergyField"].ToString()}");
+            Collider[] enemies = Physics.OverlapSphere(player.transform.position, float.Parse(GameManager.instance.augTable[level]["EnergyField"].ToString()), 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
             if (enemies.Length > 0)
             {
                 foreach (var enemy in enemies)
                 {
-                    enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE));
+                    enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE) / 0.5f);
                 }
             }
+            yield return waitTime;
         }
     }
 }
