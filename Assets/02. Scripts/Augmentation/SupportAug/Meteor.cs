@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class Meteor : Augmentation
 {
-    public float meteorDmg = 10f; // 메테오 데미지
-    public float splashDamageRadius = 5f; // 스플래쉬 피해 반경
-    public float enemiesFindRadius = 20f;
-    public float skillTime = 0f;
-	public GameObject meteorPrefab; // 메테오 프리팹
+    private float meteorDmg = 10f; // 메테오 데미지
+    private float splashDamageRadius = 5f; // 스플래쉬 피해 반경
+    private float enemiesFindRadius = 20f;
+    private float skillTime = 0f;
+    private readonly ObjectPool pool;
     private Collider[] enemies; // 모든 적을 저장할 배열
 
     public Meteor(int level, int maxLevel) : base(level, maxLevel)
-	{
-        
-	}
+    {
+        pool = ObjectPoolManager.Instance.objectPool;
+    }
 
     protected override AugmentationEventType GetEventType()
     {
@@ -59,7 +59,8 @@ public class Meteor : Augmentation
     {
 
         // 메테오 프리팹을 생성하여 타겟 위치에 떨어뜨림
-        GameObject meteor = UnityEngine.Object.Instantiate(meteorPrefab, targetPosition + Vector3.up * 50, Quaternion.identity);
+        // GameObject meteor = UnityEngine.Object.Instantiate(meteorPrefab, , Quaternion.identity);
+        GameObject meteor = pool.GetObject(ObjectPool.ObjectType.Meteor, targetPosition + Vector3.up * 50);
 
         float dT = 0;
         Vector3 origin = targetPosition + Vector3.up * 50;
