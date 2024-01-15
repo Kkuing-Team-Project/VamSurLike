@@ -149,7 +149,6 @@ public class HUD : MonoBehaviour
 			augButtons[i].onClick.RemoveAllListeners();
 			augNameTexts[i].text = tempAugList[i];
 			Augmentation aug = Activator.CreateInstance(Type.GetType(tempAugList[i]), 1, GameManager.instance.GetAugMaxLevel(tempAugList[i])) as Augmentation;
-			Debug.Log($"{i}, {tempAugList[i]}, {aug.GetType().Name}");
 			augButtons[i].onClick.AddListener(() => {
 				GameManager.instance.player.AddAugmentation(aug);
 				Debug.Log(aug.GetType().Name);
