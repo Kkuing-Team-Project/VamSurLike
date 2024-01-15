@@ -19,7 +19,8 @@ public class ObjectPool : MonoBehaviour
         Arrow,
         Experience,
         CollapseZone,
-        HitParticle
+        HitParticle,
+        PoisonField
     }
 
     [System.Serializable]
