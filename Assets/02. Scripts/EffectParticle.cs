@@ -6,6 +6,8 @@ public class EffectParticle : MonoBehaviour, IPoolable
 {
     public ObjectPool pool { get; set; }
 
+    public float effectSize = 1f;
+
     protected ParticleSystem mainParticle;
     protected ObjectPool.ObjectType objectType;
     public virtual void OnCreate()
