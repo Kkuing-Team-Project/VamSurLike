@@ -22,7 +22,8 @@ public class ObjectPool : MonoBehaviour
         HitParticle,
         PoisonField,
         DamageText,
-        Meteor
+        Meteor,
+        EarthShatter,
     }
 
     [System.Serializable]
