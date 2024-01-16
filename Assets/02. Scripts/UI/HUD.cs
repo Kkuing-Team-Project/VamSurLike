@@ -12,10 +12,10 @@ public class HUD : MonoBehaviour
 	public Text killCountText;
 	public Text levelText;
 	public Slider expSlider;
-	public GameObject augImg;
-	public ScrollRect augScroll;
+	public GameObject augIconPrefab;
 	public GameObject statImg;
 	public Text statText;
+	public GameObject iconPanel;
 
 	public GameObject augPanel;
 	public Button[] augButtons;
@@ -51,7 +51,7 @@ public class HUD : MonoBehaviour
 			levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
 		}
 
-		if (Input.GetKey(KeyCode.Tab))
+		if (Input.GetKey(KeyCode.C))
 		{
 			statImg.SetActive(true);
 			statText.text = string.Format("MaxHP: {0:D2}\nDmg: {1:D2}\nAtkSpd: {2:D2}\nAtkDist: {3:D2}\nMvSpd: {4:D2}\nExpRge: {5:D2}",
@@ -63,6 +63,11 @@ public class HUD : MonoBehaviour
 		{
 			statImg.SetActive(false);
 		}
+
+		if(Input.GetKeyDown(KeyCode.Tab))
+		{
+			iconPanel.SetActive(!iconPanel.activeSelf);
+		}
 	}
 
 
@@ -72,11 +77,25 @@ public class HUD : MonoBehaviour
 		Application.Quit(); // 게임 종료
 	}
 
-	[ContextMenu("")]
-	public void AddRune()
+	public void AddRune(Augmentation aug)
 	{
-		GameObject tempImg = Instantiate(augImg);
-		tempImg.transform.SetParent(augScroll.content);
+		GameObject icon = Instantiate(augIconPrefab);
+		if(iconPanel.transform.Find(aug.ToString()) != null)
+		{
+            iconPanel.transform.Find(aug.ToString()).GetComponentInChildren<Text>().text = aug.level.ToString();
+        }
+		else
+		{
+			if(iconPanel.transform.childCount >= 8)
+			{
+				Destroy(iconPanel.transform.GetChild(8).gameObject);
+			}
+			icon.transform.SetParent(iconPanel.transform);
+			icon.transform.SetAsFirstSibling();
+			icon.name = aug.ToString();
+			icon.GetComponent<Image>().sprite = aug.icon;
+			icon.transform.GetComponentInChildren<Text>().text = aug.level.ToString();	
+		}
 	}
 	
 
@@ -148,12 +167,16 @@ public class HUD : MonoBehaviour
 		for (int i = 0; i < augButtons.Length; i++)
 		{
 			augButtons[i].onClick.RemoveAllListeners();
-			augNameTexts[i].text = tempAugList[i];
-			Augmentation aug = Activator.CreateInstance(Type.GetType(tempAugList[i]), 1, GameManager.instance.GetAugMaxLevel(tempAugList[i])) as Augmentation;
-			augButtons[i].onClick.AddListener(() => {
-				GameManager.instance.player.AddAugmentation(aug);
+			string key = tempAugList[i];
+			augNameTexts[i].text = key;
+			Augmentation aug = Activator.CreateInstance(Type.GetType(key), 1, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
+
+            augButtons[i].onClick.AddListener(() =>
+			{
+                GameManager.instance.player.AddAugmentation(aug);
+				AddRune(aug);
 				augPanel.SetActive(false);
-				Time.timeScale = 1;
+                Time.timeScale = 1;
 			});
 		}
 	}
