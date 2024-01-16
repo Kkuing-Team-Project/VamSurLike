@@ -10,6 +10,7 @@ public class Meteor : Augmentation
     private float skillTime = 0f;
     private readonly ObjectPool pool;
     private Collider[] enemies; // 모든 적을 저장할 배열
+    private Coroutine cor;
 
     public Meteor(int level, int maxLevel) : base(level, maxLevel)
     {
@@ -23,40 +24,26 @@ public class Meteor : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-        CoroutineHandler.StartCoroutine(AttackCoroutine(e.target));
+        skillTime = float.Parse(GameManager.instance.augTable[level]["Meteor"].ToString());
+        if (cor != null)
+            CoroutineHandler.StopCoroutine(cor);
+        cor = CoroutineHandler.StartCoroutine(AttackCoroutine(e.target));
     }
 
     private IEnumerator AttackCoroutine(Entity player)
     {
         while (true)
         {
-            yield return new WaitForSeconds(skillTime);
 
-            switch (level)
-            {
-                case 1:
-                    skillTime = 12f;
-                    break;
-                case 2:
-                    skillTime = 10f;
-                    break;
-                case 3:
-                    skillTime = 8f;
-                    break;
-                case 4:
-                    skillTime = 6f;
-                    break;
-                case 5:
-                    skillTime = 2f;
-                    break;
-            }
-            
+
+
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, enemiesFindRadius, 1 << LayerMask.NameToLayer("ENEMY"));
             if(enemies.Length > 0)
 			{
                 int randomEnemyIdx = UnityEngine.Random.Range(0, enemies.Length);
                 CoroutineHandler.StartCoroutine(LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, player));
 			}
+            yield return new WaitForSeconds(skillTime);
         }
     }
     

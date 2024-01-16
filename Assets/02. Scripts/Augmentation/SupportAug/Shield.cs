@@ -51,29 +51,10 @@ public class Shield : Augmentation
 		while (true)
 		{
 			yield return new WaitForSeconds(3f);
-			
-			switch (level)
+			maxShield = int.Parse(GameManager.instance.augTable[level]["Shield"].ToString());
+
+            if (!shield)
 			{
-				case 1:
-					maxShield = 1;
-					break;
-				case 2:
-					maxShield = 2;
-					break;
-				case 3:
-					maxShield = 3;
-					break;
-				case 4:
-					maxShield = 4;
-					break;
-				case 5:
-					maxShield = 5;
-					break;
-			}
-			
-			if (!shield)
-			{
-				Debug.LogError("?");
 				shield = pool.GetObject(ObjectPool.ObjectType.Shield, playerTransform.position).GetComponent<ShieldEffect>();
 				shield.transform.SetParent(playerTransform);
 			}

@@ -86,10 +86,6 @@ public abstract class PlayableCtrl : Entity
            stat.SetDefault(StatType.ATTACK_DISTANCE, tempAttackRange);
            stat.SetDefault(StatType.ATTACK_SPEED, tempAttackSpeed);
         }
-        else
-        {
-           stat.SetDefault(StatType.MOVE_SPEED, 3);
-        }
 
 
         defaultArgs = new AugEventArgs(transform, this);

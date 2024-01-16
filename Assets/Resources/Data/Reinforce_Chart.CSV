@@ -1,7 +1,7 @@
 SplitShooting,KnockbackShot,Shield,EnergyField,Meteor,PoisonField,NuclearBomb,FootSlow,HPUp,MoveSpeedUp,DamageUp,AttackSpeedUp,ExpRangeUp,EnemyHPDown,EnemyMoveSpeedDown
-0.3,0.2,1,5,12,1,240,20,1,1,1,1,1,-1,-0.2
-0.5,0.4,2,6,10,2,210,30,2,2,2,2,2,-2,-0.4
-0.9,0.6,3,7,8,3,180,40,3,3,3,3,3,-3,-0.6
-NONE,0.8,4,8,6,4,150,50,4,4,4,4,4,-4,-0.8
-NONE,1,5,9,4,5,120,60,5,5,5,5,5,-5,-1
+0.3,3,1,5,12,1,240,20,1,1,1,1,1,-1,-0.2
+0.5,6,2,6,10,2,210,30,2,2,2,2,2,-2,-0.4
+0.9,9,3,7,8,3,180,40,3,3,3,3,3,-3,-0.6
+NONE,12,4,8,6,4,150,50,4,4,4,4,4,-4,-0.8
+NONE,15,5,9,4,5,120,60,5,5,5,5,5,-5,-1
 NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE,6,6,6,6,6,-6,NONE

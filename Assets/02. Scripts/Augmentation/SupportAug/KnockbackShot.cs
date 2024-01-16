@@ -18,27 +18,9 @@ public class KnockbackShot : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-        float knockbackForce = 0; // 넉백 힘
+        float knockbackForce = float.Parse(GameManager.instance.augTable[level]["KnockbackShot"].ToString());
 
-        switch (level)
-        {
-            case 1:
-                knockbackForce = 0.2f;
-                break;
-            case 2:
-                knockbackForce = 0.4f;
-                break;
-            case 3:
-                knockbackForce = 0.6f;
-                break;
-            case 4:
-                knockbackForce = 0.8f;
-                break;
-            case 5:
-                knockbackForce = 1f;
-                break;
-        }
-        knockbackForce = 5f;
+
         if (e.target.TryGetComponent(out Rigidbody rigid))
         {
             Vector3 knockbackDirection = e.eventTr.forward * -1f;
