@@ -335,12 +335,7 @@ public class Spawner : MonoBehaviour
             isWave
                 ? GetRandomSpawnObjectType(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent)
                 : GetRandomSpawnObjectType(spawnObjects, maxPercent);
-        Entity enemy = Pool.GetObject(type, point).GetComponent<Entity>();
-        if (enemy != null)
-        {
-            enemy.rigid.isKinematic = true;
-            enemy.rigid.constraints = RigidbodyConstraints.FreezeRotation;
-        }
+        Pool.GetObject(type, point);
     }
 
     private ObjectPool.ObjectType GetRandomSpawnObjectType(SpawnObject[] objects, float percentMax)

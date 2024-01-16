@@ -17,16 +17,6 @@ public class StoneHead : EnemyCtrl
         }
     }
 
-    public override void OnActivate()
-    {
-        base.OnActivate();
-    }
-
-    public override void OnCreate()
-    {
-        base.OnCreate();
-    }
-
     protected override void EnemyAttack()
     {
         playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
@@ -41,6 +31,7 @@ public class StoneHead : EnemyCtrl
 
     public override void ReturnObject()
     {
+        base.ReturnObject();
         pool?.ReturnObject(gameObject, ObjectPool.ObjectType.StoneHead);
     }
 
