@@ -15,8 +15,8 @@ public class Freeze : StatusEffect
 
     public override void OnStart(Entity target)
     {
-        target.rigid.isKinematic = true;
         target.rigid.velocity = Vector3.zero;
+        target.rigid.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
 
         SkinnedMeshRenderer skinnedMeshRenderer = target.GetComponentInChildren<SkinnedMeshRenderer>();
         //Material material = skinnedMeshRenderer.material;
@@ -32,10 +32,10 @@ public class Freeze : StatusEffect
 
     public override void OnFinish(Entity target)
     {
-        target.rigid.isKinematic = false;
+        target.rigid.constraints = RigidbodyConstraints.FreezeRotation;
 
         SkinnedMeshRenderer skinnedMeshRenderer = target.GetComponentInChildren<SkinnedMeshRenderer>();
-
-        skinnedMeshRenderer.material = target.OriginMaterial;
+        Debug.Log(target.gameObject.activeSelf);
+        skinnedMeshRenderer.material = target.originMaterial;
     }
 }
