@@ -1260,10 +1260,10 @@ GameObject:
   - component: {fileID: 947150222}
   - component: {fileID: 947150223}
   - component: {fileID: 1827780137}
-  - component: {fileID: 947150221}
   - component: {fileID: 2099817934}
+  - component: {fileID: 7053833374047954256}
   m_Layer: 3
-  m_Name: TempPlayer
+  m_Name: Ice Player
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1435,34 +1435,6 @@ MonoBehaviour:
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
   m_DefaultVelocity: {x: 0, y: 0, z: 0.6}
---- !u!114 &947150221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2451845315716602646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d2458bf35155734f933e2df632c65ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entityType: 1
-  pool: {fileID: 0}
-  rigid: {fileID: 0}
-  testAugName: 
-  bulletNum: 1
-  bulletInterval: 5
-  rotationAnglePerSecond: 270
-  dashSpeed: 60
-  dashTime: 0.1
-  bulletFireTrf: {fileID: 1991798310757145375}
-  isTest: 1
-  tempExpRange: 12
-  tempMoveSpeed: 9
-  tempAttackRange: 12
-  tempAttackSpeed: 5
-  tempBulletSpeed: 50
 --- !u!114 &2099817934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,6 +1447,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d204e3674d92d46820131cf7f92657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7053833374047954256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2451845315716602646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a243e34de7eb849829cade94ec931c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 2
+  pool: {fileID: 0}
+  rigid: {fileID: 0}
+  testAugName: 
+  bulletNum: 1
+  bulletInterval: 0
+  rotationAnglePerSecond: 270
+  dashSpeed: 40
+  dashTime: 0.1
+  bulletFireTrf: {fileID: 1991798310757145375}
+  isTest: 0
+  tempExpRange: 7
+  tempMoveSpeed: 5
+  tempAttackRange: 12
+  tempAttackSpeed: 2.5
 --- !u!1 &2455544311530206396
 GameObject:
   m_ObjectHideFlags: 0
