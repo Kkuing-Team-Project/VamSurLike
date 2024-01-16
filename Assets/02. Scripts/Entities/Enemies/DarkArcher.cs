@@ -2,34 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DarkArcher : EnemyCtrl, IPoolable
+public class DarkArcher : EnemyCtrl
 {
-    public float HP = 20f;
-    public float speed = 1.5f;  // Speed value
-    public float attackPower = 1f;  // Attack power value
-    public float targetAttackDistance = 10f; // 플레이어 인식 타겟 거리
-    public float arrowSpeed = 50f; //총알 스피드
     public Transform arrowposition;
-
-    public ObjectPool pool { get; set; }
-
     private Coroutine attackCor;
 
     protected override void InitEntity()
     {
         base.InitEntity();
     }
-    public void OnCreate()
+
+    public override void OnActivate()
     {
+        base.OnActivate();
     }
 
-    public void OnActivate()
+     protected override void UpdateEntity()
     {
+        base.UpdateEntity();
+        if(rigid.isKinematic){
+            rigid.isKinematic = false;
+        }
+        // Rigidbody의 속도를 사용하여 애니메이션 속도 매개변수 설정
+        float velocity = rigid.velocity.magnitude;
+        animator.SetFloat("Velocity", velocity);
+    }
+
+    public override void OnCreate()
+    {
+        base.OnCreate();
+    }
+
+    protected override void EnemyMove()
+    {
+        if(attackCor == null) base.EnemyMove();
     }
 
     protected override void EnemyAttack()
     {
-        if(attackCor == null) attackCor = StartCoroutine(AttackCor());
+        if (attackCor == null) attackCor = StartCoroutine(AttackCor());
+    }
+
+    protected override void OnEntityDied()
+    {
+        base.OnEntityDied();
+        ReturnObject(); // Return the enemy to the pool
+    }
+
+    public override void ReturnObject()
+    {
+        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.DarkArcher);
+    }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -50,51 +76,22 @@ public class DarkArcher : EnemyCtrl, IPoolable
         }
     }
 
-    protected override void OnEntityDied()
-    {
-        base.OnEntityDied();
-        ReturnObject(); // Return the enemy to the pool
-    }
-
-    public void ReturnObject()
-    {
-        pool?.ReturnObject(gameObject, (ObjectPool.ObjectType.DarkArcher));
-    }
-
-    protected override void OnTakeDamage(Entity caster, float dmg)
-    {
-        Debug.Log($" 공격자 : {caster}, DarkArcher Hp : {hp}");
-    }
-
-    protected override void UpdateEntity()
-    {
-        base.UpdateEntity();
-        float velocity = nav.velocity.magnitude; // vector -> 거리
-        animator.SetFloat("Velocity", velocity);
-    }  
-
-    protected override void EnemyMove(){
-        if(attackCor == null) base.EnemyMove();
-    }
-
     private IEnumerator AttackCor()
     {
-        var targetDir = transform.forward;
-        float rotTime = 0;
-
         animator.SetTrigger("Shoot");
         yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == true);
-        ShootArrow(targetDir);
+        ShootArrow(transform.forward);
 
         yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == false);
+
+        yield return new WaitForSeconds(0.1f);
         
-        while(rotTime < 0.9f){
-            Vector3 target = playable.transform.position;
-            target.y = transform.position.y;
-            Vector3 lookAt = (target - transform.position).normalized;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookAt), 180f * Time.deltaTime);
+        while (Vector3.Angle(transform.forward, playable.transform.position - transform.position) > 1f)
+        {
+            Vector3 targetDirection = (playable.transform.position - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(targetDirection.x, 0, targetDirection.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2);
             yield return null;
-            rotTime += Time.deltaTime;
         }
         attackCor = null;
     }
@@ -109,7 +106,7 @@ public class DarkArcher : EnemyCtrl, IPoolable
         }
 
         Rigidbody arrowRigidbody = arrowObject.GetComponent<Rigidbody>();
-        arrowRigidbody.velocity = dir * arrowSpeed;
+        arrowRigidbody.velocity = dir * 50f;
         arrowObject.transform.rotation = Quaternion.LookRotation(dir);
         Destroy(arrowObject, 3f);
     }
