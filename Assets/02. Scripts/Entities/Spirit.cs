@@ -15,9 +15,9 @@ public enum SpiritState
 public enum BlessType
 {
     NONE,
-    MOVE_SPEED_UP,
+    HEAL_MAG_UP,
     ATTACK_SPEED_UP,
-    EXP_RANGE_UP
+    EXP_RANGE_UP,
 }
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -98,11 +98,11 @@ public class Spirit : Entity
             {
                 case BlessType.NONE:
                     break;
-                case BlessType.MOVE_SPEED_UP:
-                    player.stat.Add(StatType.MOVE_SPEED, player.stat.Get(StatType.MOVE_SPEED) * 0.3f);
+                case BlessType.HEAL_MAG_UP:
+                    player.stat.Multiply(StatType.HEAL_MAG, 2.5f);
                     break;
                 case BlessType.ATTACK_SPEED_UP:
-                    player.stat.Add(StatType.ATTACK_SPEED, player.stat.Get(StatType.ATTACK_SPEED) * 0.3f);
+                    player.stat.Multiply(StatType.ATTACK_SPEED, 1.1f);
                     break;
                 case BlessType.EXP_RANGE_UP:
                     player.stat.Add(StatType.EXP_RANGE, 2);
@@ -147,7 +147,7 @@ public class Spirit : Entity
                 case BlessType.NONE:
                     Gizmos.color = Color.clear;
                     break;
-                case BlessType.MOVE_SPEED_UP:
+                case BlessType.HEAL_MAG_UP:
                     Gizmos.color = Color.yellow;
                     break;
                 case BlessType.ATTACK_SPEED_UP:
