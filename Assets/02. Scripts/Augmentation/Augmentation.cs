@@ -50,10 +50,21 @@ public abstract class Augmentation
     public int level { get; private set; }
     public int maxLevel { get; private set; }
 
+    public Sprite icon { get; private set; }
+
     public Augmentation(int level, int maxLevel)
     {
         this.level = level;
         this.maxLevel = maxLevel;
+        Sprite icon = Resources.Load<Sprite>("SkillIcon/" + this.ToString() + "Icon");
+        if(icon != null )
+        {
+            this.icon = icon;
+        }
+        else
+        {
+            this.icon = Resources.Load<Sprite>("SkillIcon/WizardIcon");
+        }
     }
 
     public virtual void AugmentationEffect(Entity sender, AugEventArgs e)

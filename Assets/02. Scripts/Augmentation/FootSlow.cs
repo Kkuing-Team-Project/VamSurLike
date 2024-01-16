@@ -33,26 +33,7 @@ public class FootSlow : Augmentation
             return;
         lastActionTime = Time.time;
 
-        switch (level)
-        {
-            case 1:
-                speedDownPercent = 0.2f;
-                break;
-            case 2:
-                speedDownPercent = 0.4f;
-                break;
-            case 3:
-                speedDownPercent = 0.6f;
-                break;
-            case 4:
-                speedDownPercent = 0.8f;
-                break;
-            case 5:
-                speedDownPercent = 1.0f;
-                break;
-            default:
-                break;
-        }
+        speedDownPercent = float.Parse(GameManager.instance.augTable[level]["FootSlow"].ToString());
 
         CoroutineHandler.StartCoroutine(Action(sender));
     }

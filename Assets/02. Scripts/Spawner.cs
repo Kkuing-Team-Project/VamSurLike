@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class SpawnObject
@@ -31,6 +27,7 @@ public class SpawnObject
 [System.Serializable]
 public class Wave
 {
+    public float delay;
     public float duration;
     public SpawnObject[] spawnObjects;
     public float maxPercent = 100.0f;
@@ -46,13 +43,14 @@ public class Spawner : MonoBehaviour
 
     public ObjectPool Pool;
     [SerializeField] private Camera playerCamera;
-    [SerializeField] private float delay = 1.0f;
+    
 
     public bool stop;
     private float currentTime;
     private float lastSpawnTime;
     private float lastChangeWaveTime;
 
+    [HideInInspector] public float delay;
     [HideInInspector] public bool isWave;
     [HideInInspector] public SpawnObject[] spawnObjects;
     [HideInInspector] public float maxPercent;
@@ -69,17 +67,22 @@ public class Spawner : MonoBehaviour
     private Vector3 minRandomRange;
     private Vector3 maxRandomRange;
 
-    private int floorLayerMask; // 추가된 멤버 변수
+    private int floorLayerMask;
 
     private void Start()
     {
-        floorLayerMask = LayerMask.GetMask("FLOOR"); // 초기화
+        floorLayerMask = LayerMask.GetMask("FLOOR");
         currentWaveIndex = 0;
         currentTime = 0;
         if (isWave)
+        {
+            delay = waves[0].delay;
             SetPercent(waves[0].spawnObjects, waves[0].maxPercent);
+        }
         else
+        {
             SetPercent(spawnObjects, maxPercent);
+        }
     }
 
     private void Update()
@@ -206,6 +209,7 @@ public class Spawner : MonoBehaviour
         {
             currentWaveIndex++;
             SetPercent(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent);
+            delay = waves[currentWaveIndex].delay;
             // Debug.Log($"wave change... current wave index: {currentWaveIndex}");
         }
     }
@@ -350,6 +354,8 @@ public class Spawner : MonoBehaviour
 
     public void OnDrawGizmosSelected()
     {
+        floorLayerMask = LayerMask.GetMask("FLOOR"); // 초기화
+
         foreach (Wave wave in waves)
         {
             SetPercent(wave.spawnObjects, wave.maxPercent);
