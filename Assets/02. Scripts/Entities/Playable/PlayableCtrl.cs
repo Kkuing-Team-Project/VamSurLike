@@ -25,14 +25,10 @@ public abstract class PlayableCtrl : Entity
     public event AugmentationDelegate OnSpawnEnemy;
     public event AugmentationDelegate OnUpdateEnemy;
 
-    public HUD hud;
 
     public string testAugName;
 
     private AugEventArgs defaultArgs;
-
-    [Header("게이지 바"), SerializeField]
-    PlayerGaugeBar gaugeBar;
 
     [Header("총알 갯수")]
     public int bulletNum;
@@ -48,8 +44,6 @@ public abstract class PlayableCtrl : Entity
 
     [Header("점멸 이동 시간"), SerializeField]
     private float dashTime;
-
-    public VolumeManager volumManager;
     [SerializeField]
     Transform bulletFireTrf;
 
@@ -68,6 +62,8 @@ public abstract class PlayableCtrl : Entity
     // Components applied to the player object.
     ObjectPool objectPool;
     CinemachineImpulseSource cameraShakeSource;
+    HUD hud;
+    PlayerGaugeBar gaugeBar;
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
@@ -97,11 +93,13 @@ public abstract class PlayableCtrl : Entity
 
 
         defaultArgs = new AugEventArgs(transform, this);
+        requireExp = int.Parse(GameManager.instance.levelTable[0]["NEED_EXP"].ToString());
 
         animator = GetComponent<Animator>();
-        requireExp = int.Parse(GameManager.instance.levelTable[0]["NEED_EXP"].ToString());
-        objectPool = FindObjectOfType<ObjectPool>();
         cameraShakeSource = GetComponent<CinemachineImpulseSource>();
+        objectPool = FindObjectOfType<ObjectPool>();
+        hud = FindObjectOfType<HUD>();
+        gaugeBar = hud.playerGaugeBar;
     }
 
     void FixedUpdate()
@@ -365,7 +363,7 @@ public abstract class PlayableCtrl : Entity
             }
         }
         cameraShakeSource.GenerateImpulse();
-        volumManager.StartHitEffect(0.5f);
+        VolumeManager.Instance.StartHitEffect(0.5f);
         objectPool.GetObject(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion

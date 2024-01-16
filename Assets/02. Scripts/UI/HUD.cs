@@ -21,6 +21,7 @@ public class HUD : MonoBehaviour
 	public Button[] augButtons;
 	public Text[] augNameTexts;
 
+	public PlayerGaugeBar playerGaugeBar;
 
 	void LateUpdate()
 	{

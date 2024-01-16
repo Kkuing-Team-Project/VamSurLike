@@ -1,16 +1,27 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Shield : Augmentation
 {
-	public int maxShield = 1;
-	public int curShield = 1;
-	public GameObject shield;
-
+	private int maxShield = 1;
+	private int curShield;
+	private static ShieldEffect shield;
+	private ObjectPool pool;
+	private Transform playerTransform;
+	private Color32[] colors = {
+		new (255, 0, 0, 10), // red
+		new (255, 255, 0, 10), // Orange
+		new (255, 165, 0, 10), // yellow
+		new (0, 255, 0, 10), // green
+		new (0, 0, 255, 10) // blue
+	};
+	
 	public Shield(int level, int maxLevel) : base(level, maxLevel)
 	{
+		pool = ObjectPoolManager.Instance.objectPool;
+		playerTransform = GameManager.instance.player.transform;
+		curShield = 0;
 		CoroutineHandler.StartCoroutine(NumberOfShields());
 	}
 
@@ -21,24 +32,68 @@ public class Shield : Augmentation
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e) 
 	{
-		//if(shield == null)
-		//{
-		//	e.eventTr.Find("PlayerCanvas").Find("Shield");
-		//}
-
-		if (curShield > 0) // 
+		if (curShield > 0)
 		{
-			// 무적 추가
 			e.target.AddEffect(new Invincible(1,Time.deltaTime, e.target));
 			curShield--;
+			if (curShield <= 0)
+			{
+				curShield = 0;
+				shield?.gameObject.SetActive(false);
+				return;
+			}
+			SetColor(colors[curShield]);
 		}
-		//shield.gameObject.SetActive(curShield > 0);
 	}
 
 	private IEnumerator NumberOfShields()
 	{
-		yield return new WaitForSeconds(60f);
-		curShield = Mathf.Clamp(curShield + 1, 0, maxShield);
+		while (true)
+		{
+			yield return new WaitForSeconds(3f);
+			
+			switch (level)
+			{
+				case 1:
+					maxShield = 1;
+					break;
+				case 2:
+					maxShield = 2;
+					break;
+				case 3:
+					maxShield = 3;
+					break;
+				case 4:
+					maxShield = 4;
+					break;
+				case 5:
+					maxShield = 5;
+					break;
+			}
+			
+			if (!shield)
+			{
+				Debug.LogError("?");
+				shield = pool.GetObject(ObjectPool.ObjectType.Shield, playerTransform.position).GetComponent<ShieldEffect>();
+				shield.transform.SetParent(playerTransform);
+			}
+			else
+			{
+				shield.gameObject.SetActive(true);
+			}
+			
+			curShield = Mathf.Clamp(curShield + 1, 0, maxShield);
+			SetColor(colors[curShield - 1]);
+		}
+	}
+
+	private void SetColor(Color32 color)
+	{
+		ParticleSystem[] particleSystems = shield.GetComponentsInChildren<ParticleSystem>();
+		foreach (ParticleSystem particle in particleSystems)
+		{
+			particle.startColor = color;
+		}
 	}
 
 }

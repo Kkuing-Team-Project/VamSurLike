@@ -1699,7 +1699,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1925251631980451092
 MonoBehaviour:
@@ -1757,9 +1757,10 @@ MonoBehaviour:
   killCountText: {fileID: 1925251632338830925}
   levelText: {fileID: 1925251632294723627}
   expSlider: {fileID: 2025847320160581678}
-  augIconPrefab: {fileID: 0}
+  augIconPrefab: {fileID: 8103877975506742038, guid: e8bdb440271303c41a2a020c15870a84, type: 3}
   statImg: {fileID: 1055525169588498203}
   statText: {fileID: 6466479136823038670}
+  iconPanel: {fileID: 1925251633125589009}
   augPanel: {fileID: 1925251633316027750}
   augButtons:
   - {fileID: 1925251633151058536}
@@ -1769,6 +1770,7 @@ MonoBehaviour:
   - {fileID: 1925251632386570651}
   - {fileID: 1925251631472402730}
   - {fileID: 1925251632870131031}
+  playerGaugeBar: {fileID: 2610317700322258721}
 --- !u!1 &1925251631996263975
 GameObject:
   m_ObjectHideFlags: 0
@@ -5452,7 +5454,7 @@ GameObject:
   - component: {fileID: 1925251633125589022}
   - component: {fileID: 760734594762698076}
   m_Layer: 5
-  m_Name: M_Rune
+  m_Name: IconPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
