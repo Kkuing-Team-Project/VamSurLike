@@ -7,9 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 738844255461805959, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3781460027858274017, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
       propertyPath: m_Name
       value: DarkArcher Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401738502827824584, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 8232238436841086387, guid: c6c495fe799ac6b4cb606c5221e5f557, type: 3}
       propertyPath: m_RootOrder
