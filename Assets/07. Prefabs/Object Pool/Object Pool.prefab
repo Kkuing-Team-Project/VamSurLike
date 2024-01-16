@@ -84,3 +84,6 @@ MonoBehaviour:
   - type: 13
     prefab: {fileID: 8899391212452877888, guid: 840ccc1145d4b564f965a09f9bdaf08e, type: 3}
     size: 1
+  - type: 16
+    prefab: {fileID: 1694381769261270, guid: d7caba6fbd8aa2b43a2ca883d0c4a139, type: 3}
+    size: 1
