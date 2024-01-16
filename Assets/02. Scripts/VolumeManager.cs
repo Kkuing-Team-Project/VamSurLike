@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class VolumeManager : MonoBehaviour
+public class VolumeManager : Singleton<VolumeManager>
 {    
     Volume volum;
     Vignette vignette;
@@ -12,8 +12,9 @@ public class VolumeManager : MonoBehaviour
 
     Coroutine hitEffectCoroutine;
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
         volum = GetComponent<Volume>();
         volum.profile.TryGet(out vignette);
         volum.profile.TryGet(out lensDistortion);
