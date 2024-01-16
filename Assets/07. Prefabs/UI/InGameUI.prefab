@@ -1699,7 +1699,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1925251631980451092
 MonoBehaviour:
@@ -1757,10 +1757,10 @@ MonoBehaviour:
   killCountText: {fileID: 1925251632338830925}
   levelText: {fileID: 1925251632294723627}
   expSlider: {fileID: 2025847320160581678}
-  augImg: {fileID: 4127635525379766386, guid: ebb7ee45068cfd04f8fb080eec835680, type: 3}
-  augScroll: {fileID: 0}
+  augIconPrefab: {fileID: 8103877975506742038, guid: e8bdb440271303c41a2a020c15870a84, type: 3}
   statImg: {fileID: 1055525169588498203}
   statText: {fileID: 6466479136823038670}
+  iconPanel: {fileID: 1925251633125589009}
   augPanel: {fileID: 1925251633316027750}
   augButtons:
   - {fileID: 1925251633151058536}
@@ -5452,14 +5452,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1925251633125589022}
-  - component: {fileID: 1925251633125589023}
+  - component: {fileID: 760734594762698076}
   m_Layer: 5
-  m_Name: M_Rune
+  m_Name: IconPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1925251633125589022
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5475,12 +5475,12 @@ RectTransform:
   m_Father: {fileID: 1925251632903522332}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 20}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -335}
+  m_SizeDelta: {x: 230, y: 670}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1925251633125589023
+--- !u!114 &760734594762698076
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5489,23 +5489,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1925251633125589009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 10
+    m_Right: 10
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 0
-  m_Spacing: 20
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 10, y: 10}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1925251633147996328
 GameObject:
   m_ObjectHideFlags: 0

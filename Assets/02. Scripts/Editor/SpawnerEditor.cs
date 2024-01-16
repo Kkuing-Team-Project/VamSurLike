@@ -47,6 +47,7 @@ public class SpawnerEditor : Editor
         }
         else
         {
+            myTarget.delay = EditorGUILayout.FloatField("Delay", myTarget.delay);
             myTarget.maxPercent = EditorGUILayout.FloatField("Max Percent", myTarget.maxPercent);
             EditorGUILayout.PropertyField(m_SpawnObjects.FindPropertyRelative("Array.size"),
                 new GUIContent("Spawn Object Kind Count"));
@@ -131,6 +132,7 @@ public class WaveDrawer : PropertyDrawer
             int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 2;
             EditorGUILayout.BeginVertical();
+            EditorGUILayout.PropertyField(property.FindPropertyRelative("delay"), new GUIContent("Delay"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("duration"), new GUIContent("Duration"));
             EditorGUILayout.PropertyField(property.FindPropertyRelative("maxPercent"), new GUIContent("Max Percent"));
             // EditorGUILayout.PropertyField(property.FindPropertyRelative("spawnObjects"), new GUIContent("Spawn Objects"));
