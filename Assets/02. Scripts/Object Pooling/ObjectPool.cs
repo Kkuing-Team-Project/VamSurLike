@@ -25,7 +25,9 @@ public class ObjectPool : MonoBehaviour
         Meteor,
         FireBall,
         EarthShatter,
-        Shield
+        Shield,
+        FreezeCircle,
+        NuclearBomb
     }
 
     [System.Serializable]

@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class Util
 {
-    public static bool IsTargetInSight(Transform target, Transform origin, float degree)
+    public static bool IsTargetInSight(Transform target, Camera cam, float dis)
     {
-        Vector3 dir = (target.position - origin.position).normalized;
-
-        float dot = Vector3.Dot(origin.forward, dir);
-        float theta = Mathf.Acos(dot) * Mathf.Rad2Deg;
-
-        return theta <= degree;
+        Vector3 screenPos = cam.WorldToScreenPoint(target.position);
+        return /*screenPos.z > 0 && */screenPos.x > -dis && screenPos.x < Screen.width + dis && screenPos.y > -(dis * 2) && screenPos.y < Screen.height;
     }
 }
