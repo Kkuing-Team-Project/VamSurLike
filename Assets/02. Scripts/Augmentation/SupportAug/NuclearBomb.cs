@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class NuclearBomb : Augmentation
 {
-    public float skillTime;
+    private float skillTime;
+    private float lastSkillUseTime;
+    private int currentLevel;
 
     public NuclearBomb(int level, int maxLevel) : base(level, maxLevel)
     {
@@ -13,49 +15,57 @@ public class NuclearBomb : Augmentation
 
     protected override AugmentationEventType GetEventType()
     {
-        return AugmentationEventType.ON_START;
+        return AugmentationEventType.ON_UPDATE;
     }
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        CoroutineHandler.StartCoroutine(Bomb(e.target));
+        if (lastSkillUseTime + skillTime <= Time.time)
+        {
+            EffectAction(sender);
+        }
+
+        if (currentLevel != level)
+        {
+            ChangeLevel();
+            EffectAction(sender);
+        }
     }
 
-    public IEnumerator Bomb(Entity player)
+    private void EffectAction(Entity player)
     {
-        while (true)
-        {
-            switch (level)
-            {
-                case 1:
-                    skillTime = 240f;
-                    break;
-                case 2:
-                    skillTime = 210f;
-                    break;
-                case 3:
-                    skillTime = 180f;
-                    break;
-                case 4:
-                    skillTime = 150f;
-                    break;
-                case 5:
-                    skillTime = 120f;
-                    break;
-            }
-            
-            yield return new WaitForSeconds(skillTime);
-            
-            ObjectPoolManager.Instance.objectPool.GetObject(
-                ObjectPool.ObjectType.NuclearBomb,
-                GameManager.instance.player.transform.position);
-            
-            foreach (var enemy in UnityEngine.Object.FindObjectsOfType<EnemyCtrl>())
-            {
-                enemy.GetComponent<Entity>().TakeDamage(player, enemy.hp);
-            }
+        lastSkillUseTime = Time.time;
 
+        ObjectPoolManager.Instance.objectPool.GetObject(
+            ObjectPool.ObjectType.NuclearBomb,
+            GameManager.instance.player.transform.position);
             
+        foreach (var enemy in UnityEngine.Object.FindObjectsOfType<EnemyCtrl>())
+        {
+            enemy.GetComponent<Entity>().TakeDamage(player, enemy.hp);
+        }
+    }
+    
+    private void ChangeLevel()
+    {
+        currentLevel = level;
+        switch (level)
+        {
+            case 1:
+                skillTime = 240f;
+                break;
+            case 2:
+                skillTime = 210f;
+                break;
+            case 3:
+                skillTime = 180f;
+                break;
+            case 4:
+                skillTime = 150f;
+                break;
+            case 5:
+                skillTime = 120f;
+                break;
         }
     }
 }
