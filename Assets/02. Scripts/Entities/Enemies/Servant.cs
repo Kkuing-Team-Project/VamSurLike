@@ -41,7 +41,8 @@ public class Servant : EnemyCtrl
 
     public override void ReturnObject()
     {
-        pool.ReturnObject(gameObject, ObjectPool.ObjectType.Servant);
+        base.ReturnObject();
+        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Servant);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
