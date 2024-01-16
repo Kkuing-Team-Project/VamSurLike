@@ -30,6 +30,7 @@ public abstract class Entity : MonoBehaviour
     public Rigidbody rigid;
     
     public Material originMaterial { get; protected set; }
+    public Renderer meshRenderer { get; protected set; }
 
     void OnEnable()
     {
@@ -56,6 +57,7 @@ public abstract class Entity : MonoBehaviour
         animator = gameObject.GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
         originMaterial = GetComponentInChildren<SkinnedMeshRenderer>()?.material;
+        meshRenderer = GetComponentInChildren<Renderer>();
     }
 
     protected abstract void UpdateEntity();
@@ -158,5 +160,10 @@ public abstract class Entity : MonoBehaviour
                 stat.SetDefault(Enum.Parse<StatType>(keys[i]), float.Parse(GameManager.instance.statTable[idx][keys[i]].ToString()));
             }
         }
+    }
+
+    public void ResetMaterial()
+    {
+        meshRenderer.material = originMaterial;
     }
 }
