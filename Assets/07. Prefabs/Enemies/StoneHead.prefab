@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2229431677084011952}
   - component: {fileID: 662112331}
   - component: {fileID: 662112329}
-  - component: {fileID: 662112332}
   - component: {fileID: 2732145552400089825}
   m_Layer: 6
   m_Name: StoneHead
@@ -48,7 +47,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -66,28 +65,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!195 &662112332
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6455097426093169748}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &2732145552400089825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,12 +77,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d765ccbbe28840069b2bcd56f2ecbe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: 0
+  entityType: 4
   rigid: {fileID: 0}
   speed: 1
   attackPower: 1
-  test: 1
-  HP: 10
+  HP: 50
 --- !u!1001 &8306028314236848188
 PrefabInstance:
   m_ObjectHideFlags: 0

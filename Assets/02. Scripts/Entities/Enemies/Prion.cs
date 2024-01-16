@@ -2,21 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Prion : EnemyCtrl, IPoolable
+public class Prion : EnemyCtrl
 {
-    public ObjectPool pool { get; set; }
-
     protected override void InitEntity()
     {
         base.InitEntity();
     }
 
-    public void OnCreate()
+    public override void OnActivate()
     {
+        base.OnActivate();        
     }
 
-    public void OnActivate()
+     protected override void UpdateEntity()
     {
+        base.UpdateEntity();
+        if(rigid.isKinematic){
+            rigid.isKinematic = false;
+        }
+    }
+
+    public override void OnCreate()
+    {
+        base.OnCreate();
     }
 
     protected override void EnemyAttack()
@@ -31,15 +39,12 @@ public class Prion : EnemyCtrl, IPoolable
         ReturnObject(); // Return the enemy to the pool
     }
 
-    public void ReturnObject()
+    public override void ReturnObject()
     {
-        gameObject.SetActive(false);
-        
         pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Prion);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        Debug.Log($" 공격자 : {caster}, Prion Hp : {hp}");
     }
 }

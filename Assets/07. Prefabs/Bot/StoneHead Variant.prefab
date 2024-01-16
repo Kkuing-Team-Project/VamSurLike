@@ -7,10 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 662112331, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2229431677084011952, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -55,25 +51,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2732145552400089825, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
-      propertyPath: HP
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732145552400089825, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
-      propertyPath: entityType
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5382554080805178036, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6455097426093169748, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
       propertyPath: m_Name
       value: StoneHead Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 8416745859274895319, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d2ceb44e345041bc5a53e9d88b65e, type: 3}

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreezeCircleEffect : EffectParticle
+public class NuclearBombEffect : EffectParticle
 {
     public override void OnCreate()
     {
         base.OnCreate();
-        objectType = ObjectPool.ObjectType.FreezeCircle;
+        objectType = ObjectPool.ObjectType.PoisonField;
     }
 }
