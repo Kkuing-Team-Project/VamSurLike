@@ -193,8 +193,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityType: 6
+  pool: {fileID: 0}
   rigid: {fileID: 0}
-  HP: 10
-  speed: 3
-  attackPower: 1
-  test: 1
+--- !u!114 &6939870211451270652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7409560758361498147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527499fa31897394094f8d75f2b5d52c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
