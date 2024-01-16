@@ -31,10 +31,10 @@ public abstract class PlayableCtrl : Entity
     private AugEventArgs defaultArgs;
 
     [Header("총알 갯수")]
-    public int bulletNum;
+    public int bulletNum = 1;
 
     [Header("총알 간 각도")]
-    public float bulletInterval;
+    public float bulletInterval = 0f;
 
     [Header("초당 회전 각도 값")]
     public float rotationAnglePerSecond = 270f;
@@ -43,7 +43,7 @@ public abstract class PlayableCtrl : Entity
     private float dashSpeed = 40f;
 
     [Header("점멸 이동 시간"), SerializeField]
-    private float dashTime;
+    private float dashTime = 0.1f;
     [SerializeField]
     Transform bulletFireTrf;
 
