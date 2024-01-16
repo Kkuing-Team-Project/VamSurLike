@@ -32,14 +32,14 @@ public class FirePlayable : PlayableCtrl
         float durationTimer = 0;
         float deg = 0;
 
-        float circleR = 5f;
+        float circleR = 1f;
         float rotateSpeed = 360f;
 
         while (true)
         {
             durationTimer += Time.deltaTime;
             deg += rotateSpeed * Time.deltaTime;
-
+            circleR = Mathf.Lerp(1f, 5f, durationTimer / 6f);
             if (deg < 360)
             {
                 for (int i = 0; i < objects.Length; i++)
@@ -58,6 +58,7 @@ public class FirePlayable : PlayableCtrl
             if (durationTimer > 6f)
             {
                 durationTimer = 0;
+                circleR = 5f;
                 break;
             }
             yield return null;
