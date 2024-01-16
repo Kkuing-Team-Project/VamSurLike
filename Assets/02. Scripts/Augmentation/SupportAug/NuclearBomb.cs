@@ -8,6 +8,7 @@ public class NuclearBomb : Augmentation
     private float skillTime;
     private float lastSkillUseTime;
     private int currentLevel;
+    private Coroutine cor;
 
     public NuclearBomb(int level, int maxLevel) : base(level, maxLevel)
     {
@@ -15,57 +16,30 @@ public class NuclearBomb : Augmentation
 
     protected override AugmentationEventType GetEventType()
     {
-        return AugmentationEventType.ON_UPDATE;
+        return AugmentationEventType.ON_START;
     }
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        if (lastSkillUseTime + skillTime <= Time.time)
+        if(cor != null)
         {
-            EffectAction(sender);
+            CoroutineHandler.StopCoroutine(cor);
         }
 
-        if (currentLevel != level)
-        {
-            ChangeLevel();
-            EffectAction(sender);
-        }
+        CoroutineHandler.StartCoroutine(EffectActionCor(sender));
     }
 
-    private void EffectAction(Entity player)
+    private IEnumerator EffectActionCor(Entity player)
     {
-        lastSkillUseTime = Time.time;
-
-        ObjectPoolManager.Instance.objectPool.GetObject(
-            ObjectPool.ObjectType.NuclearBomb,
-            GameManager.instance.player.transform.position);
-            
         foreach (var enemy in UnityEngine.Object.FindObjectsOfType<EnemyCtrl>())
         {
             enemy.GetComponent<Entity>().TakeDamage(player, enemy.hp);
         }
-    }
-    
-    private void ChangeLevel()
-    {
-        currentLevel = level;
-        switch (level)
-        {
-            case 1:
-                skillTime = 240f;
-                break;
-            case 2:
-                skillTime = 210f;
-                break;
-            case 3:
-                skillTime = 180f;
-                break;
-            case 4:
-                skillTime = 150f;
-                break;
-            case 5:
-                skillTime = 120f;
-                break;
-        }
+
+        ObjectPoolManager.Instance.objectPool.GetObject(
+            ObjectPool.ObjectType.NuclearBomb,
+            GameManager.instance.player.transform.position);
+
+        yield return new WaitForSeconds(float.Parse(GameManager.instance.augTable[level]["NuclearBomb"].ToString()));
     }
 }

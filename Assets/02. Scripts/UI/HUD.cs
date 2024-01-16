@@ -80,6 +80,7 @@ public class HUD : MonoBehaviour
 	public void AddRune(Augmentation aug)
 	{
 		GameObject icon = Instantiate(augIconPrefab);
+		bool isExist = false;
 		if(iconPanel.transform.Find(aug.ToString()) != null)
 		{
             iconPanel.transform.Find(aug.ToString()).GetComponentInChildren<Text>().text = (aug.level + 1).ToString();
@@ -169,11 +170,12 @@ public class HUD : MonoBehaviour
 			augButtons[i].onClick.RemoveAllListeners();
 			string key = tempAugList[i];
 			augNameTexts[i].text = key;
-			Augmentation aug = Activator.CreateInstance(Type.GetType(key), 0, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
 
             augButtons[i].onClick.AddListener(() =>
 			{
+                Augmentation aug = Activator.CreateInstance(Type.GetType(key), 0, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
                 GameManager.instance.player.AddAugmentation(aug);
+				Debug.Log(aug.level);
 				AddRune(aug);
 				augPanel.SetActive(false);
                 Time.timeScale = 1;
