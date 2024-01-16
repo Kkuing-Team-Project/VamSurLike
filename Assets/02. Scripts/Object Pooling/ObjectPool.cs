@@ -107,6 +107,7 @@ public class ObjectPool : MonoBehaviour
         }
 
         GameObject obj;
+
         // Try to pop an object from the stack
         if (poolDictionary[objectType].TryDequeue(out obj))
         {            
@@ -114,6 +115,7 @@ public class ObjectPool : MonoBehaviour
             {
                 Allocate(5, objectType);
             }
+
             obj.transform.position = position;
             obj.SetActive(true);
             

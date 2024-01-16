@@ -2,24 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoneHead : EnemyCtrl, IPoolable
+public class StoneHead : EnemyCtrl
 {
-    public float speed = 1f;  // Speed value
-    public float attackPower = 2;  // Attack power value
-    public float HP = 10f;
-    public ObjectPool pool { get; set; }
-
     protected override void InitEntity()
     {
         base.InitEntity();
     }
-    public void OnCreate()
+
+    protected override void UpdateEntity()
     {
+        base.UpdateEntity();
+        if(rigid.isKinematic){
+            rigid.isKinematic = false;
+        }
     }
 
-    public void OnActivate()
+    public override void OnActivate()
     {
+        base.OnActivate();
     }
+
+    public override void OnCreate()
+    {
+        base.OnCreate();
+    }
+
     protected override void EnemyAttack()
     {
         playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
@@ -32,13 +39,12 @@ public class StoneHead : EnemyCtrl, IPoolable
         ReturnObject(); // Return the enemy to the pool
     }
 
-    public void ReturnObject()
+    public override void ReturnObject()
     {
         pool?.ReturnObject(gameObject, ObjectPool.ObjectType.StoneHead);
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        Debug.Log($" 공격자 : {caster}, StoneHead Hp : {hp}");
     }
 }
