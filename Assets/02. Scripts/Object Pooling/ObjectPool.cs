@@ -26,7 +26,7 @@ public class ObjectPool : MonoBehaviour
         FireBall,
         EarthShatter,
         Shield,
-        MagicCircle
+        MagicCircle,
         FreezeCircle,
         NuclearBomb
     }
