@@ -33,7 +33,6 @@ public class EnergyField : Augmentation
         WaitForSeconds waitTime = new WaitForSeconds(0.5f);
         while (true)
         {
-            Debug.Log($"{GameManager.instance.augTable[level]["EnergyField"].ToString()}");
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, float.Parse(GameManager.instance.augTable[level]["EnergyField"].ToString()), 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
             if (enemies.Length > 0)
             {

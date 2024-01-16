@@ -82,19 +82,19 @@ public class HUD : MonoBehaviour
 		GameObject icon = Instantiate(augIconPrefab);
 		if(iconPanel.transform.Find(aug.ToString()) != null)
 		{
-            iconPanel.transform.Find(aug.ToString()).GetComponentInChildren<Text>().text = aug.level.ToString();
+            iconPanel.transform.Find(aug.ToString()).GetComponentInChildren<Text>().text = (aug.level + 1).ToString();
         }
 		else
 		{
 			if(iconPanel.transform.childCount >= 8)
 			{
-				Destroy(iconPanel.transform.GetChild(8).gameObject);
+				Destroy(iconPanel.transform.GetChild(7).gameObject);
 			}
 			icon.transform.SetParent(iconPanel.transform);
 			icon.transform.SetAsFirstSibling();
 			icon.name = aug.ToString();
 			icon.GetComponent<Image>().sprite = aug.icon;
-			icon.transform.GetComponentInChildren<Text>().text = aug.level.ToString();	
+			icon.transform.GetComponentInChildren<Text>().text = (aug.level + 1).ToString();	
 		}
 	}
 	
@@ -169,7 +169,7 @@ public class HUD : MonoBehaviour
 			augButtons[i].onClick.RemoveAllListeners();
 			string key = tempAugList[i];
 			augNameTexts[i].text = key;
-			Augmentation aug = Activator.CreateInstance(Type.GetType(key), 1, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
+			Augmentation aug = Activator.CreateInstance(Type.GetType(key), 0, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
 
             augButtons[i].onClick.AddListener(() =>
 			{

@@ -39,6 +39,5 @@ public class StoneHead : EnemyCtrl, IPoolable
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        Debug.Log($" 공격자 : {caster}, StoneHead Hp : {hp}");
     }
 }

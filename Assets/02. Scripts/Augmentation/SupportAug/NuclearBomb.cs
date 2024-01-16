@@ -20,6 +20,7 @@ public class NuclearBomb : Augmentation
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
+		skillTime = float.Parse(GameManager.instance.augTable[level]["NuclearBomb"].ToString());
         CoroutineHandler.StartCoroutine(Bomb(e.target));
     }
 
@@ -27,31 +28,14 @@ public class NuclearBomb : Augmentation
 	{
 		while (true)
 		{
-			yield return new WaitForSeconds(skillTime);
+
 
 			foreach (var enemy in UnityEngine.Object.FindObjectsOfType<EnemyCtrl>())
 			{
 				enemy.GetComponent<Entity>().TakeDamage(player, enemy.hp);
 			}
 
-			switch (level)
-			{
-				case 1:
-					skillTime = 240f;
-					break;
-				case 2:
-					skillTime = 210f;
-					break;
-				case 3:
-					skillTime = 180f;
-					break;
-				case 4:
-					skillTime = 150f;
-					break;
-				case 5:
-					skillTime = 120f;
-					break;
-			}
+            yield return new WaitForSeconds(skillTime);
 		}
 	}
 

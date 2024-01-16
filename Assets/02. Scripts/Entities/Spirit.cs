@@ -35,6 +35,7 @@ public class Spirit : Entity
     public BlessType blessType { get; private set; }
     private NavMeshAgent nav;
     private Collider col;
+    private MagicCircleEffect magicCircle;
 
     protected override void InitEntity()
     {
@@ -87,12 +88,17 @@ public class Spirit : Entity
             default:
                 break;
         }
+
+        if (magicCircle != null) 
+        {
+            magicCircle.transform.position = transform.position;
+        }
     }
 
-    private void Bless(float range, BlessType type)
+    private void Bless(float radius, BlessType type)
     {
-        Heal(stat.Get(StatType.MAX_HP));
-        if ((transform.position - player.transform.position).magnitude <= range)
+
+        if ((transform.position - player.transform.position).magnitude <= radius)
         {
             switch (type)
             {
@@ -102,7 +108,7 @@ public class Spirit : Entity
                     player.stat.Multiply(StatType.HEAL_MAG, 2.5f);
                     break;
                 case BlessType.ATTACK_SPEED_UP:
-                    player.stat.Multiply(StatType.ATTACK_SPEED, 1.1f);
+                    player.stat.Multiply(StatType.ATTACK_SPEED, 1.5f);
                     break;
                 case BlessType.EXP_RANGE_UP:
                     player.stat.Add(StatType.EXP_RANGE, 2);
@@ -115,12 +121,33 @@ public class Spirit : Entity
 
     public void SetBlessType()
     {
-        while(true)
+        if (magicCircle != null)
+            magicCircle.ReturnObject();
+        Heal(stat.Get(StatType.MAX_HP));
+        magicCircle = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.MagicCircle, transform.position).GetComponent<MagicCircleEffect>();
+        magicCircle.SetSize(Vector3.one * blessRange);
+        while (true)
         {
             BlessType type = (BlessType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(BlessType)).Length);
             if (type != BlessType.NONE && type != blessType)
             {
                 blessType = type;
+                switch (blessType)
+                {
+                    case BlessType.NONE:
+                        break;
+                    case BlessType.HEAL_MAG_UP:
+                        magicCircle.SetColor(Color.green);
+                        break;
+                    case BlessType.ATTACK_SPEED_UP:
+                        magicCircle.SetColor(Color.yellow);
+                        break;
+                    case BlessType.EXP_RANGE_UP:
+                        magicCircle.SetColor(Color.white);
+                        break;
+                    default:
+                        break;
+                }
                 return;
             }
         }
