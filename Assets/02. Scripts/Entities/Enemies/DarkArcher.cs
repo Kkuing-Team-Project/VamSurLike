@@ -15,16 +15,21 @@ public class DarkArcher : EnemyCtrl
     public override void OnActivate()
     {
         base.OnActivate();
+        if (attackCor != null){
+            attackCor = null;
+        }
     }
 
-     protected override void UpdateEntity()
+    protected override void UpdateEntity()
     {
         base.UpdateEntity();
-        if(rigid.isKinematic){
-            rigid.isKinematic = false;
-        }
-        // Rigidbody의 속도를 사용하여 애니메이션 속도 매개변수 설정
         float velocity = rigid.velocity.magnitude;
+        if(rigid.isKinematic){
+            animator.SetFloat("Velocity", velocity);
+            rigid.isKinematic = false;
+        } 
+
+        // Rigidbody의 속도를 사용하여 애니메이션 속도 매개변수 설정
         animator.SetFloat("Velocity", velocity);
     }
 
@@ -72,7 +77,7 @@ public class DarkArcher : EnemyCtrl
             }
 
             // Handle DarkArcher's death
-            OnEntityDied();
+            // OnEntityDied();
         }
     }
 
