@@ -63,8 +63,9 @@ public abstract class EnemyCtrl : Entity, IPoolable
         rigid.velocity = Vector3.zero;
         rigid.isKinematic = false;
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
+        SetAnimationPlaying(true);
 
-        GetComponentInChildren<SkinnedMeshRenderer>().material = originMaterial;
+        meshRenderer.material = originMaterial;
     }
 
     public virtual void ReturnObject()

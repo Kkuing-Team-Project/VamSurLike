@@ -95,7 +95,7 @@ public abstract class PlayableCtrl : Entity
         cameraShakeSource = GetComponent<CinemachineImpulseSource>();
         objectPool = FindObjectOfType<ObjectPool>();
         hud = FindObjectOfType<HUD>();
-        gaugeBar = hud.playerGaugeBar;
+        gaugeBar = hud?.playerGaugeBar;
     }
 
     void FixedUpdate()

@@ -67,7 +67,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
     }
     
     private void OnEnable()
-    {
+    {        
         spirit.collapseZone = this;
         stablity = 0;
     }

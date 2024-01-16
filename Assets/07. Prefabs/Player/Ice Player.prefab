@@ -1460,7 +1460,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityType: 2
-  pool: {fileID: 0}
   rigid: {fileID: 0}
   testAugName: 
   bulletNum: 1
@@ -1474,6 +1473,7 @@ MonoBehaviour:
   tempMoveSpeed: 5
   tempAttackRange: 12
   tempAttackSpeed: 2.5
+  freezeMaterial: {fileID: 2100000, guid: 31b112d11aa1e594f845cf1447463b8f, type: 2}
 --- !u!1 &2455544311530206396
 GameObject:
   m_ObjectHideFlags: 0

@@ -166,4 +166,16 @@ public abstract class Entity : MonoBehaviour
     {
         meshRenderer.material = originMaterial;
     }
+
+    public void SetAnimationPlaying(bool active)
+    {
+        if (active == false)
+        {
+            animator.speed = 0;
+        }
+        else
+        {
+            animator.speed = 1;
+        }
+    }
 }

@@ -41,7 +41,7 @@ public class Spirit : Entity
     {
         base.InitEntity();
         if (player == null)
-            player = FindObjectOfType<PlayableCtrl>();
+            player = GameManager.instance.player;
         if(nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
         col = gameObject.GetComponent<Collider>();

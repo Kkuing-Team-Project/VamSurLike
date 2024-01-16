@@ -8,9 +8,6 @@ public class Freeze : StatusEffect
     public Freeze(Material freezeMaterial, int level, float duration, Entity caster = null) : base(level, duration, caster)
     {
         this.freezeMaterial = freezeMaterial;
-        //this.level = level;
-        //this.duration = duration;
-
     }
 
     public override void OnStart(Entity target)
@@ -21,6 +18,8 @@ public class Freeze : StatusEffect
         SkinnedMeshRenderer skinnedMeshRenderer = target.GetComponentInChildren<SkinnedMeshRenderer>();
 
         skinnedMeshRenderer.material = freezeMaterial;
+
+        target.SetAnimationPlaying(false);
     }
 
     public override void OnUpdate(Entity target)
@@ -31,5 +30,6 @@ public class Freeze : StatusEffect
     {
         target.rigid.constraints = RigidbodyConstraints.FreezeRotation;
         target.ResetMaterial();
+        target.SetAnimationPlaying(true);
     }
 }
