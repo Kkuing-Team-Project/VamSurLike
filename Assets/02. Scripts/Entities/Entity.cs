@@ -25,8 +25,6 @@ public abstract class Entity : MonoBehaviour
     public float hp { get; protected set; }
     protected List<StatusEffect> statusEffects = new List<StatusEffect>();
     protected Animator animator;
-    [HideInInspector]
-    public ObjectPool pool;
     
     [HideInInspector]
     public Rigidbody rigid;

@@ -1,48 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-public abstract class EnemyCtrl : Entity
+public abstract class EnemyCtrl : Entity, IPoolable
 {
-    protected NavMeshAgent nav;
     protected PlayableCtrl playable;
     protected ObjectPool objectPool;
     protected AugEventArgs enemyArgs;
+
+    public ObjectPool pool { get; set; }
 
     protected override void InitEntity()
     {
         base.InitEntity();
         if (playable == null)
             playable = FindObjectOfType<PlayableCtrl>();
-        if (nav == null)
-            nav = gameObject.GetComponent<NavMeshAgent>();
         if (enemyArgs == null)
             enemyArgs = new AugEventArgs(transform, this);
         playable.InvokeEvent(AugmentationEventType.ON_SPAWN_ENEMY, this, enemyArgs);
         objectPool = FindObjectOfType<ObjectPool>();
+        hp = stat.Get(StatType.MAX_HP);
     }
 
     protected override void UpdateEntity()
     {
         playable.InvokeEvent(AugmentationEventType.ON_UPDATE_ENEMY, this, enemyArgs);
         var origin = transform.position;
-        origin.y = 0;
         var target = playable.transform.position;
-        target.y = 0;
-        if (Vector3.Distance(origin, target) > stat.Get(StatType.ATTACK_DISTANCE))
+        var attackDistance = stat.Get(StatType.ATTACK_DISTANCE);
+
+        if (Vector3.Distance(origin, target) > attackDistance)
             EnemyMove();
         else
             EnemyAttack();
     }
-
-
+    
     protected virtual void EnemyMove()
     {
-        nav.speed = stat.Get(StatType.MOVE_SPEED);
-        nav.stoppingDistance = stat.Get(StatType.ATTACK_DISTANCE);
-        nav.SetDestination(playable.transform.position);
+        Vector3 direction = (playable.transform.position - transform.position).normalized;
+        float moveSpeed = stat.Get(StatType.MOVE_SPEED);
+        rigid.velocity = direction * moveSpeed;
+
+        // 적이 플레이어를 조준
+        transform.LookAt(new Vector3(playable.transform.position.x, transform.position.y, playable.transform.position.z));
     }
 
     protected abstract void EnemyAttack();
@@ -51,5 +51,17 @@ public abstract class EnemyCtrl : Entity
     {
         objectPool.GetObject(ObjectPool.ObjectType.Experience, transform.position);
         GameManager.instance.killCount++;
+    }
+
+    public virtual void OnCreate()
+    {
+    }
+
+    public virtual void OnActivate()
+    {
+    }
+
+    public virtual void ReturnObject()
+    {  
     }
 }
