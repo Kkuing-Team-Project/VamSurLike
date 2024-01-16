@@ -96,6 +96,7 @@ public class Giant : BossCtrl
 
     public void Pattern1Attack()
     {
+        HitEffect effect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.HitParticle, patternTr[0].position).GetComponent<HitEffect>();
         Collider[] col = Physics.OverlapSphere(patternTr[0].position, pattern1Rad, 1 << LayerMask.NameToLayer("PLAYER"));
         cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
@@ -106,6 +107,9 @@ public class Giant : BossCtrl
 
     public void Pattern2Attack()
     {
+        EarthShatterEffect effect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.EarthShatter, transform.position).GetComponent<EarthShatterEffect>();
+        effect.transform.eulerAngles = transform.eulerAngles;
+
         Collider[] col = Physics.OverlapBox(patternTr[1].position, pattern2Box / 2, patternTr[1].rotation, 1 << LayerMask.NameToLayer("PLAYER"));
         cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
@@ -116,6 +120,9 @@ public class Giant : BossCtrl
 
     public void Pattern3Attack()
     {
+        EarthShatterEffect effect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.EarthShatter, transform.position).GetComponent<EarthShatterEffect>();
+        effect.SetStartSpeed(20f);
+        effect.transform.eulerAngles = transform.eulerAngles;
         Collider[] col = Physics.OverlapBox(patternTr[2].position, pattern3Box / 2, patternTr[2].rotation, 1 << LayerMask.NameToLayer("PLAYER"));
         cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
@@ -127,6 +134,7 @@ public class Giant : BossCtrl
     public void Pattern4Attack()
     {
 
+        HitEffect effect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.HitParticle, patternTr[3].position).GetComponent<HitEffect>();
         Collider[] col = Physics.OverlapSphere(patternTr[3].position, pattern4Rad, 1 << LayerMask.NameToLayer("PLAYER"));
         cameraShakeSource.GenerateImpulse();
         if (col.Length > 0)
