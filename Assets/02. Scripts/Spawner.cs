@@ -350,6 +350,8 @@ public class Spawner : MonoBehaviour
 
     public void OnDrawGizmosSelected()
     {
+        floorLayerMask = LayerMask.GetMask("FLOOR"); // 초기화
+
         foreach (Wave wave in waves)
         {
             SetPercent(wave.spawnObjects, wave.maxPercent);
