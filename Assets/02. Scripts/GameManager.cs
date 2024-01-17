@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public List<Dictionary<string, object>> statTable;
     public List<Dictionary<string, object>> levelTable;
     public List<Dictionary<string, object>> augTable;
+    public List<Dictionary<string, object>> explanationTable;
     public int killCount;
 
     private void Awake()
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         statTable = CSVReader.Read("Data/Character_Enemy_Boss_Stat_Chart");
         levelTable = CSVReader.Read("Data/CharacterLevelChart");
         augTable = CSVReader.Read("Data/Reinforce_Chart");
+        explanationTable = CSVReader.Read("Data/Aug_Explanation_Chart");
         loadingPanel.SetActive(false);
 
         player = FindObjectOfType<PlayableCtrl>();

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using static Cinemachine.DocumentationSortingAttribute;
 
 
 public class HUD : MonoBehaviour
@@ -20,6 +21,8 @@ public class HUD : MonoBehaviour
 	public GameObject augPanel;
 	public Button[] augButtons;
 	public Text[] augNameTexts;
+	public Text[] augExplanationTexts;
+	public Text[] augTypeTexts;
 
 	public PlayerGaugeBar playerGaugeBar;
 
@@ -171,7 +174,22 @@ public class HUD : MonoBehaviour
 		{
 			augButtons[i].onClick.RemoveAllListeners();
 			string key = tempAugList[i];
-			augNameTexts[i].text = key;
+            augNameTexts[i].text = key;
+
+			int level = GameManager.instance.player.HasAugmentation(key) ? GameManager.instance.player.GetAugmentationLevel(key) + 1 : 0;
+
+			string[] datas = GameManager.instance.augTable[level][key].ToString().Split("-");
+
+            for (int j = 0; j < GameManager.instance.augTable[0].Count; j++)
+            {
+                if (key.Equals(GameManager.instance.explanationTable[j]["Item_Name"].ToString()))
+                {
+					augNameTexts[i].text = GameManager.instance.explanationTable[j]["Korea_Name"].ToString();
+					augTypeTexts[i].text = GameManager.instance.explanationTable[j]["Item_Type"].ToString();
+                    string explanation = GameManager.instance.explanationTable[j]["Item_Explanation"].ToString();
+                    augExplanationTexts[i].text = string.Format(explanation, datas);
+                }
+            }
 
             augButtons[i].onClick.AddListener(() =>
 			{
@@ -182,5 +200,11 @@ public class HUD : MonoBehaviour
                 Time.timeScale = 1;
 			});
 		}
+	}
+
+	private string GetAugExplanation(string key, params string[] datas)
+	{
+
+		return null;
 	}
 }
