@@ -31,6 +31,7 @@ public class ObjectPool : MonoBehaviour
         NuclearBomb,
         Explosion,
         EnergyField,
+        Portal,
     }
 
     [System.Serializable]

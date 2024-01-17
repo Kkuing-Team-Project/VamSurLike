@@ -21,7 +21,7 @@ public class MagicCircleEffect : EffectParticle
     public void SetSize(Vector3 size)
     {
         var main = mainParticle.main;
-        main.startSize = size.magnitude;
+        main.startSize = size.magnitude * 2;
         var lightShape = transform.GetChild(0).GetComponent<ParticleSystem>().shape;
         lightShape.scale = size;
     }

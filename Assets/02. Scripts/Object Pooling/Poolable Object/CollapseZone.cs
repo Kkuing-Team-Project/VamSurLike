@@ -15,13 +15,20 @@ public class CollapseZone : MonoBehaviour, IPoolable
 
     private Spirit spirit;
     private PlayableCtrl player;
+    private PortalEffect effect;
 
     public void OnCreate()
     {
+
     }
 
     public void OnActivate()
     {
+        effect = ObjectPoolManager.Instance.objectPool.GetObject(
+            ObjectPool.ObjectType.Portal,
+            transform.position).GetComponent<PortalEffect>();
+        effect.SetSize(Vector3.one * zoneRange);
+        effect.transform.eulerAngles = new Vector3(90, 0, 0);
     }
 
     // Start is called before the first frame update
@@ -47,6 +54,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
                 if ((transform.position - player.transform.position).magnitude <= zoneRange)
                     value += increment;
             }
+            Debug.Log(Mathf.Round(stablity));
         }
 
         stablity = Mathf.Clamp(stablity + (value * Time.deltaTime), 0, 100f);
@@ -75,6 +83,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
     public void ReturnObject()
     {
         spirit.collapseZone = null;
+        effect.ReturnObject();
         pool.ReturnObject(gameObject, ObjectPool.ObjectType.CollapseZone);
     }
 }
