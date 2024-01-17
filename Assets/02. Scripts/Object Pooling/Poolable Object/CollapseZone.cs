@@ -54,7 +54,6 @@ public class CollapseZone : MonoBehaviour, IPoolable
                 if ((transform.position - player.transform.position).magnitude <= zoneRange)
                     value += increment;
             }
-            Debug.Log(Mathf.Round(stablity));
         }
 
         stablity = Mathf.Clamp(stablity + (value * Time.deltaTime), 0, 100f);

@@ -79,7 +79,7 @@ public class HUD : MonoBehaviour
 
 	public void AddRune(Augmentation aug)
 	{
-		GameObject icon = Instantiate(augIconPrefab);
+
 
 		if(iconPanel.transform.Find(aug.ToString()) != null)
 		{
@@ -87,11 +87,13 @@ public class HUD : MonoBehaviour
         }
 		else
 		{
-			if(iconPanel.transform.childCount >= 12)
+
+            if (iconPanel.transform.childCount >= 12)
 			{
 				Destroy(iconPanel.transform.GetChild(iconPanel.transform.childCount - 1).gameObject);
 			}
-			icon.transform.SetParent(iconPanel.transform);
+            GameObject icon = Instantiate(augIconPrefab);
+            icon.transform.SetParent(iconPanel.transform);
 			icon.transform.SetAsFirstSibling();
 			icon.name = aug.ToString();
 			icon.GetComponent<Image>().sprite = aug.icon;

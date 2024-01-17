@@ -375,6 +375,7 @@ public abstract class PlayableCtrl : Entity
         Debug.Log($"{aug.GetType().Name} : {!HasAugmentation(aug.GetType().Name)}");
         if (!HasAugmentation(aug.GetType().Name))
         {
+            augmentationList.Add(aug);
             switch (aug.eventType)
             {
                 case AugmentationEventType.ON_START:
@@ -402,7 +403,6 @@ public abstract class PlayableCtrl : Entity
                 default:
                     break;
             }
-            augmentationList.Add(aug);
         }
         else
         {
@@ -410,12 +410,13 @@ public abstract class PlayableCtrl : Entity
             {
                 int level = GetAugmentationLevel(aug.GetType().Name) + 1;
                 aug.SetAugmentationLevel(level);
-                aug.AugmentationEffect(this, defaultArgs);
+                GetAugmentation(aug.GetType().Name).AugmentationEffect(this, defaultArgs);
             }
             else
             {
                 GetAugmentation(aug.GetType().Name).SetAugmentationLevel(GetAugmentationLevel(aug.GetType().Name) + 1);
             }
+
         }
     }
 

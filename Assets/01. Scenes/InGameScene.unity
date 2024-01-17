@@ -8880,6 +8880,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
+      propertyPath: pools.Array.size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
+      propertyPath: pools.Array.data[19].size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
+      propertyPath: pools.Array.data[19].type
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
+      propertyPath: pools.Array.data[19].prefab
+      value: 
+      objectReference: {fileID: 2869738279757863752, guid: 8b6ba9d619b4d4042bfca90831e5a2c5, type: 3}
     - target: {fileID: 8803116447141004156, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
       propertyPath: m_Name
       value: Object Pool

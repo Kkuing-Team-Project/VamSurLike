@@ -9693,7 +9693,7 @@ GameObject:
   - component: {fileID: 2869738279757863749}
   - component: {fileID: 2869738279757863754}
   - component: {fileID: 2869738279757863755}
-  - component: {fileID: 7790668015837525063}
+  - component: {fileID: 3074153829310849473}
   m_Layer: 0
   m_Name: EnergyFieldEffect
   m_TagString: Untagged
@@ -14503,7 +14503,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &7790668015837525063
+--- !u!114 &3074153829310849473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14512,7 +14512,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2869738279757863752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f757a2529bb2b0d45917ef59c17f9f12, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f46fe7e469a589489167fe148569353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2869738279924125961

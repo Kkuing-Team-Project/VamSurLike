@@ -9,7 +9,7 @@ using UnityEngine;
 public class EnergyField : Augmentation
 {
     private Coroutine cor = null;
-    private Transform particle = null;
+    private GameObject particle;
     private float particleDefaultSize;
     
     public EnergyField(int level, int maxLevel) : base(level, maxLevel)
@@ -23,38 +23,40 @@ public class EnergyField : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
+        Debug.Log("Energy Field: " + level);
         if(cor != null)
         {
             CoroutineHandler.StopCoroutine(cor);
         }
 
-        if (!particle)
+        if (particle != null)
         {
-            particle = ObjectPoolManager.Instance.objectPool.GetObject(
-                ObjectPool.ObjectType.EnergyField,
-                sender.transform.position).transform;
-            particle.SetParent(sender.transform);
-            particleDefaultSize = particle.localScale.x;
+            particle.GetComponent<EffectParticle>().ReturnObject();
         }
-        
+
+        particle = ObjectPoolManager.Instance.objectPool.GetObject(
+            ObjectPool.ObjectType.EnergyField,
+            sender.transform.position);
+        particle.transform.SetParent(sender.transform);
+        particleDefaultSize = particle.transform.localScale.x;
+
         cor = CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
 
     private IEnumerator FieldAttack(Entity player)
     {
-
         WaitForSeconds waitTime = new WaitForSeconds(0.5f);
         while (true)
         {
             float radius = float.Parse(GameManager.instance.augTable[level]["EnergyField"].ToString());
-            particle.localScale = Vector3.one * (particleDefaultSize * radius);
+            particle.transform.localScale = Vector3.one * (particleDefaultSize * radius);
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
             if (enemies.Length > 0)
             {
                 foreach (var enemy in enemies)
                 {
                     Debug.Log(enemy.name);
-                    enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE) / 0.5f);
+                    enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE) * 0.5f);
                 }
             }
             yield return waitTime;

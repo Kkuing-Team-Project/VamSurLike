@@ -25,7 +25,8 @@ public class PoisonField : Augmentation
     {
         if(cor != null)
         {
-           CoroutineHandler.StopCoroutine(cor);
+            CoroutineHandler.StopCoroutine(cor);
+            cor = null;
         }
         cor = CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
