@@ -30,5 +30,6 @@ public class CoroutineHandler : MonoBehaviour
     public new static void StopCoroutine(Coroutine coroutine)
     {
         monoInstance.StopCoroutine(coroutine);
+        coroutine = null;
     }
 }

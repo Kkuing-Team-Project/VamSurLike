@@ -11,6 +11,7 @@ public class Meteor : Augmentation
     private readonly ObjectPool pool;
     private Collider[] enemies; // 모든 적을 저장할 배열
     private Coroutine cor;
+    private bool check;
 
     public Meteor(int level, int maxLevel) : base(level, maxLevel)
     {
@@ -26,7 +27,11 @@ public class Meteor : Augmentation
 	{
         skillTime = float.Parse(GameManager.instance.augTable[level]["Meteor"].ToString());
         if (cor != null)
+        {
+            Debug.Log("!");
             CoroutineHandler.StopCoroutine(cor);
+            cor = null;
+        }
         cor = CoroutineHandler.StartCoroutine(AttackCoroutine(e.target));
     }
 
@@ -34,9 +39,6 @@ public class Meteor : Augmentation
     {
         while (true)
         {
-
-
-
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, enemiesFindRadius, 1 << LayerMask.NameToLayer("ENEMY"));
             if(enemies.Length > 0)
 			{

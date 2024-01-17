@@ -58,6 +58,7 @@ public abstract class Entity : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         originMaterial = GetComponentInChildren<SkinnedMeshRenderer>()?.material;
         meshRenderer = GetComponentInChildren<Renderer>();
+        statusEffects.Clear();
     }
 
     protected abstract void UpdateEntity();
