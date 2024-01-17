@@ -409,7 +409,7 @@ public abstract class PlayableCtrl : Entity
             if(aug.eventType == AugmentationEventType.ON_START)
             {
                 int level = GetAugmentationLevel(aug.GetType().Name) + 1;
-                aug.SetAugmentationLevel(level);
+                GetAugmentation(aug.GetType().Name).SetAugmentationLevel(level);
                 GetAugmentation(aug.GetType().Name).AugmentationEffect(this, defaultArgs);
             }
             else
