@@ -186,19 +186,24 @@ public class Spawner : MonoBehaviour
 
     private Vector3 SaeHan(Vector3 point, float x, float z, Vector3 minSide, Vector3 maxSide, Vector3 target)
     {
-        // 중복 계산을 피하기 위한 임시 변수
-        float deltaXMax = maxSide.x + target.x;
-        float deltaZMax = maxSide.z + target.z;
-        float deltaXMin = minSide.x - target.x;
-        float deltaZMin = minSide.z - target.z;
+        
+        if (Mathf.Abs(-maxSide.x + target.x - minSide.x) > Mathf.Abs(maxSide.x + target.x - minSide.x))
+            minRandomRange.x = minSide.x;
+        else
+            maxRandomRange.x = minSide.x;
 
-        // 간소화된 조건문
-        minRandomRange.x = Mathf.Abs(deltaXMin) > Mathf.Abs(deltaXMax) ? minSide.x : maxSide.x;
-        minRandomRange.z = Mathf.Abs(deltaZMin) > Mathf.Abs(deltaZMax) ? minSide.z : maxSide.z;
+        if (Mathf.Abs(-maxSide.z + target.z - minSide.z) > Mathf.Abs(maxSide.z + target.z - minSide.z))
+            minRandomRange.z = minSide.z;
+        else
+            maxRandomRange.z = minSide.z;
 
-        // 새 위치 계산
-        float newX = Mathf.Abs(minSide.x - x) < Mathf.Abs(minSide.z - z) ? UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x) : x;
-        float newZ = Mathf.Abs(minSide.x - x) >= Mathf.Abs(minSide.z - z) ? UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z) : z;
+        float newX = x;
+        float newZ = z;
+        if (Mathf.Abs(minSide.x - x) < Mathf.Abs(minSide.z - z))
+            newX = UnityEngine.Random.Range(minRandomRange.x, maxRandomRange.x);
+        else
+            newZ = UnityEngine.Random.Range(minRandomRange.z, maxRandomRange.z);
+       
         return new Vector3(newX, point.y, newZ);
     }
 
