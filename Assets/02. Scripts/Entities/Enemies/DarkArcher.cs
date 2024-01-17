@@ -10,20 +10,20 @@ public class DarkArcher : EnemyCtrl
     protected override void InitEntity()
     {
         base.InitEntity();
+        if (attackCor != null)  attackCor = null;
     }
 
     public override void OnActivate()
     {
         base.OnActivate();
-        if (attackCor != null){
-            attackCor = null;
-        }
+        if (attackCor != null)  attackCor = null;
     }
 
     protected override void UpdateEntity()
     {
         base.UpdateEntity();
         float velocity = rigid.velocity.magnitude;
+
         if(rigid.isKinematic){
             animator.SetFloat("Velocity", velocity);
             rigid.isKinematic = false;
@@ -36,6 +36,7 @@ public class DarkArcher : EnemyCtrl
     public override void OnCreate()
     {
         base.OnCreate();
+        if (attackCor != null)  attackCor = null;
     }
 
     protected override void EnemyMove()
@@ -89,13 +90,13 @@ public class DarkArcher : EnemyCtrl
 
         yield return new WaitUntil(() => IsAnimationClipPlaying("Shoot", 0) == false);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         
         while (Vector3.Angle(transform.forward, playable.transform.position - transform.position) > 1f)
         {
             Vector3 targetDirection = (playable.transform.position - transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(targetDirection.x, 0, targetDirection.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3);
             yield return null;
         }
         attackCor = null;
