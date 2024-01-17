@@ -1261,9 +1261,9 @@ GameObject:
   - component: {fileID: 947150223}
   - component: {fileID: 1827780137}
   - component: {fileID: 2099817934}
-  - component: {fileID: -5957499769449713482}
+  - component: {fileID: 3286817473292937359}
   m_Layer: 3
-  m_Name: Fire Player
+  m_Name: Wind Player
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1296,7 +1296,7 @@ Animator:
   m_GameObject: {fileID: 2451845315716602646}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 449c5e1bb4fc8ee4bbd7fbb14c6db5c8, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1d9d88c54a786f74fad3812c9bd3083c, type: 2}
+  m_Controller: {fileID: 9100000, guid: d284e626a052b1644a746fbe69c4dc79, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1447,7 +1447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d204e3674d92d46820131cf7f92657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-5957499769449713482
+--- !u!114 &3286817473292937359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1456,10 +1456,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2451845315716602646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60794965ee800ce4a85d8e3dfcd2526e, type: 3}
+  m_Script: {fileID: 11500000, guid: a7bb399040adc40449b34b5112e67f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: 1
+  entityType: 3
   rigid: {fileID: 0}
   testAugName: 
   bulletNum: 1

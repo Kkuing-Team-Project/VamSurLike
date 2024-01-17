@@ -32,9 +32,16 @@ public abstract class Entity : MonoBehaviour
     public Material[] originMaterials { get; protected set; }
     public Renderer meshRenderer { get; protected set; }
 
-    void OnEnable()
+    private void Awake()
     {
-        InitEntity(); 
+        rigid = GetComponent<Rigidbody>();
+        meshRenderer = GetComponentInChildren<Renderer>();
+        animator = gameObject.GetComponentInChildren<Animator>();
+    }
+
+    void Start()
+    {
+        InitEntity();
     }
 
     void Update()
@@ -54,9 +61,6 @@ public abstract class Entity : MonoBehaviour
         stat = new Stat();
         SetEntityStat(entityType);
         hp = stat.Get(StatType.MAX_HP);
-        animator = gameObject.GetComponentInChildren<Animator>();
-        rigid = GetComponent<Rigidbody>();
-        meshRenderer = GetComponentInChildren<Renderer>();
         statusEffects.Clear();
     }
 
