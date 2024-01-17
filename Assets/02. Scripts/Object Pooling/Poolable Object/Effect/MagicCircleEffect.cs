@@ -9,6 +9,7 @@ public class MagicCircleEffect : EffectParticle
         base.OnActivate();
         objectType = ObjectPool.ObjectType.MagicCircle;
     }
+
     public void SetColor(Color color)
     {
         var main = mainParticle.main;

@@ -87,9 +87,9 @@ public class HUD : MonoBehaviour
         }
 		else
 		{
-			if(iconPanel.transform.childCount >= 8)
+			if(iconPanel.transform.childCount >= 12)
 			{
-				Destroy(iconPanel.transform.GetChild(7).gameObject);
+				Destroy(iconPanel.transform.GetChild(iconPanel.transform.childCount - 1).gameObject);
 			}
 			icon.transform.SetParent(iconPanel.transform);
 			icon.transform.SetAsFirstSibling();
@@ -126,7 +126,7 @@ public class HUD : MonoBehaviour
 							break;
 						}
 						else if (GameManager.instance.player.HasAugmentation(augKeys[rand]) &&
-							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]))
+							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]) - 1)
 						{
 							tempAugList.Add(augKeys[rand]);
 							break;
@@ -148,7 +148,7 @@ public class HUD : MonoBehaviour
 					}
 
 					else if (GameManager.instance.player.HasAugmentation(augKeys[rand]) == true &&
-							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]))
+							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]) - 1)
 					{
 						tempAugList.Add(augKeys[rand]);
 						break;

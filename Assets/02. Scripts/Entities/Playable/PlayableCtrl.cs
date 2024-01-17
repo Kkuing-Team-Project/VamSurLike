@@ -118,7 +118,7 @@ public abstract class PlayableCtrl : Entity
         Augmentation aug = null;
         if (HasAugmentation(testAugName) == false)
         {
-            aug = Activator.CreateInstance(type, 1, GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
+            aug = Activator.CreateInstance(type, 0, GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
         }
         else
         {

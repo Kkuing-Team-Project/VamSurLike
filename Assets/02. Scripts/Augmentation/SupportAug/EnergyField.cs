@@ -30,6 +30,7 @@ public class EnergyField : Augmentation
 
     private IEnumerator FieldAttack(Entity player)
     {
+
         WaitForSeconds waitTime = new WaitForSeconds(0.5f);
         while (true)
         {
@@ -38,6 +39,7 @@ public class EnergyField : Augmentation
             {
                 foreach (var enemy in enemies)
                 {
+                    Debug.Log(enemy.name);
                     enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE) / 0.5f);
                 }
             }
