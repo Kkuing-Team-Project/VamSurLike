@@ -44,7 +44,7 @@ public class ObjectPool : MonoBehaviour
 
     // Dictionary to map each ObjectType to a stack of GameObjects
     public Dictionary<ObjectType, Queue<GameObject>> poolDictionary = new Dictionary<ObjectType, Queue<GameObject>>();
-    private void Awake()
+    private void Start()
     {
         // Initialize each pool
         foreach (var pool in pools)

@@ -41,7 +41,6 @@ public class Spawner : MonoBehaviour
     public float height { get; private set; }
     public float width { get; private set; }
 
-    public ObjectPool Pool;
     [SerializeField] private Camera playerCamera;
     
 
@@ -335,7 +334,7 @@ public class Spawner : MonoBehaviour
             isWave
                 ? GetRandomSpawnObjectType(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent)
                 : GetRandomSpawnObjectType(spawnObjects, maxPercent);
-        Pool.GetObject(type, point);
+        ObjectPoolManager.Instance.objectPool.GetObject(type, point);
     }
 
     private ObjectPool.ObjectType GetRandomSpawnObjectType(SpawnObject[] objects, float percentMax)

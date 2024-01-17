@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
         levelTable = CSVReader.Read("Data/CharacterLevelChart");
         augTable = CSVReader.Read("Data/Reinforce_Chart");
         loadingPanel.SetActive(false);
+
+        player = FindObjectOfType<PlayableCtrl>();
     }
 
     private void Start()
