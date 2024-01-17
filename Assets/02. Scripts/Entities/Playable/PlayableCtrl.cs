@@ -99,14 +99,6 @@ public abstract class PlayableCtrl : Entity
         gaugeBar = hud?.playerGaugeBar;
     }
 
-    void FixedUpdate()
-    {
-        if (!isAction)
-        {
-            rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
-        }
-    }
-
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
@@ -128,14 +120,25 @@ public abstract class PlayableCtrl : Entity
         AddAugmentation(aug);
     }
 
+    void FixedUpdate()
+    {
+        if (!isAction)
+        {
+            rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
+        }
+    }
+
     protected override void UpdateEntity()
     {
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
+        
+        #region Get Player Input
+        inputVector.x = Input.GetAxis("Horizontal");
+        inputVector.z = Input.GetAxis("Vertical");
+        #endregion
+
         if (!isAction)
         {
-            #region Get Player Input
-            inputVector.x = Input.GetAxis("Horizontal");
-            inputVector.z = Input.GetAxis("Vertical");
             if (inputVector.magnitude > 0)
             {
                 animator.SetBool("IsMove", true);
@@ -149,7 +152,6 @@ public abstract class PlayableCtrl : Entity
             {
                 animator.SetBool("IsMove", false);
             }
-            #endregion
             #region Check Enmey around player And Attack, Rotate
             Vector3 targetPosition = Vector3.zero;
 

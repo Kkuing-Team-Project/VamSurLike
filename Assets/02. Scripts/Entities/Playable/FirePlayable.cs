@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class FirePlayable : PlayableCtrl
 {
-    Coroutine skillCoroutine;
     protected override void OnEntityDied()
     {
     }
 
     protected override void PlayerSkill()
     {
-        if (skillCoroutine == null)
-        {
-            skillCoroutine = StartCoroutine(FireAround());
-        }
-        else
-        {
-            Debug.Log("<color=red>스킬 쿨다운 중..</color>");
-        }
+        rigid.velocity = Vector3.zero;
+        animator.SetTrigger("Skill");
+        animator.SetLayerWeight(1, 0f);
+        animator.SetLayerWeight(2, 1f);
+    }
+
+    public void MakeFire()
+    {
+        skillCor = StartCoroutine(FireAround());
+    }
+
+    public void QuitSkillAnimation()
+    {
+        animator.SetLayerWeight(1, 1f);
+        animator.SetLayerWeight(2, 0f);
     }
 
     IEnumerator FireAround()
@@ -91,6 +97,6 @@ public class FirePlayable : PlayableCtrl
         }
 
         yield return new WaitForSeconds(14f);
-        skillCoroutine = null;
+        skillCor = null;
     }
 }
