@@ -55,7 +55,8 @@ public abstract class EnemyCtrl : Entity, IPoolable
 
     public virtual void OnCreate()
     {
-        
+        originMaterials = GetComponentInChildren<SkinnedMeshRenderer>()?.materials;
+
     }
 
     public virtual void OnActivate()
@@ -64,8 +65,7 @@ public abstract class EnemyCtrl : Entity, IPoolable
         rigid.isKinematic = false;
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
         SetAnimationPlaying(true);
-
-        meshRenderer.material = originMaterial;
+        ResetMaterial();        
     }
 
     public virtual void ReturnObject()

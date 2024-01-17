@@ -93,12 +93,12 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FresnelPower: 4
+    - _FresnelPower: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _NormalStrength: 3
+    - _NormalStrength: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -112,14 +112,14 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _metallic: 0.5
-    - _smooth: 0.5
+    - _metallic: 0.2
+    - _smooth: 0.8
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 1, g: 1, b: 1, a: 0}
-    - _IceColor: {r: 0.40450338, g: 0.49341404, b: 0.8490566, a: 0}
+    - _FresnelColor: {r: 0.09803922, g: 0.13333334, b: 0.3745098, a: 0}
+    - _IceColor: {r: 0.40717337, g: 0.40728587, b: 0.4716981, a: 1}
     - _IceTiling: {r: 5, g: 5, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []

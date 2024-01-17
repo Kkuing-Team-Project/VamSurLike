@@ -53,8 +53,9 @@ public class ObjectPool : MonoBehaviour
         foreach (var pool in pools)
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();
-            new GameObject(pool.type.ToString()).transform.SetParent(transform);
             poolDictionary.Add(pool.type, objectPool);
+
+            new GameObject(pool.type.ToString()).transform.SetParent(transform);
 
             for (int i = 0; i < pool.size; i++)
             {
