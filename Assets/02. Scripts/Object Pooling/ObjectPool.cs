@@ -30,6 +30,7 @@ public class ObjectPool : MonoBehaviour
         FreezeCircle,
         NuclearBomb,
         Explosion,
+        EnergyField,
     }
 
     [System.Serializable]

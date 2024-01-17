@@ -9,6 +9,9 @@ using UnityEngine;
 public class EnergyField : Augmentation
 {
     private Coroutine cor = null;
+    private Transform particle = null;
+    private float particleDefaultSize;
+    
     public EnergyField(int level, int maxLevel) : base(level, maxLevel)
     {     
     }
@@ -24,9 +27,18 @@ public class EnergyField : Augmentation
         {
             CoroutineHandler.StopCoroutine(cor);
         }
+
+        if (!particle)
+        {
+            particle = ObjectPoolManager.Instance.objectPool.GetObject(
+                ObjectPool.ObjectType.EnergyField,
+                sender.transform.position).transform;
+            particle.SetParent(sender.transform);
+            particleDefaultSize = particle.localScale.x;
+        }
+        
         cor = CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
-
 
     private IEnumerator FieldAttack(Entity player)
     {
@@ -34,7 +46,9 @@ public class EnergyField : Augmentation
         WaitForSeconds waitTime = new WaitForSeconds(0.5f);
         while (true)
         {
-            Collider[] enemies = Physics.OverlapSphere(player.transform.position, float.Parse(GameManager.instance.augTable[level]["EnergyField"].ToString()), 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
+            float radius = float.Parse(GameManager.instance.augTable[level]["EnergyField"].ToString());
+            particle.localScale = Vector3.one * (particleDefaultSize * radius);
+            Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
             if (enemies.Length > 0)
             {
                 foreach (var enemy in enemies)
