@@ -56,7 +56,7 @@ public class PoisonField : Augmentation
                     break;
                 }
 
-                if(delayTimer >= 1f)
+                if(delayTimer >= 0.25f)
                 {
                     
                     Collider[] enemies = Physics.OverlapSphere(dmagePosition, radius, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
@@ -64,7 +64,7 @@ public class PoisonField : Augmentation
                     {
                         foreach (var enemy in enemies)
                         {
-                            enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE));
+                            enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE) / 0.25f);
                         }
                     }
                     delayTimer = 0f;
