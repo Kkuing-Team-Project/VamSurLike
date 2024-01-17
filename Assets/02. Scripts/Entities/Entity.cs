@@ -103,7 +103,7 @@ public abstract class Entity : MonoBehaviour
         OnTakeDamage(caster, dmg);
 
         DamageEffect damageEffect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.DamageText, transform.position).GetComponent<DamageEffect>();
-        damageEffect.text.text = string.Format("{0:F1}", dmg);
+        damageEffect.text.text = Mathf.Round(dmg).ToString();
         damageEffect.originPos = transform.position;
         if (HasEffect<Invincible>() == false)
             hp -= dmg;
