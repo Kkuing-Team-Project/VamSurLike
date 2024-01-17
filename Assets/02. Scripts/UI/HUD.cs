@@ -201,10 +201,4 @@ public class HUD : MonoBehaviour
 			});
 		}
 	}
-
-	private string GetAugExplanation(string key, params string[] datas)
-	{
-
-		return null;
-	}
 }

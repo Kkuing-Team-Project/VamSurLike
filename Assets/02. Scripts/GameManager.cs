@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
         statTable = CSVReader.Read("Data/Character_Enemy_Boss_Stat_Chart");
-        levelTable = CSVReader.Read("Data/CharacterLevelChart");
+        levelTable = CSVReader.Read("Data/Character_Level_Chart");
         augTable = CSVReader.Read("Data/Reinforce_Chart");
         explanationTable = CSVReader.Read("Data/Aug_Explanation_Chart");
         loadingPanel.SetActive(false);
