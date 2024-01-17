@@ -335,7 +335,7 @@ public class Spawner : MonoBehaviour
             isWave
                 ? GetRandomSpawnObjectType(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent)
                 : GetRandomSpawnObjectType(spawnObjects, maxPercent);
-        GameObject enemy = Pool.GetObject(type, point);
+        Pool.GetObject(type, point);
     }
 
     private ObjectPool.ObjectType GetRandomSpawnObjectType(SpawnObject[] objects, float percentMax)

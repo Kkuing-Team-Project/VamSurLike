@@ -41,6 +41,7 @@ public class Prion : EnemyCtrl
 
     public override void ReturnObject()
     {
+        base.ReturnObject();
         pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Prion);
     }
 

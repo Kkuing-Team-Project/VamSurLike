@@ -29,7 +29,8 @@ public abstract class Entity : MonoBehaviour
     [HideInInspector]
     public Rigidbody rigid;
     
-    public Material OriginMaterial { get; protected set; }
+    public Material originMaterial { get; protected set; }
+    public Renderer meshRenderer { get; protected set; }
 
     void OnEnable()
     {
@@ -55,7 +56,8 @@ public abstract class Entity : MonoBehaviour
         hp = stat.Get(StatType.MAX_HP);
         animator = gameObject.GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
-        OriginMaterial = GetComponentInChildren<SkinnedMeshRenderer>().material;
+        originMaterial = GetComponentInChildren<SkinnedMeshRenderer>()?.material;
+        meshRenderer = GetComponentInChildren<Renderer>();
     }
 
     protected abstract void UpdateEntity();
@@ -157,6 +159,23 @@ public abstract class Entity : MonoBehaviour
             {
                 stat.SetDefault(Enum.Parse<StatType>(keys[i]), float.Parse(GameManager.instance.statTable[idx][keys[i]].ToString()));
             }
+        }
+    }
+
+    public void ResetMaterial()
+    {
+        meshRenderer.material = originMaterial;
+    }
+
+    public void SetAnimationPlaying(bool active)
+    {
+        if (active == false)
+        {
+            animator.speed = 0;
+        }
+        else
+        {
+            animator.speed = 1;
         }
     }
 }

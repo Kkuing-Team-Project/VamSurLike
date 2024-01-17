@@ -4837,7 +4837,7 @@ GameObject:
   - component: {fileID: 597555047185466388}
   - component: {fileID: -8811066684002426205}
   m_Layer: 0
-  m_Name: PoisonGas
+  m_Name: PoisonField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9663,7 +9663,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e417b0f719e09104dbcf8066bd265a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSize: 1
   firstGasParticle: {fileID: 597997776879517670}
   secondGasParticle: {fileID: 598554067261440630}
 --- !u!1 &759656721984692174

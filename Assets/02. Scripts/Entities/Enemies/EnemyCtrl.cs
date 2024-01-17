@@ -55,10 +55,17 @@ public abstract class EnemyCtrl : Entity, IPoolable
 
     public virtual void OnCreate()
     {
+        
     }
 
     public virtual void OnActivate()
     {
+        rigid.velocity = Vector3.zero;
+        rigid.isKinematic = false;
+        rigid.constraints = RigidbodyConstraints.FreezeRotation;
+        SetAnimationPlaying(true);
+
+        meshRenderer.material = originMaterial;
     }
 
     public virtual void ReturnObject()
