@@ -119,7 +119,7 @@ public abstract class PlayableCtrl : Entity
         Augmentation aug = null;
         if (HasAugmentation(testAugName) == false)
         {
-            aug = Activator.CreateInstance(type, 1, GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
+            aug = Activator.CreateInstance(type, 0, GameManager.instance.GetAugMaxLevel(testAugName)) as Augmentation;
         }
         else
         {
@@ -378,6 +378,7 @@ public abstract class PlayableCtrl : Entity
         Debug.Log($"{aug.GetType().Name} : {!HasAugmentation(aug.GetType().Name)}");
         if (!HasAugmentation(aug.GetType().Name))
         {
+            augmentationList.Add(aug);
             switch (aug.eventType)
             {
                 case AugmentationEventType.ON_START:
@@ -405,20 +406,20 @@ public abstract class PlayableCtrl : Entity
                 default:
                     break;
             }
-            augmentationList.Add(aug);
         }
         else
         {
             if(aug.eventType == AugmentationEventType.ON_START)
             {
                 int level = GetAugmentationLevel(aug.GetType().Name) + 1;
-                aug.SetAugmentationLevel(level);
-                aug.AugmentationEffect(this, defaultArgs);
+                GetAugmentation(aug.GetType().Name).SetAugmentationLevel(level);
+                GetAugmentation(aug.GetType().Name).AugmentationEffect(this, defaultArgs);
             }
             else
             {
                 GetAugmentation(aug.GetType().Name).SetAugmentationLevel(GetAugmentationLevel(aug.GetType().Name) + 1);
             }
+
         }
     }
 

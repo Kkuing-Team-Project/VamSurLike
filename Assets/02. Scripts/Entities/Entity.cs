@@ -57,6 +57,7 @@ public abstract class Entity : MonoBehaviour
         animator = gameObject.GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
         meshRenderer = GetComponentInChildren<Renderer>();
+        statusEffects.Clear();
     }
 
     protected abstract void UpdateEntity();

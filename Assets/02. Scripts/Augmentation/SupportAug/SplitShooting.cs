@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class SplitShooting : Augmentation
 {
@@ -17,24 +18,11 @@ public class SplitShooting : Augmentation
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-		switch (level)
-		{
-			case 0:
-				(e.target as PlayableCtrl).bulletInterval = 10;
-				(e.target as PlayableCtrl).bulletNum = 2;
-				break;
-			case 1:
-				(e.target as PlayableCtrl).bulletInterval = 20;
-				(e.target as PlayableCtrl).bulletNum = 3;
-				break;
-			case 2:
-				(e.target as PlayableCtrl).bulletInterval = 20;
-				(e.target as PlayableCtrl).bulletNum = 4;
-				break;
-			case 3:
-				(e.target as PlayableCtrl).bulletInterval = 30;
-				(e.target as PlayableCtrl).bulletNum = 5;
-				break;
-		}
+		var data = GameManager.instance.augTable[level]["SplitShooting"].ToString().Split("-");
+		int interval = int.Parse(data[0]);
+		int num = int.Parse(data[1]);
+
+        (e.target as PlayableCtrl).bulletInterval = interval;
+		(e.target as PlayableCtrl).bulletNum = num + 1;
 	}
 }

@@ -79,23 +79,25 @@ public class HUD : MonoBehaviour
 
 	public void AddRune(Augmentation aug)
 	{
-		GameObject icon = Instantiate(augIconPrefab);
-		bool isExist = false;
+
+
 		if(iconPanel.transform.Find(aug.ToString()) != null)
 		{
-            iconPanel.transform.Find(aug.ToString()).GetComponentInChildren<Text>().text = (aug.level + 1).ToString();
+            iconPanel.transform.Find(aug.ToString()).GetComponentInChildren<Text>().text = (GameManager.instance.player.GetAugmentation(aug.ToString()).level + 1).ToString();
         }
 		else
 		{
-			if(iconPanel.transform.childCount >= 8)
+
+            if (iconPanel.transform.childCount >= 12)
 			{
-				Destroy(iconPanel.transform.GetChild(7).gameObject);
+				Destroy(iconPanel.transform.GetChild(iconPanel.transform.childCount - 1).gameObject);
 			}
-			icon.transform.SetParent(iconPanel.transform);
+            GameObject icon = Instantiate(augIconPrefab);
+            icon.transform.SetParent(iconPanel.transform);
 			icon.transform.SetAsFirstSibling();
 			icon.name = aug.ToString();
 			icon.GetComponent<Image>().sprite = aug.icon;
-			icon.transform.GetComponentInChildren<Text>().text = (aug.level + 1).ToString();	
+			icon.transform.GetComponentInChildren<Text>().text = "1";
 		}
 	}
 	
@@ -126,7 +128,7 @@ public class HUD : MonoBehaviour
 							break;
 						}
 						else if (GameManager.instance.player.HasAugmentation(augKeys[rand]) &&
-							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]))
+							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]) - 1)
 						{
 							tempAugList.Add(augKeys[rand]);
 							break;
@@ -148,7 +150,7 @@ public class HUD : MonoBehaviour
 					}
 
 					else if (GameManager.instance.player.HasAugmentation(augKeys[rand]) == true &&
-							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]))
+							GameManager.instance.player.GetAugmentationLevel(augKeys[rand]) < GameManager.instance.GetAugMaxLevel(augKeys[rand]) - 1)
 					{
 						tempAugList.Add(augKeys[rand]);
 						break;
@@ -175,7 +177,6 @@ public class HUD : MonoBehaviour
 			{
                 Augmentation aug = Activator.CreateInstance(Type.GetType(key), 0, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
                 GameManager.instance.player.AddAugmentation(aug);
-				Debug.Log(aug.level);
 				AddRune(aug);
 				augPanel.SetActive(false);
                 Time.timeScale = 1;

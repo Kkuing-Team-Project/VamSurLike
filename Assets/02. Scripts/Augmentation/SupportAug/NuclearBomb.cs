@@ -24,9 +24,10 @@ public class NuclearBomb : Augmentation
         if(cor != null)
         {
             CoroutineHandler.StopCoroutine(cor);
+            cor = null;
         }
 
-        CoroutineHandler.StartCoroutine(EffectActionCor(sender));
+        cor = CoroutineHandler.StartCoroutine(EffectActionCor(sender));
     }
 
     private IEnumerator EffectActionCor(Entity player)

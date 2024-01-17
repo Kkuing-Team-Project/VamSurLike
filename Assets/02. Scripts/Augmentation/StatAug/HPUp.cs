@@ -24,7 +24,6 @@ public class HPUp : Augmentation
                 break;
             }
         }
-        Debug.Log(float.Parse(GameManager.instance.statTable[idx]["MAX_HP"].ToString()) + float.Parse(GameManager.instance.augTable[level]["HPUp"].ToString()));
         e.target.stat.SetDefault(StatType.MAX_HP, float.Parse(GameManager.instance.statTable[idx]["MAX_HP"].ToString()) + float.Parse(GameManager.instance.augTable[level]["HPUp"].ToString()));
         e.target.Heal(e.target.stat.Get(StatType.MAX_HP));
     }
