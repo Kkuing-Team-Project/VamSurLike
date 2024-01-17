@@ -3,15 +3,12 @@ using UnityEngine;
 
 public class Meteor : Augmentation
 {
+    private readonly ObjectPool pool;
     private float time = 1.0f;
-    private float meteorDmg = 10f; // 메테오 데미지
     private float splashDamageRadius = 5f; // 스플래쉬 피해 반경
     private float enemiesFindRadius = 20f;
-    private float skillTime = 0f;
-    private readonly ObjectPool pool;
-    private Collider[] enemies; // 모든 적을 저장할 배열
     private Coroutine cor;
-    private bool check;
+    private int skillCnt;
 
     public Meteor(int level, int maxLevel) : base(level, maxLevel)
     {
@@ -25,10 +22,9 @@ public class Meteor : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-        skillTime = float.Parse(GameManager.instance.augTable[level]["Meteor"].ToString());
+        skillCnt = int.Parse(GameManager.instance.augTable[level]["Meteor"].ToString());
         if (cor != null)
         {
-            Debug.Log("!");
             CoroutineHandler.StopCoroutine(cor);
             cor = null;
         }
@@ -40,12 +36,16 @@ public class Meteor : Augmentation
         while (true)
         {
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, enemiesFindRadius, 1 << LayerMask.NameToLayer("ENEMY"));
-            if(enemies.Length > 0)
-			{
-                int randomEnemyIdx = UnityEngine.Random.Range(0, enemies.Length);
-                CoroutineHandler.StartCoroutine(LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, player));
-			}
-            yield return new WaitForSeconds(skillTime);
+            for (int i = 0; i < skillCnt; i++)
+            {
+                if(enemies.Length > 0)
+			    {
+                    int randomEnemyIdx = Random.Range(0, enemies.Length);
+                    CoroutineHandler.StartCoroutine(LaunchMeteorAttack(enemies[randomEnemyIdx].transform.position, player));
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+            yield return new WaitForSeconds(2);
         }
     }
     
@@ -59,10 +59,8 @@ public class Meteor : Augmentation
 		{
 		    foreach (var enemy in col)
 		    {
-                enemy.GetComponent<Entity>().TakeDamage(player, meteorDmg);
+                enemy.GetComponent<Entity>().TakeDamage(player, player.stat.Get(StatType.DAMAGE) * 2);
 		    }
 		}
-
-
     }
 }

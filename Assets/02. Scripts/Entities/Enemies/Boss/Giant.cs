@@ -14,8 +14,6 @@ public class Giant : BossCtrl
     {
         base.InitEntity();
         RegisterPatterns(new PatternDelegate(Pattern1), new PatternDelegate(Pattern2), new PatternDelegate(Pattern3), new PatternDelegate(Pattern4));
-        stat.SetDefault(StatType.MAX_HP, 5000);
-        hp = stat.Get(StatType.MAX_HP);
     }
 
     public IEnumerator Pattern1()

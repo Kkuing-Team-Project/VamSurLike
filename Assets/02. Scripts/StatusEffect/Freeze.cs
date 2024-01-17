@@ -15,9 +15,12 @@ public class Freeze : StatusEffect
         target.rigid.velocity = Vector3.zero;
         target.rigid.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
 
-        SkinnedMeshRenderer skinnedMeshRenderer = target.GetComponentInChildren<SkinnedMeshRenderer>();
-
-        skinnedMeshRenderer.material = freezeMaterial;
+        Material[] materials = new Material[target.originMaterials.Length];
+        for (int i = 0; i < materials.Length; i++)
+        {
+            materials[i] = freezeMaterial;
+        }
+        target.meshRenderer.materials = materials;
 
         target.SetAnimationPlaying(false);
     }

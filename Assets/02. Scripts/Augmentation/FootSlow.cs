@@ -19,7 +19,7 @@ public class FootSlow : Augmentation
     {
         lastActionTime = Time.time;
         delay = 0f;
-        duration = 1.0f;
+        duration = 2.0f;   
     }
 
     protected override AugmentationEventType GetEventType()
@@ -38,9 +38,10 @@ public class FootSlow : Augmentation
         CoroutineHandler.StartCoroutine(Action(sender));
     }
 
+
     private IEnumerator Action(Entity sender)
     {
-        float radius = 5;
+        float radius = 1.5f;
         float delayTimer = 0;
         Vector3 pos = sender.transform.position;
         

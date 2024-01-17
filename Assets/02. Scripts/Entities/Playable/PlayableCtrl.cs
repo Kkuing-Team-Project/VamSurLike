@@ -53,11 +53,12 @@ public abstract class PlayableCtrl : Entity
     // 코루틴
     private Coroutine attackCor;
     private Coroutine dashCor;
+    protected Coroutine skillCor;
 
     // 증강 리스트
     private List<Augmentation> augmentationList = new List<Augmentation>();
 
-    bool canMove = true;
+    protected bool isAction = false;
 
     // Components applied to the player object.
     ObjectPool objectPool;
@@ -100,7 +101,7 @@ public abstract class PlayableCtrl : Entity
 
     void FixedUpdate()
     {
-        if (canMove)
+        if (!isAction)
         {
             rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
         }
@@ -130,24 +131,62 @@ public abstract class PlayableCtrl : Entity
     protected override void UpdateEntity()
     {
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
-
-        #region Move Player
-        inputVector.x = Input.GetAxis("Horizontal");
-        inputVector.z = Input.GetAxis("Vertical");
-        if (inputVector.magnitude > 0)
+        if (!isAction)
         {
-            animator.SetBool("IsMove", true);
+            #region Get Player Input
+            inputVector.x = Input.GetAxis("Horizontal");
+            inputVector.z = Input.GetAxis("Vertical");
+            if (inputVector.magnitude > 0)
+            {
+                animator.SetBool("IsMove", true);
 
-            animator.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
-            animator.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
+                animator.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
+                animator.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
-            animator.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
+                animator.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
+            }
+            else
+            {
+                animator.SetBool("IsMove", false);
+            }
+            #endregion
+            #region Check Enmey around player And Attack, Rotate
+            Vector3 targetPosition = Vector3.zero;
+
+            // 공격 범위 내에 적이 있다면.
+            if (GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
+            {
+                targetPosition = GetNearestEnemy().transform.position;
+
+                if (attackCor == null)
+                {
+                    attackCor = StartCoroutine(AttackCoroutine());
+                }
+            }
+
+            // 공격 범위 내에 적이 없다면
+            else if (GetNearestEnemy() == null)
+            {
+                if (attackCor != null)
+                {
+                    StopCoroutine(attackCor);
+                    attackCor = null;
+                }
+
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
+                {
+                    targetPosition = hit.point;
+                }
+            }
+
+            targetPosition.y = transform.position.y;
+            Vector3 targetDirection = (targetPosition - transform.position).normalized;
+            Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
+
+            transform.rotation = nextRotation;
+            #endregion
         }
-        else
-        {
-            animator.SetBool("IsMove", false);
-        }
-        #endregion
 
         #region Check Experience Gem around player
         Collider[] experienceGems = Physics.OverlapSphere(transform.position, stat.Get(StatType.EXP_RANGE), LayerMask.GetMask("EXP"));
@@ -160,45 +199,9 @@ public abstract class PlayableCtrl : Entity
         }
         #endregion
 
-        #region Check Enmey around player And Attack, Rotate
-        Vector3 targetPosition = Vector3.zero;
-
-        // 공격 범위 내에 적이 있다면.
-        if (GetNearestEnemy() != null && GetNearestEnemy().gameObject.activeSelf)
-        {
-            targetPosition = GetNearestEnemy().transform.position;
-
-            if (attackCor == null)
-            {
-                attackCor = StartCoroutine(AttackCoroutine());
-            }
-        }
-
-        // 공격 범위 내에 적이 없다면
-        else if (GetNearestEnemy() == null)
-        {
-            if(attackCor != null)
-            {
-                StopCoroutine(attackCor);
-                attackCor = null;
-            }
-
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
-            {
-                targetPosition = hit.point;
-            }
-        }
-
-        targetPosition.y = transform.position.y;
-        Vector3 targetDirection = (targetPosition - transform.position).normalized;
-        Quaternion nextRotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), rotationAnglePerSecond * Time.deltaTime);  // 다음 프레임에 적용할 회전값
-
-        transform.rotation = nextRotation;
-        #endregion
 
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (skillCor == null && Input.GetKeyDown(KeyCode.Q))
         {
             PlayerSkill();
         }
@@ -293,7 +296,7 @@ public abstract class PlayableCtrl : Entity
     #region Dash Method
     protected IEnumerator DashCor()
     {
-        canMove = false;
+        isAction = true;
         rigid.velocity = Vector3.zero;
         Vector3 direction = inputVector.normalized;
 
@@ -317,7 +320,7 @@ public abstract class PlayableCtrl : Entity
 
         rigid.velocity = Vector3.zero;
 
-        canMove = true;
+        isAction = false;
 
         gaugeBar.DashBar.SetBarValue(0, 5f);
 
