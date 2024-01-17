@@ -10,9 +10,11 @@ public class UICtrl : MonoBehaviour
 
     // Update is called once per frame
 
-    void Start(){
+    void Start()
+    {
         Canvas.SetActive(false);
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -23,6 +25,14 @@ public class UICtrl : MonoBehaviour
 
             TogglePause();
         }
+    }
+
+    public void ContinueGame()
+    {
+        objectsActive = false;
+        isPaused = false;
+        Canvas.SetActive(false);
+        Time.timeScale = 1;
     }
 
     void TogglePause()
