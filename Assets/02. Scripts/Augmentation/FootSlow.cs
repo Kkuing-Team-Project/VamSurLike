@@ -38,6 +38,7 @@ public class FootSlow : Augmentation
         CoroutineHandler.StartCoroutine(Action(sender));
     }
 
+
     private IEnumerator Action(Entity sender)
     {
         float radius = 1.5f;
