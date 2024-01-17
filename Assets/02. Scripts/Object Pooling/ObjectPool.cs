@@ -32,6 +32,7 @@ public class ObjectPool : MonoBehaviour
         Explosion,
         EnergyField,
         Portal,
+        MeshTrailObject,
     }
 
     [System.Serializable]
