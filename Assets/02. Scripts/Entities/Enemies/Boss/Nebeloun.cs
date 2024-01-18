@@ -1,51 +1,59 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-public class Nebeloun : BossCtrl
+public class Nebeloun : MonoBehaviour
 {
-    protected override void InitEntity()
+    private PlayableCtrl player;
+    private CinemachineImpulseSource cameraShakeSource;
+
+    private void Start()
     {
-        base.InitEntity();
-        RegisterPatterns(new PatternDelegate(Pattern1), new PatternDelegate(Pattern2), new PatternDelegate(Pattern3), new PatternDelegate(Pattern4), new PatternDelegate(Pattern5));
+        player = GameManager.instance.player;
+        cameraShakeSource = gameObject.GetComponent<CinemachineImpulseSource>();
+        StartCoroutine(AttackCor(3, 0.25f, 3, 6));
     }
 
 
-    protected override void OnEntityDied()
+    public IEnumerator AttackCor(float moveTime, float waitTime, float attackTime, int attackCnt)
     {
+        cameraShakeSource.GenerateImpulse();
+        Vector3 origin = player.transform.position + Vector3.right * 60 + Vector3.up * 40 + Vector3.back * 17;
+        Vector3 moveTo = player.transform.position + Vector3.left * 60 + Vector3.up * 40 + Vector3.back * 17;
+
+        for (float elapsedTime = 0; elapsedTime < moveTime; elapsedTime += Time.deltaTime)
+        {
+            transform.position = Vector3.Lerp(origin, moveTo, elapsedTime / moveTime);
+            yield return null;  
+        }
+
+        yield return new WaitForSeconds(waitTime);
+
+        Vector3 startAttackPos = player.transform.position + Vector3.right * 14;
+        Vector3 endAttackPos = player.transform.position + Vector3.left * 14;
+
+        for (int i = 0; i < attackCnt; i++)
+        {
+            var pos = Vector3.Lerp(startAttackPos, endAttackPos, i / (attackCnt - 1f));
+            StartCoroutine(Explosion(pos, 3, 1));
+            yield return new WaitForSeconds(attackTime / (float)attackCnt);
+        }
     }
 
-    protected override void OnFinishPattern(int nowPatternIdx)
+    private IEnumerator Explosion(Vector3 pos, float range, float waitTime)
     {
-        throw new System.NotImplementedException();
-    }
-
-    protected override void OnTakeDamage(Entity caster, float dmg)
-    {
-    }
-
-    private IEnumerator Pattern1()
-    {
-        yield return null;
-    }
-    private IEnumerator Pattern2()
-    {
-
-        yield return null;
-    }
-    private IEnumerator Pattern3()
-    {
-
-        yield return null;
-    }
-    private IEnumerator Pattern4()
-    {
-
-        yield return null;
-    }
-    private IEnumerator Pattern5()
-    {
-
-        yield return null;
+        var portal = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.Portal, pos).GetComponent<PortalEffect>();
+        portal.SetColor(Color.red);
+        portal.SetSize(Vector3.one * range);
+        portal.transform.eulerAngles = new Vector3(90, 0, 0);
+        yield return new WaitForSeconds(waitTime);
+        var lightning = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.LightningBolt, pos).GetComponent<LightningBoltEffect>();
+        cameraShakeSource.GenerateImpulse();
+        yield return new WaitForSeconds(0.5f);
+        portal.ReturnObject();
+        yield return new WaitForSeconds(0.5f);
+        lightning.ReturnObject();
     }
 }

@@ -6,8 +6,4 @@ public class MeteorEffect : EffectParticle
         objectType = ObjectPool.ObjectType.Meteor;
     }
 
-    public void OnEnable()
-    {
-        
-    }
 }

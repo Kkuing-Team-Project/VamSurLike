@@ -34,6 +34,7 @@ public class ObjectPool : MonoBehaviour
         Portal,
         FootSlow,
         MeshTrailObject,
+        LightningBolt,
     }
 
     [System.Serializable]
