@@ -56,16 +56,16 @@ public abstract class EnemyCtrl : Entity, IPoolable
     public virtual void OnCreate()
     {
         originMaterials = GetComponentInChildren<SkinnedMeshRenderer>()?.materials;
-
     }
 
     public virtual void OnActivate()
     {
+        InitEntity();
         rigid.velocity = Vector3.zero;
         rigid.isKinematic = false;
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
         SetAnimationPlaying(true);
-        ResetMaterial();        
+        ResetMaterial();      
     }
 
     public virtual void ReturnObject()

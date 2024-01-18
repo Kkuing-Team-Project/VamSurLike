@@ -42,7 +42,7 @@ public class IcePlayable : PlayableCtrl
         }
     }
 
-    public void QuitSkill()
+    public void QuitSkillAnimation()
     {
         animator.SetLayerWeight(1, 1);
         isAction = false;

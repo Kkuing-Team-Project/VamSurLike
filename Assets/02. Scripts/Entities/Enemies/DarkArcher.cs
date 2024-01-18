@@ -10,13 +10,6 @@ public class DarkArcher : EnemyCtrl
     protected override void InitEntity()
     {
         base.InitEntity();
-        if (attackCor != null)  attackCor = null;
-    }
-
-    public override void OnActivate()
-    {
-        base.OnActivate();
-        if (attackCor != null)  attackCor = null;
     }
 
     protected override void UpdateEntity()
@@ -36,7 +29,6 @@ public class DarkArcher : EnemyCtrl
     public override void OnCreate()
     {
         base.OnCreate();
-        if (attackCor != null)  attackCor = null;
     }
 
     protected override void EnemyMove()
@@ -46,7 +38,8 @@ public class DarkArcher : EnemyCtrl
 
     protected override void EnemyAttack()
     {
-        if (attackCor == null) attackCor = StartCoroutine(AttackCor());
+        if (attackCor == null) 
+            attackCor = StartCoroutine(AttackCor());
     }
 
     protected override void OnEntityDied()
@@ -58,6 +51,11 @@ public class DarkArcher : EnemyCtrl
     public override void ReturnObject()
     {
         pool?.ReturnObject(gameObject, ObjectPool.ObjectType.DarkArcher);
+        if(attackCor != null)
+        {
+            StopCoroutine(attackCor);
+            attackCor = null;
+        }
     }
 
     protected override void OnTakeDamage(Entity caster, float dmg)
