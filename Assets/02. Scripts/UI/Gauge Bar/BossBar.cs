@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BossGaugeBar : MonoBehaviour
+public class BossBar : MonoBehaviour
 {
     [Header("Ã¼·Â¹Ù")]
     public GaugeBar hpBar;
