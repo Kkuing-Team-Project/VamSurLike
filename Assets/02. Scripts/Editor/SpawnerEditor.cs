@@ -32,13 +32,13 @@ public class SpawnerEditor : Editor
                 EditorGUILayout.PropertyField(m_Waves.GetArrayElementAtIndex(i), new GUIContent("Wave " + i));
                 GUILayout.EndVertical();
 
-                if (i < myTarget.waves.Length)
+                if (i < myTarget.stage.waves.Length)
                 {
-                    if (myTarget.waves[i].maxPercent <= 0)
+                    if (myTarget.stage.waves[i].maxPercent <= 0)
                     {
                         EditorGUILayout.HelpBox($"Wave {i} Max Percent out of range", MessageType.Error);
                     }
-                    else if (myTarget.waves[i].maxPercent != 100)
+                    else if (myTarget.stage.waves[i].maxPercent != 100)
                     {
                         EditorGUILayout.HelpBox($"Wave {i} Max Percent is not 100", MessageType.Warning);
                     }
