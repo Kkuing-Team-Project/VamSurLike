@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 8245145062164442522}
   - component: {fileID: 8245145062164442524}
   m_Layer: 5
-  m_Name: Boss Gauge Bar
+  m_Name: Boss Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
