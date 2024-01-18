@@ -26,6 +26,12 @@ public class HUD : MonoBehaviour
 
 	public PlayerBar playerGaugeBar;
 
+
+	private void Start()
+	{
+		GameManager.instance.killCountAnimator = killCountText.GetComponentInParent<Animator>();
+	}
+
 	void LateUpdate()
 	{
 		UIUpdate();
@@ -41,7 +47,6 @@ public class HUD : MonoBehaviour
 		timeText.text = string.Format("{0:D2} : {1:D2}", sceneStartTime / 60, sceneStartTime % 60);
 
 		killCountText.text = GameManager.instance.killCount.ToString();
-
 
 		if (GameManager.instance.player.level >= GameManager.instance.levelTable.Count - 1)
 		{

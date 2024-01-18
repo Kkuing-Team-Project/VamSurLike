@@ -90,6 +90,8 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
+        if(string.IsNullOrEmpty(GameManager.instance.stageName) == false)
+            fileName = GameManager.instance.stageName;
         if (string.IsNullOrEmpty(fileName) == false)
             JsonParsing("Data/" + fileName);
         floorLayerMask = LayerMask.GetMask("FLOOR");

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,7 +17,20 @@ public class GameManager : MonoBehaviour
     public List<Dictionary<string, object>> levelTable;
     public List<Dictionary<string, object>> augTable;
     public List<Dictionary<string, object>> explanationTable;
-    public int killCount;
+    private int m_killCount;
+    public Animator killCountAnimator { get; set; }
+
+    public string stageName;
+    public string playerName;
+    public int killCount
+    {
+        get => m_killCount;
+        set
+        {
+            m_killCount = value;
+            killCountAnimator?.SetTrigger("Kill");
+        }
+    }
 
     private void Awake()
     {
@@ -39,11 +53,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         killCount = 0;
+        if (playerName != null)
+        {
+          // 여기에 player type name 정의한 값
+        }
+        
         player = FindObjectOfType<PlayableCtrl>();
         switch (scene.name)
         {
