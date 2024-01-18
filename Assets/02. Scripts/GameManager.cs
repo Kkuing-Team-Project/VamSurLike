@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

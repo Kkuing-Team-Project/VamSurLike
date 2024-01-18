@@ -5,15 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneCtrl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // 새로운 장면으로 전환하는 메소드
+    
+    public void TransitionToScene(string sceneName)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameManager.instance.LoadInGame(sceneName);
     }
 }
