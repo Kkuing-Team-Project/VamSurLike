@@ -43,7 +43,7 @@ public class NuclearBomb : Augmentation
                 ObjectPool.ObjectType.NuclearBomb,
                 GameManager.instance.player.transform.position);
 
-            Debug.Log(GameManager.instance.augTable[level]["NuclearBomb"].ToString());
+            // Debug.Log(GameManager.instance.augTable[level]["NuclearBomb"].ToString());
             yield return new WaitForSeconds(float.Parse(GameManager.instance.augTable[level]["NuclearBomb"].ToString()));
         }
     }
