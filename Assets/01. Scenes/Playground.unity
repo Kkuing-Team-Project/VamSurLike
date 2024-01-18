@@ -377,6 +377,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 188703541845078072, guid: b2997b2c6a7ee2d4c93bcd03e09f302b, type: 3}
+      propertyPath: windSkillEffectColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 188703541845078072, guid: b2997b2c6a7ee2d4c93bcd03e09f302b, type: 3}
+      propertyPath: windSkillEffectColor.b
+      value: 0.30588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 188703541845078072, guid: b2997b2c6a7ee2d4c93bcd03e09f302b, type: 3}
+      propertyPath: windSkillEffectColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 188703541845078072, guid: b2997b2c6a7ee2d4c93bcd03e09f302b, type: 3}
+      propertyPath: windSkillEffectColor.r
+      value: 0.8862745
+      objectReference: {fileID: 0}
     - target: {fileID: 188703541845078077, guid: b2997b2c6a7ee2d4c93bcd03e09f302b, type: 3}
       propertyPath: m_Name
       value: Volume Manager
@@ -958,15 +974,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1000.17755
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 576.9446
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.6052704
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1059,6 +1075,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3286817473292937359, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
+      propertyPath: isTest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286817473292937359, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
+      propertyPath: bulletNum
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3286817473292937359, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
       propertyPath: trailMaterial
       value: 
       objectReference: {fileID: 2100000, guid: c9da60b6f4beeff41b8ec2c8469b9973, type: 2}
@@ -1066,6 +1090,10 @@ PrefabInstance:
       propertyPath: meshRefreshRate
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7634129421516143512, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ec30c820f5e81354cb5ab89c914d5d72, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
 --- !u!1001 &2156813586594194573
@@ -1122,6 +1150,30 @@ PrefabInstance:
     - target: {fileID: 6047680433688010349, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}
       propertyPath: m_Name
       value: Object Pool Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477234610130841757, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477234610130841757, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477234610130841757, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477234610130841757, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477234610130841757, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477234610130841757, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e747ae1f3f2a3c4290d157cba7b245b, type: 3}

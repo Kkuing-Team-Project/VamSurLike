@@ -146,13 +146,13 @@ public abstract class PlayableCtrl : Entity
                 animator.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
                 animator.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
-                animator.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
+                //animator.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
             }
             else
             {
                 animator.SetBool("IsMove", false);
             }
-            #region Check Enmey around player And Attack, Rotate
+            #region Check Enmey around player And Rotate Player
             Vector3 targetPosition = Vector3.zero;
 
             // 공격 범위 내에 적이 있다면.
@@ -364,7 +364,10 @@ public abstract class PlayableCtrl : Entity
             }
         }
         cameraShakeSource.GenerateImpulse();
-        VolumeManager.Instance.StartHitEffect(0.5f);
+        if (!HasEffect<Invincible>())
+        {
+            VolumeManager.Instance.StartHitEffect(0.5f);
+        }
         objectPool.GetObject(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion

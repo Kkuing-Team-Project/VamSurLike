@@ -8,17 +8,15 @@ public class MeshTrailObject : MonoBehaviour, IPoolable
 
     MeshRenderer meshRenderer;
     MeshFilter meshFilter;
-
+    Material currentMaterial;
     public void OnActivate()
     {
-        meshRenderer.material.SetFloat("_Alpha", 1f);
-        StartCoroutine(AnimateMaterialFloat(meshRenderer.material, 0f, 0.2f, 0.1f));
     }
 
     public void OnCreate()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
+        meshFilter = GetComponentInChildren<MeshFilter>();
     }
 
     public void ReturnObject()
@@ -29,19 +27,25 @@ public class MeshTrailObject : MonoBehaviour, IPoolable
     public void SetMeshInfo(Mesh mesh, Material material)
     {
         meshFilter.mesh = mesh;
-        meshRenderer.material = material;
+        currentMaterial = new Material(material);
+
+        meshRenderer.material = currentMaterial;
+
+        currentMaterial.SetFloat("_Alpha", 1f);
+        StartCoroutine(AnimateMaterialFloat(currentMaterial, 0f, 0.1f, 0.05f));
     }
     IEnumerator AnimateMaterialFloat(Material mat, float goal, float rate, float refreshRate)
     {
         float valueToAnimate = mat.GetFloat("_Alpha");
-
         while (valueToAnimate > goal)
         {
             valueToAnimate -= rate;
+
             mat.SetFloat("_Alpha", valueToAnimate);
+            Debug.Log(mat.GetFloat("_Alpha"));
             yield return new WaitForSeconds(refreshRate);
         }
-
+        
         ReturnObject();
     }
 }
