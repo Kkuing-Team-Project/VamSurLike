@@ -819,7 +819,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: P_WIND
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &598426391
@@ -1103,7 +1103,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: P_ICE
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &941662740
@@ -1590,7 +1590,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: P_FIRE
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1449285509

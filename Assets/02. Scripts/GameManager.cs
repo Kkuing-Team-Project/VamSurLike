@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Animator killCountAnimator { get; set; }
 
     public string stageName;
+    public string playerName;
     public int killCount
     {
         get => m_killCount;
@@ -57,6 +59,11 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         killCount = 0;
+        if (playerName != null)
+        {
+          // 여기에 player type name 정의한 값
+        }
+        
         player = FindObjectOfType<PlayableCtrl>();
         switch (scene.name)
         {
