@@ -26,6 +26,12 @@ public class HUD : MonoBehaviour
 
 	public PlayerGaugeBar playerGaugeBar;
 
+
+	private void Start()
+	{
+		GameManager.instance.killCountAnimator = killCountText.GetComponentInParent<Animator>();
+	}
+
 	void LateUpdate()
 	{
 		UIUpdate();
@@ -41,7 +47,6 @@ public class HUD : MonoBehaviour
 		timeText.text = string.Format("{0:D2} : {1:D2}", sceneStartTime / 60, sceneStartTime % 60);
 
 		killCountText.text = GameManager.instance.killCount.ToString();
-
 
 		if (GameManager.instance.player.level >= GameManager.instance.levelTable.Count - 1)
 		{
@@ -174,6 +179,7 @@ public class HUD : MonoBehaviour
 		{
 			augButtons[i].onClick.RemoveAllListeners();
 			string key = tempAugList[i];
+			string type = string.Empty;
             augNameTexts[i].text = key;
 
 			int level = GameManager.instance.player.HasAugmentation(key) ? GameManager.instance.player.GetAugmentationLevel(key) + 1 : 0;
@@ -185,7 +191,8 @@ public class HUD : MonoBehaviour
                 if (key.Equals(GameManager.instance.explanationTable[j]["Item_Name"].ToString()))
                 {
 					augNameTexts[i].text = GameManager.instance.explanationTable[j]["Korea_Name"].ToString();
-					augTypeTexts[i].text = GameManager.instance.explanationTable[j]["Item_Type"].ToString();
+					type = GameManager.instance.explanationTable[j]["Item_Type"].ToString();
+                    augTypeTexts[i].text = type;
                     string explanation = GameManager.instance.explanationTable[j]["Item_Explanation"].ToString();
                     augExplanationTexts[i].text = string.Format(explanation, datas);
                 }
@@ -195,7 +202,8 @@ public class HUD : MonoBehaviour
 			{
                 Augmentation aug = Activator.CreateInstance(Type.GetType(key), 0, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
                 GameManager.instance.player.AddAugmentation(aug);
-				AddRune(aug);
+				if (type.Equals("보조"))
+					AddRune(aug);
 				augPanel.SetActive(false);
                 Time.timeScale = 1;
 			});

@@ -99,14 +99,6 @@ public abstract class PlayableCtrl : Entity
         gaugeBar = hud?.playerGaugeBar;
     }
 
-    void FixedUpdate()
-    {
-        if (!isAction)
-        {
-            rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
-        }
-    }
-
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
@@ -128,14 +120,25 @@ public abstract class PlayableCtrl : Entity
         AddAugmentation(aug);
     }
 
+    void FixedUpdate()
+    {
+        if (!isAction)
+        {
+            rigid.velocity = inputVector.normalized * stat.Get(StatType.MOVE_SPEED);
+        }
+    }
+
     protected override void UpdateEntity()
     {
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
+        
+        #region Get Player Input
+        inputVector.x = Input.GetAxis("Horizontal");
+        inputVector.z = Input.GetAxis("Vertical");
+        #endregion
+
         if (!isAction)
         {
-            #region Get Player Input
-            inputVector.x = Input.GetAxis("Horizontal");
-            inputVector.z = Input.GetAxis("Vertical");
             if (inputVector.magnitude > 0)
             {
                 animator.SetBool("IsMove", true);
@@ -143,14 +146,13 @@ public abstract class PlayableCtrl : Entity
                 animator.SetFloat("InputX", transform.InverseTransformVector(inputVector).x);
                 animator.SetFloat("InputZ", transform.InverseTransformVector(inputVector).z);
 
-                animator.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
+                //animator.speed = rigid.velocity.magnitude / 6f;     // Code to set animation speed based on movement speed
             }
             else
             {
                 animator.SetBool("IsMove", false);
             }
-            #endregion
-            #region Check Enmey around player And Attack, Rotate
+            #region Check Enmey around player And Rotate Player
             Vector3 targetPosition = Vector3.zero;
 
             // 공격 범위 내에 적이 있다면.
@@ -362,7 +364,10 @@ public abstract class PlayableCtrl : Entity
             }
         }
         cameraShakeSource.GenerateImpulse();
-        VolumeManager.Instance.StartHitEffect(0.5f);
+        if (!HasEffect<Invincible>())
+        {
+            VolumeManager.Instance.StartHitEffect(0.5f);
+        }
         objectPool.GetObject(ObjectPool.ObjectType.HitParticle, transform.position + Vector3.up);
     }
     #endregion

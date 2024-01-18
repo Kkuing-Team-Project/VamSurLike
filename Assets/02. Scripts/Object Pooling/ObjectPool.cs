@@ -33,6 +33,7 @@ public class ObjectPool : MonoBehaviour
         EnergyField,
         Portal,
         FootSlow,
+        MeshTrailObject,
     }
 
     [System.Serializable]

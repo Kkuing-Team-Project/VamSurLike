@@ -37,6 +37,10 @@ public class Spirit : Entity
     private Collider col;
     private MagicCircleEffect magicCircle;
 
+    private Animator anim;
+    private readonly int aniSpeed = Animator.StringToHash("Speed");
+    private readonly int aniStabilization = Animator.StringToHash("Stabilization");
+
     protected override void InitEntity()
     {
         base.InitEntity();
@@ -45,6 +49,7 @@ public class Spirit : Entity
         if(nav == null)
             nav = gameObject.GetComponent<NavMeshAgent>();
         col = gameObject.GetComponent<Collider>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     protected override void UpdateEntity()
@@ -76,13 +81,21 @@ public class Spirit : Entity
         {
             case SpiritState.IDLE:
                 col.enabled = false;
+                anim.SetFloat(aniSpeed, 0);
+                anim.SetBool(aniStabilization, false);
                 break;
             case SpiritState.MOVE:
                 nav.speed = stat.Get(StatType.MOVE_SPEED);
+                anim.SetFloat(aniSpeed, 1);
+                anim.SetBool(aniStabilization, false);
+                anim.speed = stat.Get(StatType.MOVE_SPEED);
                 nav.SetDestination(collapseZone.transform.position);
                 col.enabled = false;
                 break;
             case SpiritState.OCCUPY:
+                anim.SetFloat(aniSpeed, 0);
+                anim.SetBool(aniStabilization, true);
+                anim.speed = 1;
                 col.enabled = true;
                 break;
             default:
@@ -91,7 +104,7 @@ public class Spirit : Entity
 
         if (magicCircle != null) 
         {
-            magicCircle.transform.position = transform.position;
+            magicCircle.transform.position = transform.position + Vector3.down * 0.99f;
         }
     }
 

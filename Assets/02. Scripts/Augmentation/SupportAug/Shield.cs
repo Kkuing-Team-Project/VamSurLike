@@ -39,16 +39,11 @@ public class Shield : Augmentation
         maxShield = int.Parse(GameManager.instance.augTable[level]["Shield"].ToString());
         if (curShield > 0)
 		{
-			if(shield == null)
-			{
-				shield = pool.GetObject(ObjectPool.ObjectType.Shield, playerTransform.position).GetComponent<ShieldEffect>();
-            }
 			e.target.AddEffect(new Invincible(1,Time.deltaTime, e.target));
 			curShield--;
-
 		}
 
-        if (curShield <= 0)
+        if (curShield <= 0 && shield != null)
         {
             curShield = 0;
             shield.ReturnObject();
@@ -66,6 +61,11 @@ public class Shield : Augmentation
 			yield return new WaitForSeconds(3f);
 			
 			curShield = Mathf.Clamp(curShield + 1, 0, maxShield);
+			if(shield == null)
+			{
+				shield = pool.GetObject(ObjectPool.ObjectType.Shield, playerTransform.position).GetComponent<ShieldEffect>();
+                shield.transform.SetParent(playerTransform);
+            }
 			SetColor(colors[curShield - 1]);
 		}
 	}

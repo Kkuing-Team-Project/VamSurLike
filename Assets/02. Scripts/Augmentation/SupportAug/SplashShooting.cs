@@ -26,7 +26,8 @@ public class SplashShooting : Augmentation
         Collider[] col = Physics.OverlapSphere(e.eventTr.position, radius, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
         foreach (var enemy in col)
         {
-            enemy.GetComponent<Entity>().TakeDamage(GameManager.instance.player, GameManager.instance.player.stat.Get(StatType.DAMAGE));
+            if (enemy.GetComponent<Entity>() != e.target)
+                enemy.GetComponent<Entity>().TakeDamage(GameManager.instance.player, GameManager.instance.player.stat.Get(StatType.DAMAGE));
         }
     }
 }

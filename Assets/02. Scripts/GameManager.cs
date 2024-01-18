@@ -16,7 +16,17 @@ public class GameManager : MonoBehaviour
     public List<Dictionary<string, object>> levelTable;
     public List<Dictionary<string, object>> augTable;
     public List<Dictionary<string, object>> explanationTable;
-    public int killCount;
+    private int m_killCount;
+    public Animator killCountAnimator { get; set; }
+    public int killCount
+    {
+        get => m_killCount;
+        set
+        {
+            m_killCount = value;
+            killCountAnimator?.SetTrigger("Kill");
+        }
+    }
 
     private void Awake()
     {
@@ -39,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -67,9 +78,9 @@ public class GameManager : MonoBehaviour
         loadingPanel.SetActive(false); 
     }
 
-    public void LoadInGame()
+    public void LoadInGame(string sceneName)
     {
-        StartCoroutine(LoadAsyncScene("InGameScene"));
+        StartCoroutine(LoadAsyncScene(sceneName));
     }
 
     public int GetAugMaxLevel(string key)
