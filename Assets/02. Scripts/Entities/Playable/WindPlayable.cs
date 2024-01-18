@@ -12,12 +12,17 @@ public class WindPlayable : PlayableCtrl
     [Header("잔상 머티리얼"), SerializeField]
     Material trailMaterial;
 
-    bool isTrailActive = false;
     SkinnedMeshRenderer[] skinnedMeshRenderers;
 
-
+    
     IEnumerator ActivateTrail(float timeActive)
     {
+        animator.SetBool("Skill", true);
+        stat.Multiply(StatType.MOVE_SPEED, 1.5f);
+        VolumeManager.Instance.SetActiveMotionBlur(true);
+        VolumeManager.Instance.StartWindSkillEffect(timeActive);
+        statusEffects.Add(new Invincible(1, timeActive, this));
+
         while (timeActive > 0)
         {
             timeActive -= meshRefreshRate;
@@ -30,7 +35,7 @@ public class WindPlayable : PlayableCtrl
             for (int i = 0; i < skinnedMeshRenderers.Length; i++)
             {
                 MeshTrailObject meshTrailObj = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.MeshTrailObject, transform.position).GetComponent<MeshTrailObject>();
-                meshTrailObj.transform.rotation = Quaternion.Euler(-90f, transform.rotation.y, 0f);
+                meshTrailObj.transform.rotation = transform.rotation;
 
                 Mesh mesh = new Mesh();
                 skinnedMeshRenderers[i].BakeMesh(mesh);
@@ -40,6 +45,9 @@ public class WindPlayable : PlayableCtrl
 
             yield return new WaitForSeconds(meshRefreshRate);
         }
+        animator.SetBool("Skill", false);
+        stat.Multiply(StatType.MOVE_SPEED, 1f);
+        VolumeManager.Instance.SetActiveMotionBlur(false);
 
         yield return new WaitForSeconds(15f);
 

@@ -104,7 +104,7 @@ public class Spirit : Entity
 
         if (magicCircle != null) 
         {
-            magicCircle.transform.position = transform.position;
+            magicCircle.transform.position = transform.position + Vector3.down * 0.99f;
         }
     }
 

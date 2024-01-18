@@ -1,10 +1,36 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class Stage
+{
+    public Wave[] waves;
+}
+
+[System.Serializable]
+public class Wave
+{
+    public float delay;
+    public float duration;
+    public SpawnObject[] spawnObjects;
+    public float maxPercent = 100.0f;
+}
+
+[System.Serializable]
 public class SpawnObject
 {
-    public ObjectPool.ObjectType type;
+    public string name;
+    public ObjectPool.ObjectType type { get {
+            if (Enum.TryParse(name, out ObjectPool.ObjectType result))
+            {
+                return result;
+            }
+            else
+            {
+                return ObjectPool.ObjectType.None;
+            }
+        }}
 
     public float percent;
     public float percentAmpl;
@@ -24,17 +50,11 @@ public class SpawnObject
     }
 }
 
-[System.Serializable]
-public class Wave
-{
-    public float delay;
-    public float duration;
-    public SpawnObject[] spawnObjects;
-    public float maxPercent = 100.0f;
-}
+
 
 public class Spawner : MonoBehaviour
 {
+    public string fileName;
     private bool gameOver = false;
     public Vector3 center { get; private set; }
     public Vector3 mapSize { get; private set; }
@@ -53,7 +73,7 @@ public class Spawner : MonoBehaviour
     [HideInInspector] public bool isWave;
     [HideInInspector] public SpawnObject[] spawnObjects;
     [HideInInspector] public float maxPercent;
-    [HideInInspector] public Wave[] waves;
+    [HideInInspector] public Stage stage;
     private int currentWaveIndex;
 
     [HideInInspector] public bool isStatic;
@@ -70,13 +90,17 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
+        if(string.IsNullOrEmpty(GameManager.instance.stageName) == false)
+            fileName = GameManager.instance.stageName;
+        if (string.IsNullOrEmpty(fileName) == false)
+            JsonParsing("Data/" + fileName);
         floorLayerMask = LayerMask.GetMask("FLOOR");
         currentWaveIndex = 0;
         currentTime = 0;
         if (isWave)
         {
-            delay = waves[0].delay;
-            SetPercent(waves[0].spawnObjects, waves[0].maxPercent);
+            delay = stage.waves[0].delay;
+            SetPercent(stage.waves[0].spawnObjects, stage.waves[0].maxPercent);
         }
         else
         {
@@ -98,13 +122,29 @@ public class Spawner : MonoBehaviour
                 Spawn();
             }
 
-            if (isWave && lastChangeWaveTime + waves[currentWaveIndex].duration < currentTime)
+            if (isWave && lastChangeWaveTime + stage.waves[currentWaveIndex].duration < currentTime)
             {
                 lastChangeWaveTime = currentTime;
                 ChangeWave();
             }
         }
     }
+
+
+    private void JsonParsing(string path)
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>(path);
+        stage = JsonUtility.FromJson<Stage>(textAsset.text);
+        foreach (var w in stage.waves)
+        {
+            Debug.Log($"{w.duration}, {w.delay}");
+            foreach (var spawn in w.spawnObjects)
+            {
+                Debug.Log($"{spawn.name}, {spawn.percent}");
+            }
+        }
+    }
+
 
     private void SetPercent(SpawnObject[] objects, float percentMax)
     {
@@ -209,11 +249,11 @@ public class Spawner : MonoBehaviour
 
     private void ChangeWave()
     {
-        if (currentWaveIndex < waves.Length - 1)
+        if (currentWaveIndex < stage.waves.Length - 1)
         {
             currentWaveIndex++;
-            SetPercent(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent);
-            delay = waves[currentWaveIndex].delay;
+            SetPercent(stage.waves[currentWaveIndex].spawnObjects, stage.waves[currentWaveIndex].maxPercent);
+            delay = stage.waves[currentWaveIndex].delay;
             // Debug.Log($"wave change... current wave index: {currentWaveIndex}");
         }
     }
@@ -337,7 +377,7 @@ public class Spawner : MonoBehaviour
 
         ObjectPool.ObjectType type =
             isWave
-                ? GetRandomSpawnObjectType(waves[currentWaveIndex].spawnObjects, waves[currentWaveIndex].maxPercent)
+                ? GetRandomSpawnObjectType(stage.waves[currentWaveIndex].spawnObjects, stage.waves[currentWaveIndex].maxPercent)
                 : GetRandomSpawnObjectType(spawnObjects, maxPercent);
         ObjectPoolManager.Instance.objectPool.GetObject(type, point);
     }
@@ -360,7 +400,7 @@ public class Spawner : MonoBehaviour
     {
         floorLayerMask = LayerMask.GetMask("FLOOR"); // 초기화
 
-        foreach (Wave wave in waves)
+        foreach (Wave wave in stage.waves)
         {
             SetPercent(wave.spawnObjects, wave.maxPercent);
         }
