@@ -16,7 +16,17 @@ public class GameManager : MonoBehaviour
     public List<Dictionary<string, object>> levelTable;
     public List<Dictionary<string, object>> augTable;
     public List<Dictionary<string, object>> explanationTable;
-    public int killCount;
+    private int m_killCount;
+    public Animator killCountAnimator { get; set; }
+    public int killCount
+    {
+        get => m_killCount;
+        set
+        {
+            m_killCount = value;
+            killCountAnimator?.SetTrigger("Kill");
+        }
+    }
 
     private void Awake()
     {
