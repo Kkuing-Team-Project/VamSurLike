@@ -52,7 +52,7 @@ public class FootSlow : Augmentation
             delayTimer += Time.deltaTime;
             if (delayTimer >= 1)
             {
-                delayTimer -= 1;
+                delayTimer = 0f;
                 pos = sender.transform.position;
                 foreach (var entity in changedEntities)
                 {

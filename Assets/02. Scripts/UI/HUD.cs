@@ -24,7 +24,7 @@ public class HUD : MonoBehaviour
 	public Text[] augExplanationTexts;
 	public Text[] augTypeTexts;
 
-	public PlayerGaugeBar playerGaugeBar;
+	public PlayerBar playerGaugeBar;
 
 
 	private void Start()
