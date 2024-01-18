@@ -5,10 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class SceneCtrl : MonoBehaviour
 {
-    // 새로운 장면으로 전환하는 메소드
-    
-    public void TransitionToScene(string sceneName)
+
+    public void SelectStage(string stage)
     {
-        GameManager.instance.LoadInGame(sceneName);
+        GameManager.instance.stageName = stage;
+    }
+    
+    public void TransitionToScene(string scene)
+    {
+        GameManager.instance.LoadInGame(scene);
+    }
+
+    public void SelectCharacter(string character)
+    {
+
     }
 }
