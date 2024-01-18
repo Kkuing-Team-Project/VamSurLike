@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerGaugeBar : MonoBehaviour
+public class PlayerBar : MonoBehaviour
 {
     public GaugeBar HpBar;
     public GaugeBar DashBar;

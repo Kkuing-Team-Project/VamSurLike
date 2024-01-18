@@ -9,7 +9,7 @@ public class BossGaugeBar : MonoBehaviour
     [Header("체력바")]
     public GaugeBar hpBar;
 
-    [Header("타겟 보스")]
+    [Header("타겟")]
     public Transform target;
 
     [Header("페이드 아웃 속도"), SerializeField]

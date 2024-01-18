@@ -64,7 +64,7 @@ public abstract class PlayableCtrl : Entity
     ObjectPool objectPool;
     CinemachineImpulseSource cameraShakeSource;
     HUD hud;
-    PlayerGaugeBar gaugeBar;
+    PlayerBar gaugeBar;
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
