@@ -241,7 +241,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 280334417}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: LoadInGame
         m_Mode: 5
@@ -253,82 +253,6 @@ MonoBehaviour:
           m_StringArgument: Character
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1001 &280334416
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1784801285995878376, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4006244883288087530, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276193, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276195, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
---- !u!114 &280334417 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-  m_PrefabInstance: {fileID: 280334416}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57c2b733cb6007c458c9ddbe4fd238a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &736091991
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +554,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 280334417}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: LoadInGame
         m_Mode: 5
@@ -861,7 +785,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 280334417}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: LoadInGame
         m_Mode: 5
