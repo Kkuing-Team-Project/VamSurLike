@@ -14,16 +14,14 @@ public class Slow : StatusEffect
 
     public override void OnFinish(Entity target)
     {
-        target.stat.Multiply(StatType.MOVE_SPEED, 1 / (1f - (Mathf.Clamp(level, 0, 100) / 100f)));
     }
 
     public override void OnStart(Entity target)
     {
-        target.stat.Multiply(StatType.MOVE_SPEED, (1f - (Mathf.Clamp(level, 0, 100) / 100f)));
     }
 
     public override void OnUpdate(Entity target)
     {
-        //target.stat.Multiply(StatType.MOVE_SPEED, 1f - (Mathf.Clamp(level, 0, 100) / 100f));
+        target.stat.Multiply(StatType.MOVE_SPEED, 1f - (Mathf.Clamp(level, 0, 100) / 100f));
     }
 }
