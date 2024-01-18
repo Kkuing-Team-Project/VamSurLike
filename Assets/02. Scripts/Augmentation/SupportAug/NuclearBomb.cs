@@ -32,15 +32,19 @@ public class NuclearBomb : Augmentation
 
     private IEnumerator EffectActionCor(Entity player)
     {
-        foreach (var enemy in UnityEngine.Object.FindObjectsOfType<EnemyCtrl>())
+        while (true)
         {
-            enemy.GetComponent<Entity>().TakeDamage(player, enemy.hp);
+            foreach (var enemy in UnityEngine.Object.FindObjectsOfType<EnemyCtrl>())
+            {
+                enemy.GetComponent<Entity>().TakeDamage(player, enemy.hp);
+            }
+
+            ObjectPoolManager.Instance.objectPool.GetObject(
+                ObjectPool.ObjectType.NuclearBomb,
+                GameManager.instance.player.transform.position);
+
+            Debug.Log(GameManager.instance.augTable[level]["NuclearBomb"].ToString());
+            yield return new WaitForSeconds(float.Parse(GameManager.instance.augTable[level]["NuclearBomb"].ToString()));
         }
-
-        ObjectPoolManager.Instance.objectPool.GetObject(
-            ObjectPool.ObjectType.NuclearBomb,
-            GameManager.instance.player.transform.position);
-
-        yield return new WaitForSeconds(float.Parse(GameManager.instance.augTable[level]["NuclearBomb"].ToString()));
     }
 }
