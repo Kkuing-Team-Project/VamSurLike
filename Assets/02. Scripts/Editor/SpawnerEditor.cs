@@ -13,14 +13,16 @@ public class SpawnerEditor : Editor
     private void OnEnable()
     {
         m_SpawnObjects = serializedObject.FindProperty("spawnObjects");
-        m_Waves = serializedObject.FindProperty("waves");
+        m_Waves = serializedObject.FindProperty("stage").FindPropertyRelative("waves");
     }
 
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
         Spawner myTarget = (Spawner)target;
-
+        if (!string.IsNullOrEmpty(myTarget.fileName))
+            return;
+        
         myTarget.isWave = EditorGUILayout.Toggle("Is Wave", myTarget.isWave);
         if (myTarget.isWave)
         {
@@ -32,13 +34,13 @@ public class SpawnerEditor : Editor
                 EditorGUILayout.PropertyField(m_Waves.GetArrayElementAtIndex(i), new GUIContent("Wave " + i));
                 GUILayout.EndVertical();
 
-                if (i < myTarget.waves.Length)
+                if (i < myTarget.stage.waves.Length)
                 {
-                    if (myTarget.waves[i].maxPercent <= 0)
+                    if (myTarget.stage.waves[i].maxPercent <= 0)
                     {
                         EditorGUILayout.HelpBox($"Wave {i} Max Percent out of range", MessageType.Error);
                     }
-                    else if (myTarget.waves[i].maxPercent != 100)
+                    else if (myTarget.stage.waves[i].maxPercent != 100)
                     {
                         EditorGUILayout.HelpBox($"Wave {i} Max Percent is not 100", MessageType.Warning);
                     }
@@ -104,7 +106,7 @@ public class SpawnObjectDrawer : PropertyDrawer
             EditorGUI.indentLevel = startIndentLevel + 1;
             EditorGUILayout.BeginVertical();
             // EditorGUILayout.PropertyField(property.FindPropertyRelative("prefab"), new GUIContent("Prefab"));
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("type"), new GUIContent("Type"));
+            EditorGUILayout.PropertyField(property.FindPropertyRelative("name"), new GUIContent("Type"));
             // EditorGUILayout.PropertyField(property.FindPropertyRelative("showPercent"),
             //     new GUIContent(
             //         "Show Percent",
