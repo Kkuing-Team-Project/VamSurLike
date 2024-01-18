@@ -1941,7 +1941,7 @@ MonoBehaviour:
   delay: 1
   isWave: 0
   spawnObjects:
-  - name: 
+  - name: CollapseZone
     percent: 100
     percentAmpl: 100
   maxPercent: 100
@@ -4395,8 +4395,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 919132148284098282, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 543450652561776897, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450652561776897, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 543450652561776897, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4808470518836229761, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
@@ -4409,15 +4417,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4808470518836229770, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.71
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4808470518836229770, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4808470518836229770, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4808470518836229770, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
       propertyPath: m_LocalRotation.w
