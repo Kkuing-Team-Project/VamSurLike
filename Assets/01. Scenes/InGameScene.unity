@@ -1432,54 +1432,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: 
+  fileName: Stage1
   playerCamera: {fileID: 436933017}
   stop: 0
   delay: 0.1
   isWave: 1
   spawnObjects: []
   maxPercent: 1
-  waves:
-  - delay: 1.2
-    duration: 30
-    spawnObjects:
-    - type: 1
-      percent: 100
-      percentAmpl: 100
-    maxPercent: 100
-  - delay: 0.8
-    duration: 60
-    spawnObjects:
-    - type: 1
-      percent: 60
-      percentAmpl: 60
-    - type: 2
-      percent: 40
-      percentAmpl: 40
-    maxPercent: 100
-  - delay: 0.4
-    duration: 120
-    spawnObjects:
-    - type: 2
-      percent: 80
-      percentAmpl: 80
-    - type: 3
-      percent: 20
-      percentAmpl: 20
-    maxPercent: 100
-  - delay: 0.2
-    duration: 240
-    spawnObjects:
-    - type: 2
-      percent: 81.818184
-      percentAmpl: 90
-    - type: 3
-      percent: 17.272728
-      percentAmpl: 19
-    - type: 4
-      percent: 0.90909094
-      percentAmpl: 1
-    maxPercent: 100
+  stage:
+    waves: []
   isStatic: 0
   maxRangeRadius: 50
   entityRadius: 0.5
@@ -1794,89 +1755,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &842573149
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1986257848}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-      propertyPath: m_Name
-      value: SK_VampireGirl_LongHair
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
---- !u!1 &842573150 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1f0be5992892bd2418c2664e46826ccd, type: 3}
-  m_PrefabInstance: {fileID: 842573149}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &842573151
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842573150}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: f32ba84e0fbf10d48a6f4e9620a5c39e, type: 3}
-  m_Controller: {fileID: 9100000, guid: a96ccaead5eeaa842a82f8ea229c8646, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &887494307
 GameObject:
   m_ObjectHideFlags: 0
@@ -4575,11 +4453,6 @@ PrefabInstance:
       objectReference: {fileID: 969985720}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
---- !u!4 &1986257848 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4808470518836229770, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
-  m_PrefabInstance: {fileID: 1986257847}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2025903029
 PrefabInstance:
   m_ObjectHideFlags: 0
