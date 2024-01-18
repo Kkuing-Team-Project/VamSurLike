@@ -1432,43 +1432,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fileName: 
   playerCamera: {fileID: 436933017}
   stop: 0
   delay: 0.1
   isWave: 1
   spawnObjects: []
   maxPercent: 1
-  waves:
-  - delay: 0.2
-    duration: 10
-    spawnObjects:
-    - type: 1
-      percent: 100
-      percentAmpl: 100
-    maxPercent: 100
-  - delay: 0.2
-    duration: 20
-    spawnObjects:
-    - type: 1
-      percent: 70
-      percentAmpl: 70
-    - type: 2
-      percent: 30
-      percentAmpl: 30
-    maxPercent: 100
-  - delay: 0.2
-    duration: 30
-    spawnObjects:
-    - type: 2
-      percent: 70
-      percentAmpl: 70
-    - type: 3
-      percent: 20
-      percentAmpl: 20
-    - type: 4
-      percent: 10
-      percentAmpl: 10
-    maxPercent: 100
+  stage:
+    waves:
+    - delay: 0
+      duration: 0
+      spawnObjects:
+      - name: 
+        percent: 1
+        percentAmpl: 1
+      maxPercent: 1
   isStatic: 0
   maxRangeRadius: 50
   entityRadius: 0.5
@@ -2046,16 +2025,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fileName: 
   playerCamera: {fileID: 436933017}
   stop: 0
   delay: 1
   isWave: 0
   spawnObjects:
-  - type: 8
+  - name: 
     percent: 100
     percentAmpl: 100
   maxPercent: 100
-  waves: []
+  stage:
+    waves: []
   isStatic: 1
   maxRangeRadius: 50
   entityRadius: 5
