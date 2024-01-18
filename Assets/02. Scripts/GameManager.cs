@@ -67,9 +67,9 @@ public class GameManager : MonoBehaviour
         loadingPanel.SetActive(false); 
     }
 
-    public void LoadInGame()
+    public void LoadInGame(string sceneName)
     {
-        StartCoroutine(LoadAsyncScene("InGameScene"));
+        StartCoroutine(LoadAsyncScene(sceneName));
     }
 
     public int GetAugMaxLevel(string key)
