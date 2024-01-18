@@ -466,20 +466,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-<<<<<<< HEAD
-<<<<<<< Updated upstream
     - target: {fileID: 1327544438797819001, guid: 267ca189e4b043b418d513ca82208592, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1263674754}
-=======
-    - target: {fileID: 1925251631299442816, guid: 267ca189e4b043b418d513ca82208592, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 4.999939
-      objectReference: {fileID: 0}
->>>>>>> Stashed changes
-=======
->>>>>>> parent of 284ea70 (feat : Spirit hp Bar)
     - target: {fileID: 1925251631980451090, guid: 267ca189e4b043b418d513ca82208592, type: 3}
       propertyPath: m_Pivot.x
       value: 0
