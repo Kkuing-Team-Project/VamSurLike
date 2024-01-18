@@ -28,6 +28,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
             ObjectPool.ObjectType.Portal,
             transform.position).GetComponent<PortalEffect>();
         effect.SetSize(Vector3.one * zoneRange);
+        effect.SetColor(new Color(1f / 47, 1f / 56, 1f / 255));
         effect.transform.eulerAngles = new Vector3(90, 0, 0);
     }
 

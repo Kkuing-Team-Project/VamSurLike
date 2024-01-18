@@ -33,6 +33,7 @@ public class ObjectPool : MonoBehaviour
         EnergyField,
         Portal,
         MeshTrailObject,
+        LightningBolt,
     }
 
     [System.Serializable]
