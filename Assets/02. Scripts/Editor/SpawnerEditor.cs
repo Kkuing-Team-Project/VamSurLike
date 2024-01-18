@@ -13,14 +13,16 @@ public class SpawnerEditor : Editor
     private void OnEnable()
     {
         m_SpawnObjects = serializedObject.FindProperty("spawnObjects");
-        m_Waves = serializedObject.FindProperty("waves");
+        m_Waves = serializedObject.FindProperty("stage").FindPropertyRelative("waves");
     }
 
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
         Spawner myTarget = (Spawner)target;
-
+        if (!string.IsNullOrEmpty(myTarget.fileName))
+            return;
+        
         myTarget.isWave = EditorGUILayout.Toggle("Is Wave", myTarget.isWave);
         if (myTarget.isWave)
         {
@@ -104,7 +106,7 @@ public class SpawnObjectDrawer : PropertyDrawer
             EditorGUI.indentLevel = startIndentLevel + 1;
             EditorGUILayout.BeginVertical();
             // EditorGUILayout.PropertyField(property.FindPropertyRelative("prefab"), new GUIContent("Prefab"));
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("type"), new GUIContent("Type"));
+            EditorGUILayout.PropertyField(property.FindPropertyRelative("name"), new GUIContent("Type"));
             // EditorGUILayout.PropertyField(property.FindPropertyRelative("showPercent"),
             //     new GUIContent(
             //         "Show Percent",

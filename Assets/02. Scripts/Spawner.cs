@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Stage
 {
     public Wave[] waves;
@@ -90,7 +91,7 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         if (string.IsNullOrEmpty(fileName) == false)
-            JsonParsing("Json/" + fileName);
+            JsonParsing("Data/" + fileName);
         floorLayerMask = LayerMask.GetMask("FLOOR");
         currentWaveIndex = 0;
         currentTime = 0;
