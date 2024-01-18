@@ -2129,8 +2129,8 @@ MonoBehaviour:
   - {fileID: 1925251632476287442}
   - {fileID: 1925251632011987642}
   - {fileID: 1925251631295522554}
-  playerGaugeBar: {fileID: 0}
-  spiritGaugeBar: {fileID: 0}
+  playerGaugeBar: {fileID: 3766605898476197543}
+  spiritGaugeBar: {fileID: 1327544438797819001}
 --- !u!1 &1925251631996263975
 GameObject:
   m_ObjectHideFlags: 0
