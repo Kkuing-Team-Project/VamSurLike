@@ -18,6 +18,6 @@ public class SceneCtrl : MonoBehaviour
 
     public void SelectCharacter(string character)
     {
-
+        GameManager.instance.playerName = character;
     }
 }
