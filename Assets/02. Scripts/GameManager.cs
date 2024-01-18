@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public List<Dictionary<string, object>> explanationTable;
     private int m_killCount;
     public Animator killCountAnimator { get; set; }
+
+    public string stageName;
     public int killCount
     {
         get => m_killCount;

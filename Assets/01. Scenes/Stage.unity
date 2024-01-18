@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 145586934}
   - component: {fileID: 145586933}
   - component: {fileID: 145586935}
-  - component: {fileID: 145586936}
   m_Layer: 5
   m_Name: Stage_3
   m_TagString: Untagged
@@ -242,7 +241,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 145586936}
+      - m_Target: {fileID: 2135651219}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: TransitionToScene
         m_Mode: 5
@@ -254,18 +253,18 @@ MonoBehaviour:
           m_StringArgument: Character
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &145586936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145586931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      - m_Target: {fileID: 2135651219}
+        m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
+        m_MethodName: SelectStage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Stage3
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &736091991
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +459,6 @@ GameObject:
   - component: {fileID: 1028659044}
   - component: {fileID: 1028659046}
   - component: {fileID: 1028659045}
-  - component: {fileID: 1028659048}
   - component: {fileID: 1028659047}
   m_Layer: 5
   m_Name: Stage_1
@@ -568,7 +566,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1028659048}
+      - m_Target: {fileID: 2135651219}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: TransitionToScene
         m_Mode: 5
@@ -580,18 +578,18 @@ MonoBehaviour:
           m_StringArgument: Character
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1028659048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1028659043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      - m_Target: {fileID: 2135651219}
+        m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
+        m_MethodName: SelectStage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Stage1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1209268833
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +703,6 @@ GameObject:
   - component: {fileID: 1601716924}
   - component: {fileID: 1601716923}
   - component: {fileID: 1601716925}
-  - component: {fileID: 1601716926}
   m_Layer: 5
   m_Name: Stage_2
   m_TagString: Untagged
@@ -812,7 +809,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1601716926}
+      - m_Target: {fileID: 2135651219}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: TransitionToScene
         m_Mode: 5
@@ -824,18 +821,18 @@ MonoBehaviour:
           m_StringArgument: Character
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1601716926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601716921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      - m_Target: {fileID: 2135651219}
+        m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
+        m_MethodName: SelectStage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Stage2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1756746116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,3 +1030,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791435354}
   m_CullTransparentMesh: 1
+--- !u!1 &2135651218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2135651220}
+  - component: {fileID: 2135651219}
+  m_Layer: 0
+  m_Name: SceneController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2135651219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135651218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2135651220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135651218}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1064.6674, y: 471.1463, z: 138.44167}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

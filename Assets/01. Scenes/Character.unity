@@ -722,7 +722,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 598426389}
-  - component: {fileID: 598426392}
   - component: {fileID: 598426390}
   - component: {fileID: 598426391}
   m_Layer: 5
@@ -799,7 +798,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 598426392}
+      - m_Target: {fileID: 1227122410}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: TransitionToScene
         m_Mode: 5
@@ -809,6 +808,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: InGameScene
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1227122410}
+        m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
+        m_MethodName: SelectCharacter
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &598426391
@@ -826,18 +837,6 @@ MonoBehaviour:
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
   hoverHeightIncrease: -50
   x: 960
---- !u!114 &598426392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 598426388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &662417659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,7 +1006,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 941662738}
-  - component: {fileID: 941662741}
   - component: {fileID: 941662739}
   - component: {fileID: 941662740}
   m_Layer: 5
@@ -1084,7 +1082,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 941662741}
+      - m_Target: {fileID: 1227122410}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: TransitionToScene
         m_Mode: 5
@@ -1094,6 +1092,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: InGameScene
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1227122410}
+        m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
+        m_MethodName: SelectCharacter
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &941662740
@@ -1111,18 +1121,6 @@ MonoBehaviour:
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
   hoverHeightIncrease: -50
   x: 1840
---- !u!114 &941662741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 941662737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &955445901
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1279,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 981646334}
   m_CullTransparentMesh: 1
+--- !u!1 &1227122409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1227122411}
+  - component: {fileID: 1227122410}
+  m_Layer: 0
+  m_Name: SceneController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1227122410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227122409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1227122411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227122409}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1064.6674, y: 471.1463, z: 138.44167}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1274393290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,7 +1492,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1449285507}
-  - component: {fileID: 1449285511}
   - component: {fileID: 1449285508}
   - component: {fileID: 1449285510}
   - component: {fileID: 1449285509}
@@ -1528,7 +1569,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1449285511}
+      - m_Target: {fileID: 1227122410}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: TransitionToScene
         m_Mode: 5
@@ -1538,6 +1579,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: InGameScene
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1227122410}
+        m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
+        m_MethodName: SelectCharacter
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1449285509
@@ -1600,18 +1653,6 @@ MonoBehaviour:
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
   hoverHeightIncrease: -50
   x: 80
---- !u!114 &1449285511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449285506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2b6d0acbeb648ccb26c35ea9914bd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1654010514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,6 +1886,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text_Font: {fileID: 0}
+  animatedText: {fileID: 0}
+  scaleSpeed: 1
+  maxScale: 1.2
+  minScale: 0.8
 --- !u!1 &1665497844
 GameObject:
   m_ObjectHideFlags: 0
