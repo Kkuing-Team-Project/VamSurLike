@@ -13,7 +13,7 @@ public class EnergyField : Augmentation
     private float particleDefaultSize;
     
     public EnergyField(int level, int maxLevel) : base(level, maxLevel)
-    {     
+    {
     }
 
     protected override AugmentationEventType GetEventType()
@@ -23,7 +23,7 @@ public class EnergyField : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        Debug.Log("Energy Field: " + level);
+        // Debug.Log("Energy Field: " + level);
         if(cor != null)
         {
             CoroutineHandler.StopCoroutine(cor);
@@ -37,7 +37,6 @@ public class EnergyField : Augmentation
         particle = ObjectPoolManager.Instance.objectPool.GetObject(
             ObjectPool.ObjectType.EnergyField,
             sender.transform.position);
-        particle.transform.SetParent(sender.transform);
         particleDefaultSize = particle.transform.localScale.x;
 
         cor = CoroutineHandler.StartCoroutine(FieldAttack(e.target));
