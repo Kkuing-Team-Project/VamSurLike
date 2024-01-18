@@ -53,6 +53,7 @@ public class SpawnObject
 
 public class Spawner : MonoBehaviour
 {
+    public string fileName;
     private bool gameOver = false;
     public Vector3 center { get; private set; }
     public Vector3 mapSize { get; private set; }
@@ -88,7 +89,8 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        JsonParsing("Data/Stage1");
+        if (string.IsNullOrEmpty(fileName) == false)
+            JsonParsing("Json/" + fileName);
         floorLayerMask = LayerMask.GetMask("FLOOR");
         currentWaveIndex = 0;
         currentTime = 0;
