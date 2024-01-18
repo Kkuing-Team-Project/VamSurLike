@@ -9,16 +9,16 @@ public class PlayerGaugeBar : MonoBehaviour
     public GaugeBar DashBar;
 
     RectTransform rectTrf;
-    PlayableCtrl player;
+    Transform target;
 
     private void Start()
     {
         rectTrf = GetComponent<RectTransform>();
-        player = GameManager.instance.player;
+        target = GameManager.instance.player.transform.Find("GaugeBarPosition");
     }
 
     private void FixedUpdate()
     {
-        rectTrf.position = RectTransformUtility.WorldToScreenPoint(Camera.main, player.transform.position + Vector3.up * 3f);
+        rectTrf.position = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
     }
 }
