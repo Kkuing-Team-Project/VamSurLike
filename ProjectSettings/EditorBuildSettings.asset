@@ -5,18 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/01. Scenes/Main.unity
     guid: 56613f2072d2970448d87bd6c0710c05
   - enabled: 1
-    path: Assets/01. Scenes/Yeop.unity
-    guid: 2e137c6a573d749b6a607f1f82b3a6a5
+    path: Assets/01. Scenes/Stage.unity
+    guid: cb917f082acda435f818bf4150f7c6a9
   - enabled: 1
-    path: Assets/01. Scenes/Yeopseung.unity
-    guid: a056561f6516043a6963fc6a344cd7c1
+    path: Assets/01. Scenes/Character.unity
+    guid: 3a53f9d4ae7a248e78d1b5139912625d
   - enabled: 1
     path: Assets/01. Scenes/InGameScene.unity
     guid: 9c46fb38b4669044b85159f7be8ddfde
