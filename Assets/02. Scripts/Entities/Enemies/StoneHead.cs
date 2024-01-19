@@ -19,14 +19,8 @@ public class StoneHead : EnemyCtrl
 
     protected override void EnemyAttack()
     {
-        playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
+        target.TakeDamage(this, stat.Get(StatType.DAMAGE));
         TakeDamage(this, stat.Get(StatType.MAX_HP));
-    }
-
-    protected override void OnEntityDied()
-    {
-        base.OnEntityDied();
-        ReturnObject(); // Return the enemy to the pool
     }
 
     public override void ReturnObject()

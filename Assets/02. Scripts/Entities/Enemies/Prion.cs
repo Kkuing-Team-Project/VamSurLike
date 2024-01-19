@@ -29,14 +29,8 @@ public class Prion : EnemyCtrl
 
     protected override void EnemyAttack()
     {
-        playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
-        ReturnObject();
-    }
-
-    protected override void OnEntityDied()
-    {
-        base.OnEntityDied();
-        ReturnObject(); // Return the enemy to the pool
+        target.TakeDamage(this, stat.Get(StatType.DAMAGE));
+        TakeDamage(this, stat.Get(StatType.MAX_HP));
     }
 
     public override void ReturnObject()

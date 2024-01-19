@@ -43,6 +43,7 @@ public class TempBullet : MonoBehaviour, IPoolable
             Entity enemy = other.GetComponent<Entity>();
             player.InvokeEvent(AugmentationEventType.ON_HIT, player, new AugEventArgs(other.transform, enemy));
             enemy.TakeDamage(player, player.stat.Get(StatType.DAMAGE));
+            SoundManager.Instance.PlaySound("Sound_EF_CH_Hit");
             StopAllCoroutines();
             ReturnObject();
         }
