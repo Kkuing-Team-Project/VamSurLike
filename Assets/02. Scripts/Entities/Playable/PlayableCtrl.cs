@@ -293,6 +293,7 @@ public abstract class PlayableCtrl : Entity
                 {
                     Time.timeScale = 0;
                     hud.augPanel.SetActive(true);
+                    SoundManager.Instance.PlaySound("Sound_UI_LevelUP");
                     hud.SetAugmentation();
                 }
             }

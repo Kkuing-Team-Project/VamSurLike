@@ -236,6 +236,7 @@ public class HUD : MonoBehaviour
 			{
                 Augmentation aug = Activator.CreateInstance(Type.GetType(key), 0, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
                 GameManager.instance.player.AddAugmentation(aug);
+				SoundManager.Instance.PlaySound("Sound_UI_UP_Select");
 				if (type.Equals("보조"))
 					AddRune(aug);
 				augPanel.SetActive(false);
