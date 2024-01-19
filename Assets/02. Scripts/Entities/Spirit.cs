@@ -24,6 +24,7 @@ public enum BlessType
 public class Spirit : Entity
 {
     public Spawner collapseZoneSpawner;
+    public float occupyDelay;
     private PlayableCtrl player;
     [HideInInspector]
     public CollapseZone collapseZone;
@@ -36,9 +37,8 @@ public class Spirit : Entity
     private Collider col;
     private MagicCircleEffect magicCircle;
     
-    private Animator anim;
+    public Animator anim { get; private set; }
     private readonly int aniSpeed = Animator.StringToHash("Speed");
-    private readonly int aniStabilization = Animator.StringToHash("Stabilization");
 
     protected override void InitEntity()
     {
@@ -83,19 +83,18 @@ public class Spirit : Entity
             case SpiritState.IDLE:
                 col.enabled = false;
                 anim.SetFloat(aniSpeed, 0);
-                anim.SetBool(aniStabilization, false);
+                anim.SetBool("Stabilization", false);
                 break;
             case SpiritState.MOVE:
                 nav.speed = stat.Get(StatType.MOVE_SPEED);
                 anim.SetFloat(aniSpeed, 1);
-                anim.SetBool(aniStabilization, false);
+                anim.SetBool("Stabilization", false);
                 anim.speed = stat.Get(StatType.MOVE_SPEED);
                 nav.SetDestination(collapseZone.transform.position);
                 col.enabled = false;
                 break;
             case SpiritState.OCCUPY:
                 anim.SetFloat(aniSpeed, 0);
-                anim.SetBool(aniStabilization, true);
                 anim.speed = 1;
                 col.enabled = true;
                 break;

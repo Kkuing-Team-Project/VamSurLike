@@ -58,12 +58,16 @@ public class CollapseZone : MonoBehaviour, IPoolable
         if (spirit.spiritState == SpiritState.OCCUPY)
         {
             elapsedTime += Time.deltaTime;
-            if ((transform.position - spirit.transform.position).magnitude <= zoneRange)
-                value += increment;
-            if (player != null)
+            if (spirit.occupyDelay <= elapsedTime)
             {
-                if ((transform.position - player.transform.position).magnitude <= zoneRange)
+                spirit.anim.SetBool("Stabilization", true);
+                if ((transform.position - spirit.transform.position).magnitude <= zoneRange)
                     value += increment;
+                if (player != null)
+                {
+                    if ((transform.position - player.transform.position).magnitude <= zoneRange)
+                        value += increment;
+                }
             }
         }
         stablity = Mathf.Clamp(stablity + (value * Time.deltaTime), 0, 100f);
