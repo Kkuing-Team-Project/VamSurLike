@@ -7,6 +7,7 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Vector3 hoverScale = new Vector3(1.1f, 1.1f, 1.1f);
     public float hoverHeightIncrease;
     public float x;
+    public float y;
     private Vector3 originalScale;
     private Vector2 originalPosition;
     private RectTransform rectTransform;
@@ -33,7 +34,7 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerExit(PointerEventData eventData)
     {
         transform.localScale = originalScale;
-        rectTransform.anchoredPosition = originalPosition;
+        rectTransform.anchoredPosition = new Vector2(x, y);
         if (layoutGroup != null)
         {
             layoutGroup.enabled = true;
