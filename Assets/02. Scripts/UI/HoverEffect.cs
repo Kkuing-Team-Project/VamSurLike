@@ -12,6 +12,7 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private Vector2 originalPosition;
     private RectTransform rectTransform;
     private HorizontalLayoutGroup layoutGroup;
+    public bool select;
 
     private void Start()
     {
@@ -27,12 +28,20 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             layoutGroup.enabled = false;
         }
+        if(select)
+        {
+            SoundManager.Instance.SelectSound();
+        }
         transform.localScale = hoverScale;
         rectTransform.anchoredPosition = new Vector2(x, originalPosition.y + hoverHeightIncrease);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if(select)
+        {
+            SoundManager.Instance.StopBackgroundMusic();
+        }
         transform.localScale = originalScale;
         rectTransform.anchoredPosition = new Vector2(x, y);
         if (layoutGroup != null)
