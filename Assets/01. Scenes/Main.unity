@@ -435,6 +435,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text_Font: {fileID: 11400000, guid: 1aef6571f4f724a2594db38b2aac5a38, type: 2}
+  animatedText: {fileID: 0}
+  scaleSpeed: 1
+  maxScale: 1.2
+  minScale: 0.8
 --- !u!1 &1134789777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,13 +1054,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1092,7 +1096,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Stage
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!1001 &6254902468746185733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1108,6 +1112,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
+      propertyPath: Characters.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
+      propertyPath: Characters.Array.data[0]
+      value: 
+      objectReference: {fileID: 2451845315716602646, guid: 73345569226c2c94ea6216ee232492c0, type: 3}
+    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
+      propertyPath: Characters.Array.data[1]
+      value: 
+      objectReference: {fileID: 2451845315716602646, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
+    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
+      propertyPath: Characters.Array.data[2]
+      value: 
+      objectReference: {fileID: 2451845315716602646, guid: 5f5f702216db1874298afdeae46be347, type: 3}
     - target: {fileID: 6254902469626276193, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
       propertyPath: m_Name
       value: GameManager

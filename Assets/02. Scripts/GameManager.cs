@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public Text loadingPercentage;
     [HideInInspector]
     public PlayableCtrl player;
+    public GameObject[] Characters;
     public List<Dictionary<string, object>> statTable;
     public List<Dictionary<string, object>> levelTable;
     public List<Dictionary<string, object>> augTable;
@@ -53,16 +54,41 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        killCount = 0;
-        if (playerName != null)
+        switch(scene.name)
         {
-          // 여기에 player type name 정의한 값
+            case "InGameScene":
+                if (playerName != null)
+                {
+                    switch (playerName )
+                    {
+                        case "P_FIRE":
+                            Instantiate(Characters[0], Vector3.zero, Quaternion.identity);
+                            Debug.Log(playerName + "생성 완료");
+                            break;
+                        case "P_WIND":
+                            Instantiate(Characters[1], Vector3.zero, Quaternion.identity);
+                            Debug.Log(playerName + "생성 완료");
+                            break;
+                        case "P_ICE":
+                            Instantiate(Characters[2], Vector3.zero, Quaternion.identity);
+                            Debug.Log(playerName + "생성 완료");
+                            break;
+                        default:
+                            Debug.Log("알 수 없는 캐릭터 이름: " + playerName);
+                            break;
+                    }
+                }
+                else
+                {
+                    Debug.Log("캐릭터 정보가 없습니다.");
+                }
+            break;
         }
+        killCount = 0;
         
         player = FindObjectOfType<PlayableCtrl>();
         switch (scene.name)
@@ -71,6 +97,8 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
+
 
     public IEnumerator LoadAsyncScene(string sceneName)
     {
