@@ -23,8 +23,8 @@ public enum BlessType
 [RequireComponent(typeof(NavMeshAgent))]
 public class Spirit : Entity
 {
-    [SerializeField]
-    private Spawner collapseZoneSpawner;
+    public Spawner collapseZoneSpawner;
+    public float occupyDelay;
     private PlayableCtrl player;
     [HideInInspector]
     public CollapseZone collapseZone;
@@ -36,10 +36,9 @@ public class Spirit : Entity
     private NavMeshAgent nav;
     private Collider col;
     private MagicCircleEffect magicCircle;
-
-    private Animator anim;
+    
+    public Animator anim { get; private set; }
     private readonly int aniSpeed = Animator.StringToHash("Speed");
-    private readonly int aniStabilization = Animator.StringToHash("Stabilization");
 
     protected override void InitEntity()
     {
@@ -54,14 +53,15 @@ public class Spirit : Entity
 
     protected override void UpdateEntity()
     {
+
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
-            if (collapseZoneSpawner) collapseZoneSpawner.stop = false;
+            collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
         }
         else
         {
-            if (collapseZoneSpawner) collapseZoneSpawner.stop = true;
+            collapseZoneSpawner.stop = true;
             var zonePos = collapseZone.transform.position;
             zonePos.y = 0;
             var origin = transform.position;
@@ -71,6 +71,7 @@ public class Spirit : Entity
                 spiritState = SpiritState.MOVE;
             else spiritState = SpiritState.OCCUPY;
         }
+        
         SpiritBehavior();
         Bless(blessRange, blessType);
     }
@@ -82,19 +83,18 @@ public class Spirit : Entity
             case SpiritState.IDLE:
                 col.enabled = false;
                 anim.SetFloat(aniSpeed, 0);
-                anim.SetBool(aniStabilization, false);
+                anim.SetBool("Stabilization", false);
                 break;
             case SpiritState.MOVE:
                 nav.speed = stat.Get(StatType.MOVE_SPEED);
                 anim.SetFloat(aniSpeed, 1);
-                anim.SetBool(aniStabilization, false);
+                anim.SetBool("Stabilization", false);
                 anim.speed = stat.Get(StatType.MOVE_SPEED);
                 nav.SetDestination(collapseZone.transform.position);
                 col.enabled = false;
                 break;
             case SpiritState.OCCUPY:
                 anim.SetFloat(aniSpeed, 0);
-                anim.SetBool(aniStabilization, true);
                 anim.speed = 1;
                 col.enabled = true;
                 break;

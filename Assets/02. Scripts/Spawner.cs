@@ -87,6 +87,7 @@ public class Spawner : MonoBehaviour
     private Vector3 maxRandomRange;
 
     private int floorLayerMask;
+    public float remainingTime { get; private set; }
 
     private void Start()
     {
@@ -115,7 +116,8 @@ public class Spawner : MonoBehaviour
         if (!stop)
         {
             currentTime += Time.deltaTime;
-
+            
+            remainingTime = delay + lastSpawnTime - currentTime;
             if (lastSpawnTime + delay < currentTime)
             {
                 lastSpawnTime = currentTime;

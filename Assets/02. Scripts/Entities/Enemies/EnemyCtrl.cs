@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class EnemyCtrl : Entity, IPoolable
 {
     protected PlayableCtrl playable;
+    protected Spirit spirit;
+    public Entity target { get; protected set; }
     protected ObjectPool objectPool;
     protected AugEventArgs enemyArgs;
 
@@ -15,6 +17,8 @@ public abstract class EnemyCtrl : Entity, IPoolable
         base.InitEntity();
         if (playable == null)
             playable = FindObjectOfType<PlayableCtrl>();
+        if (spirit == null)
+            spirit = FindObjectOfType<Spirit>();
         if (enemyArgs == null)
             enemyArgs = new AugEventArgs(transform, this);
         if (objectPool == null)
@@ -27,10 +31,13 @@ public abstract class EnemyCtrl : Entity, IPoolable
     {
         playable.InvokeEvent(AugmentationEventType.ON_UPDATE_ENEMY, this, enemyArgs);
         var origin = transform.position;
-        var target = playable.transform.position;
+        origin.y = 0;
+        target = spirit.spiritState == SpiritState.OCCUPY ? spirit : playable;
+        var targetPos = target.transform.position;
+        targetPos.y = 0;
         var attackDistance = stat.Get(StatType.ATTACK_DISTANCE);
 
-        if (Vector3.Distance(origin, target) > attackDistance)
+        if (Vector3.Distance(origin, targetPos) > attackDistance)
             EnemyMove();
         else
             EnemyAttack();
@@ -38,12 +45,12 @@ public abstract class EnemyCtrl : Entity, IPoolable
     
     protected virtual void EnemyMove()
     {
-        Vector3 direction = (playable.transform.position - transform.position).normalized;
+        Vector3 direction = (target.transform.position - transform.position).normalized;
         float moveSpeed = stat.Get(StatType.MOVE_SPEED);
         rigid.velocity = direction * moveSpeed;
 
         // 적이 플레이어를 조준
-        transform.LookAt(new Vector3(playable.transform.position.x, transform.position.y, playable.transform.position.z));
+        transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
     }
 
     protected abstract void EnemyAttack();

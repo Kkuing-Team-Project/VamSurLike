@@ -37,6 +37,7 @@ public abstract class Entity : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         meshRenderer = GetComponentInChildren<Renderer>();
         animator = gameObject.GetComponentInChildren<Animator>();
+        originMaterials = meshRenderer.materials;
     }
 
     void Start()
