@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/03. Sprites/Skill.meta
-guid: fd7c7b10bcfc3c941a931e777a5e0f21
-========
-guid: 49d626a17a6974b95ab43b5ec6d9a6bd
->>>>>>>> main:Assets/02. Scripts/Sound.meta
+guid: 49d626a17a6974b95ab43b5ec6d9a6b
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

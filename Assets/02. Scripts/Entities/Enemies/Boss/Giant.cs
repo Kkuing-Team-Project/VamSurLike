@@ -56,6 +56,7 @@ public class Giant : BossCtrl
 
     protected override void OnEntityDied()
     {
+        base.OnEntityDied();
         statusEffects.Add(new Stun(1, 5f, this));
         nav.isStopped = true;
         gameObject.GetComponent<Collider>().enabled = false;
