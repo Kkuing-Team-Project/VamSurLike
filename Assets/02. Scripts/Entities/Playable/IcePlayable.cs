@@ -17,12 +17,13 @@ public class IcePlayable : PlayableCtrl
         rigid.velocity = Vector3.zero;
     }
 
-    IEnumerator SkillCor()
+    private IEnumerator SkillCor()
     {
         animator.SetLayerWeight(1, 0);
         isAction = true;
         animator.SetTrigger("Skill");
-        yield return new WaitForSeconds(15f);
+        StartCoroutine(hud.CoolTimeUICor(GetSkillCoolTime()));
+        yield return new WaitForSeconds(GetSkillCoolTime());
         skillCor = null;
     }
 
@@ -46,5 +47,10 @@ public class IcePlayable : PlayableCtrl
     {
         animator.SetLayerWeight(1, 1);
         isAction = false;
+    }
+
+    protected override float GetSkillCoolTime()
+    {
+        return 15f;
     }
 }

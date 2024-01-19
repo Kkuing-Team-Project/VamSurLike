@@ -8,6 +8,11 @@ public class TempPlayable : PlayableCtrl
         
     public float tempBulletSpeed = 50f; // Temporary bullet speed, can be adjusted in the inspector.
 
+    protected override float GetSkillCoolTime()
+    {
+        return 15f;
+    }
+
     protected override void OnEntityDied()
     {
 
