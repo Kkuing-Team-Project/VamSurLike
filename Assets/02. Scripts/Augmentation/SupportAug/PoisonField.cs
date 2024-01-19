@@ -32,6 +32,7 @@ public class PoisonField : Augmentation
     private IEnumerator FieldAttack(Entity player)
     {
         float damageDelayTimer = 0;
+        float durationTimer = 0;
         float radius = 0f;
         Vector3 dmagePosition = player.transform.position;
         while (true)
@@ -46,12 +47,13 @@ public class PoisonField : Augmentation
             effect.SetDuration(5f);
 
             damageDelayTimer = 0;
-            
+            durationTimer = 0;
             while (true)
             {
-                damageDelayTimer += Time.deltaTime;                
+                damageDelayTimer += Time.deltaTime;
+                durationTimer += Time.deltaTime;
 
-                if(damageDelayTimer >= 0.25f)
+                if (damageDelayTimer >= 0.25f)
                 {                    
                     Collider[] enemies = Physics.OverlapSphere(dmagePosition, radius, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
                     if (enemies.Length > 0)
@@ -62,6 +64,11 @@ public class PoisonField : Augmentation
                         }
                     }
                     damageDelayTimer = 0f;
+                }
+
+                if (durationTimer >= 5f)
+                {
+                    break;
                 }
                 yield return null;
             }
