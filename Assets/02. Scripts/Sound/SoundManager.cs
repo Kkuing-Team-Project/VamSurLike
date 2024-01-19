@@ -43,7 +43,12 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound not found: " + clipName);
         }
     }
-    
+
+    public void StopBackgroundMusic()
+    {
+        audioSource.Stop();
+    }
+
     public AudioClip GetSound(string key)
     {
         if (!soundClipDictionary.TryGetValue(key, out AudioClip clip))
@@ -61,22 +66,35 @@ public class SoundManager : MonoBehaviour
         return clip;
     }
 
-    public void PlayFireAttackSound() => PlaySound("Sound_EF_CH_Atk_Fire"); // FirePlayer가 일반 공격을 실행 시 출력되는 사운드입니다.
-    public void PlayIceAttackSound() => PlaySound("Sound_EF_CH_Atk_Ice"); // IcePlayer가 일반 공격을 실행 시 출력되는 사운드입니다.
-    public void PlayWindAttackSound() => PlaySound("Sound_EF_CH_Atk_Wind"); // WindPlayer가 일반 공격을 실행 시 출력되는 사운드입니다.
-    public void PlayDeathSound() => PlaySound("Sound_EF_CH_Death"); // 게임 오버 시 출력되는 사운드입니다.
-    public void PlayExpSound() => PlaySound("Sound_EF_CH_EXP"); // 경험치 획득 시 출력되는 사운드입니다.
-    public void PlayHitSound() => PlaySound("Sound_EF_CH_Hit"); // 캐릭터가 적과 충돌하거나 공격을 받을 시 출력되는 사운드입니다.
-    public void PlayFireSkillSound() => PlaySound("Sound_EF_CH_Skill_Fire"); // FirePlayer가 스킬을 사용할 시 출력되는 사운드입니다.
-    public void PlayIceSkillSound() => PlaySound("Sound_EF_CH_Skill_Ice"); // IcePlayer가 스킬을 사용할 시 출력되는 사운드입니다.
-    public void PlayWindSkillSound() => PlaySound("Sound_EF_CH_Skill_Wind"); // WindPlayer가 스킬을 사용할 시 출력되는 사운드입니다.
-    public void PlaySpawnSound() => PlaySound("Sound_EF_CH_Spawn"); // * 게임 시작 직후, 캐릭터가 소환됨을 알리면서 출력되는 사운드입니다.
-    public void PlayEnemyHitSound() => PlaySound("Sound_EF_Enemy_Hit02"); // * 적 몬스터가 캐릭터의 공격에 피격되었을 때 출력되는 사운드입니다.
-    public void PlaySoulSound() => PlaySound("Sound_EF_SP"); // * 게임 내에 출현하는 영혼 오브젝트에서 출력되는 사운드입니다. 3D
-    public void PlayMeteorSound() => PlaySound("Sound_EF_UP_Meteor"); // 소형 메테오에서 출력되는 사운드입니다. 메테오가 적을 공격했을 때(피격 판정) 출력)
-    public void PlayNukeSound() => PlaySound("Sound_EF_UP_Nuke"); // 소멸 마법에서 출력되는 사운드입니다.
-    public void PlayPoisonSound() => PlaySound("Sound_EF_UP_Poison"); // 3D 독 장판에서 출력되는 사운드입니다. (장판이 소멸할 때까지 loop됩니다.)
-    public void PlayShieldSound() => PlaySound("Sound_EF_UP_Shield"); // 쉴드에서 출력되는 사운드입니다. + 쉴드에서 출력되는 사운드입니다.
-    public void PlayZoneStartSound() => PlaySound("Sound_EF_Zone_Start"); // 맵 내에 붕괴존이 생성되었을 때 출력되는 사운드입니다.
-    public void PlayZoneEndSound() => PlaySound("Sound_EF_Zone_End"); // 붕괴존이 소멸되었을 때 출력되는 사운드입니다.
+    // 배경음악
+    public void LobbySound() => PlaySound("Sound_BG_Title"); // 1. -> 로비 배경 음악 : 게임 실행 이후 타이틀 화면에 출력 (loop)
+    public void StageSound()=> PlaySound("Sound_BG_Stage_Choice"); // 2. -> 스테이지 선택 화면 배경 음악 : 스테이지 선택 화면 진입 시 출력 (loop)
+    public void InGameSound()=> PlaySound("Sound_BG_Battle01"); // 3. -> 인게임 배경음악 : 인게임 진입 시 출력 (01 종료 이후 02 출력, 이후 loop)
+    public void InGameSound2()=> PlaySound("Sound_BG_Battle02"); // 4. -> 인게임 배경음악 : 인게임 진입 시 출력 ((01 종료 이후 02 출력, 이후 loop)
+
+
+    // 캐릭터 효과음
+    public void PlaySpawnSound() => PlaySound("Sound_EF_CH_Spawn"); // 5. -> 인게임 스타트 사운드 : 인게임 진입 시 1회 출력
+    public void CrashSound() => PlaySound("Sound_EF_CH_Shield"); // 6. -> 캐릭터 충돌 사운드 : 캐릭터가 적과 충돌하거나 적의 공격에 적중했을 때 1회 출력
+    public void PlayHitSound() => PlaySound("Sound_EF_CH_Hit"); // 7. -> 캐릭터 일반 공격 사운드 : 캐릭터가 적에게 공격을 실행했을 때 1회 출력
+    public void PlayDeathSound() => PlaySound("Sound_EF_CH_Death"); // 8. -> 게임 오버 사운드 : 게임 오버 조건 달성 시 1회 출력 (캐릭터, 영혼 HP =< 0 or 붕괴존 안정화 실패)
+    public void EFSound() => PlaySound("Sound_EF_CH_EXP02"); // 9. -> 경험치 획득 사운드 : 캐릭터가 경험치 획득 시 1회 출력
+    public void PlayFireSkillSound() => PlaySound("Sound_EF_CH_Skill_Fire"); // 10. -> 불 스킬 사운드 : 불 속성 캐릭터가 스킬 사용 시 1회 출력
+    public void PlayIceSkillSound() => PlaySound("Sound_EF_CH_Skill_Ice"); // 11. -> 얼음 스킬 사운드 : 얼음 속성 캐릭터가 스킬 사용 시 1회 출력
+    public void SouPlayIceSkillSoundnd() => PlaySound("Sound_EF_CH_Skill_Ice"); // 12. -> 바람 스킬 사운드 : 바람 속성 캐릭터가 스킬 사용 시 1회 출력
+
+
+    // 영혼 효과음
+    public void PlaySoulSound() => PlaySound("Sound_EF_SP"); // 13. -> 3D사운드 : 영혼에게 고정되어 loop 출력
+
+
+    // 증강 효과음
+    public void PlayMeteorSound() => PlaySound("Sound_EF_UP_Meteor"); // 14. -> 3D사운드 : 소형 메테오 공격 범위에 1회 출력 (1초의 딜레이가 필요할 수 있음)
+    public void PlayNukeSound() => PlaySound("Sound_EF_UP_Nuke"); // 15. -> 소멸 마법 : 소멸 마법 시행 시 1회 출력
+    public void PlayPoisonSound() => PlaySound("Sound_EF_UP_Poison"); // 16. -> 3D사운드 : 독 장판 내에 적이 존재할 시 loop 출력
+
+    
+    // UI 효과음
+    public void LevelSound() => PlaySound("Sound_UI_LevelUP"); // 17. -> 레벨업 UI : 레벨업 이후 증강 선택 UI가 출력됨과 동시에 1회 출력
+    public void SelectSound() => PlaySound("Sound_UI_UP_Select"); // 18. -> 증강 선택 UI : 증강을 선택(터치)할 시 1회 출력
 }

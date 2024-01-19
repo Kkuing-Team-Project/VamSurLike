@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public GameObject SoundManagerObj;
     public GameObject loadingPanel;
     public Text loadingPercentage;
     [HideInInspector]
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
         augTable = CSVReader.Read("Data/Reinforce_Chart");
         explanationTable = CSVReader.Read("Data/Aug_Explanation_Chart");
         loadingPanel.SetActive(false);
+        SoundManagerObj.SetActive(true); 
 
         player = FindObjectOfType<PlayableCtrl>();
     }
@@ -98,6 +100,24 @@ public class GameManager : MonoBehaviour
                 Debug.Log("캐릭터 정보가 없습니다.");
             }
         }
+
+        switch(scene.name)
+        {
+            case "Main":
+                Debug.Log("메인씬 입니다");
+                SoundManager.Instance.LobbySound();
+                break;
+            case "Stage":
+                SoundManager.Instance.StopBackgroundMusic();
+                SoundManager.Instance.StageSound();
+                break;
+            case "InGameScene":
+                SoundManager.Instance.StopBackgroundMusic();
+                SoundManager.Instance.PlaySpawnSound();
+                SoundManager.Instance.InGameSound();
+                break;
+        }
+
         killCount = 0;
         player = FindObjectOfType<PlayableCtrl>();
     }
