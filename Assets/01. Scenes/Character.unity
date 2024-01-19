@@ -839,6 +839,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 960
   y: -100
+  select: 1
 --- !u!114 &598426392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,6 +1171,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 1840
   y: -100
+  select: 1
 --- !u!114 &941662741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1748,6 +1750,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 80
   y: -100
+  select: 1
 --- !u!1 &1654010514
 GameObject:
   m_ObjectHideFlags: 0
