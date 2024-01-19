@@ -1268,7 +1268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2976145972554236332
 Transform:
   m_ObjectHideFlags: 0
@@ -1462,10 +1462,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: 2
   rigid: {fileID: 0}
-  testAugName: 
+  testAugName: Shield
   skillSprite: {fileID: 21300000, guid: c22897c6532b76b42a96f95965511ad5, type: 3}
+  bulletColor: {r: 0.33285868, g: 0.6644122, b: 0.8301887, a: 0.7019608}
   bulletNum: 1
-  bulletInterval: 0
+  bulletInterval: 0.1
   rotationAnglePerSecond: 270
   dashSpeed: 80
   dashTime: 0.1

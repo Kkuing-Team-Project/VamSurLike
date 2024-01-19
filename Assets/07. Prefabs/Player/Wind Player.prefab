@@ -1495,6 +1495,7 @@ MonoBehaviour:
   rigid: {fileID: 0}
   testAugName: 
   skillSprite: {fileID: 21300000, guid: 07f539884e1c6b444b5913f91c9a85f3, type: 3}
+  bulletColor: {r: 0.5952004, g: 0.8207547, b: 0.36004803, a: 0.6117647}
   bulletNum: 1
   bulletInterval: 0
   rotationAnglePerSecond: 270
