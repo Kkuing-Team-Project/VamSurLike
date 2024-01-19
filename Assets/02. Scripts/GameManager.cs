@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,15 +14,20 @@ public class GameManager : MonoBehaviour
     public Text loadingPercentage;
     [HideInInspector]
     public PlayableCtrl player;
+    public GameObject[] Characters;
     public List<Dictionary<string, object>> statTable;
     public List<Dictionary<string, object>> levelTable;
     public List<Dictionary<string, object>> augTable;
     public List<Dictionary<string, object>> explanationTable;
+
     private int m_killCount;
     public Animator killCountAnimator { get; set; }
 
     public string stageName;
     public string playerName;
+
+    private CinemachineVirtualCamera followCam;
+    
     public int killCount
     {
         get => m_killCount;
@@ -53,24 +59,50 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if(scene.name == "InGameScene"){
+            GameObject playerObj = null;
+            if(!string.IsNullOrEmpty(playerName)){
+                switch (playerName)
+                {
+                    case "P_FIRE":
+                        playerObj = Instantiate(Characters[0], Vector3.zero, Quaternion.identity);
+                        break;
+                    case "P_WIND":
+                        playerObj = Instantiate(Characters[1], Vector3.zero, Quaternion.identity);
+                        break;
+                    case "P_ICE":
+                        playerObj = Instantiate(Characters[2], Vector3.zero, Quaternion.identity);
+                        break;
+                    default:
+                        Debug.Log("알 수 없는 캐릭터 이름: " + playerName);
+                        break;
+                }
+                if (playerObj != null)
+                {
+                    Debug.Log(playerName + " 생성 완료");
+                    // Cinemachine 카메라의 Follow와 LookAt 설정
+                    followCam = FindObjectOfType<CinemachineVirtualCamera>();
+                    if (followCam != null)
+                    {
+                        followCam.Follow = playerObj.transform;
+                        followCam.LookAt = playerObj.transform;
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("캐릭터 정보가 없습니다.");
+            }
+        }
         killCount = 0;
-        if (playerName != null)
-        {
-          // 여기에 player type name 정의한 값
-        }
-        
         player = FindObjectOfType<PlayableCtrl>();
-        switch (scene.name)
-        {
-            default:
-                break;
-        }
     }
+
+
 
     public IEnumerator LoadAsyncScene(string sceneName)
     {
