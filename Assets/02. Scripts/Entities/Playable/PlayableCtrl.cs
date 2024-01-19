@@ -351,7 +351,7 @@ public abstract class PlayableCtrl : Entity
     #region Take Damage Method
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        SoundManager.Instance.CrashSound();
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Shield");
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
         if(healCor != null)
