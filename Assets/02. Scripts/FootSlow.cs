@@ -17,9 +17,9 @@ public class FootSlow : Augmentation
     
     public FootSlow(int level, int maxLevel) : base(level, maxLevel)
     {
-        lastActionTime = Time.time; // 현재 시간 기록
-        delay = 0f;     // 딜레이 0
-        duration = 2.0f;   // 지속시간 2
+        lastActionTime = Time.time;
+        delay = 0f;
+        duration = 2.0f;   
     }
 
     protected override AugmentationEventType GetEventType()
@@ -29,18 +29,10 @@ public class FootSlow : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        Debug.Log("증강 실행");
+        if (lastActionTime + delay > Time.time)
+            return;
+        lastActionTime = Time.time;
 
-
-        //// 딜레이만큼 대기
-        //if (lastActionTime + delay > Time.time)
-        //{
-        //    return;
-        //}
-        //// 시간 초기화
-        //lastActionTime = Time.time;
-
-        // 슬로우 퍼센트
         speedDownPercent = float.Parse(GameManager.instance.augTable[level]["FootSlow"].ToString());
 
         CoroutineHandler.StartCoroutine(Action(sender));
@@ -49,14 +41,14 @@ public class FootSlow : Augmentation
 
     private IEnumerator Action(Entity sender)
     {
-        float radius = 2f;
+        float radius = 1.5f;
         float delayTimer = 0;
         Vector3 pos = sender.transform.position;
         
         for (float durationTimer = 0; durationTimer < duration; durationTimer += Time.deltaTime)
         {
             yield return new WaitForSeconds(Time.deltaTime);
-            Debug.Log("지속중");
+            
             delayTimer += Time.deltaTime;
             if (delayTimer >= 1)
             {
