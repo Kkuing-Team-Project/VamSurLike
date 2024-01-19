@@ -8,8 +8,8 @@ public class TempArrow : MonoBehaviour, IPoolable
     public Rigidbody rigid { get; set; }
     public ObjectPool pool { get; set; }
 
-    [HideInInspector]
-    private DarkArcher  archer;
+    private DarkArcher archer;
+    private Entity target;
     private float attackPower = 1f;  // Attack power value
     public void OnCreate()
     {
@@ -21,9 +21,10 @@ public class TempArrow : MonoBehaviour, IPoolable
         StartCoroutine(ReturnBullet(3f));
     }
     
-    public void SetArcher(DarkArcher archer)
+    public void SetTarget(DarkArcher archer, Entity target)
     {
         this.archer = archer;
+        this.target = target;
     }
 
 
@@ -39,10 +40,9 @@ public class TempArrow : MonoBehaviour, IPoolable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("PLAYER"))
+        if (other.TryGetComponent(out Entity entity) && entity == target)
         {
-            Entity playable = other.GetComponent<Entity>();
-            playable.TakeDamage(archer, attackPower);
+            entity.TakeDamage(archer, attackPower);
             StopAllCoroutines();
             ReturnObject();
         }

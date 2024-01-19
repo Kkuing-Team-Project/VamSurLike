@@ -28,6 +28,7 @@ public abstract class PlayableCtrl : Entity
 
     public string testAugName;
 
+    public Sprite skillSprite;
     private AugEventArgs defaultArgs;
 
     [Header("총알 갯수")]
@@ -53,6 +54,7 @@ public abstract class PlayableCtrl : Entity
     // 코루틴
     private Coroutine attackCor;
     private Coroutine dashCor;
+    private Coroutine healCor;
     protected Coroutine skillCor;
 
     // 증강 리스트
@@ -97,6 +99,7 @@ public abstract class PlayableCtrl : Entity
         cameraShakeSource = GetComponent<CinemachineImpulseSource>();
         objectPool = FindObjectOfType<ObjectPool>();
         hud = FindObjectOfType<HUD>();
+        hud.skillImage.sprite = skillSprite;
         gaugeBar = hud?.playerGaugeBar;
     }
 
@@ -351,7 +354,14 @@ public abstract class PlayableCtrl : Entity
         SoundManager.Instance.CrashSound();
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
-        gaugeBar.HpBar.SetBarValue(hp, stat.Get(StatType.MAX_HP));
+
+        if(healCor != null)
+        {
+            StopCoroutine(healCor);
+        }
+        healCor = StartCoroutine(HealCor(10f));
+
+        StartCoroutine(RenewalHPBar());
 
         Collider[] enemies = Physics.OverlapSphere(transform.position, 3f, LayerMask.GetMask("ENEMY"));
         if (enemies.Length > 0)
@@ -374,6 +384,31 @@ public abstract class PlayableCtrl : Entity
     }
     #endregion
 
+    #region Heal Method
+
+    private IEnumerator HealCor(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        while (true)
+        {
+            if(hp < stat.Get(StatType.MAX_HP))
+            {
+                Heal(0.2f * stat.Get(StatType.HEAL_MAG) * Time.deltaTime);
+                StartCoroutine(RenewalHPBar());
+            }
+            yield return null;
+        }
+    }
+
+    //대미지 받기 이전에 실행되어 정상적으로 HP바가 갱신이 안되는 버그가 있어
+    //한 프레임 유예 후 적용하는 방식으로 수정함.
+    private IEnumerator RenewalHPBar()
+    {
+        yield return null;
+        gaugeBar.HpBar.SetBarValue(hp, stat.Get(StatType.MAX_HP));
+    }
+
+    #endregion
 
     protected abstract void PlayerSkill();
 
