@@ -7,9 +7,9 @@ using UnityEngine.AI;
 
 public enum SpiritState
 {
-    IDLE,       //ÈÞ½Ä
-    MOVE,       //ÀÌµ¿
-    OCCUPY,     //Á¡·É
+    IDLE,       //ï¿½Þ½ï¿½
+    MOVE,       //ï¿½Ìµï¿½
+    OCCUPY,     //ï¿½ï¿½ï¿½ï¿½
 }
 
 public enum BlessType
@@ -53,7 +53,7 @@ public class Spirit : Entity
 
     protected override void UpdateEntity()
     {
-
+        SoundManager.Instance.PlaySound("Sound_EF_SP", true, transform.position, true);
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
             collapseZoneSpawner.stop = false;
@@ -70,8 +70,7 @@ public class Spirit : Entity
             if ((origin - zonePos).magnitude >= 1f)
                 spiritState = SpiritState.MOVE;
             else spiritState = SpiritState.OCCUPY;
-        }
-        
+        }        
         SpiritBehavior();
         Bless(blessRange, blessType);
     }
@@ -175,7 +174,7 @@ public class Spirit : Entity
     }
     protected override void OnEntityDied()
     {
-
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
     }
 
     private void OnDrawGizmos()

@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         augTable = CSVReader.Read("Data/Reinforce_Chart");
         explanationTable = CSVReader.Read("Data/Aug_Explanation_Chart");
         loadingPanel.SetActive(false);
-        SoundManagerObj.SetActive(true); 
+        // SoundManagerObj.SetActive(true); 
 
         player = FindObjectOfType<PlayableCtrl>();
     }

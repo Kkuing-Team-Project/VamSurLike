@@ -9,6 +9,7 @@ public class IcePlayable : PlayableCtrl
     [SerializeField] Material freezeMaterial;
     protected override void OnEntityDied()
     {
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
     }
 
     protected override void PlayerSkill()
@@ -29,6 +30,7 @@ public class IcePlayable : PlayableCtrl
     public void FreezeAround()
     {
         GameObject effect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.FreezeCircle, transform.position);
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Skill_Ice");
         effect.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
         Collider[] enemies = Physics.OverlapSphere(transform.position, 10f, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
         if (enemies.Length > 0)
