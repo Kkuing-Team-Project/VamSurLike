@@ -23,6 +23,7 @@ public abstract class PlayableCtrl : Entity
 
     public Sprite skillSprite;
     private AugEventArgs defaultArgs;
+    public float healPerSec { get; protected set; } = 0.2f;
 
     [Header("총알 색상")]
     public Color bulletColor;
@@ -392,7 +393,7 @@ public abstract class PlayableCtrl : Entity
         {
             if(hp < stat.Get(StatType.MAX_HP))
             {
-                Heal(0.2f * stat.Get(StatType.HEAL_MAG) * Time.deltaTime);
+                Heal(healPerSec * stat.Get(StatType.HEAL_MAG) * Time.deltaTime);
                 StartCoroutine(RenewalHPBar());
             }
             yield return null;
