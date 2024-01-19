@@ -17,8 +17,9 @@ public abstract class EnemyCtrl : Entity, IPoolable
             playable = FindObjectOfType<PlayableCtrl>();
         if (enemyArgs == null)
             enemyArgs = new AugEventArgs(transform, this);
+        if (objectPool == null)
+            objectPool = FindObjectOfType<ObjectPool>();
         playable.InvokeEvent(AugmentationEventType.ON_SPAWN_ENEMY, this, enemyArgs);
-        objectPool = FindObjectOfType<ObjectPool>();
         hp = stat.Get(StatType.MAX_HP);
     }
 

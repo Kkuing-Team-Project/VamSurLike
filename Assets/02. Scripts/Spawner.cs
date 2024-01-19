@@ -87,6 +87,7 @@ public class Spawner : MonoBehaviour
     private Vector3 maxRandomRange;
 
     private int floorLayerMask;
+    public float remainingTime { get; private set; }
 
     private void Start()
     {
@@ -115,7 +116,8 @@ public class Spawner : MonoBehaviour
         if (!stop)
         {
             currentTime += Time.deltaTime;
-
+            
+            remainingTime = delay + lastSpawnTime - currentTime;
             if (lastSpawnTime + delay < currentTime)
             {
                 lastSpawnTime = currentTime;
@@ -135,14 +137,6 @@ public class Spawner : MonoBehaviour
     {
         TextAsset textAsset = Resources.Load<TextAsset>(path);
         stage = JsonUtility.FromJson<Stage>(textAsset.text);
-        foreach (var w in stage.waves)
-        {
-            Debug.Log($"{w.duration}, {w.delay}");
-            foreach (var spawn in w.spawnObjects)
-            {
-                Debug.Log($"{spawn.name}, {spawn.percent}");
-            }
-        }
     }
 
 
