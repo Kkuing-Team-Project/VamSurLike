@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2912871820685555211}
   - component: {fileID: 1586922666096847214}
   m_Layer: 0
-  m_Name: Temp Bullet
+  m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,6 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f900b82d3ff184dbe2a94651c24b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireColor: {r: 1, g: 0.3764706, b: 0, a: 0.5019608}
+  iceColor: {r: 0, g: 0, b: 0, a: 0}
+  windColor: {r: 0, g: 0, b: 0, a: 0}
   player: {fileID: 0}
 --- !u!1001 &1371324297168948472
 PrefabInstance:
@@ -154,11 +157,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4603611077099896, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.581
       objectReference: {fileID: 0}
     - target: {fileID: 4603611077099896, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4603611077099896, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -166,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4603611077099896, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4603611077099896, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -178,7 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4603611077099896, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4603611077099896, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -206,6 +209,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198565110370433080, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
       propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198565110370433080, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198565110370433080, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198565110370433080, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}
+      propertyPath: InitialModule.startSizeZ.scalar
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198789236737275484, guid: 0f8db6274757dd4479c6d5db5b0d9e1a, type: 3}

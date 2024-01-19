@@ -24,6 +24,9 @@ public abstract class PlayableCtrl : Entity
     public Sprite skillSprite;
     private AugEventArgs defaultArgs;
 
+    [Header("총알 색상")]
+    public Color bulletColor;
+
     [Header("총알 갯수")]
     public int bulletNum = 1;
 
@@ -230,15 +233,14 @@ public abstract class PlayableCtrl : Entity
     {
         for (int i = 0; i < bulletNum; i++)
         {
-            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
+            CreateBullet(25, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
         }
     }
 
-    public TempBullet CreateBullet(float speed, float rot)
+    public Bullet CreateBullet(float speed, float rot)
     {
-        TempBullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, bulletFireTrf.position).GetComponent<TempBullet>();
+        Bullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, bulletFireTrf.position).GetComponent<Bullet>();
 
-        bullet.player = this;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);
         bullet.rigid.velocity = speed * bullet.transform.forward;
         return bullet;
@@ -335,13 +337,13 @@ public abstract class PlayableCtrl : Entity
             gaugeBar.DashBar.SetBarValue(cooltimeTimer, 5f);
 
             yield return null;
-            if (cooltimeTimer >= 5f)
+            if (cooltimeTimer >= 3f)
             {
-                gaugeBar.DashBar.SetBarValue(5f, 5f);
+                gaugeBar.DashBar.SetBarValue(3f, 3f);
                 break;
             }
         }
-
+        
         dashCor = null;
     }
     #endregion
