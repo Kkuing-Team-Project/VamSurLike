@@ -39,8 +39,14 @@ public class EffectParticle : MonoBehaviour, IPoolable
         pool.ReturnObject(gameObject, objectType);
     }
 
-    public void StopEffect()
+    IEnumerator CheckDuration(float duration)
     {
+        yield return new WaitForSeconds(duration);
         mainParticle?.Stop();
+    }
+
+    public void SetDuration(float duration)
+    {
+        StartCoroutine(CheckDuration(duration));
     }
 }
