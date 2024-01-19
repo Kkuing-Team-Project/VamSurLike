@@ -1467,7 +1467,7 @@ MonoBehaviour:
   bulletNum: 1
   bulletInterval: 0
   rotationAnglePerSecond: 270
-  dashSpeed: 40
+  dashSpeed: 80
   dashTime: 0.1
   bulletFireTrf: {fileID: 1991798310757145375}
   isTest: 0
