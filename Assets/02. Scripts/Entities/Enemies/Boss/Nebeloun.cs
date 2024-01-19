@@ -8,17 +8,22 @@ public class Nebeloun : MonoBehaviour
 {
     private PlayableCtrl player;
     private CinemachineImpulseSource cameraShakeSource;
+    private SkinnedMeshRenderer skin;
 
     private void Start()
     {
         player = GameManager.instance.player;
         cameraShakeSource = gameObject.GetComponent<CinemachineImpulseSource>();
+        skin = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
+        skin.enabled = false;
         StartCoroutine(AttackCor(3, 0.25f, 3, 6));
     }
 
 
     public IEnumerator AttackCor(float moveTime, float waitTime, float attackTime, int attackCnt)
     {
+        skin.enabled = true;
+        transform.rotation = Quaternion.Euler(0, -90, 0);
         cameraShakeSource.GenerateImpulse();
         Vector3 origin = player.transform.position + Vector3.right * 60 + Vector3.up * 40 + Vector3.back * 17;
         Vector3 moveTo = player.transform.position + Vector3.left * 60 + Vector3.up * 40 + Vector3.back * 17;
@@ -29,6 +34,7 @@ public class Nebeloun : MonoBehaviour
             yield return null;  
         }
 
+        skin.enabled = false;
         yield return new WaitForSeconds(waitTime);
 
         Vector3 startAttackPos = player.transform.position + Vector3.right * 14;
