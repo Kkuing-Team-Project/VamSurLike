@@ -10,7 +10,7 @@ public abstract class BossCtrl : Entity
 {
     #region
     //���� �� ��ٸ���?�ð�
-    public float waitTime;
+    public float waitTime = 1;
 
     #endregion
 

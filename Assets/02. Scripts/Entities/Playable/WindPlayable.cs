@@ -12,7 +12,6 @@ public class WindPlayable : PlayableCtrl
     [Header("잔상 머티리얼"), SerializeField]
     Material trailMaterial;
 
-    bool isTrailActive = false;
     SkinnedMeshRenderer[] skinnedMeshRenderers;
 
     

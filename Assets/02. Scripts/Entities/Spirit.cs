@@ -41,6 +41,7 @@ public class Spirit : Entity
     private readonly int aniSpeed = Animator.StringToHash("Speed");
     private readonly int aniStabilization = Animator.StringToHash("Stabilization");
 
+    SpiritBar gaugeBar;
     protected override void InitEntity()
     {
         base.InitEntity();
@@ -50,6 +51,7 @@ public class Spirit : Entity
             nav = gameObject.GetComponent<NavMeshAgent>();
         col = gameObject.GetComponent<Collider>();
         anim = GetComponentInChildren<Animator>();
+        gaugeBar = FindObjectOfType<HUD>().spiritGaugeBar;
     }
 
     protected override void UpdateEntity()
@@ -104,7 +106,7 @@ public class Spirit : Entity
 
         if (magicCircle != null) 
         {
-            magicCircle.transform.position = transform.position;
+            magicCircle.transform.position = transform.position + Vector3.down * 0.99f;
         }
     }
 
@@ -171,7 +173,9 @@ public class Spirit : Entity
         if(spiritState != SpiritState.OCCUPY)
         {
             AddEffect(new Invincible(1, Time.deltaTime, this));
+            gaugeBar.hpBar.SetBarValue(hp, stat.Get(StatType.MAX_HP));
         }
+
     }
     protected override void OnEntityDied()
     {

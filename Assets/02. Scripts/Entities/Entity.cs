@@ -107,10 +107,17 @@ public abstract class Entity : MonoBehaviour
         OnTakeDamage(caster, dmg);
 
         DamageEffect damageEffect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.DamageText, transform.position).GetComponent<DamageEffect>();
-        damageEffect.text.text = Mathf.Round(dmg).ToString();
+
         damageEffect.originPos = transform.position;
         if (HasEffect<Invincible>() == false)
+        {
+            damageEffect.text.text = Mathf.Round(dmg).ToString();
             hp -= dmg;
+        }
+        else
+        {
+            damageEffect.text.text = "Miss";
+        }
 
         if (hp <= 0)
             OnEntityDied();

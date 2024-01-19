@@ -102,3 +102,12 @@ MonoBehaviour:
   - type: 21
     prefab: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
     size: 1
+  - type: 20
+    prefab: {fileID: 2869738279757863752, guid: 8b6ba9d619b4d4042bfca90831e5a2c5, type: 3}
+    size: 1
+  - type: 15
+    prefab: {fileID: 6424583148328831481, guid: d2ffbc8b168cdf74a9dbb7c6c1cfdf2f, type: 3}
+    size: 1
+  - type: 23
+    prefab: {fileID: 1312838344612490, guid: 268294f28a34a3446bdde40b6e6559b5, type: 3}
+    size: 5
