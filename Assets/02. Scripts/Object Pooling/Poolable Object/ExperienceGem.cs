@@ -44,6 +44,7 @@ public class ExperienceGem : MonoBehaviour, IPoolable
             if ((transform.position - targetPosition).sqrMagnitude < 0.01f)
             {
                 player.AddExp(1f);
+                SoundManager.Instance.EFSound();
                 break;
             }
             yield return null;
