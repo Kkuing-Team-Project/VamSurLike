@@ -15,7 +15,7 @@ public class DamageEffect : MonoBehaviour, IPoolable
 
     public void OnActivate()
     {
-        StartCoroutine(TextCor(1f));
+        StartCoroutine(TextCor(2f));
     }
 
     public void OnCreate()
@@ -26,14 +26,26 @@ public class DamageEffect : MonoBehaviour, IPoolable
     private IEnumerator TextCor(float time)
     {
         float elapsedTime = 0;
+        float destroyDelay = 0.5f;
+        float speed = 1;
         text.fontStyle = FontStyle.Bold;
-        while (elapsedTime < time)
+        while (elapsedTime <  time)
         {
             yield return null;
-            elapsedTime += Time.deltaTime;
-            text.rectTransform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, originPos + Vector3.up * elapsedTime);
-            text.color = new Color(1, 1, 1, 1 - elapsedTime / time);
+            elapsedTime += Time.deltaTime * speed;
+            if (elapsedTime > destroyDelay * time)
+            {
+                speed = 2;
+                text.color = new Color(1, 1, 1, 1 - (elapsedTime - destroyDelay * time) / destroyDelay * time);
+                text.rectTransform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, originPos + Vector3.up * (elapsedTime - destroyDelay * time));
+            }
+            else
+            {
+                text.rectTransform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, originPos);
+            }
         }
+
+        text.color = new Color(1, 1, 1, 1);
         ReturnObject();
     }
 
