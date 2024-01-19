@@ -95,8 +95,13 @@ public class FirePlayable : PlayableCtrl
             }
             yield return null;
         }
-
-        yield return new WaitForSeconds(14f);
+        StartCoroutine(hud.CoolTimeUICor(GetSkillCoolTime()));
+        yield return new WaitForSeconds(GetSkillCoolTime());
         skillCor = null;
+    }
+
+    protected override float GetSkillCoolTime()
+    {
+        return 15f;
     }
 }

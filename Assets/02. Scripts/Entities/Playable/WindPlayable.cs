@@ -48,8 +48,8 @@ public class WindPlayable : PlayableCtrl
         animator.SetBool("Skill", false);
         stat.Multiply(StatType.MOVE_SPEED, 1f);
         VolumeManager.Instance.SetActiveMotionBlur(false);
-
-        yield return new WaitForSeconds(15f);
+        StartCoroutine(hud.CoolTimeUICor(GetSkillCoolTime()));
+        yield return new WaitForSeconds(GetSkillCoolTime());
 
         skillCor = null;
     }
@@ -63,5 +63,10 @@ public class WindPlayable : PlayableCtrl
     protected override void PlayerSkill()
     {
         skillCor = StartCoroutine(ActivateTrail(6f));
+    }
+
+    protected override float GetSkillCoolTime()
+    {
+        return 15f;
     }
 }

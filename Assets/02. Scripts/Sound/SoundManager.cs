@@ -27,7 +27,7 @@ public class SoundManager : MonoBehaviour
         soundClipDictionary = new Dictionary<string, AudioClip>();
     }
 
-    private void PlaySound(string clipName)
+    public void PlaySound(string clipName)
     {
         if (!soundClipDictionary.TryGetValue(clipName, out AudioClip clip))
         {
