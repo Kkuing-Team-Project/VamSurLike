@@ -74,7 +74,7 @@ public class Spawner : MonoBehaviour
     [HideInInspector] public SpawnObject[] spawnObjects;
     [HideInInspector] public float maxPercent;
     [HideInInspector] public Stage stage;
-    private int currentWaveIndex;
+    public int currentWaveIndex { get; private set; }
 
     [HideInInspector] public bool isStatic;
     [HideInInspector] public float maxRangeRadius = 50.0f;
@@ -245,6 +245,7 @@ public class Spawner : MonoBehaviour
     {
         if (currentWaveIndex < stage.waves.Length - 1)
         {
+            Debug.Log(gameObject.name);
             currentWaveIndex++;
             SetPercent(stage.waves[currentWaveIndex].spawnObjects, stage.waves[currentWaveIndex].maxPercent);
             delay = stage.waves[currentWaveIndex].delay;

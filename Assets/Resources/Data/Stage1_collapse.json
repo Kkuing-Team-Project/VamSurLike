@@ -1,0 +1,44 @@
+﻿{
+	"waves": [
+		{
+			"delay": 5,
+			"duration": 120,
+			"spawnObjects": [
+				{
+					"percentAmpl": 100,
+					"name": "CollapseZone"
+				}
+			]
+		},
+		{
+			"delay": 100,
+			"duration": 80,
+			"spawnObjects": [
+				{
+					"percentAmpl": 100,
+					"name": "CollapseZone"
+				}
+			]
+		},
+		{
+			"delay": 100,
+			"duration": 80,
+			"spawnObjects": [
+				{
+					"percentAmpl": 100,
+					"name": "CollapseZone"
+				}
+			]
+		},
+		{
+			"delay": 100,
+			"duration": 80,
+			"spawnObjects": [
+				{
+					"percentAmpl": 100,
+					"name": "CollapseZone"
+				}
+			]
+		}
+	]
+}
