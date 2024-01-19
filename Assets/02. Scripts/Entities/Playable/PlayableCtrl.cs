@@ -352,7 +352,6 @@ public abstract class PlayableCtrl : Entity
     {
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
-
         if(healCor != null)
         {
             StopCoroutine(healCor);

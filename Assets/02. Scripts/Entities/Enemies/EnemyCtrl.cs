@@ -59,6 +59,7 @@ public abstract class EnemyCtrl : Entity, IPoolable
     {
         objectPool.GetObject(ObjectPool.ObjectType.Experience, transform.position);
         GameManager.instance.killCount++;
+        ReturnObject();
     }
 
     public virtual void OnCreate()
