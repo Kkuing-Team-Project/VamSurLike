@@ -42,21 +42,28 @@ public class SoundManager : MonoBehaviour
 
         if (clip != null)
         {
-            AudioSource targetAudioSource = isMoveSound ? MoveAudioSource : audioSource;
-            targetAudioSource.clip = clip;
-            targetAudioSource.loop = loop;
-            targetAudioSource.Play();
-
             if (isMoveSound)
             {
-                UpdateMoveSoundPosition(position); // 이동 사운드 위치 업데이트
+                if (MoveAudioSource != null) // MoveAudioSource의 null 여부를 체크
+                {
+                    MoveAudioSource.clip = clip;
+                    MoveAudioSource.loop = loop;
+                    MoveAudioSource.Play();
+                    UpdateMoveSoundPosition(position); // 이동 사운드 위치 업데이트
+                }
+            }
+            else
+            {
+                // 일반 사운드 처리
+                audioSource.PlayOneShot(clip);
             }
         }
         else
         {
             Debug.LogWarning("Sound not found: " + clipName);
         }
-    }
+}
+
 
     private void UpdateMoveSoundPosition(Vector3 position)
     {
