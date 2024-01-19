@@ -17,6 +17,7 @@ public class HUD : MonoBehaviour
 	public GameObject iconPanel;
 	public Image occupyPercentImage;
 	public Text occupyPercentText;
+	public Image skillImage;
 
 	public GameObject augPanel;
 	public Button[] augButtons;
