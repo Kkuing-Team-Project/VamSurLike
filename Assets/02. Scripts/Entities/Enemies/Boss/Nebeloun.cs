@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class Nebeloun : MonoBehaviour
 {
+    public float moveTime;
+    public float waitTime;
+    public float attackTime;
+    public int attackCnt;
+
     private PlayableCtrl player;
     private CinemachineImpulseSource cameraShakeSource;
     private SkinnedMeshRenderer skin;
@@ -16,7 +21,7 @@ public class Nebeloun : MonoBehaviour
         cameraShakeSource = gameObject.GetComponent<CinemachineImpulseSource>();
         skin = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
         skin.enabled = false;
-        StartCoroutine(AttackCor(3, 0.25f, 3, 6));
+        StartCoroutine(AttackCor(moveTime, waitTime, attackTime, attackCnt));
     }
 
 
