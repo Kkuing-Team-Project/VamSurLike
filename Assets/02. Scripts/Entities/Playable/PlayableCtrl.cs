@@ -56,10 +56,10 @@ public abstract class PlayableCtrl : Entity
     protected bool isAction = false;
 
     // Components applied to the player object.
+    protected HUD hud;
+    PlayerBar gaugeBar;
     ObjectPool objectPool;
     CinemachineImpulseSource cameraShakeSource;
-    HUD hud;
-    PlayerBar gaugeBar;
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
@@ -290,6 +290,7 @@ public abstract class PlayableCtrl : Entity
                 {
                     Time.timeScale = 0;
                     hud.augPanel.SetActive(true);
+                    SoundManager.Instance.PlaySound("Sound_UI_LevelUP");
                     hud.SetAugmentation();
                 }
             }
@@ -351,7 +352,6 @@ public abstract class PlayableCtrl : Entity
         SoundManager.Instance.CrashSound();
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
-
         if(healCor != null)
         {
             StopCoroutine(healCor);
@@ -408,6 +408,8 @@ public abstract class PlayableCtrl : Entity
     #endregion
 
     protected abstract void PlayerSkill();
+
+    protected abstract float GetSkillCoolTime();
 
 
     #region Augmentation Method

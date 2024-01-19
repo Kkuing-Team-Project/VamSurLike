@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-
+using System.Collections;
 
 public class HUD : MonoBehaviour
 {
@@ -18,8 +18,10 @@ public class HUD : MonoBehaviour
 	public Image occupyPercentImage;
 	public Text occupyPercentText;
 	public Image skillImage;
+	public Image skillCoolTimeImage;
 
 	public GameObject augPanel;
+	public GameObject pauseAugPanel;
 	public Button[] augButtons;
 	public Text[] augNameTexts;
 	public Text[] augExplanationTexts;
@@ -119,20 +121,20 @@ public class HUD : MonoBehaviour
 		Application.Quit(); // 게임 종료
 	}
 
-	public void AddRune(Augmentation aug)
+	public void AddRuneIcon(Augmentation aug)
 	{
-
-
 		if(iconPanel.transform.Find(aug.ToString()) != null)
 		{
-            iconPanel.transform.Find(aug.ToString()).GetComponentInChildren<Text>().text = (GameManager.instance.player.GetAugmentation(aug.ToString()).level + 1).ToString();
+			int idx = iconPanel.transform.Find(aug.ToString()).GetSiblingIndex();
+            iconPanel.transform.GetChild(idx).GetComponentInChildren<Text>().text = (GameManager.instance.player.GetAugmentation(aug.ToString()).level + 1).ToString();
+			pauseAugPanel.transform.GetChild(idx).GetComponentInChildren<Text>().text = (GameManager.instance.player.GetAugmentation(aug.ToString()).level + 1).ToString();
         }
 		else
 		{
-
-            if (iconPanel.transform.childCount >= 12)
+            if (iconPanel.transform.childCount >= 6)
 			{
 				Destroy(iconPanel.transform.GetChild(iconPanel.transform.childCount - 1).gameObject);
+				Destroy(pauseAugPanel.transform.GetChild(pauseAugPanel.transform.childCount - 1).gameObject);
 			}
             GameObject icon = Instantiate(augIconPrefab);
             icon.transform.SetParent(iconPanel.transform);
@@ -140,6 +142,13 @@ public class HUD : MonoBehaviour
 			icon.name = aug.ToString();
 			icon.GetComponent<Image>().sprite = aug.icon;
 			icon.transform.GetComponentInChildren<Text>().text = "1";
+
+            GameObject pauseIcon = Instantiate(augIconPrefab);
+            pauseIcon.transform.SetParent(pauseAugPanel.transform);
+            pauseIcon.transform.SetAsFirstSibling();
+            pauseIcon.name = aug.ToString();
+            pauseIcon.GetComponent<Image>().sprite = aug.icon;
+			pauseIcon.transform.GetComponentInChildren<Text>().text = "1";
 		}
 	}
 	
@@ -236,11 +245,32 @@ public class HUD : MonoBehaviour
 			{
                 Augmentation aug = Activator.CreateInstance(Type.GetType(key), 0, GameManager.instance.GetAugMaxLevel(key)) as Augmentation;
                 GameManager.instance.player.AddAugmentation(aug);
+				SoundManager.Instance.PlaySound("Sound_UI_UP_Select");
 				if (type.Equals("보조"))
-					AddRune(aug);
+					AddRuneIcon(aug);
 				augPanel.SetActive(false);
                 Time.timeScale = 1;
 			});
 		}
 	}
+
+	public IEnumerator CoolTimeUICor(float time)
+	{
+		skillCoolTimeImage.fillAmount = 1;
+		skillCoolTimeImage.color = new Color32(0, 0, 0, 128);
+
+		for (float elapsedTime = 0; elapsedTime < time; elapsedTime += Time.deltaTime) 
+		{
+			skillCoolTimeImage.fillAmount = 1f - elapsedTime / time;
+			yield return null;
+		}
+		skillCoolTimeImage.fillAmount = 1f;
+		skillCoolTimeImage.color = Color.white;
+        for (float elapsedTime = 0; elapsedTime < 0.25f; elapsedTime += Time.deltaTime)
+		{
+            skillCoolTimeImage.color = Color.Lerp(Color.white, Color.clear, elapsedTime / 0.25f);
+			yield return null;
+		}
+		skillCoolTimeImage.color = Color.clear;
+    }
 }
