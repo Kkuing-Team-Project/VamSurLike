@@ -380,7 +380,6 @@ public abstract class PlayableCtrl : Entity
     //증강 추가 메소드
     public void AddAugmentation(Augmentation aug)
     {
-        Debug.Log($"{aug.GetType().Name} : {!HasAugmentation(aug.GetType().Name)}");
         if (!HasAugmentation(aug.GetType().Name))
         {
             augmentationList.Add(aug);

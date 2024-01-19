@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Shield : Augmentation
 {
-	private int maxShield;
-	private int curShield;
-	private ShieldEffect shield;
+	public int maxShield;
+    public ShieldEffect shield;
+	public int curShield;
 	private ObjectPool pool;
 	private Transform playerTransform;
 	private Color32[] colors = {
@@ -19,14 +19,25 @@ public class Shield : Augmentation
 	
 	public Shield(int level, int maxLevel) : base(level, maxLevel)
 	{
-		pool = ObjectPoolManager.Instance.objectPool;
-		playerTransform = GameManager.instance.player.transform;
-		CoroutineHandler.StartCoroutine(NumberOfShields());
-        maxShield = int.Parse(GameManager.instance.augTable[level]["Shield"].ToString());
-		curShield = maxShield;
-		shield = pool.GetObject(ObjectPool.ObjectType.Shield, playerTransform.position).GetComponent<ShieldEffect>();
-		shield.transform.SetParent(playerTransform);
-        SetColor(colors[curShield]);
+		if (GameManager.instance.player.HasAugmentation<Shield>() == false)
+		{
+            pool = ObjectPoolManager.Instance.objectPool;
+            playerTransform = GameManager.instance.player.transform;
+            maxShield = int.Parse(GameManager.instance.augTable[level]["Shield"].ToString());
+            curShield = maxShield;
+            shield = pool.GetObject(ObjectPool.ObjectType.Shield, playerTransform.position).GetComponent<ShieldEffect>();
+			shield.transform.SetParent(playerTransform);
+            shield.SetColor(colors[curShield - 1]);
+        }
+		else
+		{
+			var nowShield = GameManager.instance.player.GetAugmentation<Shield>() as Shield;
+            nowShield.maxShield = int.Parse(GameManager.instance.augTable[nowShield.level + 1]["Shield"].ToString());
+            nowShield.curShield = int.Parse(GameManager.instance.augTable[nowShield.level + 1]["Shield"].ToString());
+            nowShield.shield.gameObject.SetActive(true);
+            nowShield.shield.SetColor(colors[nowShield.curShield - 1]);
+            Debug.Log(maxShield);
+		}
     }
 
 	protected override AugmentationEventType GetEventType()
@@ -36,47 +47,28 @@ public class Shield : Augmentation
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e) 
 	{
-        maxShield = int.Parse(GameManager.instance.augTable[level]["Shield"].ToString());
         if (curShield > 0)
 		{
-			e.target.AddEffect(new Invincible(1,Time.deltaTime, e.target));
-			curShield--;
+			e.target.AddEffect(new Invincible(1, Time.deltaTime, e.target));
+			CoroutineHandler.StartCoroutine(RegenerateShield(60));
+            curShield--;
+            shield.SetColor(colors[Mathf.Clamp(curShield - 1, 0, maxShield)]);
 		}
 
-        if (curShield <= 0 && shield != null)
+        if (curShield <= 0)
         {
-            curShield = 0;
-            shield.ReturnObject();
-        }
-		else
-		{
-            SetColor(colors[curShield]);
+            shield.gameObject.SetActive(false);
         }
     }
 
-	private IEnumerator NumberOfShields()
+	private IEnumerator RegenerateShield(float time)
 	{
-		while (true)
-		{
-			yield return new WaitForSeconds(3f);
-			
-			curShield = Mathf.Clamp(curShield + 1, 0, maxShield);
-			if(shield == null)
-			{
-				shield = pool.GetObject(ObjectPool.ObjectType.Shield, playerTransform.position).GetComponent<ShieldEffect>();
-                shield.transform.SetParent(playerTransform);
-            }
-			SetColor(colors[curShield - 1]);
-		}
-	}
-
-	private void SetColor(Color32 color)
-	{
-		ParticleSystem[] particleSystems = shield.GetComponentsInChildren<ParticleSystem>();
-		foreach (ParticleSystem particle in particleSystems)
-		{
-			particle.startColor = color;
-		}
-	}
-
+		yield return new WaitForSeconds(time);
+        curShield = Mathf.Clamp(curShield + 1, 0, maxShield);
+        if (curShield > 0)
+        {
+            shield.gameObject.SetActive(true);
+        }
+        shield.SetColor(colors[curShield - 1]);
+    }
 }
