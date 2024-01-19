@@ -1,15 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System;
-using static Cinemachine.DocumentationSortingAttribute;
 
 
 public class HUD : MonoBehaviour
 {
 	public Text timeText;
+	public Text timerNameText;
 	public Text killCountText;
 	public Text levelText;
 	public Slider expSlider;
@@ -17,6 +15,9 @@ public class HUD : MonoBehaviour
 	public GameObject statImg;
 	public Text statText;
 	public GameObject iconPanel;
+	public Image occupyPercentImage;
+	public Text occupyPercentText;
+	public Image skillImage;
 
 	public GameObject augPanel;
 	public Button[] augButtons;
@@ -26,10 +27,12 @@ public class HUD : MonoBehaviour
 
 	public PlayerBar playerGaugeBar;
 
+	private Spirit sprite;
 
 	private void Start()
 	{
 		GameManager.instance.killCountAnimator = killCountText.GetComponentInParent<Animator>();
+		sprite = FindObjectOfType<Spirit>();
 	}
 
 	void LateUpdate()
@@ -42,12 +45,43 @@ public class HUD : MonoBehaviour
 		if (GameManager.instance.player == null)
 			return;
 
-		int sceneStartTime = (int)Time.timeSinceLevelLoad;
-
-		timeText.text = string.Format("{0:D2} : {1:D2}", sceneStartTime / 60, sceneStartTime % 60);
+		// int sceneStartTime = (int)Time.timeSinceLevelLoad;
+		// timeText.text = string.Format("{0:D2} : {1:D2}", sceneStartTime / 60, sceneStartTime % 60);
 
 		killCountText.text = GameManager.instance.killCount.ToString();
-
+		
+		if (sprite.collapseZone && sprite.collapseZone.gameObject.activeSelf)
+		{
+			if (sprite.spiritState == SpiritState.OCCUPY)
+			{
+				int remainingTime = (int)(sprite.collapseZone.collapseTime - sprite.collapseZone.elapsedTime);
+				timeText.color = remainingTime <= 10 ? Color.red : Color.white;
+				timeText.text = string.Format("[ {0:00} : {1:00} ]", 
+					remainingTime / 60,
+					remainingTime % 60);
+				timerNameText.text = "안정화 제한 시간";
+				timeText.transform.parent.gameObject.SetActive(true);
+				
+				
+				occupyPercentImage.transform.parent.gameObject.SetActive(true);
+				occupyPercentImage.fillAmount = sprite.collapseZone.stablity / 100f;
+				occupyPercentText.text = $"{sprite.collapseZone.stablity:0}%";
+			}
+			else
+			{
+				timeText.text = null;
+				timerNameText.text = "균열 생성";
+			}
+		}
+		else
+		{
+			timerNameText.text = "균열 생성 시간";
+			timeText.color = Color.white;
+			timeText.text = string.Format("[ {0:00} : {1:00} ]", (int)sprite.collapseZoneSpawner.remainingTime / 60, (int)sprite.collapseZoneSpawner.remainingTime % 60);
+			occupyPercentImage.transform.parent.gameObject.SetActive(false);
+		}
+		timeText.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(timeText.text));
+		
 		if (GameManager.instance.player.level >= GameManager.instance.levelTable.Count - 1)
 		{
 			levelText.text = "Max";

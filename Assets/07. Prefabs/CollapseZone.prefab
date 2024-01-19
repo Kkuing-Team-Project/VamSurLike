@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   increment: 5
   zoneRange: 5
+  collapseTime: 11

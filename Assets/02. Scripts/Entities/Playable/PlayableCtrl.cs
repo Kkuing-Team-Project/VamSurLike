@@ -28,6 +28,7 @@ public abstract class PlayableCtrl : Entity
 
     public string testAugName;
 
+    public Sprite skillSprite;
     private AugEventArgs defaultArgs;
 
     [Header("총알 갯수")]
@@ -97,6 +98,7 @@ public abstract class PlayableCtrl : Entity
         cameraShakeSource = GetComponent<CinemachineImpulseSource>();
         objectPool = FindObjectOfType<ObjectPool>();
         hud = FindObjectOfType<HUD>();
+        hud.skillImage.sprite = skillSprite;
         gaugeBar = hud?.playerGaugeBar;
     }
 
