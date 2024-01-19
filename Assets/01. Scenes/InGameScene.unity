@@ -3463,26 +3463,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 776033383, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
-      propertyPath: moveTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 776033383, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
-      propertyPath: waitTime
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 776033383, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
-      propertyPath: attackCnt
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 776033383, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
-      propertyPath: attackTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 165878886881116746, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 701101993273545805, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3530,10 +3510,6 @@ PrefabInstance:
     - target: {fileID: 701101993273545810, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
       propertyPath: m_Name
       value: Shandra
-      objectReference: {fileID: 0}
-    - target: {fileID: 7774011899065688595, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbc91ae29963d8649accac565e2e18f9, type: 3}
