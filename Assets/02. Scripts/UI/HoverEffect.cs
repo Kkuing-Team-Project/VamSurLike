@@ -30,7 +30,7 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         if(select)
         {
-            SoundManager.Instance.SelectSound();
+            SoundManager.Instance.PlaySound("Sound_UI_UP_Select");
         }
         transform.localScale = hoverScale;
         rectTransform.anchoredPosition = new Vector2(x, originalPosition.y + hoverHeightIncrease);
