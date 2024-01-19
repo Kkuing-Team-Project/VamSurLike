@@ -6,10 +6,13 @@ using UnityEngine;
 
 public class CollapseZone : MonoBehaviour, IPoolable
 {
-    [Tooltip("ºØ±«Á¸ ÃÊ´ç Áõ°¡°ª")]
+    [Tooltip("ºØ±«Á¸ Á¤È­ ÃÊ´ç Áõ°¡°ª")]
     public float increment;
     [Tooltip("ºØ±«Á¸ ¹üÀ§"), Range(1f, 10f)]
     public float zoneRange;
+
+    public float collapseTime;
+    public float elapsedTime { get; private set; }
     public float stablity { get; private set; }
     public ObjectPool pool { get; set; }
 
@@ -30,6 +33,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
         effect.SetSize(Vector3.one * zoneRange);
         effect.SetColor(new Color(1f / 47, 1f / 56, 1f / 255));
         effect.transform.eulerAngles = new Vector3(90, 0, 0);
+        elapsedTime = 0;
     }
 
     // Start is called before the first frame update
@@ -43,11 +47,17 @@ public class CollapseZone : MonoBehaviour, IPoolable
     {
         if (spirit == null)
             return;
+        if (elapsedTime >= collapseTime)
+        {
+            Collapse();
+            return;
+        }
 
         float value = 0;
-
+        
         if (spirit.spiritState == SpiritState.OCCUPY)
         {
+            elapsedTime += Time.deltaTime;
             if ((transform.position - spirit.transform.position).magnitude <= zoneRange)
                 value += increment;
             if (player != null)
@@ -56,13 +66,17 @@ public class CollapseZone : MonoBehaviour, IPoolable
                     value += increment;
             }
         }
-
         stablity = Mathf.Clamp(stablity + (value * Time.deltaTime), 0, 100f);
         if (stablity >= 100)
         {
             spirit.SetBlessType();
             ReturnObject();
         }
+    }
+
+    private void Collapse()
+    {
+        Debug.LogError("GameOver");
     }
 
     private void OnDrawGizmos()

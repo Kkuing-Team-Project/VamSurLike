@@ -23,8 +23,7 @@ public enum BlessType
 [RequireComponent(typeof(NavMeshAgent))]
 public class Spirit : Entity
 {
-    [SerializeField]
-    private Spawner collapseZoneSpawner;
+    public Spawner collapseZoneSpawner;
     private PlayableCtrl player;
     [HideInInspector]
     public CollapseZone collapseZone;
@@ -36,7 +35,7 @@ public class Spirit : Entity
     private NavMeshAgent nav;
     private Collider col;
     private MagicCircleEffect magicCircle;
-
+    
     private Animator anim;
     private readonly int aniSpeed = Animator.StringToHash("Speed");
     private readonly int aniStabilization = Animator.StringToHash("Stabilization");
@@ -54,14 +53,15 @@ public class Spirit : Entity
 
     protected override void UpdateEntity()
     {
+
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
-            if (collapseZoneSpawner) collapseZoneSpawner.stop = false;
+            collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
         }
         else
         {
-            if (collapseZoneSpawner) collapseZoneSpawner.stop = true;
+            collapseZoneSpawner.stop = true;
             var zonePos = collapseZone.transform.position;
             zonePos.y = 0;
             var origin = transform.position;
@@ -71,6 +71,7 @@ public class Spirit : Entity
                 spiritState = SpiritState.MOVE;
             else spiritState = SpiritState.OCCUPY;
         }
+        
         SpiritBehavior();
         Bless(blessRange, blessType);
     }
