@@ -1463,6 +1463,7 @@ MonoBehaviour:
   entityType: 2
   rigid: {fileID: 0}
   testAugName: 
+  skillSprite: {fileID: 411605105, guid: a15c6bcaf715e234e81b9cd911776e05, type: 3}
   bulletNum: 1
   bulletInterval: 0
   rotationAnglePerSecond: 270
