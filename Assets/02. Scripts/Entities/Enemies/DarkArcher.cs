@@ -65,15 +65,11 @@ public class DarkArcher : EnemyCtrl
     private void OnCollisionEnter(Collision collision)
     {
         // Check if the collided object is the Player
-        if (collision.gameObject.CompareTag("PLAYER"))
+        if (collision.transform.TryGetComponent(out Entity entity) && entity == target)
         {
             // Deal damage to the player
-            var player = collision.gameObject.GetComponent<PlayableCtrl>(); // Replace 'Player' with your player class
-            if (player != null)
-            {
-                playable.TakeDamage(this, stat.Get(StatType.DAMAGE));
-                TakeDamage(this, stat.Get(StatType.MAX_HP));
-            }
+            target.TakeDamage(this, stat.Get(StatType.DAMAGE));
+            TakeDamage(this, stat.Get(StatType.MAX_HP));
 
             // Handle DarkArcher's death
             // OnEntityDied();
@@ -90,9 +86,9 @@ public class DarkArcher : EnemyCtrl
 
         yield return new WaitForSeconds(0.5f);
         
-        while (Vector3.Angle(transform.forward, playable.transform.position - transform.position) > 1f)
+        while (Vector3.Angle(transform.forward, target.transform.position - transform.position) > 1f)
         {
-            Vector3 targetDirection = (playable.transform.position - transform.position).normalized;
+            Vector3 targetDirection = (target.transform.position - transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(targetDirection.x, 0, targetDirection.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 3);
             yield return null;
@@ -106,7 +102,7 @@ public class DarkArcher : EnemyCtrl
         TempArrow tempArrow = arrowObject.GetComponent<TempArrow>();
         if (tempArrow != null)
         {
-            tempArrow.SetArcher(this);
+            tempArrow.SetTarget(this, target);
         }
 
         Rigidbody arrowRigidbody = arrowObject.GetComponent<Rigidbody>();

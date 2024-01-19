@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 908af69d3bbb54a4d8d82902e44dc8eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  increment: 20
+  increment: 5
   zoneRange: 5
