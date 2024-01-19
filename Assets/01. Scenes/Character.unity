@@ -724,6 +724,7 @@ GameObject:
   - component: {fileID: 598426389}
   - component: {fileID: 598426390}
   - component: {fileID: 598426391}
+  - component: {fileID: 598426392}
   m_Layer: 5
   m_Name: Wind
   m_TagString: Untagged
@@ -773,7 +774,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -809,7 +810,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: InGameScene
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
       - m_Target: {fileID: 1227122410}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: SelectCharacter
@@ -821,7 +822,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: P_WIND
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &598426391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,6 +838,52 @@ MonoBehaviour:
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
   hoverHeightIncrease: -50
   x: 960
+  y: -100
+--- !u!114 &598426392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 598426388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 598426391}
+          m_TargetAssemblyTypeName: HoverEffect, Assembly-CSharp
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 598426391}
+          m_TargetAssemblyTypeName: HoverEffect, Assembly-CSharp
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
 --- !u!1 &662417659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,6 +1055,7 @@ GameObject:
   - component: {fileID: 941662738}
   - component: {fileID: 941662739}
   - component: {fileID: 941662740}
+  - component: {fileID: 941662741}
   m_Layer: 5
   m_Name: Ice
   m_TagString: Untagged
@@ -1057,7 +1105,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1093,7 +1141,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: InGameScene
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
       - m_Target: {fileID: 1227122410}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: SelectCharacter
@@ -1105,7 +1153,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: P_ICE
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &941662740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1121,6 +1169,52 @@ MonoBehaviour:
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
   hoverHeightIncrease: -50
   x: 1840
+  y: -100
+--- !u!114 &941662741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941662737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 941662740}
+          m_TargetAssemblyTypeName: HoverEffect, Assembly-CSharp
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 941662740}
+          m_TargetAssemblyTypeName: HoverEffect, Assembly-CSharp
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
 --- !u!1 &955445901
 GameObject:
   m_ObjectHideFlags: 0
@@ -1544,7 +1638,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1580,7 +1674,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: InGameScene
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
       - m_Target: {fileID: 1227122410}
         m_TargetAssemblyTypeName: SceneCtrl, Assembly-CSharp
         m_MethodName: SelectCharacter
@@ -1592,7 +1686,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: P_FIRE
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &1449285509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1637,7 +1731,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 1
 --- !u!114 &1449285510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,6 +1747,7 @@ MonoBehaviour:
   hoverScale: {x: 1.1, y: 1.1, z: 1.1}
   hoverHeightIncrease: -50
   x: 80
+  y: -100
 --- !u!1 &1654010514
 GameObject:
   m_ObjectHideFlags: 0
