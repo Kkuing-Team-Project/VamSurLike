@@ -354,7 +354,6 @@ public abstract class PlayableCtrl : Entity
         SoundManager.Instance.CrashSound();
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
-
         if(healCor != null)
         {
             StopCoroutine(healCor);

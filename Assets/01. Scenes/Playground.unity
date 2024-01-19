@@ -1122,6 +1122,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wind Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2451845315716602646, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2976145972554236332, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
       propertyPath: m_RootOrder
       value: 2
