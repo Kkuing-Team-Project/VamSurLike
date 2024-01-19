@@ -6,28 +6,42 @@ using UnityEngine;
 
 public class Nebeloun : MonoBehaviour
 {
+    public float attackInterval;
     public float moveTime;
-    public float waitTime;
+    public float attackWaitTime;
     public float attackTime;
     public int attackCnt;
 
     private PlayableCtrl player;
     private CinemachineImpulseSource cameraShakeSource;
     private SkinnedMeshRenderer skin;
+    private Animator animator;
 
     private void Start()
     {
         player = GameManager.instance.player;
         cameraShakeSource = gameObject.GetComponent<CinemachineImpulseSource>();
         skin = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
+        animator = gameObject.GetComponentInChildren<Animator>();
         skin.enabled = false;
-        StartCoroutine(AttackCor(moveTime, waitTime, attackTime, attackCnt));
+
+        StartCoroutine(NebelounAttack(attackInterval));
+    }
+
+    public IEnumerator NebelounAttack(float interval)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(interval);
+            yield return StartCoroutine(AttackCor(moveTime, attackWaitTime, attackTime, attackCnt));
+        }
     }
 
 
     public IEnumerator AttackCor(float moveTime, float waitTime, float attackTime, int attackCnt)
     {
         skin.enabled = true;
+        animator.SetTrigger("Idle");
         transform.rotation = Quaternion.Euler(0, -90, 0);
         cameraShakeSource.GenerateImpulse();
         Vector3 origin = player.transform.position + Vector3.right * 60 + Vector3.up * 40 + Vector3.back * 17;
@@ -60,8 +74,13 @@ public class Nebeloun : MonoBehaviour
         portal.SetSize(Vector3.one * range);
         portal.transform.eulerAngles = new Vector3(90, 0, 0);
         yield return new WaitForSeconds(waitTime);
+
         var lightning = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.LightningBolt, pos).GetComponent<LightningBoltEffect>();
-        cameraShakeSource.GenerateImpulse();
+        if(Physics.OverlapSphere(pos, range, 1 << LayerMask.NameToLayer("PLAYER")).Length > 0 )
+        {
+            player.TakeDamage(null, 2);
+        }
+
         yield return new WaitForSeconds(0.5f);
         portal.ReturnObject();
         yield return new WaitForSeconds(0.5f);
