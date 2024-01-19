@@ -350,7 +350,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90160031}
-  m_LocalRotation: {x: 0.42415538, y: -0.00000001558191, z: 0.0000000072981776, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: 0.000000015581922, z: -0.0000000072981816, w: 0.90558946}
   m_LocalPosition: {x: 0, y: 12, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1015,6 +1015,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: InGameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 1925251632959240958, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632959240958, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632959240958, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632959240958, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632979006734, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632979006734, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632979006734, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632979006734, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251633151058539, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251633151058539, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251633151058539, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251633316027750, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7013488739112150397, guid: 267ca189e4b043b418d513ca82208592, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1043,7 +1091,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34474e9ca6dbd3449997a3af6dd4330f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ac6410fe1bb3e746a39c2b3c72e4b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &441433781 stripped
@@ -1194,17 +1242,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pool: {fileID: 748339202}
+  fileName: 
   playerCamera: {fileID: 1564712965}
-  delay: 1
   stop: 0
+  delay: 1
   isWave: 0
   spawnObjects:
-  - type: 8
+  - name: 
     percent: 100
     percentAmpl: 100
   maxPercent: 100
-  waves: []
+  stage:
+    waves: []
   isStatic: 1
   maxRangeRadius: 50
   entityRadius: 5
@@ -1392,17 +1441,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
---- !u!114 &748339202 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
-  m_PrefabInstance: {fileID: 748339201}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7150b656bbad6bd4d9623b12331e874f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &748339203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8803116447141004154, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
@@ -3708,41 +3746,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pool: {fileID: 748339202}
+  fileName: 
   playerCamera: {fileID: 1564712965}
-  delay: 0.1
   stop: 0
+  delay: 0.1
   isWave: 1
   spawnObjects: []
   maxPercent: 1
-  waves:
-  - duration: 10
-    spawnObjects:
-    - type: 1
-      percent: 100
-      percentAmpl: 100
-    maxPercent: 100
-  - duration: 20
-    spawnObjects:
-    - type: 1
-      percent: 70
-      percentAmpl: 70
-    - type: 2
-      percent: 30
-      percentAmpl: 30
-    maxPercent: 100
-  - duration: 30
-    spawnObjects:
-    - type: 2
-      percent: 70
-      percentAmpl: 70
-    - type: 3
-      percent: 20
-      percentAmpl: 20
-    - type: 4
-      percent: 10
-      percentAmpl: 10
-    maxPercent: 100
+  stage:
+    waves: []
   isStatic: 0
   maxRangeRadius: 50
   entityRadius: 0.5
@@ -3903,6 +3915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379ef36d42c85544492a6bfd06ebc95e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windSkillEffectColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1341284215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4447,7 +4460,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564712964}
-  m_LocalRotation: {x: 0.42415538, y: -0.00000001558191, z: 0.0000000072981776, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: 0.000000015581922, z: -0.0000000072981816, w: 0.90558946}
   m_LocalPosition: {x: 0, y: 12, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
