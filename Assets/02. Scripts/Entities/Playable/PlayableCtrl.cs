@@ -2,14 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Reflection;
-using TMPro;
-using TreeEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.AI;
 
 public abstract class PlayableCtrl : Entity
 {
@@ -200,7 +193,11 @@ public abstract class PlayableCtrl : Entity
         {
             for (int i = 0; i < experienceGems.Length; i++)
             {
-                experienceGems[i].GetComponent<ExperienceGem>().PullToPlayer(this);
+                ExperienceGem exp = experienceGems[i].GetComponent<ExperienceGem>();
+                if (exp.parabolicCor == null)
+                {
+                    exp.PullToPlayer(this);
+                }
             }
         }
         #endregion
