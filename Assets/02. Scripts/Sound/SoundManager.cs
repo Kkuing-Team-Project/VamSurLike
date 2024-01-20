@@ -54,6 +54,7 @@ public class SoundManager : MonoBehaviour
 
         if (playerTransform == null && isMoveSound)
         {
+
             GameObject player = FindPlayerByLayer(LayerMask.NameToLayer("PLAYER"));
             if (player != null)
             {
@@ -148,7 +149,8 @@ public class SoundManager : MonoBehaviour
         {
             UpdateMoveSoundPosition(currentLayerName, currentMoveAudioSource, currentMaxVolume);
         }
-    }
+}
+
 
     public void StopBaseAudio()
     {
