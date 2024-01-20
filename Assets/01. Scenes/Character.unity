@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -839,7 +839,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 960
   y: -100
-  select: 1
+  select: 0
 --- !u!114 &598426392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1171,7 +1171,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 1840
   y: -100
-  select: 1
+  select: 0
 --- !u!114 &941662741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1750,7 +1750,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 80
   y: -100
-  select: 1
+  select: 0
 --- !u!1 &1654010514
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,7 +40,7 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if(select)
         {
-            SoundManager.Instance.StopBackgroundMusic();
+            SoundManager.Instance.StopBaseAudio();
         }
         transform.localScale = originalScale;
         rectTransform.anchoredPosition = new Vector2(x, y);
