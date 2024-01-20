@@ -99,6 +99,12 @@ public abstract class PlayableCtrl : Entity
         gaugeBar = hud?.playerGaugeBar;
     }
 
+    [ContextMenu("클리어")]
+    public void ClearStage()
+    {
+        StartCoroutine(GameManager.instance.ClearStage());
+    }
+
     [ContextMenu("증강 추가 테스트")]
     public void AddAugmentationTest()
     {
@@ -288,7 +294,7 @@ public abstract class PlayableCtrl : Entity
                 exp = exp - requireExp;
                 level++;
                 requireExp = int.Parse(GameManager.instance.levelTable[level]["NEED_EXP"].ToString());
-                if (isTest == false)
+                if (GameManager.instance.isFinishGame == false)
                 {
                     Time.timeScale = 0;
                     hud.augPanel.SetActive(true);

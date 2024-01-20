@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public GameObject SoundManagerObj;
     public GameObject loadingPanel;
+    public Image fadeImage;
     public Text loadingPercentage;
     [HideInInspector]
     public PlayableCtrl player;
@@ -27,7 +28,10 @@ public class GameManager : MonoBehaviour
     public string stageName;
     public string playerName;
 
+    public bool isFinishGame;
+
     private CinemachineVirtualCamera followCam;
+    private Coroutine fadeCor;
     
     public int killCount
     {
@@ -66,7 +70,8 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "InGameScene"){
+        SoundManager.Instance.playerTransform = Camera.main.transform;
+        if (scene.name == "InGameScene"){
             GameObject playerObj = null;
             if(!string.IsNullOrEmpty(playerName)){
                 switch (playerName)
@@ -105,14 +110,14 @@ public class GameManager : MonoBehaviour
         switch(scene.name)
         {
             case "Main":
-                SoundManager.Instance.PlaySound("Sound_BG_Title");
+                SoundManager.Instance.PlaySound("Sound_BG_Title", false, default, true);
                 break;
             case "Stage":
-                SoundManager.Instance.PlaySound("Sound_BG_Stage_Choice");
+                SoundManager.Instance.PlaySound("Sound_BG_Stage_Choice", false, default, true);
                 break;
             case "InGameScene":
                 SoundManager.Instance.PlayOneShot("Sound_EF_CH_Spawn");
-                SoundManager.Instance.PlaySound("Sound_BG_Battle01");
+                SoundManager.Instance.PlaySound("Sound_BG_Battle01", false, default, true);
                 break;
         }
 
@@ -152,5 +157,42 @@ public class GameManager : MonoBehaviour
             result++;
         }
         return result;
+    }
+
+    public IEnumerator ClearStage()
+    {
+        isFinishGame = true;
+        yield return StartCoroutine(FadeCor(Color.clear, Color.white, 0.25f));
+        foreach (var enemy in FindObjectsOfType<EnemyCtrl>())
+        {
+            enemy.TakeDamage(player, enemy.hp);
+        }
+        FindObjectOfType<BossCtrl>()?.TakeDamage(player, FindObjectOfType<BossCtrl>().hp);
+        yield return StartCoroutine(FadeCor(Color.white, Color.clear, 3f));
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(FadeCor(Color.clear, Color.black, 3f));
+        StartCoroutine(LoadAsyncScene("Stage"));
+        isFinishGame = false;
+    }
+
+    public void Fade(Color start, Color end, float time)
+    {
+        if(fadeCor != null)
+        {
+            StopCoroutine(fadeCor);
+            fadeCor = null;
+        }
+        StartCoroutine(FadeCor(start, end, time));
+    }
+
+    private IEnumerator FadeCor(Color start, Color end, float time)
+    {
+        fadeImage.gameObject.SetActive(true);
+        for (float elapsedTime = 0; elapsedTime < time; elapsedTime += Time.deltaTime)
+        {
+            fadeImage.color = Color.Lerp(start, end, elapsedTime / time);
+            yield return null;
+        }
+        fadeImage.gameObject.SetActive(false);
     }
 }
