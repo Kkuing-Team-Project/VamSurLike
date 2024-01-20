@@ -50,11 +50,11 @@ public class Spirit : Entity
             nav = gameObject.GetComponent<NavMeshAgent>();
         col = gameObject.GetComponent<Collider>();
         anim = GetComponentInChildren<Animator>();
+        SoundManager.Instance.PlaySound("Sound_EF_SP", true, transform.position, true);
     }
 
     protected override void UpdateEntity()
     {
-        //SoundManager.Instance.PlaySound("Sound_EF_SP", true, transform.position, true);
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
             spiritState = SpiritState.IDLE;

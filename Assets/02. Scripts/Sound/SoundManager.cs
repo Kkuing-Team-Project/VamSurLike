@@ -6,8 +6,8 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     public AudioSource audioSource;
-    public AudioSource MoveAudioSource;
-    private Dictionary<string, AudioClip> soundClipDictionary;
+    public AudioSource moveAudioSource;
+    private Dictionary<string, AudioClip> soundClipDictionary = new Dictionary<string, AudioClip>();
 
     public Transform playerTransform; // 플레이어 또는 카메라의 위치
     public float maxVolumeDistance = 5f;
@@ -20,17 +20,11 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeSoundDictionary();
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    private void InitializeSoundDictionary()
-    {
-        soundClipDictionary = new Dictionary<string, AudioClip>();
     }
 
     public void PlaySound(string clipName, bool isMoveSound = false, Vector3 position = default, bool loop = false)
@@ -42,7 +36,7 @@ public class SoundManager : MonoBehaviour
 
         if (clip != null)
         {
-            AudioSource targetAudioSource = isMoveSound ? MoveAudioSource : audioSource;
+            AudioSource targetAudioSource = isMoveSound ? moveAudioSource : audioSource;
             targetAudioSource.clip = clip;
             targetAudioSource.loop = loop;
             targetAudioSource.Play();
@@ -62,7 +56,7 @@ public class SoundManager : MonoBehaviour
     {
         // 이 메서드에서 MoveAudioSource의 볼륨을 조절
         float distance = Vector3.Distance(playerTransform.position, position);
-        MoveAudioSource.volume = Mathf.Clamp01(1 - (distance - maxVolumeDistance) / (minVolumeDistance - maxVolumeDistance));
+        moveAudioSource.volume = Mathf.Clamp01(1 - (distance - maxVolumeDistance) / (minVolumeDistance - maxVolumeDistance));
     }
 
     public void StopBackgroundMusic()

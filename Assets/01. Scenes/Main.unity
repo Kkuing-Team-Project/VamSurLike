@@ -726,33 +726,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1534866560}
   m_CullTransparentMesh: 1
---- !u!1 &1640163476 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4170855063882686298, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-  m_PrefabInstance: {fileID: 6254902468746185733}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1640163477 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1999020677292499548, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-  m_PrefabInstance: {fileID: 6254902468746185733}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1640163480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640163476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f863b0eaf553941bb84ce30db1071e68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 1640163477}
-  MoveAudioSource: {fileID: 0}
-  playerTransform: {fileID: 0}
-  maxVolumeDistance: 5
-  minVolumeDistance: 20
 --- !u!1 &1853478202
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,34 +944,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1784801285995878376, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4006244883288087530, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: SoundManagerObj
-      value: 
-      objectReference: {fileID: 1640163476}
-    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: Characters.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: Characters.Array.data[0]
-      value: 
-      objectReference: {fileID: 2451845315716602646, guid: 73345569226c2c94ea6216ee232492c0, type: 3}
-    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: Characters.Array.data[1]
-      value: 
-      objectReference: {fileID: 2451845315716602646, guid: 6e151d9e1e9845842932af323337ace5, type: 3}
-    - target: {fileID: 6254902469626276192, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
-      propertyPath: Characters.Array.data[2]
-      value: 
-      objectReference: {fileID: 2451845315716602646, guid: 5f5f702216db1874298afdeae46be347, type: 3}
     - target: {fileID: 6254902469626276193, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
       propertyPath: m_Name
       value: GameManager
