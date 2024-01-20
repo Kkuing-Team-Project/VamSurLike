@@ -13,6 +13,7 @@ public class PoisonFieldEffect : EffectParticle
     {
         base.OnCreate();
         objectType = ObjectPool.ObjectType.PoisonField;
+        SoundManager.Instance.PlaySound("Sound_EF_UP_Poison", false, true, "POISONFIELD", false, 1f);
     }
 
     public override void OnActivate()

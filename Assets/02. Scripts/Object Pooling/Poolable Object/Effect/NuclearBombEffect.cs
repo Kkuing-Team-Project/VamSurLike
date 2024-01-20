@@ -8,5 +8,6 @@ public class NuclearBombEffect : EffectParticle
     {
         base.OnCreate();
         objectType = ObjectPool.ObjectType.PoisonField;
+        SoundManager.Instance.PlaySound("Sound_EF_UP_Nuke");
     }
 }
