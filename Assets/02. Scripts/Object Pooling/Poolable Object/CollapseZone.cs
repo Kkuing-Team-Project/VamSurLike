@@ -84,7 +84,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
 
     private void Collapse()
     {
-        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
+        //SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
         Debug.LogError("GameOver");
     }
 

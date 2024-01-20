@@ -31,7 +31,7 @@ public class WindPlayable : PlayableCtrl
             if (skinnedMeshRenderers == null)
             {
                 skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-                SoundManager.Instance.PlaySound("Sound_EF_CH_Skill_Wind");
+                SoundManager.Instance.PlayOneShot("Sound_EF_CH_Skill_Wind");
             }
 
             for (int i = 0; i < skinnedMeshRenderers.Length; i++)
@@ -58,7 +58,7 @@ public class WindPlayable : PlayableCtrl
 
     protected override void OnEntityDied()
     {
-        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
+        SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
     }
 
     protected override void PlayerSkill()
