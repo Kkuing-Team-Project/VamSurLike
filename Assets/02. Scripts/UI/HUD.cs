@@ -12,20 +12,25 @@ public class HUD : MonoBehaviour
 	public Text levelText;
 	public Slider expSlider;
 	public GameObject augIconPrefab;
-	public GameObject statImg;
-	public Text statText;
 	public GameObject iconPanel;
 	public Image occupyPercentImage;
 	public Text occupyPercentText;
 	public Image skillImage;
 	public Image skillCoolTimeImage;
 
+	[Header("증강 관련")]
 	public GameObject augPanel;
-	public GameObject pauseAugPanel;
 	public Button[] augButtons;
 	public Text[] augNameTexts;
 	public Text[] augExplanationTexts;
 	public Text[] augTypeTexts;
+	public Image[] augImage;
+
+	[Header("Pause UI")]
+	public GameObject pauseAugPanel;
+	public GameObject pausePanel;
+	public Text playerStatText;
+	public Text staffStatText;
 
 	public PlayerBar playerGaugeBar;
 
@@ -35,6 +40,8 @@ public class HUD : MonoBehaviour
 	{
 		GameManager.instance.killCountAnimator = killCountText.GetComponentInParent<Animator>();
 		sprite = FindObjectOfType<Spirit>();
+		pausePanel.SetActive(false);
+		augPanel.SetActive(false);
 	}
 
 	void LateUpdate()
@@ -95,18 +102,21 @@ public class HUD : MonoBehaviour
 			levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
 		}
 
-		if (Input.GetKey(KeyCode.C))
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
-			statImg.SetActive(true);
-			statText.text = string.Format("MaxHP: {0:D2}\nDmg: {1:D2}\nAtkSpd: {2:D2}\nAtkDist: {3:D2}\nMvSpd: {4:D2}\nExpRge: {5:D2}",
-				(int)GameManager.instance.player.stat.Get(StatType.MAX_HP), (int)GameManager.instance.player.stat.Get(StatType.DAMAGE),
-				(int)GameManager.instance.player.stat.Get(StatType.ATTACK_SPEED), (int)GameManager.instance.player.stat.Get(StatType.ATTACK_DISTANCE),
+			pausePanel.SetActive(!pausePanel.activeSelf);
+			Time.timeScale = pausePanel.activeSelf ? 0 : 1;
+
+			playerStatText.text = string.Format("{0:D2}\n{1:F1}\n{2:D2}\n{3:D2}",
+				(int)GameManager.instance.player.stat.Get(StatType.MAX_HP), GameManager.instance.player.healPerSec,
 				(int)GameManager.instance.player.stat.Get(StatType.MOVE_SPEED), (int)GameManager.instance.player.stat.Get(StatType.EXP_RANGE));
-		}
-		else
-		{
-			statImg.SetActive(false);
-		}
+
+			staffStatText.text = string.Format("{0:D2}\n{1:D2}\n{2:D2}\n{3:D2}\n{4:D2}",
+                (int)GameManager.instance.player.stat.Get(StatType.DAMAGE), (int)GameManager.instance.player.stat.Get(StatType.ATTACK_SPEED),
+                GameManager.instance.player.HasAugmentation<SplashShooting>() == true ? GameManager.instance.augTable[GameManager.instance.player.GetAugmentation<SplashShooting>().level]["SplashShooting"] : 0,
+                GameManager.instance.player.HasAugmentation<SplitShooting>() == true ? GameManager.instance.augTable[GameManager.instance.player.GetAugmentation<SplitShooting>().level]["SplitShooting"] : 0,
+                GameManager.instance.player.HasAugmentation<KnockbackShot>() == true ? GameManager.instance.augTable[GameManager.instance.player.GetAugmentation<KnockbackShot>().level]["KnockbackShot"] : 0);
+        }
 
 		if(Input.GetKeyDown(KeyCode.Tab))
 		{
@@ -233,6 +243,11 @@ public class HUD : MonoBehaviour
             {
                 if (key.Equals(GameManager.instance.explanationTable[j]["Item_Name"].ToString()))
                 {
+					Sprite img = Resources.Load<Sprite>("SkillIcon/" + key + "Icon");
+					if (img != null)
+						augImage[i].sprite = img;
+					else
+						augImage[i].sprite = Resources.Load<Sprite>("SkillIcon/WizardIcon");
 					augNameTexts[i].text = GameManager.instance.explanationTable[j]["Korea_Name"].ToString();
 					type = GameManager.instance.explanationTable[j]["Item_Type"].ToString();
                     augTypeTexts[i].text = type;

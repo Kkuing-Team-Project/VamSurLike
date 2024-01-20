@@ -42,6 +42,7 @@ public class Giant : BossCtrl
 
     private IEnumerator DeathCor()
     {
+        yield return ChangeAnimLayer(patternIdx + 1, 0.5f, false);
         animator.SetTrigger("Death");
         yield return new WaitForSeconds(3f);
         float elapsedTime = 0;

@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         statTable = CSVReader.Read("Data/Character_Enemy_Boss_Stat_Chart");
         levelTable = CSVReader.Read("Data/Character_Level_Chart");
@@ -105,16 +106,16 @@ public class GameManager : MonoBehaviour
         {
             case "Main":
                 Debug.Log("메인씬 입니다");
-                SoundManager.Instance.PlaySound("Sound_BG_Title");
+                SoundManager.Instance.PlaySound("Sound_BG_Title", true, default, default, true, 0.2f);
                 break;
             case "Stage":
-                SoundManager.Instance.StopBackgroundMusic();
-                SoundManager.Instance.PlaySound("Sound_BG_Stage_Choice");
+                SoundManager.Instance.StopBaseAudio();
+                SoundManager.Instance.PlaySound("Sound_BG_Stage_Choice", true, default, default, true, 0.2f);
                 break;
             case "InGameScene":
-                SoundManager.Instance.StopBackgroundMusic();
+                SoundManager.Instance.StopBaseAudio();
                 SoundManager.Instance.PlaySound("Sound_EF_CH_Spawn");
-                SoundManager.Instance.PlaySound("Sound_BG_Battle01");
+                SoundManager.Instance.PlaySound("Sound_BG_Battle01", true, default, default, true, 0.2f);
                 // SoundManager.Instance.PlaySound("Sound_BG_Battle02");
                 break;
         }

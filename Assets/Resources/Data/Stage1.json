@@ -1,46 +1,52 @@
-{
-  "waves": [
-    {
-      "delay": 1.2,
-      "duration": 30.0,
-      "spawnObjects": [
-        {
-          "percentAmpl": 100.0,
-          "name": "StoneHead"
-        }
-      ]
-    },
-    {
-      "delay": 0.8,
-      "duration": 60.0,
-      "spawnObjects": [
-        {
-          "percentAmpl": 60.0,
-          "name": "StoneHead"
-        },
-        {
-          "percentAmpl": 40.0,
-          "name": "Prion"
-        }
-      ]
-    },
-    {
-      "delay": 1.3,
-      "duration": 90.0,
-      "spawnObjects": [
-        {
-          "percentAmpl": 70.0,
-          "name": "Prion"
-        },
-        {
-          "percentAmpl": 20.0,
-          "name": "Servant"
-        },
-        {
-          "percentAmpl": 10.0,
-          "name": "DarkArcher"
-        }
-      ]
-    }
-  ]
+﻿{
+	"waves": [
+		{
+			"delay": 1.0,
+			"duration": 20.0,
+			"spawnObjects": [
+				{
+					"percentAmpl": 100.0,
+					"name": "StoneHead"
+				}
+			]
+		},
+		{
+			"delay": 0.6,
+			"duration": 40.0,
+			"spawnObjects": [
+				{
+					"percentAmpl": 100.0,
+					"name": "StoneHead"
+				}
+			]
+		},
+		{
+			"delay": 0.4,
+			"duration": 80.0,
+			"spawnObjects": [
+				{
+					"percentAmpl": 60.0,
+					"name": "StoneHead"
+				},
+				{
+					"percentAmpl": 40.0,
+					"name": "Prion"
+				}
+			]
+		},
+		{
+			"delay": 0.2,
+			"duration": 160.0,
+			"spawnObjects": [
+				{
+					"percentAmpl": 30.0,
+					"name": "StoneHead"
+				},
+				{
+					"percentAmpl": 70.0,
+					"name": "Prion"
+				}
+			]
+		}
+	]
 }
