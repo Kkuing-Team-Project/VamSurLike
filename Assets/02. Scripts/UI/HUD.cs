@@ -35,6 +35,7 @@ public class HUD : MonoBehaviour
 	public PlayerBar playerGaugeBar;
 
 	private Spirit sprite;
+	private int staffLevel;
 
 	private void Start()
 	{
@@ -102,7 +103,7 @@ public class HUD : MonoBehaviour
 			levelText.text = $"Lv. {(GameManager.instance.player.level + 1).ToString()}";
 		}
 
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.Escape) && GameManager.instance.isFinishGame == false)
 		{
 			pausePanel.SetActive(!pausePanel.activeSelf);
 			Time.timeScale = pausePanel.activeSelf ? 0 : 1;
@@ -263,6 +264,10 @@ public class HUD : MonoBehaviour
 				SoundManager.Instance.PlayOneShot("Sound_UI_UP_Select");
 				if (type.Equals("보조"))
 					AddRuneIcon(aug);
+				else
+				{
+
+				}
 				augPanel.SetActive(false);
                 Time.timeScale = 1;
 			});

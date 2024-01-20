@@ -27,12 +27,8 @@ public class SceneCtrl : MonoBehaviour
     private IEnumerator SelectCharacterCor(float fadeTime)
     {
         SoundManager.Instance.PlayOneShot("Sound_UI_UP_Select");
-        fadeImage.gameObject.SetActive(true);
-        for (float elapsedTime = 0; elapsedTime < fadeTime; elapsedTime += Time.deltaTime) 
-        {
-            fadeImage.color = Color.Lerp(Color.clear, Color.black, elapsedTime / 0.5f);
-            yield return null;
-        }
+        GameManager.instance.Fade(Color.clear, Color.black, 1f);
+        yield return new WaitForSeconds(1f);
         GameManager.instance.LoadInGame("InGameScene");
     }
 }

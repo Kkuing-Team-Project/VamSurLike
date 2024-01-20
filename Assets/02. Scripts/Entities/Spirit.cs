@@ -51,7 +51,7 @@ public class Spirit : Entity
         col = gameObject.GetComponent<Collider>();
         anim = GetComponentInChildren<Animator>();
         // SoundManager.Instance.PlaySound("Sound_EF_SP", true, "SPRIRIT" ,transform.position, true, 0.3f);
-        SoundManager.Instance.PlaySound("Sound_EF_SP", true, true, "SPRIRIT", true, 0.3f);
+//        SoundManager.Instance.PlaySound("Sound_EF_SP",true, transform.position, true);
     }
 
     protected override void UpdateEntity()
