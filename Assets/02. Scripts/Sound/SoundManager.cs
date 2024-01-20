@@ -4,15 +4,20 @@ using System.Collections.Generic;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
+    
+    public AudioSource audioSource; // 기존의 audioSource를 효과음용으로 사용
+    public AudioSource bgmAudioSource; // BGM용 AudioSource 추가
 
-    public AudioSource audioSource;
-    public AudioSource moveAudioSource;
     private Dictionary<string, AudioClip> soundClipDictionary = new Dictionary<string, AudioClip>();
 
-    public Transform playerTransform; // 플레이어 또는 카메라의 위치
+    public Transform playerTransform;
     public float maxVolumeDistance = 5f;
     public float minVolumeDistance = 20f;
 
+    private bool isMoveSoundActive = false;
+    private AudioSource currentMoveAudioSource;
+    private string currentLayerName;
+    private float currentMaxVolume;
 
     void Awake()
     {
@@ -25,30 +30,64 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    
+        if (bgmAudioSource == null)
+        {
+            bgmAudioSource = gameObject.AddComponent<AudioSource>();
+            bgmAudioSource.loop = true; // BGM은 일반적으로 루프되어야 함
+        }
     }
 
-    public void PlaySound(string clipName, bool isMoveSound = false, Vector3 position = default, bool loop = false)
+
+    public void PlaySound(string clipName, bool isBGM = false,  bool isMoveSound = false, string LayerName = default, bool loop = false, float volume = 0.5f, float delay = 0)
     {
-        if (!soundClipDictionary.TryGetValue(clipName, out AudioClip clip))
+        AudioClip clip;
+        if (!soundClipDictionary.TryGetValue(clipName, out clip))
         {
             clip = GetSound(clipName);
         }
 
-        if (clip != null)
+        if (playerTransform == null && isMoveSound)
         {
-            AudioSource targetAudioSource = isMoveSound ? moveAudioSource : audioSource;
-            targetAudioSource.clip = clip;
-            targetAudioSource.loop = loop;
-            targetAudioSource.Play();
 
-            if (isMoveSound)
+            GameObject player = FindPlayerByLayer(LayerMask.NameToLayer("PLAYER"));
+            if (player != null)
             {
-                UpdateMoveSoundPosition(position); // 이동 사운드 위치 업데이트
+                playerTransform = player.transform;
+            }
+            else
+            {
+                Debug.LogError("Player object not found");
+                return;
             }
         }
-        else
+
+        if (clip == null)
         {
             Debug.LogWarning("Sound not found: " + clipName);
+            return;
+        }
+
+        AudioSource targetAudioSource = isMoveSound ? FindAndPrepareMoveAudioSource(LayerName, clip, loop, volume) : (isBGM ? bgmAudioSource : audioSource);
+        if (targetAudioSource == null) return;
+
+        targetAudioSource.clip = clip;
+        targetAudioSource.loop = loop || isBGM; // BGM은 항상 루프
+        targetAudioSource.volume = volume;
+        targetAudioSource.PlayDelayed(delay);
+        targetAudioSource.Play();
+
+        if (isMoveSound)
+        {
+            currentLayerName = LayerName;
+            currentMaxVolume = volume;
+            currentMoveAudioSource = targetAudioSource;
+            isMoveSoundActive = true;
         }
     }
 
@@ -75,21 +114,80 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void UpdateMoveSoundPosition(Vector3 position)
+    private AudioSource FindAndPrepareMoveAudioSource(string layerName, AudioClip clip, bool loop, float volume)
     {
-        // 이 메서드에서 MoveAudioSource의 볼륨을 조절
-        float distance = Vector3.Distance(playerTransform.position, position);
-        moveAudioSource.volume = Mathf.Clamp01(1 - (distance - maxVolumeDistance) / (minVolumeDistance - maxVolumeDistance));
+        GameObject moveObject = FindPlayerByLayer(LayerMask.NameToLayer(layerName));
+        if (moveObject == null)
+        {
+            Debug.LogWarning("Object with Layer '" + layerName + "' not found.");
+            return null;
+        }
+
+        AudioSource moveAudioSource = moveObject.GetComponent<AudioSource>();
+        if (moveAudioSource == null)
+        {
+            moveAudioSource = moveObject.AddComponent<AudioSource>();
+        }
+
+        return moveAudioSource;
     }
 
-    public void StopBackgroundMusic()
+    private void UpdateMoveSoundPosition(string layerName, AudioSource moveAudioSource, float maxVolume)
     {
-        audioSource.Stop();
+        if (playerTransform == null)
+        {
+            Debug.LogWarning("PlayerTransform is not set");
+            return;
+        }
+
+        GameObject moveObject = FindPlayerByLayer(LayerMask.NameToLayer(layerName));
+        if (moveObject == null)
+        {
+            Debug.LogWarning("Move object with layer '" + layerName + "' not found.");
+            return;
+        }
+
+        Vector3 position = moveObject.transform.position;
+        float distance = Vector3.Distance(playerTransform.position, position);
+        float volume;
+
+        if (distance <= maxVolumeDistance)
+        {
+            volume = maxVolume;
+        }
+        else if (distance >= minVolumeDistance)
+        {
+            volume = 0f;
+        }
+        else
+        {
+            volume = maxVolume * (1 - (distance - maxVolumeDistance) / (minVolumeDistance - maxVolumeDistance));
+        }
+
+        moveAudioSource.volume = Mathf.Clamp01(volume);
+    }
+    
+    void Update()
+    {
+        if (isMoveSoundActive)
+        {
+            UpdateMoveSoundPosition(currentLayerName, currentMoveAudioSource, currentMaxVolume);
+        }
+}
+
+
+    public void StopBaseAudio()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
 
     public AudioClip GetSound(string key)
     {
-        if (!soundClipDictionary.TryGetValue(key, out AudioClip clip))
+        AudioClip clip;
+        if (!soundClipDictionary.TryGetValue(key, out clip))
         {
             clip = Resources.Load<AudioClip>("AudioClips/" + key);
             if (clip != null)
@@ -102,5 +200,18 @@ public class SoundManager : MonoBehaviour
             }
         }
         return clip;
+    }
+
+    private GameObject FindPlayerByLayer(int layer)
+    {
+        GameObject[] gameObjects = FindObjectsOfType<GameObject>();
+        foreach (var obj in gameObjects)
+        {
+            if (obj.layer == layer)
+            {
+                return obj;
+            }
+        }
+        return null;
     }
 }

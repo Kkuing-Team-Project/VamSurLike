@@ -632,7 +632,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a651257f423260e4ca06846db93a70a9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c153cf4b952138448507a8fc16db5c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -944,6 +944,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3251331226530398157, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
+      propertyPath: maxVolumeDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3251331226530398157, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
+      propertyPath: minVolumeDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6254902469626276193, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -992,6 +1000,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2839321663061938311, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33abbff7433f3514dbec880e715b50a2, type: 3}

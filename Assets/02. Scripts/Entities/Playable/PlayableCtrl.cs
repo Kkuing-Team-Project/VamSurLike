@@ -75,7 +75,6 @@ public abstract class PlayableCtrl : Entity
     float tempAttackRange = 12f;
     [Tooltip("공격 속도"), SerializeField]
     float tempAttackSpeed = 2.5f;
-    int cnt = 0;
     protected override void InitEntity()
     {
         base.InitEntity();

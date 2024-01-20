@@ -827,7 +827,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 960
   y: -100
-  select: 1
+  select: 0
 --- !u!114 &598426392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1147,7 +1147,7 @@ MonoBehaviour:
   hoverHeightIncrease: -50
   x: 1840
   y: -100
-  select: 1
+  select: 0
 --- !u!114 &941662741
 MonoBehaviour:
   m_ObjectHideFlags: 0
