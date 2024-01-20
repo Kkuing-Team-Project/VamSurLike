@@ -19,14 +19,18 @@ public class CollapseZone : MonoBehaviour, IPoolable
     private Spirit spirit;
     private PlayableCtrl player;
     private PortalEffect effect;
-
+    private Spawner spawner;
     public void OnCreate()
     {
+        spawner = GameObject.Find("Red Zone Spawner").GetComponent<Spawner>();
+
 
     }
 
     public void OnActivate()
     {
+        collapseTime = spawner.stage.waves[spawner.currentWaveIndex].duration;
+        Debug.Log(gameObject.name + ": " + collapseTime + ", " + spawner.currentWaveIndex);
         effect = ObjectPoolManager.Instance.objectPool.GetObject(
             ObjectPool.ObjectType.Portal,
             transform.position).GetComponent<PortalEffect>();

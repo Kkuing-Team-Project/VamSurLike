@@ -39,6 +39,7 @@ public class Spirit : Entity
     
     public Animator anim { get; private set; }
     private readonly int aniSpeed = Animator.StringToHash("Speed");
+    private Coroutine waitCor;
 
     protected override void InitEntity()
     {
@@ -49,15 +50,19 @@ public class Spirit : Entity
             nav = gameObject.GetComponent<NavMeshAgent>();
         col = gameObject.GetComponent<Collider>();
         anim = GetComponentInChildren<Animator>();
-        SoundManager.Instance.PlaySound("Sound_EF_SP", true, transform.position, true);
+        // SoundManager.Instance.PlaySound("Sound_EF_SP", true, "SPRIRIT" ,transform.position, true, 0.3f);
+        SoundManager.Instance.PlaySound("Sound_EF_SP", true, true, "SPRIRIT", true, 0.3f);
     }
 
     protected override void UpdateEntity()
     {
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
-            collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
+            if(waitCor == null)
+            {
+                waitCor = StartCoroutine(WaitCor());
+            }
         }
         else
         {
@@ -198,5 +203,13 @@ public class Spirit : Entity
             }
             Gizmos.DrawWireSphere(transform.position, blessRange);
         }
+    }
+
+    private IEnumerator WaitCor()
+    {
+        yield return new WaitForSeconds(collapseZoneSpawner.stage.waves[collapseZoneSpawner.currentWaveIndex].delay);
+        Debug.Log($"{collapseZoneSpawner.currentWaveIndex}, {collapseZoneSpawner.stage.waves[collapseZoneSpawner.currentWaveIndex].delay}");
+        collapseZoneSpawner.stop = false;
+        waitCor = null;
     }
 }
