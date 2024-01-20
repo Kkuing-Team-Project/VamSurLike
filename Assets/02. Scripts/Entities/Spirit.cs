@@ -39,6 +39,7 @@ public class Spirit : Entity
     
     public Animator anim { get; private set; }
     private readonly int aniSpeed = Animator.StringToHash("Speed");
+    private Coroutine waitCor;
 
     protected override void InitEntity()
     {
@@ -56,8 +57,11 @@ public class Spirit : Entity
     {
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
-            collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
+            if(waitCor == null)
+            {
+                waitCor = StartCoroutine(WaitCor());
+            }
         }
         else
         {
@@ -198,5 +202,13 @@ public class Spirit : Entity
             }
             Gizmos.DrawWireSphere(transform.position, blessRange);
         }
+    }
+
+    private IEnumerator WaitCor()
+    {
+        yield return new WaitForSeconds(collapseZoneSpawner.stage.waves[collapseZoneSpawner.currentWaveIndex].delay);
+        Debug.Log($"{collapseZoneSpawner.currentWaveIndex}, {collapseZoneSpawner.stage.waves[collapseZoneSpawner.currentWaveIndex].delay}");
+        collapseZoneSpawner.stop = false;
+        waitCor = null;
     }
 }

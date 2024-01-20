@@ -1502,7 +1502,7 @@ MonoBehaviour:
   dashSpeed: 80
   dashTime: 0.1
   bulletFireTrf: {fileID: 1991798310757145375}
-  isTest: 1
+  isTest: 0
   tempExpRange: 7
   tempMoveSpeed: 5
   tempAttackRange: 12
