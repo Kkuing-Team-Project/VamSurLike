@@ -1164,7 +1164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: Stage1
+  fileName: Stage3
   playerCamera: {fileID: 436933017}
   stop: 0
   delay: 0.1
@@ -1660,7 +1660,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   fileName: Stage1_collapse
+=======
+  fileName: Stage_collapse
+>>>>>>> Stashed changes
   playerCamera: {fileID: 436933017}
   stop: 0
   delay: 1

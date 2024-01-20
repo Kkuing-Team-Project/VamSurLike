@@ -1,0 +1,14 @@
+﻿{
+	"waves": [
+		{
+			"delay": 120,
+			"duration": 180,
+			"spawnObjects": [
+				{
+					"percentAmpl": 100,
+					"name": "CollapseZone"
+				}
+			]
+		}
+	]
+}
