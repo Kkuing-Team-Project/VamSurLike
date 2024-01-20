@@ -127,4 +127,17 @@ public abstract class BossCtrl : Entity
     }
 
     protected abstract void OnFinishPattern(int nowPatternIdx);
+
+    protected override void OnEntityDied()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            float rand = Random.Range(0f, 360f);
+            float x = Mathf.Sin(rand * Mathf.Rad2Deg);
+            float z = Mathf.Cos(rand * Mathf.Rad2Deg);
+            Vector3 position = transform.position + new Vector3(x, 0f, z) * Random.Range(0f, 10f);
+            position.y = 1f;
+            ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.Experience, transform.position).GetComponent<ExperienceGem>().ParabolicMovement(position);
+        }
+    }
 }

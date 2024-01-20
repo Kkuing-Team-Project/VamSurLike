@@ -9,6 +9,7 @@ public class IcePlayable : PlayableCtrl
     [SerializeField] Material freezeMaterial;
     protected override void OnEntityDied()
     {
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
     }
 
     protected override void PlayerSkill()
@@ -17,18 +18,20 @@ public class IcePlayable : PlayableCtrl
         rigid.velocity = Vector3.zero;
     }
 
-    IEnumerator SkillCor()
+    private IEnumerator SkillCor()
     {
         animator.SetLayerWeight(1, 0);
         isAction = true;
         animator.SetTrigger("Skill");
-        yield return new WaitForSeconds(15f);
+        StartCoroutine(hud.CoolTimeUICor(GetSkillCoolTime()));
+        yield return new WaitForSeconds(GetSkillCoolTime());
         skillCor = null;
     }
 
     public void FreezeAround()
     {
         GameObject effect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.FreezeCircle, transform.position);
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Skill_Ice");
         effect.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
         Collider[] enemies = Physics.OverlapSphere(transform.position, 10f, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
         if (enemies.Length > 0)
@@ -46,5 +49,10 @@ public class IcePlayable : PlayableCtrl
     {
         animator.SetLayerWeight(1, 1);
         isAction = false;
+    }
+
+    protected override float GetSkillCoolTime()
+    {
+        return 15f;
     }
 }

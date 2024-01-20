@@ -7,9 +7,9 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class WindPlayable : PlayableCtrl
 {
-    [Header("ÀÜ»ó »ý¼º °£°Ý"), SerializeField]
+    [Header("ï¿½Ü»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), SerializeField]
     float meshRefreshRate = 0.1f;
-    [Header("ÀÜ»ó ¸ÓÆ¼¸®¾ó"), SerializeField]
+    [Header("ï¿½Ü»ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½"), SerializeField]
     Material trailMaterial;
 
     SkinnedMeshRenderer[] skinnedMeshRenderers;
@@ -18,6 +18,7 @@ public class WindPlayable : PlayableCtrl
     IEnumerator ActivateTrail(float timeActive)
     {
         animator.SetBool("Skill", true);
+        
         stat.Multiply(StatType.MOVE_SPEED, 1.5f);
         VolumeManager.Instance.SetActiveMotionBlur(true);
         VolumeManager.Instance.StartWindSkillEffect(timeActive);
@@ -30,6 +31,7 @@ public class WindPlayable : PlayableCtrl
             if (skinnedMeshRenderers == null)
             {
                 skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+                SoundManager.Instance.PlaySound("Sound_EF_CH_Skill_Wind");
             }
 
             for (int i = 0; i < skinnedMeshRenderers.Length; i++)
@@ -48,20 +50,24 @@ public class WindPlayable : PlayableCtrl
         animator.SetBool("Skill", false);
         stat.Multiply(StatType.MOVE_SPEED, 1f);
         VolumeManager.Instance.SetActiveMotionBlur(false);
-
-        yield return new WaitForSeconds(15f);
+        StartCoroutine(hud.CoolTimeUICor(GetSkillCoolTime()));
+        yield return new WaitForSeconds(GetSkillCoolTime());
 
         skillCor = null;
     }
 
-    
-
     protected override void OnEntityDied()
     {
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
     }
 
     protected override void PlayerSkill()
     {
         skillCor = StartCoroutine(ActivateTrail(6f));
+    }
+
+    protected override float GetSkillCoolTime()
+    {
+        return 15f;
     }
 }

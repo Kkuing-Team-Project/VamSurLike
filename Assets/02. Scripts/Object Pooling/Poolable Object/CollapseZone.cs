@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class CollapseZone : MonoBehaviour, IPoolable
 {
-    [Tooltip("ºØ±«Á¸ Á¤È­ ÃÊ´ç Áõ°¡°ª")]
+    [Tooltip("ï¿½Ø±ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float increment;
-    [Tooltip("ºØ±«Á¸ ¹üÀ§"), Range(1f, 10f)]
+    [Tooltip("ï¿½Ø±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"), Range(1f, 10f)]
     public float zoneRange;
 
     public float collapseTime;
@@ -80,6 +80,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
 
     private void Collapse()
     {
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
         Debug.LogError("GameOver");
     }
 

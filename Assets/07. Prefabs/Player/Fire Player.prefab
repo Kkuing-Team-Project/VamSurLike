@@ -1462,12 +1462,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: 1
   rigid: {fileID: 0}
-  testAugName: 
-  skillSprite: {fileID: 1513324658, guid: 329cf79ebd72af84ca55731278b87f2b, type: 3}
+  testAugName: Shield
+  skillSprite: {fileID: 21300000, guid: 9423811a432ad6c489d40f035033f6f3, type: 3}
+  bulletColor: {r: 1, g: 0.37559026, b: 0, a: 0.5019608}
   bulletNum: 1
   bulletInterval: 0
   rotationAnglePerSecond: 270
-  dashSpeed: 40
+  dashSpeed: 80
   dashTime: 0.1
   bulletFireTrf: {fileID: 1991798310757145375}
   isTest: 0

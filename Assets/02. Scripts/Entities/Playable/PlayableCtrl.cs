@@ -2,14 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Reflection;
-using TMPro;
-using TreeEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.AI;
 
 public abstract class PlayableCtrl : Entity
 {
@@ -30,6 +23,10 @@ public abstract class PlayableCtrl : Entity
 
     public Sprite skillSprite;
     private AugEventArgs defaultArgs;
+    public float healPerSec { get; protected set; } = 0.2f;
+
+    [Header("총알 색상")]
+    public Color bulletColor;
 
     [Header("총알 갯수")]
     public int bulletNum = 1;
@@ -63,10 +60,10 @@ public abstract class PlayableCtrl : Entity
     protected bool isAction = false;
 
     // Components applied to the player object.
+    protected HUD hud;
+    PlayerBar gaugeBar;
     ObjectPool objectPool;
     CinemachineImpulseSource cameraShakeSource;
-    HUD hud;
-    PlayerBar gaugeBar;
 
     [Header("테스트용 임시 값들")]
     public bool isTest = false;
@@ -200,7 +197,11 @@ public abstract class PlayableCtrl : Entity
         {
             for (int i = 0; i < experienceGems.Length; i++)
             {
-                experienceGems[i].GetComponent<ExperienceGem>().PullToPlayer(this);
+                ExperienceGem exp = experienceGems[i].GetComponent<ExperienceGem>();
+                if (exp.parabolicCor == null)
+                {
+                    exp.PullToPlayer(this);
+                }
             }
         }
         #endregion
@@ -233,15 +234,14 @@ public abstract class PlayableCtrl : Entity
     {
         for (int i = 0; i < bulletNum; i++)
         {
-            CreateBullet(50, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
+            CreateBullet(25, transform.eulerAngles.y + (-interval * (bulletNum - 1) / 2 + i * interval));
         }
     }
 
-    public TempBullet CreateBullet(float speed, float rot)
+    public Bullet CreateBullet(float speed, float rot)
     {
-        TempBullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, bulletFireTrf.position).GetComponent<TempBullet>();
+        Bullet bullet = objectPool.GetObject(ObjectPool.ObjectType.Bullet, bulletFireTrf.position).GetComponent<Bullet>();
 
-        bullet.player = this;
         bullet.transform.eulerAngles = new Vector3(0, rot, 0);
         bullet.rigid.velocity = speed * bullet.transform.forward;
         return bullet;
@@ -293,6 +293,7 @@ public abstract class PlayableCtrl : Entity
                 {
                     Time.timeScale = 0;
                     hud.augPanel.SetActive(true);
+                    SoundManager.Instance.PlaySound("Sound_UI_LevelUP");
                     hud.SetAugmentation();
                 }
             }
@@ -337,13 +338,13 @@ public abstract class PlayableCtrl : Entity
             gaugeBar.DashBar.SetBarValue(cooltimeTimer, 5f);
 
             yield return null;
-            if (cooltimeTimer >= 5f)
+            if (cooltimeTimer >= 3f)
             {
-                gaugeBar.DashBar.SetBarValue(5f, 5f);
+                gaugeBar.DashBar.SetBarValue(3f, 3f);
                 break;
             }
         }
-
+        
         dashCor = null;
     }
     #endregion
@@ -351,7 +352,7 @@ public abstract class PlayableCtrl : Entity
     #region Take Damage Method
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        SoundManager.Instance.CrashSound();
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Shield");
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
         if(healCor != null)
@@ -392,7 +393,7 @@ public abstract class PlayableCtrl : Entity
         {
             if(hp < stat.Get(StatType.MAX_HP))
             {
-                Heal(0.2f * stat.Get(StatType.HEAL_MAG) * Time.deltaTime);
+                Heal(healPerSec * stat.Get(StatType.HEAL_MAG) * Time.deltaTime);
                 StartCoroutine(RenewalHPBar());
             }
             yield return null;
@@ -410,6 +411,8 @@ public abstract class PlayableCtrl : Entity
     #endregion
 
     protected abstract void PlayerSkill();
+
+    protected abstract float GetSkillCoolTime();
 
 
     #region Augmentation Method

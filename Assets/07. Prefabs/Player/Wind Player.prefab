@@ -1494,11 +1494,12 @@ MonoBehaviour:
   entityType: 3
   rigid: {fileID: 0}
   testAugName: 
-  skillSprite: {fileID: 1036080642, guid: 9dddf215f804e7144b81c8d8ee27fdcd, type: 3}
+  skillSprite: {fileID: 21300000, guid: 07f539884e1c6b444b5913f91c9a85f3, type: 3}
+  bulletColor: {r: 0.5952004, g: 0.8207547, b: 0.36004803, a: 0.6117647}
   bulletNum: 1
   bulletInterval: 0
   rotationAnglePerSecond: 270
-  dashSpeed: 40
+  dashSpeed: 80
   dashTime: 0.1
   bulletFireTrf: {fileID: 1991798310757145375}
   isTest: 1

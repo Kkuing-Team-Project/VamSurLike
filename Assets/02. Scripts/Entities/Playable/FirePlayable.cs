@@ -6,12 +6,14 @@ public class FirePlayable : PlayableCtrl
 {
     protected override void OnEntityDied()
     {
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
     }
 
     protected override void PlayerSkill()
     {
         rigid.velocity = Vector3.zero;
         animator.SetTrigger("Skill");
+        SoundManager.Instance.PlaySound("Sound_EF_CH_Skill_Fire");
         animator.SetLayerWeight(1, 0f);
         animator.SetLayerWeight(2, 1f);
     }
@@ -73,6 +75,7 @@ public class FirePlayable : PlayableCtrl
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].GetComponent<FireBall>().StopEffect();
+            
         }
         // --------------------------------------------------------------------------------------------- Effect After skill
         while (durationTimer <= 1f)
@@ -95,8 +98,13 @@ public class FirePlayable : PlayableCtrl
             }
             yield return null;
         }
-
-        yield return new WaitForSeconds(14f);
+        StartCoroutine(hud.CoolTimeUICor(GetSkillCoolTime()));
+        yield return new WaitForSeconds(GetSkillCoolTime());
         skillCor = null;
+    }
+
+    protected override float GetSkillCoolTime()
+    {
+        return 15f;
     }
 }
