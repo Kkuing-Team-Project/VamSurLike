@@ -105,18 +105,14 @@ public class GameManager : MonoBehaviour
         switch(scene.name)
         {
             case "Main":
-                Debug.Log("메인씬 입니다");
-                SoundManager.Instance.PlaySound("Sound_BG_Title", true, default, default, true, 0.2f);
+                SoundManager.Instance.PlaySound("Sound_BG_Title");
                 break;
             case "Stage":
-                SoundManager.Instance.StopBaseAudio();
-                SoundManager.Instance.PlaySound("Sound_BG_Stage_Choice", true, default, default, true, 0.2f);
+                SoundManager.Instance.PlaySound("Sound_BG_Stage_Choice");
                 break;
             case "InGameScene":
-                SoundManager.Instance.StopBaseAudio();
-                SoundManager.Instance.PlaySound("Sound_EF_CH_Spawn");
-                SoundManager.Instance.PlaySound("Sound_BG_Battle01", true, default, default, true, 0.2f);
-                // SoundManager.Instance.PlaySound("Sound_BG_Battle02");
+                SoundManager.Instance.PlayOneShot("Sound_EF_CH_Spawn");
+                SoundManager.Instance.PlaySound("Sound_BG_Battle01");
                 break;
         }
 

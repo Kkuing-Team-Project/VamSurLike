@@ -6,14 +6,14 @@ public class FirePlayable : PlayableCtrl
 {
     protected override void OnEntityDied()
     {
-        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
+        SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
     }
 
     protected override void PlayerSkill()
     {
         rigid.velocity = Vector3.zero;
         animator.SetTrigger("Skill");
-        SoundManager.Instance.PlaySound("Sound_EF_CH_Skill_Fire");
+        SoundManager.Instance.PlayOneShot("Sound_EF_CH_Skill_Fire");
         animator.SetLayerWeight(1, 0f);
         animator.SetLayerWeight(2, 1f);
     }

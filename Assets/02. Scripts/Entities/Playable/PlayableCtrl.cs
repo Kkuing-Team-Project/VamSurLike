@@ -292,7 +292,7 @@ public abstract class PlayableCtrl : Entity
                 {
                     Time.timeScale = 0;
                     hud.augPanel.SetActive(true);
-                    SoundManager.Instance.PlaySound("Sound_UI_LevelUP");
+                    SoundManager.Instance.PlayOneShot("Sound_UI_LevelUP");
                     hud.SetAugmentation();
                 }
             }
@@ -351,7 +351,7 @@ public abstract class PlayableCtrl : Entity
     #region Take Damage Method
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        SoundManager.Instance.PlaySound("Sound_EF_CH_Shield");
+        SoundManager.Instance.PlayOneShot("Sound_EF_CH_Shield");
         OnTakeDamageAugmentation?.Invoke(this, defaultArgs);
 
         if(healCor != null)

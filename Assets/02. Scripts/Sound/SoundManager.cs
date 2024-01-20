@@ -91,6 +91,29 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void PlayOneShot(string clipName, bool isMoveSound = false, Vector3 position = default)
+    {
+        if (!soundClipDictionary.TryGetValue(clipName, out AudioClip clip))
+        {
+            clip = GetSound(clipName);
+        }
+
+        if (clip != null)
+        {
+            AudioSource targetAudioSource = isMoveSound ? moveAudioSource : audioSource;
+            targetAudioSource.PlayOneShot(clip);
+
+            if (isMoveSound)
+            {
+                UpdateMoveSoundPosition(position); // 이동 사운드 위치 업데이트
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Sound not found: " + clipName);
+        }
+    }
+
     private AudioSource FindAndPrepareMoveAudioSource(string layerName, AudioClip clip, bool loop, float volume)
     {
         GameObject moveObject = FindPlayerByLayer(LayerMask.NameToLayer(layerName));

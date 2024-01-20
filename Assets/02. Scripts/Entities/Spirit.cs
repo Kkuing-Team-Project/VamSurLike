@@ -179,7 +179,7 @@ public class Spirit : Entity
     }
     protected override void OnEntityDied()
     {
-        SoundManager.Instance.PlaySound("Sound_EF_CH_Death");
+        SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
     }
 
     private void OnDrawGizmos()
