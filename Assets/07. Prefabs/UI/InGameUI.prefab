@@ -2011,9 +2011,9 @@ MonoBehaviour:
   - {fileID: 1925251632011987642}
   - {fileID: 1925251631295522554}
   augImage:
-  - {fileID: 1925251631436579024}
-  - {fileID: 1925251632930013586}
-  - {fileID: 1925251632168481519}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   pauseAugPanel: {fileID: 8726059282303357671}
   pausePanel: {fileID: 1925251631299442819}
   playerStatText: {fileID: 5011504839088382661}
