@@ -44,7 +44,7 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    public void PlaySound(string clipName, bool isBGM = false,  bool isMoveSound = false, string LayerName = default, bool loop = false, float volume = 0.5f)
+    public void PlaySound(string clipName, bool isBGM = false,  bool isMoveSound = false, string LayerName = default, bool loop = false, float volume = 0.5f, float delay = 0)
     {
         AudioClip clip;
         if (!soundClipDictionary.TryGetValue(clipName, out clip))
@@ -79,6 +79,7 @@ public class SoundManager : MonoBehaviour
         targetAudioSource.clip = clip;
         targetAudioSource.loop = loop || isBGM; // BGM은 항상 루프
         targetAudioSource.volume = volume;
+        targetAudioSource.PlayDelayed(delay);
         targetAudioSource.Play();
 
         if (isMoveSound)
