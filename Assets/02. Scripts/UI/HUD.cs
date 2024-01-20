@@ -24,6 +24,7 @@ public class HUD : MonoBehaviour
 	public Text[] augNameTexts;
 	public Text[] augExplanationTexts;
 	public Text[] augTypeTexts;
+	public Image[] augImage;
 
 	[Header("Pause UI")]
 	public GameObject pauseAugPanel;
@@ -38,8 +39,9 @@ public class HUD : MonoBehaviour
 	private void Start()
 	{
 		GameManager.instance.killCountAnimator = killCountText.GetComponentInParent<Animator>();
-		pausePanel.SetActive(false);
 		sprite = FindObjectOfType<Spirit>();
+		pausePanel.SetActive(false);
+		augPanel.SetActive(false);
 	}
 
 	void LateUpdate()
@@ -241,6 +243,11 @@ public class HUD : MonoBehaviour
             {
                 if (key.Equals(GameManager.instance.explanationTable[j]["Item_Name"].ToString()))
                 {
+					Sprite img = Resources.Load<Sprite>("SkillIcon/" + key + "Icon");
+					if (img != null)
+						augImage[i].sprite = img;
+					else
+						augImage[i].sprite = Resources.Load<Sprite>("SkillIcon/WizardIcon");
 					augNameTexts[i].text = GameManager.instance.explanationTable[j]["Korea_Name"].ToString();
 					type = GameManager.instance.explanationTable[j]["Item_Type"].ToString();
                     augTypeTexts[i].text = type;
