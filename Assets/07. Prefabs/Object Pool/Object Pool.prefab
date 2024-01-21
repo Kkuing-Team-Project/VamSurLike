@@ -120,3 +120,6 @@ MonoBehaviour:
   - type: 26
     prefab: {fileID: 6237631584534737099, guid: 22e5f6d2ea23de34baf7adaf740ac2be, type: 3}
     size: 1
+  - type: 27
+    prefab: {fileID: 4656715941581389852, guid: 54e0b029c16053541b7d91f75c0df8f8, type: 3}
+    size: 1
