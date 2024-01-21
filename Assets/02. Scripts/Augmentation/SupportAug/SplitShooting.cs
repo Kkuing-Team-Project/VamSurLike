@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
-
 public class SplitShooting : Augmentation
 {
 	public SplitShooting(int level, int maxLevel) : base(level, maxLevel)

@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Linq;
-using JetBrains.Annotations;
-using static UnityEditor.PlayerSettings;
 
 public class FootSlow : Augmentation
 {
