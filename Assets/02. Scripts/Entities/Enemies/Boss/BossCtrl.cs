@@ -8,6 +8,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Rigidbody), typeof(NavMeshAgent))]
 public abstract class BossCtrl : Entity
 {
+    [Header("Ã¼·Â¹Ù"), SerializeField]
+    BossBar hpBar;
+
     #region
     //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿?ï¿½Ã°ï¿½
     public float waitTime = 1;
@@ -23,7 +26,6 @@ public abstract class BossCtrl : Entity
     //ÇÃ·¹ÀÌ¾î±îÁöÀÇ °Å¸®
     protected float distToPlayer;
 
-    //
 
     protected List<PatternDelegate> patternList = new List<PatternDelegate>();
 
@@ -139,5 +141,10 @@ public abstract class BossCtrl : Entity
             position.y = 1f;
             ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.Experience, transform.position).GetComponent<ExperienceGem>().ParabolicMovement(position);
         }
+    }
+
+    protected override void OnTakeDamage(Entity caster, float dmg)
+    {
+        hpBar.hpBar.SetBarValue(hp, stat.Get(StatType.MAX_HP));
     }
 }

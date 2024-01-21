@@ -7,18 +7,18 @@ public class SpiritBar : MonoBehaviour
     [Header("Ã¼·Â¹Ù")]
     public GaugeBar hpBar;
 
-    [Header("Å¸°Ù")]
-    public Transform target;
+    Camera targetCam;
 
     RectTransform rectTrf;
 
     private void Awake()
     {
         rectTrf = GetComponent<RectTransform>();
+        targetCam = Camera.main;
     }
 
     private void FixedUpdate()
     {
-        rectTrf.position = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
+        rectTrf.rotation = targetCam.transform.rotation;
     }
 }
