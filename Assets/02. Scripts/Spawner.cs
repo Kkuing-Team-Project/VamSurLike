@@ -376,7 +376,7 @@ public class Spawner : MonoBehaviour
             isWave
                 ? GetRandomSpawnObjectType(stage.waves[currentWaveIndex].spawnObjects, stage.waves[currentWaveIndex].maxPercent)
                 : GetRandomSpawnObjectType(spawnObjects, maxPercent);
-        ObjectPoolManager.Instance.objectPool.GetObject(type, point);
+        ObjectPoolManager.Instance.objectPool.GetObject(type, point);        
     }
 
     private ObjectPool.ObjectType GetRandomSpawnObjectType(SpawnObject[] objects, float percentMax)

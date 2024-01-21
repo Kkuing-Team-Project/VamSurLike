@@ -9,11 +9,10 @@ public class BossBar : MonoBehaviour
     [Header("체력바")]
     public GaugeBar hpBar;
 
-    [Header("타겟")]
-    public Transform target;
-
     [Header("페이드 아웃 속도"), SerializeField]
     float fadeSpeed = 2f;
+
+    Camera targetCam;
 
     // 오브젝트에 속한 모든 이미지
     Image[] images;
@@ -27,17 +26,12 @@ public class BossBar : MonoBehaviour
     {
         images = GetComponentsInChildren<Image>();
         rectTrf = GetComponent<RectTransform>();
+        targetCam = Camera.main;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        rectTrf.position = RectTransformUtility.WorldToScreenPoint(Camera.main, target.position);
-    }
-
-    public void AllocateTarget(Transform target)
-    {
-        this.target = target;
-        ActivateGaugeBar();
+        rectTrf.rotation = targetCam.transform.rotation;
     }
 
     public void ActivateGaugeBar()
