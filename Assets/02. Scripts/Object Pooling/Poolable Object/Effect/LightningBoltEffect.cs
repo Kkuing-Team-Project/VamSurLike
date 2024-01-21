@@ -17,5 +17,6 @@ public class LightningBoltEffect : EffectParticle
     {
         base.OnActivate();
         source.GenerateImpulse();
+        transform.localScale = Vector3.one;
     }
 }
