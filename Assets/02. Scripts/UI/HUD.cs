@@ -10,6 +10,8 @@ public class HUD : MonoBehaviour
 	public Text timerNameText;
 	public Text killCountText;
 	public Text levelText;
+	public Text staffLevelText;
+
 	public Slider expSlider;
 	public GameObject augIconPrefab;
 	public GameObject iconPanel;
@@ -31,18 +33,18 @@ public class HUD : MonoBehaviour
 	public GameObject pausePanel;
 	public Text playerStatText;
 	public Text staffStatText;
-
-	public Slider volumeSlider;
+	public Text pauseStaffLevelText;
+	public Image pauseSkillImage;
 
 	public PlayerBar playerGaugeBar;
 
-	private Spirit sprite;
+	private Spirit spirit;
 	private int staffLevel;
 
 	private void Start()
 	{
 		GameManager.instance.killCountAnimator = killCountText.GetComponentInParent<Animator>();
-		sprite = FindObjectOfType<Spirit>();
+		spirit = FindObjectOfType<Spirit>();
 		pausePanel.SetActive(false);
 		augPanel.SetActive(false);
 	}
@@ -62,11 +64,11 @@ public class HUD : MonoBehaviour
 
 		killCountText.text = GameManager.instance.killCount.ToString();
 		
-		if (sprite.collapseZone && sprite.collapseZone.gameObject.activeSelf)
+		if (spirit.collapseZone && spirit.collapseZone.gameObject.activeSelf)
 		{
-			if (sprite.spiritState == SpiritState.OCCUPY)
+			if (spirit.spiritState == SpiritState.OCCUPY)
 			{
-				int remainingTime = (int)(sprite.collapseZone.collapseTime - sprite.collapseZone.elapsedTime);
+				int remainingTime = (int)(spirit.collapseZone.collapseTime - spirit.collapseZone.elapsedTime);
 				timeText.color = remainingTime <= 10 ? Color.red : Color.white;
 				timeText.text = string.Format("<size= 25>안정화 제한 시간</size> [ {0:00}:{1:00} ]", 
 					remainingTime / 60,
@@ -75,8 +77,8 @@ public class HUD : MonoBehaviour
 				
 				
 				occupyPercentImage.transform.parent.gameObject.SetActive(true);
-				occupyPercentImage.fillAmount = sprite.collapseZone.stablity / 100f;
-				occupyPercentText.text = $"{sprite.collapseZone.stablity:0}%";
+				occupyPercentImage.fillAmount = spirit.collapseZone.stablity / 100f;
+				occupyPercentText.text = $"{spirit.collapseZone.stablity:0}%";
 			}
 			else
 			{
@@ -86,8 +88,8 @@ public class HUD : MonoBehaviour
 		else
 		{
 			timeText.color = Color.white;
-			Debug.Log($"{(int)sprite.collapseZoneSpawner.remainingTime / 60}: {(int)sprite.collapseZoneSpawner.remainingTime % 60}");
-			timeText.text = string.Format("<size= 25>균열 생성 시간</size> [ {0:00}:{1:00} ]", (int)sprite.collapseZoneSpawner.remainingTime / 60, (int)sprite.collapseZoneSpawner.remainingTime % 60);
+			Debug.Log($"{(int)spirit.collapseZoneSpawner.remainingTime / 60}: {(int)spirit.collapseZoneSpawner.remainingTime % 60}");
+			timeText.text = string.Format("<size= 25>균열 생성 시간</size> [ {0:00}:{1:00} ]", (int)spirit.collapseZoneSpawner.remainingTime / 60, (int)spirit.collapseZoneSpawner.remainingTime % 60);
 			occupyPercentImage.transform.parent.gameObject.SetActive(false);
 		}
 		timeText.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(timeText.text));
@@ -123,6 +125,7 @@ public class HUD : MonoBehaviour
 		{
 			iconPanel.SetActive(!iconPanel.activeSelf);
 		}
+		pauseStaffLevelText.text = staffLevelText.text = "Lv. " + (GameManager.instance.player.staffLevel + 1).ToString();
 	}
 
 
@@ -266,7 +269,7 @@ public class HUD : MonoBehaviour
 					AddRuneIcon(aug);
 				else
 				{
-
+					GameManager.instance.player.staffLevel++;
 				}
 				augPanel.SetActive(false);
                 Time.timeScale = 1;
@@ -294,10 +297,19 @@ public class HUD : MonoBehaviour
 		skillCoolTimeImage.color = Color.clear;
     }
 
-
-	public void SetVolume()
+	public void ExitGame()
 	{
-		SoundManager.Instance.audioSource.volume = volumeSlider.value;
-		SoundManager.Instance.moveAudioSource.volume = volumeSlider.value;
+		Debug.LogError("종료");
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit(); // 어플리케이션 종료
+#endif
+	}
+
+public void ExitPausePanel()
+	{
+		pausePanel.SetActive(false);
+		Time.timeScale = 1;
 	}
 }

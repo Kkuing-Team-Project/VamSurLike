@@ -23,7 +23,7 @@ public class KnockbackShot : Augmentation
 
         if (e.target.TryGetComponent(out Rigidbody rigid))
         {
-            Vector3 knockbackDirection = e.eventTr.forward * -1f;
+            Vector3 knockbackDirection = (e.eventTr.position - GameManager.instance.player.transform.position).normalized;
             e.target.AddEffect(new Stun(1, 0.2f, e.target));
             rigid.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
         }
