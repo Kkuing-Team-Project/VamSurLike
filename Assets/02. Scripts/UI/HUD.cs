@@ -66,10 +66,9 @@ public class HUD : MonoBehaviour
 			{
 				int remainingTime = (int)(sprite.collapseZone.collapseTime - sprite.collapseZone.elapsedTime);
 				timeText.color = remainingTime <= 10 ? Color.red : Color.white;
-				timeText.text = string.Format("[ {0:00} : {1:00} ]", 
+				timeText.text = string.Format("<size= 25>안정화 제한 시간</size> [ {0:00}:{1:00} ]", 
 					remainingTime / 60,
 					remainingTime % 60);
-				timerNameText.text = "안정화 제한 시간";
 				timeText.transform.parent.gameObject.SetActive(true);
 				
 				
@@ -79,15 +78,14 @@ public class HUD : MonoBehaviour
 			}
 			else
 			{
-				timeText.text = null;
-				timerNameText.text = "균열 생성";
+				timeText.text = "<size= 25>균열 생성</size>";
 			}
 		}
 		else
 		{
-			timerNameText.text = "균열 생성 시간";
 			timeText.color = Color.white;
-			timeText.text = string.Format("[ {0:00} : {1:00} ]", (int)sprite.collapseZoneSpawner.remainingTime / 60, (int)sprite.collapseZoneSpawner.remainingTime % 60);
+			Debug.Log($"{(int)sprite.collapseZoneSpawner.remainingTime / 60}: {(int)sprite.collapseZoneSpawner.remainingTime % 60}");
+			timeText.text = string.Format("<size= 25>균열 생성 시간</size> [ {0:00}:{1:00} ]", (int)sprite.collapseZoneSpawner.remainingTime / 60, (int)sprite.collapseZoneSpawner.remainingTime % 60);
 			occupyPercentImage.transform.parent.gameObject.SetActive(false);
 		}
 		timeText.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(timeText.text));
