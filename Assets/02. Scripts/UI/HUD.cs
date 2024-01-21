@@ -117,7 +117,7 @@ public class HUD : MonoBehaviour
 			staffStatText.text = string.Format("{0:D2}\n{1:D2}\n{2:D2}\n{3:D2}\n{4:D2}",
                 (int)GameManager.instance.player.stat.Get(StatType.DAMAGE), (int)GameManager.instance.player.stat.Get(StatType.ATTACK_SPEED),
                 GameManager.instance.player.HasAugmentation<SplashShooting>() == true ? GameManager.instance.augTable[GameManager.instance.player.GetAugmentation<SplashShooting>().level]["SplashShooting"] : 0,
-                GameManager.instance.player.HasAugmentation<SplitShooting>() == true ? GameManager.instance.augTable[GameManager.instance.player.GetAugmentation<SplitShooting>().level]["SplitShooting"] : 0,
+                GameManager.instance.player.HasAugmentation<SplitShooting>() == true ? int.Parse(GameManager.instance.augTable[GameManager.instance.player.GetAugmentation<SplitShooting>().level]["SplitShooting"].ToString().Split("*")[0]) : 0,
                 GameManager.instance.player.HasAugmentation<KnockbackShot>() == true ? GameManager.instance.augTable[GameManager.instance.player.GetAugmentation<KnockbackShot>().level]["KnockbackShot"] : 0);
         }
 
@@ -125,7 +125,7 @@ public class HUD : MonoBehaviour
 		{
 			iconPanel.SetActive(!iconPanel.activeSelf);
 		}
-		pauseStaffLevelText.text = staffLevelText.text = "Lv. " + (GameManager.instance.player.staffLevel + 1).ToString();
+		pauseStaffLevelText.text = staffLevelText.text = "Lv. " + GameManager.instance.player.staffLevel.ToString();
 	}
 
 
@@ -241,7 +241,7 @@ public class HUD : MonoBehaviour
 
 			int level = GameManager.instance.player.HasAugmentation(key) ? GameManager.instance.player.GetAugmentationLevel(key) + 1 : 0;
 
-			string[] datas = GameManager.instance.augTable[level][key].ToString().Split("-");
+			string[] datas = GameManager.instance.augTable[level][key].ToString().Split("*");
 
             for (int j = 0; j < GameManager.instance.augTable[0].Count; j++)
             {

@@ -24,7 +24,7 @@ public class WindPlayable : PlayableCtrl
         VolumeManager.Instance.StartWindSkillEffect(timeActive);
         statusEffects.Add(new Invincible(1, timeActive, this));
         //여기가 이속 코드 for 규찬
-        statusEffects.Add(new SpeedUp(400, timeActive, this));
+        statusEffects.Add(new SpeedUp(300, timeActive, this));
         //
         while (timeActive > 0)
         {
@@ -70,6 +70,6 @@ public class WindPlayable : PlayableCtrl
 
     protected override float GetSkillCoolTime()
     {
-        return 15f;
+        return 10f;
     }
 }

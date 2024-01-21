@@ -105,6 +105,6 @@ public class FirePlayable : PlayableCtrl
 
     protected override float GetSkillCoolTime()
     {
-        return 15f;
+        return 10f;
     }
 }
