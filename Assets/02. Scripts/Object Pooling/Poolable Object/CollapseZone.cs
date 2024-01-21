@@ -78,14 +78,20 @@ public class CollapseZone : MonoBehaviour, IPoolable
         if (stablity >= 100)
         {
             spirit.SetBlessType();
+            spirit.clearCnt++;
             ReturnObject();
         }
     }
 
     private void Collapse()
     {
-        //SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
-        Debug.LogError("GameOver");
+        if(GameManager.instance.isFinishGame == false)
+        {
+            SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
+            Debug.LogError("GameOver");
+            StartCoroutine(GameManager.instance.FailStage());
+        }
+        
     }
 
     private void OnDrawGizmos()

@@ -45,6 +45,16 @@ public class VolumeManager : Singleton<VolumeManager>
         StartCoroutine(WindSkillEffect(time));
     }
 
+    public void StartDeathEffect(float time)
+    {
+        if(hitEffectCoroutine != null)
+        {
+            StopCoroutine(hitEffectCoroutine);
+            hitEffectCoroutine = null;
+        }
+        StartCoroutine(DeathEffect(time));
+    }
+
     public void SetActiveMotionBlur(bool active)
     {
         motionBlur.active = active;
@@ -83,5 +93,23 @@ public class VolumeManager : Singleton<VolumeManager>
         }
         vignette.intensity.value = 0f;
         vignette.color.value = Color.black;
+    }
+
+    IEnumerator DeathEffect(float time)
+    {
+        vignette.color.value = Color.red;
+        vignette.intensity.value = 0;
+        for (float elapsedTime = 0; elapsedTime < time - 0.1f; elapsedTime += Time.deltaTime) 
+        {
+            vignette.intensity.value = Mathf.Lerp(0f, 0.5f, elapsedTime / time);
+            yield return null;
+        }
+        vignette.intensity.value = 0.5f;
+        for (float elapsedTime = 0; elapsedTime < 0.1f; elapsedTime += Time.deltaTime)
+        {
+            vignette.intensity.value = Mathf.Lerp(0.5f, 0f, elapsedTime / time);
+            yield return null;
+        }
+        vignette.intensity.value = 0f;
     }
 }

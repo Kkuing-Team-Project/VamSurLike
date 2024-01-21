@@ -554,7 +554,7 @@ MonoBehaviour:
   attackInterval: 120
   moveTime: 3
   attackWaitTime: 0
-  attackTime: 3
+  attackTime: 1.5
   attackCnt: 6
 --- !u!114 &776033384
 MonoBehaviour:
@@ -707,7 +707,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: 0, z: 1.2}
+  m_DefaultVelocity: {x: 0, y: 0, z: 3}
 --- !u!1 &730957900969506988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2615,7 +2615,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2901268086896613252}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

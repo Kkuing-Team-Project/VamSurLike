@@ -1556,7 +1556,7 @@ MonoBehaviour:
   rigid: {fileID: 0}
   staffLevel: 1
   testAugName: Shield
-  skillSprite: {fileID: 21300000, guid: c22897c6532b76b42a96f95965511ad5, type: 3}
+  skillSprite: {fileID: 21300000, guid: 98775d05ae349dc48bee74617b855845, type: 3}
   bulletColor: {r: 0.33285868, g: 0.6644122, b: 0.8301887, a: 0.7019608}
   bulletNum: 1
   bulletInterval: 0.1
