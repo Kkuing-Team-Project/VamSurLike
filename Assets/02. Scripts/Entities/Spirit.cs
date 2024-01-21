@@ -58,6 +58,7 @@ public class Spirit : Entity
     {
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
+            collapseZoneSpawner.stop = false;
             spiritState = SpiritState.IDLE;
             if(waitCor == null)
             {

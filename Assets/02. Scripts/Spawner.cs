@@ -138,6 +138,7 @@ public class Spawner : MonoBehaviour
     {
         TextAsset textAsset = Resources.Load<TextAsset>(path);
         stage = JsonUtility.FromJson<Stage>(textAsset.text);
+        isWave = true;
     }
 
 
