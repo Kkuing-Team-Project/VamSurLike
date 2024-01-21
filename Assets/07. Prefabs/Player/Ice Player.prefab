@@ -1472,7 +1472,7 @@ MonoBehaviour:
   rotationAnglePerSecond: 270
   dashSpeed: 80
   dashTime: 0.1
-  gaugeBar: {fileID: 0}
+  gaugeBar: {fileID: 3477625476357523365}
   bulletFireTrf: {fileID: 1991798310757145375}
   isTest: 0
   tempExpRange: 7
@@ -5509,6 +5509,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eac8e9098d0eaf347a3ddf9db7d0bfb8, type: 3}
+--- !u!114 &3477625476357523365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8255449196312007457, guid: eac8e9098d0eaf347a3ddf9db7d0bfb8, type: 3}
+  m_PrefabInstance: {fileID: 4814979928977413252}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac6410fe1bb3e746a39c2b3c72e4b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5673786362327620858 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 896049332060145790, guid: eac8e9098d0eaf347a3ddf9db7d0bfb8, type: 3}
