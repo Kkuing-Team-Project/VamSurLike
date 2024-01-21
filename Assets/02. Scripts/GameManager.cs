@@ -175,6 +175,25 @@ public class GameManager : MonoBehaviour
         isFinishGame = false;
     }
 
+    public IEnumerator FailStage()
+    {
+        isFinishGame = true;
+
+        player.AddEffect(new Stun(1, 10, player));
+        player.rigid.velocity = Vector3.zero;
+        player.rigid.isKinematic = true;
+        player.bulletNum = 0;
+
+        player.GetComponent<Animator>().SetLayerWeight(1, 0f);
+        player.GetComponent<Animator>().SetLayerWeight(2, 0f);
+        player.GetComponent<Animator>().SetTrigger("Death");
+        VolumeManager.Instance.StartDeathEffect(3f);
+        yield return new WaitForSeconds(1.5f);
+        yield return StartCoroutine(FadeCor(Color.clear, Color.black, 3f));
+        StartCoroutine(LoadAsyncScene("Stage"));
+        isFinishGame = false;
+    }
+
     public void Fade(Color start, Color end, float time)
     {
         if(fadeCor != null)
