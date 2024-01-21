@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
     public List<Dictionary<string, object>> augTable;
     public List<Dictionary<string, object>> explanationTable;
 
-    private int m_killCount;
-    public Animator killCountAnimator { get; set; }
+
+
 
     public string stageName;
     public string playerName;
@@ -32,26 +32,22 @@ public class GameManager : MonoBehaviour
 
     private CinemachineVirtualCamera followCam;
     private Coroutine fadeCor;
-    
-    public int killCount
-    {
-        get => m_killCount;
-        set
-        {
-            m_killCount = value;
-            killCountAnimator?.SetTrigger("Kill");
-        }
-    }
+
+
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance == null)
         {
-            Destroy(gameObject);
-        }
+            instance = this;
 
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        }
+        else if(instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        DontDestroyOnLoad(this.gameObject);
+
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         statTable = CSVReader.Read("Data/Character_Enemy_Boss_Stat_Chart");
@@ -61,7 +57,7 @@ public class GameManager : MonoBehaviour
         loadingPanel.SetActive(false);
         // SoundManagerObj.SetActive(true); 
 
-        player = FindObjectOfType<PlayableCtrl>();
+
     }
 
     private void Start()
@@ -71,42 +67,6 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SoundManager.Instance.playerTransform = Camera.main.transform;
-        if (scene.name == "InGameScene"){
-            GameObject playerObj = null;
-            if(!string.IsNullOrEmpty(playerName)){
-                switch (playerName)
-                {
-                    case "P_FIRE":
-                        playerObj = Instantiate(Characters[0], Vector3.zero, Quaternion.identity);
-                        break;
-                    case "P_WIND":
-                        playerObj = Instantiate(Characters[1], Vector3.zero, Quaternion.identity);
-                        break;
-                    case "P_ICE":
-                        playerObj = Instantiate(Characters[2], Vector3.zero, Quaternion.identity);
-                        break;
-                    default:
-                        Debug.Log("알 수 없는 캐릭터 이름: " + playerName);
-                        break;
-                }
-                if (playerObj != null)
-                {
-                    Debug.Log(playerName + " 생성 완료");
-                    // Cinemachine 카메라의 Follow와 LookAt 설정
-                    followCam = FindObjectOfType<CinemachineVirtualCamera>();
-                    if (followCam != null)
-                    {
-                        followCam.Follow = playerObj.transform;
-                        followCam.LookAt = playerObj.transform;
-                    }
-                }
-            }
-            else
-            {
-                Debug.Log("캐릭터 정보가 없습니다.");
-            }
-        }
-
         switch(scene.name)
         {
             case "Main":
@@ -118,10 +78,43 @@ public class GameManager : MonoBehaviour
             case "InGameScene":
                 SoundManager.Instance.PlayOneShot("Sound_EF_CH_Spawn");
                 SoundManager.Instance.PlaySound("Sound_BG_Battle01", false, default, true);
+
+                GameObject playerObj = null;
+                if (!string.IsNullOrEmpty(playerName))
+                {
+                    switch (playerName)
+                    {
+                        case "P_FIRE":
+                            playerObj = Instantiate(Characters[0], Vector3.zero, Quaternion.identity);
+                            break;
+                        case "P_WIND":
+                            playerObj = Instantiate(Characters[1], Vector3.zero, Quaternion.identity);
+                            break;
+                        case "P_ICE":
+                            playerObj = Instantiate(Characters[2], Vector3.zero, Quaternion.identity);
+                            break;
+                        default:
+                            Debug.Log("알 수 없는 캐릭터 이름: " + playerName);
+                            break;
+                    }
+                    if (playerObj != null)
+                    {
+                        Debug.Log(playerName + " 생성 완료");
+                        // Cinemachine 카메라의 Follow와 LookAt 설정
+                        followCam = FindObjectOfType<CinemachineVirtualCamera>();
+                        if (followCam != null)
+                        {
+                            followCam.Follow = playerObj.transform;
+                            followCam.LookAt = playerObj.transform;
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.Log("캐릭터 정보가 없습니다.");
+                }
                 break;
         }
-
-        killCount = 0;
         player = FindObjectOfType<PlayableCtrl>();
     }
 
@@ -131,14 +124,13 @@ public class GameManager : MonoBehaviour
     {
         loadingPanel.SetActive(true); 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
+        CoroutineHandler.StopAllCoroutines();
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
             yield return null;
             loadingPercentage.text = $"Loading...({Mathf.Round(asyncLoad.progress * 100f).ToString()}%)";
         }
-        yield return new WaitForSeconds(0.1f);
         loadingPanel.SetActive(false); 
     }
 
@@ -159,41 +151,6 @@ public class GameManager : MonoBehaviour
         return result;
     }
 
-    public IEnumerator ClearStage()
-    {
-        isFinishGame = true;
-        yield return StartCoroutine(FadeCor(Color.clear, Color.white, 0.25f));
-        foreach (var enemy in FindObjectsOfType<EnemyCtrl>())
-        {
-            enemy.TakeDamage(player, enemy.hp);
-        }
-        FindObjectOfType<BossCtrl>()?.TakeDamage(player, FindObjectOfType<BossCtrl>().hp);
-        yield return StartCoroutine(FadeCor(Color.white, Color.clear, 3f));
-        yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(FadeCor(Color.clear, Color.black, 3f));
-        StartCoroutine(LoadAsyncScene("Stage"));
-        isFinishGame = false;
-    }
-
-    public IEnumerator FailStage()
-    {
-        isFinishGame = true;
-
-        player.AddEffect(new Stun(1, 10, player));
-        player.rigid.velocity = Vector3.zero;
-        player.rigid.isKinematic = true;
-        player.bulletNum = 0;
-
-        player.GetComponent<Animator>().SetLayerWeight(1, 0f);
-        player.GetComponent<Animator>().SetLayerWeight(2, 0f);
-        player.GetComponent<Animator>().SetTrigger("Death");
-        VolumeManager.Instance.StartDeathEffect(3f);
-        yield return new WaitForSeconds(1.5f);
-        yield return StartCoroutine(FadeCor(Color.clear, Color.black, 3f));
-        StartCoroutine(LoadAsyncScene("Stage"));
-        isFinishGame = false;
-    }
-
     public void Fade(Color start, Color end, float time)
     {
         if(fadeCor != null)
@@ -201,10 +158,10 @@ public class GameManager : MonoBehaviour
             StopCoroutine(fadeCor);
             fadeCor = null;
         }
-        StartCoroutine(FadeCor(start, end, time));
+        StartCoroutine(instance.FadeCor(start, end, time));
     }
 
-    private IEnumerator FadeCor(Color start, Color end, float time)
+    public IEnumerator FadeCor(Color start, Color end, float time)
     {
         fadeImage.gameObject.SetActive(true);
         for (float elapsedTime = 0; elapsedTime < time; elapsedTime += Time.deltaTime)
