@@ -60,7 +60,7 @@ public abstract class EnemyCtrl : Entity, IPoolable
     protected override void OnEntityDied()
     {
         objectPool.GetObject(ObjectPool.ObjectType.Experience, transform.position + Vector3.up);
-        GameManager.instance.killCount++;
+        GameManager.instance.player.killCount++;
         ReturnObject();
     }
 

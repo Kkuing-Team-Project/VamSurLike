@@ -18,6 +18,9 @@ public class KnockbackShot : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
+        if (e.eventTr.gameObject.layer == 1 << LayerMask.NameToLayer("BOSS"))
+            return;
+
         float knockbackForce = float.Parse(GameManager.instance.augTable[level]["KnockbackShot"].ToString());
 
 

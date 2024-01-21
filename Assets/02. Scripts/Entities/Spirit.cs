@@ -64,9 +64,8 @@ public class Spirit : Entity
     {
         if(clearCnt >= 5 && GameManager.instance.isFinishGame == false)
         {
-            StartCoroutine(GameManager.instance.ClearStage());
+            StartCoroutine(GameManager.instance.player.ClearStage());
         }
-        Debug.LogError($"Spirit: {hp}");
 
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
