@@ -15,6 +15,7 @@ public enum EntityType
     E_DarkArcher,
     Soul,
     B_Giant,
+    B_Blood
 }
 
 [RequireComponent(typeof(Rigidbody))]

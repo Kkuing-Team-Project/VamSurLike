@@ -46,6 +46,7 @@ public abstract class PlayableCtrl : Entity
     [Header("점멸 이동 시간"), SerializeField]
     private float dashTime = 0.1f;
 
+
     [Header("체력바"), SerializeField]
     PlayerBar gaugeBar;
 
@@ -62,7 +63,7 @@ public abstract class PlayableCtrl : Entity
     private Vector3 inputVector;
 
     // 코루틴
-    private Coroutine attackCor;
+    protected Coroutine attackCor;
     private Coroutine dashCor;
     private Coroutine healCor;
     protected Coroutine skillCor;
@@ -71,6 +72,20 @@ public abstract class PlayableCtrl : Entity
     private List<Augmentation> augmentationList = new List<Augmentation>();
 
     protected bool isAction = false;
+
+    [HideInInspector]
+    public Animator killCountAnimator;
+
+    private int m_killCount;
+    public int killCount
+    {
+        get => m_killCount;
+        set
+        {
+            m_killCount = value;
+            killCountAnimator?.SetTrigger("Kill");
+        }
+    }
 
     // Components applied to the player object.
     protected HUD hud;
@@ -109,12 +124,13 @@ public abstract class PlayableCtrl : Entity
         hud = FindObjectOfType<HUD>();
         hud.skillImage.sprite = skillSprite;
         hud.pauseSkillImage.sprite = skillSprite;
+        killCountAnimator = hud.killCountText.GetComponentInParent<Animator>();
     }
 
     [ContextMenu("클리어")]
-    public void ClearStage()
+    public void ClearStageTest()
     {
-        StartCoroutine(GameManager.instance.ClearStage());
+        StartCoroutine(ClearStage());
     }
 
     [ContextMenu("증강 추가 테스트")]
@@ -153,7 +169,7 @@ public abstract class PlayableCtrl : Entity
             if (GameManager.instance.isFinishGame == false)
             {
                 SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
-                StartCoroutine(GameManager.instance.FailStage());
+                StartCoroutine(FailStage());
             }
             return;
         }
@@ -249,13 +265,12 @@ public abstract class PlayableCtrl : Entity
     #region Attack
     private IEnumerator AttackCoroutine()
     {
-        WaitForSeconds attackDelay = new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
         while (true)
         {
             attackEffect.Play();
             OnAttackPlayer?.Invoke(this, defaultArgs);
             PlayerAttack(bulletNum, bulletInterval);
-            yield return attackDelay;
+            yield return new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
         }
     }
     protected virtual void PlayerAttack(int bulletNum, float interval)
@@ -321,6 +336,8 @@ public abstract class PlayableCtrl : Entity
                 {
                     Time.timeScale = 0;
                     hud.augPanel.SetActive(true);
+                    hud.rerollCnt = 3;
+                    hud.rerollText.text = $"새로고침 ({hud.rerollCnt})";
                     SoundManager.Instance.PlayOneShot("Sound_UI_LevelUP");
                     hud.SetAugmentation();
                 }
@@ -640,6 +657,42 @@ public abstract class PlayableCtrl : Entity
             default:
                 break;
         }
+    }
+    #endregion
+
+    #region Game Ending
+    public IEnumerator ClearStage()
+    {
+        GameManager.instance.isFinishGame = true;
+        yield return StartCoroutine(GameManager.instance.FadeCor(Color.clear, Color.white, 0.25f));
+        foreach (var enemy in FindObjectsOfType<EnemyCtrl>())
+        {
+            enemy.TakeDamage(this, enemy.hp);
+        }
+        FindObjectOfType<BossCtrl>()?.TakeDamage(this, FindObjectOfType<BossCtrl>().hp);
+        yield return StartCoroutine(GameManager.instance.FadeCor(Color.white, Color.clear, 3f));
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(GameManager.instance.FadeCor(Color.clear, Color.black, 3f));
+        GameManager.instance.LoadInGame("Stage");
+        GameManager.instance.isFinishGame = false;
+    }
+
+    public IEnumerator FailStage()
+    {
+        GameManager.instance.isFinishGame = true;
+        AddEffect(new Stun(1, 10, this));
+        rigid.velocity = Vector3.zero;
+        rigid.isKinematic = true;
+        bulletNum = 0;
+
+        animator.SetLayerWeight(1, 0f);
+        animator.SetLayerWeight(2, 0f);
+        animator.SetTrigger("Death");
+        VolumeManager.Instance.StartDeathEffect(3f);
+        yield return new WaitForSeconds(1.5f);
+        yield return StartCoroutine(GameManager.instance.FadeCor(Color.clear, Color.black, 3f));
+        GameManager.instance.LoadInGame("Stage");
+        GameManager.instance.isFinishGame = false;
     }
     #endregion
 }

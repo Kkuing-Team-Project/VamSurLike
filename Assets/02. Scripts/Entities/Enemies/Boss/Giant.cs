@@ -46,13 +46,6 @@ public class Giant : BossCtrl, IPoolable
         yield return ChangeAnimLayer(patternIdx + 1, 0.5f, false);
         animator.SetTrigger("Death");
         yield return new WaitForSeconds(3f);
-        float elapsedTime = 0;
-        while(elapsedTime < 1)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-            gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_Color", new Color(1, 1, 1, 1f - elapsedTime));
-        }
 
         ReturnObject();
     }
@@ -68,7 +61,7 @@ public class Giant : BossCtrl, IPoolable
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        base.OnTakeDamage(caster, dmg);
+        
     }
 
     protected override void OnFinishPattern(int nowPatternIdx)
@@ -178,15 +171,15 @@ public class Giant : BossCtrl, IPoolable
     public void OnCreate()
     {
         pool = FindObjectOfType<ObjectPool>();
+        
     }
 
     public void OnActivate()
     {
-        InitEntity();
     }
 
     public void ReturnObject()
     {
-        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Bullet);
+        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Giant);
     }
 }

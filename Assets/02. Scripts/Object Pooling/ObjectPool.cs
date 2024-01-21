@@ -36,7 +36,8 @@ public class ObjectPool : MonoBehaviour
         MeshTrailObject,
         LightningBolt,
         SlowArea,
-        Giant
+        Giant,
+        Blood
     }
 
     [System.Serializable]

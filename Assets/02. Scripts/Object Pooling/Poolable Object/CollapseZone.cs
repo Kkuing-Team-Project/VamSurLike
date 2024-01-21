@@ -23,14 +23,11 @@ public class CollapseZone : MonoBehaviour, IPoolable
     public void OnCreate()
     {
         spawner = GameObject.Find("Red Zone Spawner").GetComponent<Spawner>();
-
-
     }
 
     public void OnActivate()
     {
         collapseTime = spawner.stage.waves[spawner.currentWaveIndex].duration;
-        Debug.Log(gameObject.name + ": " + collapseTime + ", " + spawner.currentWaveIndex);
         effect = ObjectPoolManager.Instance.objectPool.GetObject(
             ObjectPool.ObjectType.Portal,
             transform.position).GetComponent<PortalEffect>();
@@ -89,7 +86,7 @@ public class CollapseZone : MonoBehaviour, IPoolable
         {
             SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
             Debug.LogError("GameOver");
-            StartCoroutine(GameManager.instance.FailStage());
+            StartCoroutine(GameManager.instance.player.FailStage());
         }
         
     }
