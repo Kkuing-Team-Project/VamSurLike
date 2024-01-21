@@ -56,6 +56,8 @@ public class Spirit : Entity
 
     protected override void UpdateEntity()
     {
+        Debug.LogError($"Spirit: {hp}");
+
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
         {
             collapseZoneSpawner.stop = false;

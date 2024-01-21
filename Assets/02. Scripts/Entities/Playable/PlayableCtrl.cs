@@ -10,6 +10,9 @@ public abstract class PlayableCtrl : Entity
     public float exp { get; private set; }
     public float requireExp { get; private set; } = 10;
 
+    [HideInInspector]
+    public int staffLevel = 1;
+
     public event AugmentationDelegate OnStartAugmentation;
     public event AugmentationDelegate OnUpdateAugmentation;
     public event AugmentationDelegate OnAttackPlayer;
@@ -96,6 +99,7 @@ public abstract class PlayableCtrl : Entity
         objectPool = FindObjectOfType<ObjectPool>();
         hud = FindObjectOfType<HUD>();
         hud.skillImage.sprite = skillSprite;
+        hud.pauseSkillImage.sprite = skillSprite;
         gaugeBar = hud?.playerGaugeBar;
     }
 

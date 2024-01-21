@@ -18,7 +18,7 @@ public class SplitShooting : Augmentation
 
 	public override void AugmentationEffect(Entity sender, AugEventArgs e)
 	{
-		var data = GameManager.instance.augTable[level]["SplitShooting"].ToString().Split("-");
+		var data = GameManager.instance.augTable[level]["SplitShooting"].ToString().Split("*");
 		int num = int.Parse(data[0]);
 		int interval = int.Parse(data[1]);
 
