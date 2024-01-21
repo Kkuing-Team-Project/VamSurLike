@@ -98,6 +98,7 @@ public class Spawner : MonoBehaviour
         floorLayerMask = LayerMask.GetMask("FLOOR");
         currentWaveIndex = 0;
         currentTime = 0;
+        lastSpawnTime = delay;
         if (isWave)
         {
             delay = stage.waves[0].delay;

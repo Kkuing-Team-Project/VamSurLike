@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Giant : BossCtrl
+public class Giant : BossCtrl, IPoolable
 {
     public Transform[] patternTr;
     public float pattern1Rad = 3;
     public Vector3 pattern2Box;
     public Vector3 pattern3Box;
     public float pattern4Rad = 3;
+    public ObjectPool pool { get; set; }
 
     protected override void InitEntity()
     {
@@ -52,7 +53,8 @@ public class Giant : BossCtrl
             yield return null;
             gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_Color", new Color(1, 1, 1, 1f - elapsedTime));
         }
-        Destroy(gameObject);
+
+        ReturnObject();
     }
 
     protected override void OnEntityDied()
@@ -171,5 +173,20 @@ public class Giant : BossCtrl
             }
             GL.PopMatrix();
         }
+    }
+
+    public void OnCreate()
+    {
+        pool = FindObjectOfType<ObjectPool>();
+    }
+
+    public void OnActivate()
+    {
+        InitEntity();
+    }
+
+    public void ReturnObject()
+    {
+        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Bullet);
     }
 }
