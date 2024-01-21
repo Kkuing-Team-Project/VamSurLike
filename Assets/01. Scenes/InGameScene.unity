@@ -2289,7 +2289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2451845315716602646, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2976145972554236332, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_RootOrder
@@ -3080,6 +3080,10 @@ PrefabInstance:
     - target: {fileID: 1925251631980451094, guid: 267ca189e4b043b418d513ca82208592, type: 3}
       propertyPath: m_Name
       value: InGameUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925251632294723629, guid: 267ca189e4b043b418d513ca82208592, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 39.9531
       objectReference: {fileID: 0}
     - target: {fileID: 7013488739112150397, guid: 267ca189e4b043b418d513ca82208592, type: 3}
       propertyPath: m_AnchorMax.y
