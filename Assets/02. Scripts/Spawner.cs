@@ -64,6 +64,7 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] private Camera playerCamera;
     
+    
 
     public bool stop;
     private float currentTime;
