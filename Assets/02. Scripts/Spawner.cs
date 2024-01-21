@@ -50,11 +50,16 @@ public class SpawnObject
     }
 }
 
-
+public enum SpawnerType
+{
+    JSON_SPAWNER,
+    COLLAPSE_SPAWNER,
+    DEFAULT_SPAWNER,
+}
 
 public class Spawner : MonoBehaviour
 {
-    public bool isRedZone;
+    public SpawnerType spawnerType;
     public string fileName;
     private bool gameOver = false;
     public Vector3 center { get; private set; }
@@ -93,11 +98,20 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        if(string.IsNullOrEmpty(GameManager.instance.stageName) == false)
+        switch (spawnerType)
         {
-            fileName = isRedZone == false ? GameManager.instance.stageName : "Stage_collapse";
-            JsonParsing("Data/" + fileName);
+            case SpawnerType.JSON_SPAWNER:
+                JsonParsing("Data/" + GameManager.instance.stageName);
+                break;
+            case SpawnerType.COLLAPSE_SPAWNER:
+                JsonParsing("Data/Stage_collapse");
+                break;
+            case SpawnerType.DEFAULT_SPAWNER:
+                break;
+            default:
+                break;
         }
+
         floorLayerMask = LayerMask.GetMask("FLOOR");
         currentWaveIndex = 0;
         currentTime = 0;

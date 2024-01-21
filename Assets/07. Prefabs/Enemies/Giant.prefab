@@ -1978,6 +1978,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossGaugeBar
       objectReference: {fileID: 0}
+    - target: {fileID: 7699164186230759928, guid: 5f5e3614e97194342b19319d5c450c66, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f5e3614e97194342b19319d5c450c66, type: 3}
 --- !u!224 &2065720220921740531 stripped

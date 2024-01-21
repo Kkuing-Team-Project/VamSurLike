@@ -23,8 +23,6 @@ public class CollapseZone : MonoBehaviour, IPoolable
     public void OnCreate()
     {
         spawner = GameObject.Find("Red Zone Spawner").GetComponent<Spawner>();
-        Debug.LogError(collapseTime = spawner.stage.waves[spawner.currentWaveIndex].duration);
-
     }
 
     public void OnActivate()
