@@ -44,6 +44,8 @@ public class Spirit : Entity
     public Animator anim { get; private set; }
     private readonly int aniSpeed = Animator.StringToHash("Speed");
     private Coroutine waitCor;
+    [Header("체력바"), SerializeField]
+    SpiritBar hpBar;
 
     protected override void InitEntity()
     {
@@ -187,6 +189,7 @@ public class Spirit : Entity
         {
             AddEffect(new Invincible(1, Time.deltaTime, this));
         }
+        hpBar.hpBar.SetBarValue(hp, stat.Get(StatType.MAX_HP));
     }
     protected override void OnEntityDied()
     {

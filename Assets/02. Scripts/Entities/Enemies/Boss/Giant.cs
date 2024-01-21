@@ -68,7 +68,7 @@ public class Giant : BossCtrl, IPoolable
 
     protected override void OnTakeDamage(Entity caster, float dmg)
     {
-        
+        base.OnTakeDamage(caster, dmg);
     }
 
     protected override void OnFinishPattern(int nowPatternIdx)

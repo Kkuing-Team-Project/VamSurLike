@@ -45,6 +45,10 @@ public abstract class PlayableCtrl : Entity
 
     [Header("점멸 이동 시간"), SerializeField]
     private float dashTime = 0.1f;
+
+    [Header("체력바"), SerializeField]
+    PlayerBar gaugeBar;
+
     [SerializeField]
     Transform bulletFireTrf;
 
@@ -64,7 +68,6 @@ public abstract class PlayableCtrl : Entity
 
     // Components applied to the player object.
     protected HUD hud;
-    PlayerBar gaugeBar;
     ObjectPool objectPool;
     CinemachineImpulseSource cameraShakeSource;
 
@@ -100,7 +103,6 @@ public abstract class PlayableCtrl : Entity
         hud = FindObjectOfType<HUD>();
         hud.skillImage.sprite = skillSprite;
         hud.pauseSkillImage.sprite = skillSprite;
-        gaugeBar = hud?.playerGaugeBar;
     }
 
     [ContextMenu("클리어")]
@@ -348,13 +350,13 @@ public abstract class PlayableCtrl : Entity
 
         isAction = false;
 
-        gaugeBar.DashBar.SetBarValue(0, 5f);
+        gaugeBar.DashBar.SetBarValue(0, 3f);
 
         float cooltimeTimer = 0f;
         while (true)
         {
             cooltimeTimer += Time.deltaTime;
-            gaugeBar.DashBar.SetBarValue(cooltimeTimer, 5f);
+            gaugeBar.DashBar.SetBarValue(cooltimeTimer, 3f);
 
             yield return null;
             if (cooltimeTimer >= 3f)
