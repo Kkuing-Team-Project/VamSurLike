@@ -23,7 +23,6 @@ public class EnergyField : Augmentation
 
     public override void AugmentationEffect(Entity sender, AugEventArgs e)
     {
-        // Debug.Log("Energy Field: " + level);
         if(cor != null)
         {
             CoroutineHandler.StopCoroutine(cor);
@@ -37,8 +36,6 @@ public class EnergyField : Augmentation
         particle = ObjectPoolManager.Instance.objectPool.GetObject(
             ObjectPool.ObjectType.EnergyField,
             sender.transform.position);
-        particleDefaultSize = particle.transform.localScale.x;
-
         cor = CoroutineHandler.StartCoroutine(FieldAttack(e.target));
     }
 
@@ -48,7 +45,7 @@ public class EnergyField : Augmentation
         while (true)
         {
             float radius = float.Parse(GameManager.instance.augTable[level]["EnergyField"].ToString());
-            particle.transform.localScale = Vector3.one * (particleDefaultSize * radius);
+            particle.GetComponent<EnergyFieldEffect>().SetParticleSize(radius);
             Collider[] enemies = Physics.OverlapSphere(player.transform.position, radius, 1 << LayerMask.NameToLayer("ENEMY") | 1 << LayerMask.NameToLayer("BOSS"));
             if (enemies.Length > 0)
             {
