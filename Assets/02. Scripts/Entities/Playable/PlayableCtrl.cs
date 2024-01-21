@@ -50,6 +50,9 @@ public abstract class PlayableCtrl : Entity
     [Header("체력바"), SerializeField]
     PlayerBar gaugeBar;
 
+    [Header("공격 파티클"), SerializeField]
+    ParticleSystem attackEffect;
+
     [SerializeField]
     Transform bulletFireTrf;
 
@@ -261,6 +264,7 @@ public abstract class PlayableCtrl : Entity
     {
         while (true)
         {
+            attackEffect.Play();
             OnAttackPlayer?.Invoke(this, defaultArgs);
             PlayerAttack(bulletNum, bulletInterval);
             yield return new WaitForSeconds(1 / stat.Get(StatType.ATTACK_SPEED));
