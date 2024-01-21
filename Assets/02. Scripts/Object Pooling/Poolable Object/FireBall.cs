@@ -54,7 +54,7 @@ public class FireBall : MonoBehaviour, IPoolable
     {
         if (other.CompareTag("ENEMY"))
         {
-            other.GetComponent<Entity>().TakeDamage(user, 3f);
+            other.GetComponent<Entity>().TakeDamage(user, 5f);
         }
     }
 }

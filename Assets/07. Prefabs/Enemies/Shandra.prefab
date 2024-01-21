@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c655d7a3e06e3c3478192ad44b20aaae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInterval: 10
+  attackInterval: 120
   moveTime: 3
   attackWaitTime: 0
   attackTime: 1.5
@@ -707,7 +707,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: 0, z: 1.2}
+  m_DefaultVelocity: {x: 0, y: 0, z: 3}
 --- !u!1 &730957900969506988
 GameObject:
   m_ObjectHideFlags: 0
