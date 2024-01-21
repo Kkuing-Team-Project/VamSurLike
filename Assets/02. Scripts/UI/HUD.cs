@@ -85,7 +85,7 @@ public class HUD : MonoBehaviour
 		{
 			timeText.color = Color.white;
 			Debug.Log($"{(int)sprite.collapseZoneSpawner.remainingTime / 60}: {(int)sprite.collapseZoneSpawner.remainingTime % 60}");
-			timeText.text = string.Format("<size= 25>균열 생성 시간</size> [ {0:00}:{1:00} ]", (int)sprite.collapseZoneSpawner.remainingTime / 60, (int)sprite.collapseZoneSpawner.remainingTime % 60);
+			timeText.text = string.Format("<size= 25>균열 생성까지</size> [ {0:00}:{1:00} ]", (int)sprite.collapseZoneSpawner.remainingTime / 60, (int)sprite.collapseZoneSpawner.remainingTime % 60);
 			occupyPercentImage.transform.parent.gameObject.SetActive(false);
 		}
 		timeText.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(timeText.text));
