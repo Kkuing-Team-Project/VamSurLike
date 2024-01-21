@@ -280,9 +280,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 12, z: -10}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.01
+  m_YDamping: 0.01
+  m_ZDamping: 0.01
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -2344,21 +2344,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2384357249293736565, guid: 5f5f702216db1874298afdeae46be347, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.0116
-      objectReference: {fileID: 0}
-    - target: {fileID: 2384357249293736565, guid: 5f5f702216db1874298afdeae46be347, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.0591
-      objectReference: {fileID: 0}
     - target: {fileID: 2451845315716602646, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_Name
       value: Ice Player
       objectReference: {fileID: 0}
     - target: {fileID: 2451845315716602646, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2976145972554236332, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_RootOrder
@@ -2403,6 +2395,10 @@ PrefabInstance:
     - target: {fileID: 2976145972554236332, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053833374047954256, guid: 5f5f702216db1874298afdeae46be347, type: 3}
+      propertyPath: testAugName
+      value: EnergyField
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f5f702216db1874298afdeae46be347, type: 3}
@@ -7538,22 +7534,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
-      propertyPath: pools.Array.size
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
-      propertyPath: pools.Array.data[24].size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
-      propertyPath: pools.Array.data[24].type
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 8803116447141004155, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
-      propertyPath: pools.Array.data[24].prefab
-      value: 
-      objectReference: {fileID: 6237631584534737099, guid: 22e5f6d2ea23de34baf7adaf740ac2be, type: 3}
     - target: {fileID: 8803116447141004156, guid: 0ebc454d7527cf24d9e5337a0aee3375, type: 3}
       propertyPath: m_Name
       value: Object Pool

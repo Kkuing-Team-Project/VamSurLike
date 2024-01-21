@@ -53,6 +53,9 @@ public abstract class PlayableCtrl : Entity
     [Header("공격 파티클"), SerializeField]
     ParticleSystem attackEffect;
 
+    [Header("대쉬 파티클"), SerializeField]
+    ParticleSystem dashEffect;
+
     [SerializeField]
     Transform bulletFireTrf;
 
@@ -347,6 +350,7 @@ public abstract class PlayableCtrl : Entity
     {
         isAction = true;
         rigid.velocity = Vector3.zero;
+
         Vector3 direction = inputVector.normalized;
 
         if (direction == Vector3.zero)
@@ -363,11 +367,17 @@ public abstract class PlayableCtrl : Entity
             direction.Normalize();
         }
 
+        dashEffect.transform.rotation = Quaternion.LookRotation(direction);
+        dashEffect.Play();
+        VolumeManager.Instance.SetActiveMotionBlur(true);
+
         rigid.velocity = direction * dashSpeed;
 
         yield return new WaitForSeconds(dashTime);
 
         rigid.velocity = Vector3.zero;
+
+        VolumeManager.Instance.SetActiveMotionBlur(false);
 
         isAction = false;
 
