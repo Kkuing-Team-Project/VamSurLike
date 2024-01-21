@@ -1009,7 +1009,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436933015}
-  m_LocalRotation: {x: 0.42415538, y: 0.000000015581922, z: -0.0000000072981816, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: -0.00000001558191, z: 0.0000000072981776, w: 0.90558946}
   m_LocalPosition: {x: 0, y: 12, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2283,6 +2283,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2384357249293736565, guid: 5f5f702216db1874298afdeae46be347, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0116
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384357249293736565, guid: 5f5f702216db1874298afdeae46be347, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0591
+      objectReference: {fileID: 0}
     - target: {fileID: 2451845315716602646, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_Name
       value: Ice Player
@@ -2334,10 +2342,6 @@ PrefabInstance:
     - target: {fileID: 2976145972554236332, guid: 5f5f702216db1874298afdeae46be347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7053833374047954256, guid: 5f5f702216db1874298afdeae46be347, type: 3}
-      propertyPath: testAugName
-      value: SplashShooting
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f5f702216db1874298afdeae46be347, type: 3}
@@ -2604,7 +2608,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786584048}
-  m_LocalRotation: {x: 0.42415538, y: 0.000000015581922, z: -0.0000000072981816, w: 0.90558946}
+  m_LocalRotation: {x: 0.42415538, y: -0.00000001558191, z: 0.0000000072981776, w: 0.90558946}
   m_LocalPosition: {x: 0, y: 12, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3103,6 +3107,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 436933017}
+    - target: {fileID: 2168394225171077720, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0014355183
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168394225171077720, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.030304275
+      objectReference: {fileID: 0}
     - target: {fileID: 4808470518836229761, guid: ad08d381901f5384caa10075885ffaf6, type: 3}
       propertyPath: m_Name
       value: Spirit
