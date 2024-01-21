@@ -32,6 +32,8 @@ public class HUD : MonoBehaviour
 	public Text playerStatText;
 	public Text staffStatText;
 
+	public Slider volumeSlider;
+
 	public PlayerBar playerGaugeBar;
 
 	private Spirit sprite;
@@ -293,4 +295,11 @@ public class HUD : MonoBehaviour
 		}
 		skillCoolTimeImage.color = Color.clear;
     }
+
+
+	public void SetVolume()
+	{
+		SoundManager.Instance.audioSource.volume = volumeSlider.value;
+		SoundManager.Instance.moveAudioSource.volume = volumeSlider.value;
+	}
 }
