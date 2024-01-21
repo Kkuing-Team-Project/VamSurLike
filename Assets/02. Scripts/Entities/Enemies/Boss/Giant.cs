@@ -178,6 +178,7 @@ public class Giant : BossCtrl, IPoolable
     public void OnCreate()
     {
         pool = FindObjectOfType<ObjectPool>();
+        
     }
 
     public void OnActivate()
@@ -186,6 +187,6 @@ public class Giant : BossCtrl, IPoolable
 
     public void ReturnObject()
     {
-        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Bullet);
+        pool?.ReturnObject(gameObject, ObjectPool.ObjectType.Giant);
     }
 }

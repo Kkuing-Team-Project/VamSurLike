@@ -26,7 +26,7 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        audioSource.volume = 0.25f;
+        audioSource.volume = 0.1f;
         moveAudioSource.volume = 0.25f;
     }
 

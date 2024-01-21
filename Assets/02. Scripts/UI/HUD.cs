@@ -311,11 +311,7 @@ public class HUD : MonoBehaviour
 	public void ExitGame()
 	{
 		Debug.LogError("종료");
-#if UNITY_EDITOR
-		UnityEditor.EditorApplication.isPlaying = false;
-#else
         Application.Quit(); // 어플리케이션 종료
-#endif
 	}
 
 public void ExitPausePanel()
