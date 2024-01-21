@@ -1,6 +1,6 @@
 ﻿{
-    "waves": [
-      {
+  "waves": [
+    {
       "delay": 0.8,
       "duration": 15.0,
       "spawnObjects": [
@@ -10,65 +10,65 @@
         }
       ]
     },
-      {
-        "delay": 0.6,
-        "duration": 40.0,
-        "spawnObjects": [
-          {
-            "percentAmpl": 50.0,
-            "name": "StoneHead"
-          },
-          {
-            "percentAmpl": 50.0,
-            "name": "Prion"
-          }
-        ]
-      },
-      {
-        "delay": 0.2,
-        "duration": 100.0,
-        "spawnObjects": [
-          {
-            "percentAmpl": 80.0,
-            "name": "Prion"
-          },
-          {
-            "percentAmpl": 20.0,
-            "name": "Servant"
-          }
-        ]
-      },
-      {
-        "delay": 0.1,
-        "duration": 200.0,
-        "spawnObjects": [
-          {
-            "percentAmpl": 90.0,
-            "name": "Prion"
-          },
-          {
-            "percentAmpl": 15.0,
-            "name": "Servant"
-          },
-          {
-            "percentAmpl": 5.0,
-            "name": "DarkArcher"
-          }
-        ]
-      },
-      {
-        "delay": 0.05,
-        "duration": 200.0,
-        "spawnObjects": [
-          {
-            "percentAmpl": 50.0,
-            "name": "Prion"
-          },
-          {
-            "percentAmpl": 50.0,
-            "name": "Servant"
-          }
-        ]
-      }
-    ]
+    {
+      "delay": 0.6,
+      "duration": 40.0,
+      "spawnObjects": [
+        {
+          "percentAmpl": 50.0,
+          "name": "StoneHead"
+        },
+        {
+          "percentAmpl": 50.0,
+          "name": "Prion"
+        }
+      ]
+    },
+    {
+      "delay": 0.2,
+      "duration": 100.0,
+      "spawnObjects": [
+        {
+          "percentAmpl": 80.0,
+          "name": "Prion"
+        },
+        {
+          "percentAmpl": 20.0,
+          "name": "Servant"
+        }
+      ]
+    },
+    {
+      "delay": 0.1,
+      "duration": 200.0,
+      "spawnObjects": [
+        {
+          "percentAmpl": 90.0,
+          "name": "Prion"
+        },
+        {
+          "percentAmpl": 15.0,
+          "name": "Servant"
+        },
+        {
+          "percentAmpl": 5.0,
+          "name": "DarkArcher"
+        }
+      ]
+    },
+    {
+      "delay": 0.08,
+      "duration": 200.0,
+      "spawnObjects": [
+        {
+          "percentAmpl": 50.0,
+          "name": "Prion"
+        },
+        {
+          "percentAmpl": 50.0,
+          "name": "Servant"
+        }
+      ]
+    }
+  ]
 }
