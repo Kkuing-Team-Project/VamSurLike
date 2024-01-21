@@ -54,6 +54,7 @@ public class SpawnObject
 
 public class Spawner : MonoBehaviour
 {
+    public bool isRedZone;
     public string fileName;
     private bool gameOver = false;
     public Vector3 center { get; private set; }
@@ -92,9 +93,10 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         if(string.IsNullOrEmpty(GameManager.instance.stageName) == false)
-            fileName = GameManager.instance.stageName;
-        if (string.IsNullOrEmpty(fileName) == false)
+        {
+            fileName = isRedZone == false ? GameManager.instance.stageName : "Stage_collapse";
             JsonParsing("Data/" + fileName);
+        }
         floorLayerMask = LayerMask.GetMask("FLOOR");
         currentWaveIndex = 0;
         currentTime = 0;

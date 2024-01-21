@@ -1,7 +1,7 @@
 ﻿{
 	"waves": [
 		{
-			"delay": 120,
+			"delay": 20,
 			"duration": 180,
 			"spawnObjects": [
 				{
@@ -11,8 +11,8 @@
 			]
 		},
 		{
-			"delay": 120,
-			"duration": 180,
+			"delay": 30,
+			"duration": 240,
 			"spawnObjects": [
 				{
 					"percentAmpl": 100,

@@ -954,6 +954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRedZone: 0
   fileName: 
   playerCamera: {fileID: 436933017}
   stop: 0
@@ -1269,6 +1270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRedZone: 0
   fileName: Stage3
   playerCamera: {fileID: 436933017}
   stop: 0
@@ -1688,11 +1690,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8fd43fdb65b574995022af37b9520f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRedZone: 1
   fileName: Stage_collapse
   playerCamera: {fileID: 436933017}
   stop: 0
-  delay: 120
-  isWave: 1
+  delay: 0
+  isWave: 0
   spawnObjects:
   - name: CollapseZone
     percent: 100
