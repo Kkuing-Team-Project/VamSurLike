@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     public float minVolumeDistance = 20f;
 
 
+
     void Awake()
     {
         if (Instance == null)
@@ -25,6 +26,8 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        audioSource.volume = 0.25f;
+        moveAudioSource.volume = 0.25f;
     }
 
     public void PlaySound(string clipName, bool isMoveSound = false, Vector3 position = default, bool loop = false)
@@ -103,4 +106,5 @@ public class SoundManager : MonoBehaviour
         }
         return clip;
     }
+
 }
