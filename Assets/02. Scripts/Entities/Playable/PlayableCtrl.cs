@@ -57,7 +57,7 @@ public abstract class PlayableCtrl : Entity
     private Vector3 inputVector;
 
     // 코루틴
-    public Coroutine attackCor;
+    protected Coroutine attackCor;
     private Coroutine dashCor;
     private Coroutine healCor;
     protected Coroutine skillCor;
