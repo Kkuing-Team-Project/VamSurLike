@@ -42,6 +42,7 @@ public class Nebeloun : MonoBehaviour
     {
         skin.enabled = true;
         animator.SetTrigger("Idle");
+        SoundManager.Instance.PlayOneShot("AvatarOfDarkness_MoveAtk01_02");
         transform.rotation = Quaternion.Euler(0, -90, 0);
         cameraShakeSource.GenerateImpulse();
         Vector3 origin = player.transform.position + Vector3.right * 60 + Vector3.up * 40 + Vector3.back * 17;

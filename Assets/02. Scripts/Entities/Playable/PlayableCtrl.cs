@@ -140,6 +140,16 @@ public abstract class PlayableCtrl : Entity
 
     protected override void UpdateEntity()
     {
+        if (hp <= 0)
+        {
+            if (GameManager.instance.isFinishGame == false)
+            {
+                SoundManager.Instance.PlayOneShot("Sound_EF_CH_Death");
+                StartCoroutine(GameManager.instance.FailStage());
+            }
+            return;
+        }
+
         OnUpdateAugmentation?.Invoke(this, defaultArgs);
         
         #region Get Player Input

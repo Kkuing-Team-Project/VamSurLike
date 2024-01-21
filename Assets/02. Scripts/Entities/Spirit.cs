@@ -32,6 +32,10 @@ public class Spirit : Entity
 
     [Range(1, 10)]
     public float blessRange = 5f;
+
+    [HideInInspector]
+    public int clearCnt;
+
     public BlessType blessType { get; private set; }
     private NavMeshAgent nav;
     private Collider col;
@@ -56,6 +60,10 @@ public class Spirit : Entity
 
     protected override void UpdateEntity()
     {
+        if(clearCnt >= 5 && GameManager.instance.isFinishGame == false)
+        {
+            StartCoroutine(GameManager.instance.ClearStage());
+        }
         Debug.LogError($"Spirit: {hp}");
 
         if (collapseZone == null || collapseZone.gameObject.activeSelf == false)
