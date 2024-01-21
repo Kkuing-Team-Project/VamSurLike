@@ -108,12 +108,12 @@ public abstract class Entity : MonoBehaviour
         OnTakeDamage(caster, dmg);
 
         DamageEffect damageEffect = ObjectPoolManager.Instance.objectPool.GetObject(ObjectPool.ObjectType.DamageText, transform.position).GetComponent<DamageEffect>();
-
+        float mag = HasEffect<Freeze>() == true ? 2f : 1f;
         damageEffect.originPos = transform.position;
         if (HasEffect<Invincible>() == false)
         {
-            damageEffect.text.text = Mathf.Round(dmg).ToString();
-            hp -= dmg;
+            damageEffect.text.text = Mathf.Round(dmg * mag).ToString();
+            hp -= dmg * mag;
         }
         else
         {

@@ -39,6 +39,8 @@ public abstract class EnemyCtrl : Entity, IPoolable
 
         if (Vector3.Distance(origin, targetPos) > attackDistance)
             EnemyMove();
+        else if (Vector3.Distance(origin, playable.transform.position) <= attackDistance)
+            EnemyAttack();
         else
             EnemyAttack();
     }
