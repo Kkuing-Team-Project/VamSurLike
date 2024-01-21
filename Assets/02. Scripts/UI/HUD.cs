@@ -27,6 +27,7 @@ public class HUD : MonoBehaviour
 	public Text[] augExplanationTexts;
 	public Text[] augTypeTexts;
 	public Image[] augImage;
+	public Text rerollText;
 
 	[Header("Pause UI")]
 	public GameObject pauseAugPanel;
@@ -38,12 +39,12 @@ public class HUD : MonoBehaviour
 
 	public PlayerBar playerGaugeBar;
 
+	[HideInInspector]
+	public int rerollCnt;
 	private Spirit spirit;
-	private int staffLevel;
 
 	private void Start()
 	{
-		GameManager.instance.killCountAnimator = killCountText.GetComponentInParent<Animator>();
 		spirit = FindObjectOfType<Spirit>();
 		pausePanel.SetActive(false);
 		augPanel.SetActive(false);
@@ -62,7 +63,7 @@ public class HUD : MonoBehaviour
 		// int sceneStartTime = (int)Time.timeSinceLevelLoad;
 		// timeText.text = string.Format("{0:D2} : {1:D2}", sceneStartTime / 60, sceneStartTime % 60);
 
-		killCountText.text = GameManager.instance.killCount.ToString();
+		killCountText.text = GameManager.instance.player.killCount.ToString();
 		
 		if (spirit.collapseZone && spirit.collapseZone.gameObject.activeSelf)
 		{
@@ -163,6 +164,16 @@ public class HUD : MonoBehaviour
             pauseIcon.name = aug.ToString();
             pauseIcon.GetComponent<Image>().sprite = aug.icon;
 			pauseIcon.transform.GetComponentInChildren<Text>().text = "1";
+		}
+	}
+
+	public void RerollAugmentation()
+	{
+		if(rerollCnt > 0)
+		{
+			rerollCnt--;
+			rerollText.text = $"새로고침 ({rerollCnt})";
+			SetAugmentation();
 		}
 	}
 	
